@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Dropdown, Modal } from 'react-bootstrap';
+import { Button, Dropdown, Modal, Form } from 'react-bootstrap';
 import '../MainPageApp.css'; 
 import { Link } from 'react-router-dom';
+
+import Locker from './Locker';
+import Cart from './Cart';
 
 function MainPage() {
   const [show, setShow] = useState(false);
@@ -22,7 +25,26 @@ function MainPage() {
             <Modal.Title>물품 요청하기</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            물품명
+
+          <Form.Group className="mb-3" controlId="formGridAddress1">
+            <Form.Label>물품 명</Form.Label>
+            <Form.Control placeholder="요청 물품 명을 적어주세요." />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formGridAddress2">
+            <Form.Label>신청 사유</Form.Label>
+            <Form.Control placeholder="물품 신청 사유를 적어주세요." />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formGridAddress2">
+            <Form.Label>물품 링크</Form.Label>
+            <Form.Control placeholder="물품 신청 사유를 적어주세요." />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formGridAddress2">
+            <Form.Label>물품 개수</Form.Label>
+            <Form.Control placeholder="물건 개수를 입력해주세요.(숫자만 입력해주세요)" />
+          </Form.Group>
             
           </Modal.Body>
           <Modal.Footer>
@@ -47,39 +69,38 @@ function MainPage() {
       </nav>
 
       <div className="content-container">
-          <div className="left-section">
-            <div className="one">
+          <div className="side-bar">
+            <div>
               미반납 물품
               <ul>
                 <li>가위</li>
                 <li>풀</li>
               </ul>
             </div>
-            <div className="two">
+            <hr></hr>
+            <div>
               예약 물품
               <ul>
                 <li>가위</li>
                 <li>풀</li>
               </ul>
             </div>
-            <div className="three">
+            <hr></hr>
+            <div>
               최근 대여 물품
               <ul>
                 <li>가위</li>
                 <li>풀</li>
               </ul>
             </div>
+            <hr></hr>
           </div>
-          <div className="right-section">
-            <div className="top-right">
-              <div className="outer-box">
-                박스내부
-              </div>
+          <div className="content">
+            <div className="locker">
+              <Locker />
             </div>
-            <div className="bottom-right">
-              <div className="outer-box">
-                박스내부
-              </div>
+            <div className="cart">
+              <Cart />
             </div>
           </div>
       </div>
