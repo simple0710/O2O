@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* 중앙 정렬을 위해 추가 */
+  width: 375px;
+  height: 812px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0px 8px 0px #0093ED;
+  border-radius: 40px;
+  border: 2px #0093ED solid;
+  background: white;
+  box-sizing: border-box;
+}
+
+.image-placeholder {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 2px dashed #0093ED;
+  border-radius: 10px;
+}
+
+.input {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.quantity-controls .MuiTypography-root {
+  margin: 0 10px;
+}
+
+.register-button {
+  width: 80%;
+}
