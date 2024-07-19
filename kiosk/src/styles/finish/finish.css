@@ -1,0 +1,35 @@
+.marketeqlockCheck {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+.div1 {
+    position: absolute;
+    top: 364px;
+    left: 25px;
+    line-height: 120%;
+    font-weight: 600;
+    display: inline-block;
+    width: 331px;
+    height: 179px;
+}
+
+.div {
+    width: 100%;
+    position: relative;
+    box-shadow: 0px 8px 0px #0093ed;
+    border-radius: 40px;
+    background-color: #fff;
+    border: 2px solid #0093ed;
+    box-sizing: border-box;
+    height: 812px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 24px;
+    color: #000;
+    font-family: Poppins;
+}
+
