@@ -1,0 +1,89 @@
+.cart-container {
+  width: 375px;
+  height: 812px;
+  margin: 0 auto;
+  border: 2px solid #0093ED;
+  border-radius: 40px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 8px 0px #0093ED;
+  font-family: 'ONE-Mobile-POP', sans-serif;
+  justify-content: center;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.items {
+  margin-bottom: 20px;
+}
+
+.item {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background-color: #F0F8FF;
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.item-icon {
+  font-size: 30px;
+  margin-right: 10px;
+}
+
+.item-name {
+  font-size: 18px;
+  flex-grow: 1;
+}
+
+.item-controls {
+  display: flex;
+  justify-content: space-around;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.control span {
+  margin: 0 5px;
+}
+
+button {
+  background-color: #0093ED;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:disabled {
+  background-color: #dcdcdc;
+}
+
+.report-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #0093ED;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.report-button:hover {
+  background-color: #0093ED;
+}

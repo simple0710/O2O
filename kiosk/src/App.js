@@ -8,6 +8,7 @@ import ChooseLocker from './pages/ChooseLocker';
 import ItemRegistration from './pages/ItemRegistration';
 import ServiceSelection from './pages/ServiceSelection';
 import QuantityChange from './pages/QuantityChange';
+import BrokenFind from './pages/BrokenFind';
 
 import styles from './styles/mainpage/Frame.module.css';
 import image6 from './assets/mainpage/image 6.png';
@@ -77,6 +78,9 @@ function App() {
                 <Link className='nav-link' to="/quantitychange">QuantityChange</Link>
               </li>
               <li className='nav-item'>
+                <Link className='nav-link' to="/brokenfind">BrokenFind</Link>
+              </li>
+              <li className='nav-item'>
                 <Link className='nav-link' to="/finish">Go to Finish Page</Link>
               </li>
             </ul>
@@ -93,6 +97,7 @@ function App() {
           <Route path="/itemregistration" element={<ItemRegistration />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/serviceselection" element={<ServiceSelection />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/quantitychange" element={<QuantityChange />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
+          <Route path="/brokenfind" element={<BrokenFind />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
         </Routes>
       </div>
       {/* <Routes>
