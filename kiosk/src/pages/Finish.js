@@ -1,15 +1,22 @@
 import React from 'react'
-import styles from '../styles/finish/finish.css';
+import Checkmark from '../components/finishpage/Checkmark'
+import Instruction from '../components/finishpage/Instruction';
+import '../styles/finish/finish.css';
 
 function Finish(){
-    return(
-        <div className={styles.div}>
-            <div className={styles.marketeqlockCheck} />
-            <div className={styles.div1}>물품 대여가 완료되었습니다</div>
-            
+  return(
+    <div className='frame-container'>
+        <div className='instruction'>
+            <Instruction/>
         </div>
-    )
+        <div>
+            <Checkmark/>
+        </div>
+    </div>
+    
+  )
+
 }
 
 
-export default Finish
+export default Finish;
