@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HelloWorld {
     @GetMapping("/helloworld")
     public ResponseEntity<?> helloWorld(){
+        System.out.println("check");
         return new ResponseEntity<>("Hello World!!", HttpStatus.OK);
     }
 }
