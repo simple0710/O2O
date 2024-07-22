@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/RegisterBroken.css';
 import { Button } from 'react-bootstrap';
@@ -18,6 +18,7 @@ function RegisterBroken() {
 
   return (
     <div className="report-container">
+      
       {reportedItems.map(item => (
         <div key={item.id} className="item">
           {iconMap[item.name]}

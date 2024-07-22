@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import '../styles/Identification/Identification.css';
 
 
 function Identification() {
-  // const location = useLocation();
+  const location = useLocation();
   // 클릭 버튼 정보 = label
-  // const { label } = location.state || {};
+  const { label } = location.state || {};
 
   const videoRef = useRef(null);
 
@@ -29,7 +29,7 @@ function Identification() {
       <div className="identification-container">
         <div className="text-box">
           <p>사원증을 인식해 주세요.</p>
-          {/* {label && <p>버튼 정보: {label}</p>} */}
+          {label && <p>버튼 정보: {label}</p>}
         </div>
         <div className="video-container">
           <video ref={videoRef} autoPlay playsInline />

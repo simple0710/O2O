@@ -46,7 +46,7 @@
   height: 812px;
   position: relative;
   background: white;
-  box-shadow: 0px 8px 0px #0093ED;
+  /* box-shadow: 0px 8px 0px #0093ED; */
   border-radius: 40px;
   overflow: hidden;
   /* border: 2px #0093ED solid; */
