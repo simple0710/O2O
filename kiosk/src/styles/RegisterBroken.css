@@ -1,0 +1,61 @@
+.report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  max-width: 360px;
+  margin: auto;
+  background-color: #fff;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.icon {
+  font-size: 3rem;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.item-description {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.item-status {
+  display: flex;
+  align-items: center;
+}
+
+.item-count {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin-right: 10px;
+}
+
+.status-button {
+  font-size: 1rem;
+  border-radius: 15px;
+}
+
+.register-button-container {
+  width: 100%;
+  text-align: center;
+}
+
+.register-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 15px;
+}

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import '../styles/Identification/Identification.css';
 
 
 function Identification() {
-  const location = useLocation();
+  // const location = useLocation();
   // 클릭 버튼 정보 = label
-  const { label } = location.state || {};
+  // const { label } = location.state || {};
 
   const videoRef = useRef(null);
 
