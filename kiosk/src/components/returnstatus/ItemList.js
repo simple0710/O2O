@@ -10,23 +10,27 @@ function ItemList() {
 
     return (
         <>
-            <div className='item-list'>
+            <div className='item-list1'>
                 <div>
                     {/* 아이템 리스트를 동적으로 렌더링 */}
                     {items.map(item => (
-                        <div key={item.id} className='item'>
-                            <span className='item-icon'>{item.icon}</span>
-                            <span className='item-name'>{item.name}</span>
-                            <span className='item-count'>{item.count}</span>
+                        <div key={item.id} className='item1'>
+                            <span className='item-icon1'>{item.icon}</span>
+                            <span className='item-name1'>{item.name}</span>
+                            <span className='item-count1'>{item.count}</span>
                         </div>
                     ))}
                 </div>
             </div>
+<<<<<<< HEAD
             <div className='generalListing'>
                 <div className='image1'>
                     {/* 필요시 다른 컨텐츠 추가 */}
                 </div>
             </div>
+=======
+          
+>>>>>>> 9883a74d2232e8ff28daa6ac7850cd1fb8256cfe
         </>
     );
 }
