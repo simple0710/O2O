@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Cart from './pages/Cart';
 import Locker from './pages/Locker';
 import Request from './pages/Request';
+import ChangePwd from './pages/ChangePwd';
 import './App.css';
 
 
@@ -35,6 +36,7 @@ function App() {
           <Route path='/locker' element={<Locker />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/request' element={<Request />} />
+          <Route path='/changepwd' element={<ChangePwd />} />
         </Routes>
 
     </div>
