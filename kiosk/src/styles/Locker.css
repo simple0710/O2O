@@ -1,12 +1,22 @@
+.frame-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Viewport height */
+  text-align: center; 
+}
+
+
 .locker-container {
   width: 375px;
   height: 812px;
   position: relative;
   background: white;
-  box-shadow: 0px 8px 0px #0093ED;
+  /* box-shadow: 0px 8px 0px #0093ED; */
   border-radius: 40px;
   overflow: hidden;
-  border: 2px #0093ED solid;
+  /* border: 2px #0093ED solid; */
   margin: 0 auto;
   text-align: center;
   padding-top: 0px;

@@ -22,7 +22,7 @@ function ItemList() {
                     ))}
                 </div>
             </div>
-            <div className='generalListing1'>
+            <div className='generalListing'>
                 <div className='image1'>
                     {/* 필요시 다른 컨텐츠 추가 */}
                 </div>

@@ -44,7 +44,7 @@ function Cart() {
 
   return (
     <div className='frame-container'>
-    <div className="App container mt-4"> {/* App 컴포넌트의 최상위 div로 Bootstrap의 컨테이너 클래스를 사용합니다. */}
+    <div> {/* App 컴포넌트의 최상위 div로 Bootstrap의 컨테이너 클래스를 사용합니다. */}
       <header className="text-center mb-4"> {/* 헤더 섹션을 정의합니다. 텍스트를 가운데 정렬하고 마진을 추가합니다. */}
         <h1>물품 리스트</h1> {/* 헤더 타이틀입니다. */}
       </header>
