@@ -6,6 +6,7 @@ import Counter from './pages/Counter';
 import Input from './pages/Input';
 import Input2 from './pages/Input2';
 import Login from './pages/Login';
+import Findpwd from './pages/Findpwd';
 import Cart from './pages/Cart';
 import Locker from './pages/Locker';
 import Request from './pages/Request';
@@ -32,6 +33,7 @@ function App() {
           <Route path='/input' element={<Input />} />
           <Route path='/input2' element={<Input2 />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/findpwd' element={<Findpwd />} />
           <Route path='/mainpage' element={<MainPage />} />
           <Route path='/locker' element={<Locker />} />
           <Route path='/cart' element={<Cart />} />
