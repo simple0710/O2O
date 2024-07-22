@@ -1,0 +1,21 @@
+.cart-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* 버튼 사이의 간격 */
+  }
+  
+  .cart-button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 10%;
+    margin-left: auto;
+  }
+  
+  .cart-button.cancel {
+    background-color: #dc3545;
+  }
