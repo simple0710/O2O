@@ -18,8 +18,10 @@ import Logo from './components/mainpage/Logo';
 import Instruction from './components/mainpage/Instruction';
 import Button from './components/mainpage/Button';
 import Identification from './pages/Identification';
-import Finish from './pages/Finish'
 import RegisterBroken from './pages/RegisteBroken';
+import Finish from './pages/Finish';
+import ReturnStatus from './pages/ReturnStatus';
+
 
 function Frame() {
   const navigate = useNavigate();
@@ -86,6 +88,9 @@ function App() {
               <li className='nav-item'>
                 <Link className='nav-link' to="/registerbroken">RegisteBroken</Link>
               </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to="/returnstatus">Return Status</Link>
+              </li>
             </ul>
           </div>
         </nav>
@@ -102,6 +107,8 @@ function App() {
           <Route path="/quantitychange" element={<QuantityChange />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/brokenfind" element={<BrokenFind />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/registerbroken" element={<RegisterBroken />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
+          <Route path="/returnstatus" element={<ReturnStatus />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
+
         </Routes>
       </div>
       {/* <Routes>
