@@ -3,8 +3,15 @@ import Logo from '../images/logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import '../Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const handleFindPwdClick = () => {
+        navigate('/findpwd');
+    };
+
     return (
         <div className="login-container">
             <img src={Logo} alt="로고" />
@@ -34,7 +41,7 @@ const Login = () => {
                 /> */}
                     Log In
                 </Button><br></br>
-                <Button variant="dark" className="login-button">비밀번호 찾기</Button>
+                <Button variant="dark" className="login-button" onClick={handleFindPwdClick}>비밀번호 찾기</Button>
             </div>
         </div>
     );
