@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from '../images/logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import '../Login.css';
 
 const Login = () => {
@@ -23,7 +23,17 @@ const Login = () => {
                     id="inputPassword"
                     placeholder="Enter your password"
                 />
-                <Button variant="dark" className="login-button" style={{marginTop:'10px'}}>Log In</Button><br></br>
+                <Button variant="dark" className="login-button" style={{marginTop:'10px'}}>
+                {/* <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    style={{ marginRight: '8px' }}
+                /> */}
+                    Log In
+                </Button><br></br>
                 <Button variant="dark" className="login-button">비밀번호 찾기</Button>
             </div>
         </div>
