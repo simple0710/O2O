@@ -6,6 +6,7 @@ import Counter from './pages/Counter';
 import Input from './pages/Input';
 import Input2 from './pages/Input2';
 import Login from './pages/Login';
+import Findpwd from './pages/Findpwd';
 import Cart from './pages/Cart';
 import Locker from './pages/Locker';
 import Request from './pages/Request';
@@ -16,7 +17,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <nav>
+      {/* <nav>
         <Link to="/profile">Profile</Link>
         /<Link to="/counter">Counter</Link>
         /<Link to="/input">Input</Link>
@@ -24,13 +25,14 @@ function App() {
         /<Link to="/mainpage">MainPage</Link>
         /<Link to="/login">Login</Link>
         /<Link to="/request">Request</Link>
-      </nav>
+      </nav> */}
         <Routes>
           <Route path='/profile' element={<Profile />} />
           <Route path='/counter' element={<Counter />} />
           <Route path='/input' element={<Input />} />
           <Route path='/input2' element={<Input2 />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/findpwd' element={<Findpwd />} />
           <Route path='/mainpage' element={<MainPage />} />
           <Route path='/locker' element={<Locker />} />
           <Route path='/cart' element={<Cart />} />
