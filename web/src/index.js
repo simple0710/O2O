@@ -11,9 +11,9 @@ import Footer from "./layout/Footer";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-  <Header/>
+  
     <BrowserRouter><App /></BrowserRouter>
-  <Footer/>
+  
   </>
 );
 

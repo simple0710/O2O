@@ -16,7 +16,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <nav>
+      {/* <nav>
         <Link to="/profile">Profile</Link>
         /<Link to="/counter">Counter</Link>
         /<Link to="/input">Input</Link>
@@ -24,7 +24,7 @@ function App() {
         /<Link to="/mainpage">MainPage</Link>
         /<Link to="/login">Login</Link>
         /<Link to="/request">Request</Link>
-      </nav>
+      </nav> */}
         <Routes>
           <Route path='/profile' element={<Profile />} />
           <Route path='/counter' element={<Counter />} />
