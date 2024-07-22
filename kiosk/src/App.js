@@ -106,13 +106,9 @@ function App() {
           <Route path="/serviceselection" element={<ServiceSelection />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/quantitychange" element={<QuantityChange />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/brokenfind" element={<BrokenFind />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
-<<<<<<< HEAD
           <Route path="/registerbroken" element={<RegisterBroken />}/> 
-=======
-          <Route path="/registerbroken" element={<RegisterBroken />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
-          <Route path="/returnstatus" element={<ReturnStatus />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
-
->>>>>>> bde32f81320eb8255a795a9088ed4d2025da4d84
+          <Route path="/returnstatus" element={<ReturnStatus />}/> 
+          
         </Routes>
         
       </div>
