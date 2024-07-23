@@ -22,7 +22,7 @@ function Instruction() {
       initial="hidden"
       animate="visible"
     >
-      완료되었습니다.
+      대여가 완료되었습니다.
     </motion.b>
   );
 }
