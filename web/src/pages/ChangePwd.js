@@ -1,9 +1,10 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Dropdown, Form } from 'react-bootstrap';
+import { Nav, Button, Dropdown, Form } from 'react-bootstrap';
 import '../MainPageApp.css'; 
 import { Link, useNavigate } from 'react-router-dom';
 import '../Changepwd.css'; 
+import Profile from '../images/profile.png';
 
 function ChangePwd() {
   const navigate = useNavigate();
@@ -17,9 +18,13 @@ function ChangePwd() {
   return (
     <div>
       <nav className="navbar-custom">
+        <Nav className="navbar-left">
+          <Nav.Link href="/mainpage">O<span className="highlight">2</span>O</Nav.Link>
+        </Nav>
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
-            사진 홍길동 님
+          <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
+            홍길동 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item as={Link} to="/profile">프로필정보</Dropdown.Item>

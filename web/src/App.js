@@ -17,8 +17,6 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/findpwd' element={<Findpwd />} />
           <Route path='/mainpage' element={<MainPage />} />
-          <Route path='/locker' element={<Locker />} />
-          <Route path='/cart' element={<Cart />} />
           <Route path='/changepwd' element={<ChangePwd />} />
         </Routes>
 

@@ -1,13 +1,19 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Dropdown, Modal, Form } from 'react-bootstrap';
+import { Nav, Button, Dropdown, Modal, Form } from 'react-bootstrap';
 import '../../MainPageApp.css'; 
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import Profile from '../../images/profile.png';
 import Locker from './Locker';
 import Cart from './Cart';
 
 function MainPage() {
+  const navigate = useNavigate();
+
+  const gotoMain = () => {
+    navigate('/mainpage'); 
+  };
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -16,7 +22,10 @@ function MainPage() {
   return (
     <div>
       <nav className="navbar-custom">
-        <Button variant="primary" onClick={handleShow}>
+        <Nav className="navbar-left">
+          <Nav.Link href="/mainpage">O<span className="highlight">2</span>O</Nav.Link>
+        </Nav>
+        <Button variant="danger" onClick={handleShow}>
           요청
         </Button>
 
@@ -59,11 +68,12 @@ function MainPage() {
 
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
-            사진 홍길동 님
+          <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
+            홍길동 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item as={Link} to="/changepwd">프로필 수정</Dropdown.Item>
-            <Dropdown.Item as={Link} to="/login">로그아웃</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/">로그아웃</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </nav>

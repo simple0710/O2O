@@ -3,6 +3,18 @@
     justify-content: flex-end;
     margin-right: 30px;
   }
+
+  .navbar-left .nav-link {
+    color: black;
+  }
+
+  .navbar-left .nav-link .highlight {
+    color: blue;
+  }
+
+  .navbar-left {
+    margin-right: auto; 
+  }
   
   .custom-dropdown-toggle {
     background-color: white !important;
@@ -16,7 +28,6 @@
     justify-content: flex-end;
     gap: 10px;
     margin-right: 30px;
-    margin-bottom: 20px;
     margin-top: 10px;
   }
   
@@ -26,20 +37,16 @@
   }
   
   .side-bar {
-    /* flex: 1;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    margin-right: 20px; */
-    position: sticky;
-    top: 50px;
-    margin-right: 30px;
+    display: sticky;
+    margin-left: 30px;
+    margin-top: 50px;
   }
   
   .content {
-    flex: 9;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    margin-right: 150px;
   }
   
   .locker {
