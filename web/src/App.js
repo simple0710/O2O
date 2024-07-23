@@ -6,6 +6,7 @@ import Findpwd from './pages/Findpwd';
 import Cart from './pages/user/Cart';
 import Locker from './pages/user/Locker';
 import ChangePwd from './pages/ChangePwd';
+import { CartProvider } from './pages/user/CartContext';
 import './App.css';
 
 
@@ -13,13 +14,14 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+      <CartProvider>
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/findpwd' element={<Findpwd />} />
           <Route path='/mainpage' element={<MainPage />} />
           <Route path='/changepwd' element={<ChangePwd />} />
         </Routes>
-
+      </CartProvider>
     </div>
   );
 }
