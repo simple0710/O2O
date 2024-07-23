@@ -16,9 +16,7 @@ const ServiceSelection = () => {
     navigate('/ChangeLocker')
   }
 
-  const quan = () => {
-    navigate('/QuantityChange')
-  }
+  
   return (
     <div className='frame-container'>
       <Container className="service-container">
@@ -28,7 +26,7 @@ const ServiceSelection = () => {
       <Row className="justify-content-center">
         <Col xs={5} className="d-flex justify-content-center mb-3">
           <Button className="service-button" onClick={changelocker}>
-            <Add /> 수량 변경
+            <Add />수량 변경
           </Button>
         </Col>
         <Col xs={5} className="d-flex justify-content-center mb-3">

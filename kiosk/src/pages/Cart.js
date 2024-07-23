@@ -56,7 +56,9 @@ function Cart() {
               <div className="item-name flex-grow-1">{item.name}</div> {/* 아이템의 이름을 표시합니다. */}
               <div className="item-controls d-flex align-items-center"> {/* 아이템의 수량을 조절하는 버튼들을 flex로 정렬합니다. */}
                 <button className="btn btn-primary btn-sm ml-2" onClick={() => decreaseQuantity(item.id)}>-</button> {/* 수량 감소 버튼 */}
+                
                 <span>{quantities[item.id]}</span> {/* 현재 수량을 표시합니다. */}
+
                 <button className="btn btn-primary btn-sm mr-2" onClick={() => increaseQuantity(item.id)}>+</button> {/* 수량 증가 버튼 */}
               </div>
             </div>
