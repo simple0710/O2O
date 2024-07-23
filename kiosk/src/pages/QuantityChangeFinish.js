@@ -1,13 +1,13 @@
 import React from 'react'
-import Checkmark from '../components/finishpage/Checkmark'
-import Instruction from '../components/finishpage/Instruction';
+import Checkmark from '../components/finish/Checkmark'
+import QuantityInst from '../components/finish/QuantityInst';
 import '../styles/finish/finish.css';
 
 function Finish(){
   return(
     <div className='frame-container'>
         <div className='instruction'>
-            <Instruction/>
+            <QuantityInst/>
         </div>
         <div>
             <Checkmark/>

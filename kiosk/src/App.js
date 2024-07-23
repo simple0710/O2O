@@ -19,9 +19,14 @@ import Instruction from './components/mainpage/Instruction';
 import Button from './components/mainpage/Button';
 import Identification from './pages/Identification';
 import RegisterBroken from './pages/RegisteBroken';
-import Finish from './pages/Finish';
+import BorrowFinish from './pages/BorrowFinish';
 import ReturnStatus from './pages/ReturnStatus';
 import ChangeLocker from './pages/ChangeLocker';
+
+import ReturnFinish from './pages/ReturnFinish';
+import BrokenFinish from './pages/BrokenFinish';
+import QuantityChangeFinish from './pages/QuantityChangeFinish';
+import RegisterFinish from './pages/RegisterFinish';
 
 
 function Frame() {
@@ -87,8 +92,23 @@ function App() {
                 <Link className='nav-link' to="/brokenfind">BrokenFind</Link>
               </li>
               <li className='nav-item'>
-                <Link className='nav-link' to="/finish">Go to Finish Page</Link>
+                <Link className='nav-link' to="/borrowfinish">Borrow Finish</Link>
               </li>
+
+
+              <li className='nav-item'>
+                <Link className='nav-link' to="/returninish">Return Finish</Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to="/brokenfinish">Broken Finish</Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to="/quantitychangefinish">QuantityChange Finish</Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to="/registerfinish">Register Finish</Link>
+              </li>
+
               <li className='nav-item'>
                 <Link className='nav-link' to="/registerbroken">RegisteBroken</Link>
               </li>
@@ -102,7 +122,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Frame />} />
           <Route path="/identification" element={<Identification />} />
-          <Route path="/finish" element={<Finish />} />
+          <Route path="/borrowfinish" element={<BorrowFinish />} />
           <Route path="/cart" element={<Cart />} /> {/* 기본 경로로 Cart 컴포넌트를 렌더링합니다. */}
           <Route path="/locker" element={<Locker />} /> {/* /locker 경로로 Locker 컴포넌트를 렌더링합니다. */}
           <Route path="/chooselocker" element={<ChooseLocker />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
@@ -112,8 +132,17 @@ function App() {
           <Route path="/brokenfind" element={<BrokenFind />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/registerbroken" element={<RegisterBroken />}/> 
           <Route path="/returnstatus" element={<ReturnStatus />}/> 
+<<<<<<< HEAD
           <Route path="/changelocker" element={<ChangeLocker />}/> 
           
+=======
+
+
+          <Route path="/returninish" element={<ReturnFinish />}/> 
+          <Route path="/brokenfinish" element={<BrokenFinish />}/> 
+          <Route path="/quantitychangefinish" element={<QuantityChangeFinish />}/> 
+          <Route path="/registerfinish" element={<RegisterFinish />}/> 
+>>>>>>> c1b9abe9293572866bd6a01f820237c85254aa5b
         </Routes>
         
       </div>
