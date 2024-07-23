@@ -3,10 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
 import MainPage from './pages/user/MainPage';
 import Login from './pages/Login';
 import Findpwd from './pages/Findpwd';
-import Cart from './pages/user/Cart';
-import Locker from './pages/user/Locker';
 import ChangePwd from './pages/ChangePwd';
 import { CartProvider } from './pages/user/CartContext';
+import AdminMainpage from './pages/admin/AdminMainpage';
+import Complain from './pages/admin/Complain';
+import Request from './pages/admin/Request';
+import Statistics from './pages/admin/Statistics';
+import UserList from './pages/admin/UserList';
 import './App.css';
 
 
@@ -20,6 +23,11 @@ function App() {
           <Route path='/findpwd' element={<Findpwd />} />
           <Route path='/mainpage' element={<MainPage />} />
           <Route path='/changepwd' element={<ChangePwd />} />
+          <Route path='/admin' element={<AdminMainpage />} />
+          <Route path='/admin/complain' element={<Complain />} />
+          <Route path='/admin/request' element={<Request />} />
+          <Route path='/admin/statics' element={<Statistics />} />
+          <Route path='/admin/userlist' element={<UserList />} />
         </Routes>
       </CartProvider>
     </div>
