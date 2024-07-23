@@ -6,6 +6,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Locker from './Locker';
 import Cart from './Cart';
+import { CartProvider } from './CartContext';
+
+
 
 function MainPage() {
   const navigate = useNavigate();
@@ -106,12 +109,14 @@ function MainPage() {
             <hr></hr>
           </div>
           <div className="content">
+            <CartProvider>
             <div className="locker">
               <Locker />
             </div>
             <div className="cart">
               <Cart />
             </div>
+            </CartProvider>
           </div>
       </div>
     
@@ -120,3 +125,5 @@ function MainPage() {
 }
 
 export default MainPage;
+
+
