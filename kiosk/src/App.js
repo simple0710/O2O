@@ -97,7 +97,7 @@ function App() {
 
 
               <li className='nav-item'>
-                <Link className='nav-link' to="/returninish">Return Finish</Link>
+                <Link className='nav-link' to="/returnfinish">Return Finish</Link>
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to="/brokenfinish">Broken Finish</Link>

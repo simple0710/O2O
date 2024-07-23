@@ -22,6 +22,7 @@ function RegisterBroken() {
   }
 
   return (
+    <div className='frame-container'>
     <div className="report-container">
       
       {reportedItems.map(item => (
@@ -45,6 +46,7 @@ function RegisterBroken() {
       <div className="register-button-container">
         <Button variant="primary" className="register-button" onClick={brokenfinish}>등록</Button>
       </div>
+    </div>
     </div>
   );
 }
