@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../MainPageApp.css';
-import '../../Locker.css';
+import '../../style/MainPageApp.css';
+import '../../style/Locker.css';
 import { Modal } from 'react-bootstrap';
 
 const Locker = () => {

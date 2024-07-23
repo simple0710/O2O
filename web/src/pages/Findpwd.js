@@ -2,7 +2,7 @@ import React from "react";
 import Logo from '../images/logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Spinner } from 'react-bootstrap';
-import '../Login.css';
+import '../style/Login.css';
 
 const Findpwd = () => {
     return (

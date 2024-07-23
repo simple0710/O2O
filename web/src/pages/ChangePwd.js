@@ -1,9 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Button, Dropdown, Form } from 'react-bootstrap';
-import '../MainPageApp.css'; 
+import '../style/MainPageApp.css'; 
 import { Link, useNavigate } from 'react-router-dom';
-import '../Changepwd.css'; 
+import '../style/Changepwd.css'; 
 import Profile from '../images/profile.png';
 
 function ChangePwd() {

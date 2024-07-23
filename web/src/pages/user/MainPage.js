@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Button, Dropdown, Modal, Form } from 'react-bootstrap';
-import '../../MainPageApp.css'; 
+import '../../style/MainPageApp.css'; 
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Locker from './Locker';
