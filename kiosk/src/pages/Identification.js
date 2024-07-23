@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Identification/Identification.css';
 
 
 function Identification() {
   const location = useLocation();
-  // 클릭 버튼 정보 = label
-  const { label } = location.state || {};
-
+  const navigate = useNavigate();
   const videoRef = useRef(null);
-  // console.log(props.label)
+  const service = location.state?.label;  // label 정보를 service에 저장
+
+  useEffect(() => {
+    console.log(service);
+  }, [service]);
+
 
   useEffect(() => {
     async function getVideo() {
@@ -23,14 +26,36 @@ function Identification() {
       }
     }
     getVideo();
-  }, []);
+
+
+
+
+    // 버튼 별로 다른 경로로 이동하도록
+     // 10초 후에 각 조건에 따라 다른 경로로 이동
+     const timer = setTimeout(() => {
+      if (service === '대여') {
+        navigate('/cart', { state: { service } });
+      } else if (service === '반납') {
+        navigate('/returnstatus', { state: { service } });
+      } else if (service === '관리자') {
+        navigate('/serviceselection', { state: { service } });
+      } else if (service === '신고') {
+        navigate('/brokenfind', { state: { service } });
+      } else {
+        // 기본 경로 설정 (예: 홈으로 이동)
+        navigate('/', { state: { service } });
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);  // 컴포넌트 언마운트 시 타이머 클리어
+  }, [navigate, service]);
+
 
   return (
    
       <div className="identification-container">
         <div className="text-box">
           <p>사원증을 인식해 주세요.</p>
-          {label && <p>버튼 정보: {label}</p>}
         </div>
         <div className="video-container">
           <video ref={videoRef} autoPlay playsInline />
@@ -45,48 +70,3 @@ export default Identification;
 
 
 
-// import React, { useEffect, useRef } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import '../styles/Identification/Identification.css';
-
-// function Identification() {
-//   const navigate = useNavigate();
-//   const videoRef = useRef(null);
-
-//   useEffect(() => {
-//     // 비디오 스트림을 설정하는 함수
-//     async function getVideo() {
-//       try {
-//         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-//         if (videoRef.current) {
-//           videoRef.current.srcObject = stream;
-//         }
-//       } catch (err) {
-//         console.error("Error accessing the webcam: ", err);
-//       }
-//     }
-
-//     getVideo();
-
-//     // 5초 후에 페이지 이동
-//     const timer = setTimeout(() => {
-//       navigate('/finish'); // 이동할 페이지 경로
-//     }, 5000); // 5000ms = 5초
-
-//     // 컴포넌트 언마운트 시 타이머 정리
-//     return () => clearTimeout(timer);
-//   }, [navigate]);
-
-//   return (
-//     <div className="identification-container">
-//       <div className="text-box">
-//         <p>사원증을 인식해 주세요.</p>
-//       </div>
-//       <div className="video-container">
-//         <video ref={videoRef} autoPlay playsInline />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Identification;
