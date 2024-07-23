@@ -19,7 +19,8 @@ const ItemRegistration = () => {
 
 
   return (
-    <Box className="container">
+    <div className='frame-container'>
+    <Box className="container1">
       <button className="btn btn-primary btn-sm mr-2 back-button" onClick={back}>뒤로가기</button>
       <Typography variant="h5" component="h2" gutterBottom>
         물품등록
@@ -45,6 +46,7 @@ const ItemRegistration = () => {
         등록
       </Button>
     </Box>
+    </div>
   );
 };
 

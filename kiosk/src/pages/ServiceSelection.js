@@ -8,31 +8,37 @@ import '../styles/ServiceSelection.css';
 const ServiceSelection = () => {
   const navigate = useNavigate();
 
-  const register = () => {
-    navigate('/ItemRegistration');
+  const chooselocker = () => {
+    navigate('/ChooseLocker');
   };
+
+  const changelocker = () => {
+    navigate('/ChangeLocker')
+  }
 
   const quan = () => {
     navigate('/QuantityChange')
   }
   return (
-    <Container className="service-container">
+    <div className='frame-container'>
+      <Container className="service-container">
       <Typography variant="h6" component="h2" className="title" gutterBottom>
         원하는 서비스를 선택해주세요
       </Typography>
       <Row className="justify-content-center">
         <Col xs={5} className="d-flex justify-content-center mb-3">
-          <Button className="service-button" onClick={quan}>
+          <Button className="service-button" onClick={changelocker}>
             <Add /> 수량 변경
           </Button>
         </Col>
         <Col xs={5} className="d-flex justify-content-center mb-3">
-          <Button className="service-button" onClick={register}>
+          <Button className="service-button" onClick={chooselocker}>
             <NewReleases /> 물품 등록
           </Button>
         </Col>
       </Row>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

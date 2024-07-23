@@ -21,6 +21,7 @@ import Identification from './pages/Identification';
 import RegisterBroken from './pages/RegisteBroken';
 import Finish from './pages/Finish';
 import ReturnStatus from './pages/ReturnStatus';
+import ChangeLocker from './pages/ChangeLocker';
 
 
 function Frame() {
@@ -70,6 +71,9 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/chooselocker">Choose Locker</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/changelocker">Change Locker</Link>
+              </li>
               <li className='nav-item'>
                 <Link className='nav-link' to="/serviceselection">ServiceSelection</Link>
               </li>
@@ -108,6 +112,7 @@ function App() {
           <Route path="/brokenfind" element={<BrokenFind />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/registerbroken" element={<RegisterBroken />}/> 
           <Route path="/returnstatus" element={<ReturnStatus />}/> 
+          <Route path="/changelocker" element={<ChangeLocker />}/> 
           
         </Routes>
         

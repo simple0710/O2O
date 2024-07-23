@@ -1,4 +1,4 @@
-.container {
+.container1 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,9 +7,9 @@
   height: 812px;
   margin: 0 auto;
   padding: 20px;
-  box-shadow: 0px 8px 0px #0093ED;
+  /* box-shadow: 0px 8px 0px #0093ED; */
   border-radius: 40px;
-  border: 2px #0093ED solid;
+  /* border: 2px #0093ED solid; */
   background: white;
   box-sizing: border-box;
 }
