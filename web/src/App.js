@@ -9,7 +9,6 @@ import Login from './pages/Login';
 import Findpwd from './pages/Findpwd';
 import Cart from './pages/Cart';
 import Locker from './pages/Locker';
-import Request from './pages/Request';
 import ChangePwd from './pages/ChangePwd';
 import './App.css';
 
@@ -25,7 +24,6 @@ function App() {
         /<Link to="/input2">Input2</Link>
         /<Link to="/mainpage">MainPage</Link>
         /<Link to="/login">Login</Link>
-        /<Link to="/request">Request</Link>
       </nav> */}
         <Routes>
           <Route path='/profile' element={<Profile />} />
@@ -37,7 +35,6 @@ function App() {
           <Route path='/mainpage' element={<MainPage />} />
           <Route path='/locker' element={<Locker />} />
           <Route path='/cart' element={<Cart />} />
-          <Route path='/request' element={<Request />} />
           <Route path='/changepwd' element={<ChangePwd />} />
         </Routes>
         <Login />
