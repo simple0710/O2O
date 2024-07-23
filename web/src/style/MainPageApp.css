@@ -75,3 +75,7 @@
     border: 2px #000;
   }
   
+  .btn {
+    border: solid 1px black;
+    background-color: skyblue;
+  }

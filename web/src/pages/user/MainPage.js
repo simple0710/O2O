@@ -99,8 +99,8 @@ function MainPage() {
             <div>
               최근 대여 물품
               <ul>
-                <li>가위</li>
-                <li>풀</li>
+                <li>가위 <button className='btn'>담기</button></li> 
+                <li>풀 <button className='btn'>담기</button></li>
               </ul>
             </div>
             <hr></hr>
