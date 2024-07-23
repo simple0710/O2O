@@ -1,4 +1,4 @@
-package com.one.o2o.Controller;
+package com.one.o2o.test;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
