@@ -22,9 +22,7 @@ const ItemRegistration = () => {
   return (
     <div className='frame-container'>
     <Box className="container1">
-        <button className="btn btn-primary btn-sm mr-2 back-button" onClick={back}>
-          뒤로가기
-        </button>
+        
       <Typography variant="h5" component="h2" gutterBottom>
         수량변경
       </Typography>
@@ -65,9 +63,14 @@ const ItemRegistration = () => {
       </Box>
       
       <Button variant="contained" color="primary" className="register-button" fullWidth sx={{ mt: 2 }} onClick={quantitychangefinish}>
-        등록
+        등록 <br /> 
       </Button>
+      <br/>
+      <button onClick={back}>
+          뒤로가기
+      </button>
     </Box>
+    
     </div>
   );
 };

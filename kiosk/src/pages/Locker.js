@@ -31,6 +31,7 @@ const Locker = () => {
       <div className="locker" style={{ top: '40%', left: '25%' }} />
       <div className="locker" style={{ top: '40%', left: '75%' }} />
     </div>
+      
     </div>
   );
 };
