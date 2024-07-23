@@ -17,6 +17,10 @@ const ItemRegistration = () => {
     navigate('/ServiceSelection');
   };
 
+  const registerfinish = () => {
+    navigate('/RegisterFinish')
+  }
+
 
   return (
     <div className='frame-container'>
@@ -42,7 +46,7 @@ const ItemRegistration = () => {
           <Remove />
         </IconButton>
       </Box>
-      <Button variant="contained" color="primary" className="register-button">
+      <Button variant="contained" color="primary" className="register-button" onClick={registerfinish}>
         등록
       </Button>
     </Box>

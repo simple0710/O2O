@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, IconButton, Typography, Box, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import '../styles/QuantityChange.css';
 
@@ -12,7 +12,10 @@ const ItemRegistration = () => {
   const handleIncrease = () => setQuantity(quantity + 1);
   const handleDecrease = () => setQuantity(quantity > 0 ? quantity - 1 : 0);
   const handleItemChange = (event) => setSelectedItem(event.target.value);
-
+  const navigate = useNavigate();
+  const quantitychangefinish = () => {
+    navigate('/QuantityChangeFinish')
+  }
   return (
     <div className='frame-container'>
     <Box className="container1">
@@ -55,7 +58,7 @@ const ItemRegistration = () => {
         </IconButton>
       </Box>
       
-      <Button variant="contained" color="primary" className="register-button" fullWidth sx={{ mt: 2 }}>
+      <Button variant="contained" color="primary" className="register-button" fullWidth sx={{ mt: 2 }} onClick={quantitychangefinish}>
         등록
       </Button>
     </Box>

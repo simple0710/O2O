@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/RegisterBroken.css';
 import { Button } from 'react-bootstrap';
 import { FaCut, FaTint, FaPencilAlt, FaCamera } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const iconMap = {
   '가위': <FaCut className="icon" />,
@@ -15,6 +16,10 @@ const iconMap = {
 function RegisterBroken() {
   const location = useLocation();
   const { reportedItems } = location.state || { reportedItems: [] };
+  const navigate = useNavigate();
+  const brokenfinish = () => {
+    navigate('/BrokenFinish')
+  }
 
   return (
     <div className="report-container">
@@ -38,7 +43,7 @@ function RegisterBroken() {
         </div>
       ))}
       <div className="register-button-container">
-        <Button variant="primary" className="register-button">등록</Button>
+        <Button variant="primary" className="register-button" onClick={brokenfinish}>등록</Button>
       </div>
     </div>
   );

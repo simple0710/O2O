@@ -9,6 +9,10 @@ const Locker = () => {
     navigate('/');
   };
 
+  const borrowfinish  = () => {
+    navigate('/BorrowFinish')
+  }
+
   return (
     <div className='frame-container'>
     <div className="locker-container">
@@ -19,7 +23,7 @@ const Locker = () => {
       
       <div className="locker highlight" style={{ top: '40%' }} />
       <div className="locker" style={{ top: '20%', left: '25%' }} />
-      <div className="locker" style={{ top: '20%', left: '50%' }} />
+      <div className="locker" style={{ top: '20%', left: '50%', backgroundColor: 'red' }} onClick={borrowfinish}/>
       <div className="locker" style={{ top: '20%', left: '75%' }} />
       <div className="locker" style={{ top: '60%', left: '25%' }} />
       <div className="locker" style={{ top: '60%', left: '50%' }} />
