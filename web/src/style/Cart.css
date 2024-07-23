@@ -1,42 +1,24 @@
-.cart-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
+/* 기존 CSS 삭제 또는 주석 처리 */
+/* 불필요한 CSS가 포함되어 있을 경우 삭제하세요 */
 
-.cart-content {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-}
-
-.cart-items {
-  display: flex;
-  flex-wrap: wrap;
-}
-
+/* 기존 .cart-item, .remove-button CSS 유지 */
 .cart-item {
-  display: flex;
-  align-items: center;
-  margin-right: 10px; /* 아이템 간의 간격 조정 */
-  padding: 5px;
-  border: 1px solid #ccc;
-  background-color: aliceblue;
-  border-radius: 4px;
-  width: 100px;
-  height: 100px;
-  position: relative; /* 상대적 위치 설정 */
+  background-color: #bbdefb;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
 }
 
 .cart-item span {
-  flex-grow: 1;
+  display: block;
   cursor: pointer;
 }
 
 .remove-button {
   background: none;
   border: none;
-  color: red;
+  color: #f44336;
   font-weight: bold;
   cursor: pointer;
   position: absolute;
@@ -44,23 +26,67 @@
   right: 5px;
 }
 
-.cart-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* 버튼 사이의 간격 */
-}
-
+/* 버튼 스타일링 */
 .cart-button {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: center;
-  width: 100px;
+  padding: 8px 16px; /* 크기 조정 */
+  border-radius: 8px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px; /* 폰트 크기 조정 */
+  transition: all 0.2s ease-in-out;
 }
 
-.cart-button.cancel {
-  background-color: #dc3545;
+.cart-button:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cart-button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
+}
+
+/* 예약하기 버튼 */
+.cart-button-primary {
+  background-color: #42a5f5;
+  color: white;
+}
+
+.cart-button-primary:hover {
+  background-color: #3391f2;
+}
+
+/* 취소 버튼 */
+.cart-button-danger {
+  background-color: #ef5350;
+  color: white;
+}
+
+.cart-button-danger:hover {
+  background-color: #e53935;
+}
+
+/* 모달 내 버튼 스타일링 */
+.modal-footer .btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-footer .btn-primary {
+  background-color: #42a5f5;
+  color: white;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #3391f2;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #e1e1e1;
 }
