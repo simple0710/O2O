@@ -132,17 +132,14 @@ function App() {
           <Route path="/brokenfind" element={<BrokenFind />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/registerbroken" element={<RegisterBroken />}/> 
           <Route path="/returnstatus" element={<ReturnStatus />}/> 
-<<<<<<< HEAD
           <Route path="/changelocker" element={<ChangeLocker />}/> 
           
-=======
 
 
           <Route path="/returninish" element={<ReturnFinish />}/> 
           <Route path="/brokenfinish" element={<BrokenFinish />}/> 
           <Route path="/quantitychangefinish" element={<QuantityChangeFinish />}/> 
           <Route path="/registerfinish" element={<RegisterFinish />}/> 
->>>>>>> c1b9abe9293572866bd6a01f820237c85254aa5b
         </Routes>
         
       </div>
