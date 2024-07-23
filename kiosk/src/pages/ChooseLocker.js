@@ -9,7 +9,12 @@ const Locker = () => {
     navigate('/Locker');
   };
 
+  const register = () => {
+    navigate('/ItemRegistration')
+  }
+
   return (
+    <div className='frame-container'>
     <div className="locker-container">
       <button className="btn btn-primary btn-sm mr-2 back-button" onClick={back}>뒤로가기</button>
       <div className="locker-header">
@@ -17,7 +22,7 @@ const Locker = () => {
       </div>
       
       <div className="locker highlight" style={{ top: '40%' }} />
-      <div className="locker" style={{ top: '20%', left: '25%' }} />
+      <div className="locker" style={{ top: '20%', left: '25%', backgroundColor: 'blue' }} onClick={register}/>
       <div className="locker" style={{ top: '20%', left: '50%' }} />
       <div className="locker" style={{ top: '20%', left: '75%' }} />
       <div className="locker" style={{ top: '60%', left: '25%' }} />
@@ -25,6 +30,7 @@ const Locker = () => {
       <div className="locker" style={{ top: '60%', left: '75%' }} />
       <div className="locker" style={{ top: '40%', left: '25%' }} />
       <div className="locker" style={{ top: '40%', left: '75%' }} />
+    </div>
     </div>
   );
 };

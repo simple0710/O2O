@@ -21,6 +21,7 @@ import Identification from './pages/Identification';
 import RegisterBroken from './pages/RegisteBroken';
 import BorrowFinish from './pages/BorrowFinish';
 import ReturnStatus from './pages/ReturnStatus';
+import ChangeLocker from './pages/ChangeLocker';
 
 import ReturnFinish from './pages/ReturnFinish';
 import BrokenFinish from './pages/BrokenFinish';
@@ -75,6 +76,9 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/chooselocker">Choose Locker</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/changelocker">Change Locker</Link>
+              </li>
               <li className='nav-item'>
                 <Link className='nav-link' to="/serviceselection">ServiceSelection</Link>
               </li>
@@ -93,7 +97,7 @@ function App() {
 
 
               <li className='nav-item'>
-                <Link className='nav-link' to="/returninish">Return Finish</Link>
+                <Link className='nav-link' to="/returnfinish">Return Finish</Link>
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to="/brokenfinish">Broken Finish</Link>
@@ -128,9 +132,11 @@ function App() {
           <Route path="/brokenfind" element={<BrokenFind />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/registerbroken" element={<RegisterBroken />}/> 
           <Route path="/returnstatus" element={<ReturnStatus />}/> 
+          <Route path="/changelocker" element={<ChangeLocker />}/> 
+          
 
 
-          <Route path="/returninish" element={<ReturnFinish />}/> 
+          <Route path="/returnfinish" element={<ReturnFinish />}/> 
           <Route path="/brokenfinish" element={<BrokenFinish />}/> 
           <Route path="/quantitychangefinish" element={<QuantityChangeFinish />}/> 
           <Route path="/registerfinish" element={<RegisterFinish />}/> 

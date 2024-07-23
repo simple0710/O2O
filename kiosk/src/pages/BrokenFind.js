@@ -40,6 +40,7 @@ function BrokenFind() {
   };
 
   return (
+    <div className='frame-container'>
     <div className="cart-container">
       <h2>대여물품조회</h2>
       <div className="items">
@@ -67,6 +68,7 @@ function BrokenFind() {
         ))}
       </div>
       <button className="report-button" onClick={reportItems}>신고하기</button>
+    </div>
     </div>
   );
 }
