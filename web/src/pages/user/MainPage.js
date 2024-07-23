@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Button, Dropdown, Modal, Form } from 'react-bootstrap';
 import '../../style/MainPageApp.css'; 
@@ -6,12 +6,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Locker from './Locker';
 import Cart from './Cart';
-import { CartProvider } from './CartContext';
+import { CartProvider, CartContext } from './CartContext';
 
 
 
 function MainPage() {
   const navigate = useNavigate();
+  const { setCart } = useContext(CartContext); // CartContext에서 setCart를 가져옵니다.
+
 
   const gotoMain = () => {
     navigate('/mainpage'); 
@@ -21,6 +23,27 @@ function MainPage() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const notRefund = [
+    { name: "가위", quantity: 4 },
+    { name: "풀", quantity: 5 },
+  ]
+
+  const register = [
+    { name: "풀", quantity: 5 },
+    { name: "잉크", quantity: 5 }
+  ]
+
+  const recent = [
+    { name: "가위", quantity: 4 },
+    { name: "잉크", quantity: 5 }
+  ]
+
+  const addToCart = (item) => {
+    console.log('Adding to cart: ', item)
+    setCart((prevCart) => [...prevCart, item]);
+  };
+
 
   return (
     <div>
@@ -86,37 +109,40 @@ function MainPage() {
             <div>
               미반납 물품
               <ul>
-                <li>가위</li>
-                <li>풀</li>
+                {notRefund.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
               </ul>
             </div>
             <hr></hr>
             <div>
               예약 물품
               <ul>
-                <li>가위</li>
-                <li>풀</li>
+              {register.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
               </ul>
             </div>
             <hr></hr>
             <div>
               최근 대여 물품
               <ul>
-                <li>가위 <button className='btn'>담기</button></li> 
-                <li>풀 <button className='btn'>담기</button></li>
+              {recent.map((item, index) => (
+                <li key={index}>{item.name} {item.quantity}개 <button className='btn' onClick={() => addToCart(item)}>담기</button></li>
+              ))}
               </ul>
             </div>
             <hr></hr>
           </div>
           <div className="content">
-            <CartProvider>
+            {/* <CartProvider> */}
             <div className="locker">
               <Locker />
             </div>
             <div className="cart">
               <Cart />
             </div>
-            </CartProvider>
+            {/* </CartProvider> */}
           </div>
       </div>
     
