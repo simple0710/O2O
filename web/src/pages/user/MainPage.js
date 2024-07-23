@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Dropdown, Modal, Form } from 'react-bootstrap';
-import '../MainPageApp.css'; 
+import '../../MainPageApp.css'; 
 import { Link } from 'react-router-dom';
 
 import Locker from './Locker';
@@ -62,7 +62,7 @@ function MainPage() {
             사진 홍길동 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to="/profile">프로필정보</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/changepwd">프로필 수정</Dropdown.Item>
             <Dropdown.Item as={Link} to="/login">로그아웃</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
