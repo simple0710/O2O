@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import '../../Cart.css';
+import '../../style/Cart.css';
 import { CartContext } from './CartContext'; // CartContext 경로를 수정하세요.
 import { Modal, Button } from 'react-bootstrap';
 
