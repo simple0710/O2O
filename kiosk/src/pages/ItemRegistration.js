@@ -20,7 +20,7 @@ const ItemRegistration = () => {
 
   return (
     <div className='frame-container'>
-    <Box className="container">
+    <Box className="container1">
       <button className="btn btn-primary btn-sm mr-2 back-button" onClick={back}>뒤로가기</button>
       <Typography variant="h5" component="h2" gutterBottom>
         물품등록

@@ -16,7 +16,7 @@ const ServiceSelection = () => {
     navigate('/QuantityChange')
   }
   return (
-    
+    <div className='frame-container'>
       <Container className="service-container">
       <Typography variant="h6" component="h2" className="title" gutterBottom>
         원하는 서비스를 선택해주세요
@@ -34,7 +34,7 @@ const ServiceSelection = () => {
         </Col>
       </Row>
       </Container>
-    
+    </div>
   );
 };
 

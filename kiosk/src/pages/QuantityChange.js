@@ -14,7 +14,8 @@ const ItemRegistration = () => {
   const handleItemChange = (event) => setSelectedItem(event.target.value);
 
   return (
-    <Box className="container">
+    <div className='frame-container'>
+    <Box className="container1">
       <Typography variant="h5" component="h2" gutterBottom>
         수량변경
       </Typography>
@@ -58,6 +59,7 @@ const ItemRegistration = () => {
         등록
       </Button>
     </Box>
+    </div>
   );
 };
 

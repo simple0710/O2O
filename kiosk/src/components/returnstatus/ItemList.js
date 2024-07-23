@@ -22,15 +22,11 @@ function ItemList() {
                     ))}
                 </div>
             </div>
-<<<<<<< HEAD
             <div className='generalListing'>
                 <div className='image1'>
                     {/* 필요시 다른 컨텐츠 추가 */}
                 </div>
             </div>
-=======
-          
->>>>>>> 9883a74d2232e8ff28daa6ac7850cd1fb8256cfe
         </>
     );
 }
