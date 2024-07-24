@@ -1,0 +1,109 @@
+@font-face {
+  font-family: 'ONE-Mobile-POP';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+  font-family: 'ONE-Mobile-POP' !important; 
+}
+
+.App {
+  max-width: 500px;
+  margin: 0 auto;
+  /* border: 1px solid #00f; */
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.item-icon {
+  font-size: 30px;
+}
+
+.footer {
+  text-align: center;
+}
+
+.cart ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.container {
+  width: 375px;
+  height: 812px;
+  position: relative;
+  background: white;
+  /* box-shadow: 0px 8px 0px #0093ED; */
+  border-radius: 40px;
+  overflow: hidden;
+  /* border: 2px #0093ED solid; */
+  font-family: 'ONE-Mobile-POP';
+}
+
+.header {
+  width: 311px;
+  height: 55px;
+  position: absolute;
+  left: 32px;
+  top: 165px;
+  text-align: center;
+  color: black;
+  font-size: 24px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  line-height: 28.8px;
+  word-wrap: break-word;
+  font-family: 'ONE-Mobile-POP';
+}
+
+.locker {
+  position: absolute;
+  background: #7DD8FF;
+  border-radius: 8px;
+  border: 2px #0093ED solid;
+  font-family: 'ONE-Mobile-POP';
+}
+
+.locker.highlight {
+  background: #0093ED;
+}
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px; /* 버튼 사이의 간격 */
+}
+
+.button-container > * {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.label {
+  position: absolute;
+  text-align: right;
+  color: black;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  line-height: 24px;
+  word-wrap: break-word;
+}
+
+.date {
+  position: absolute;
+  opacity: 0.8;
+  color: #150202;
+  font-size: 12px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 600;
+  line-height: 26px;
+  word-wrap: break-word;
+}
+
+.btn {
+  background-color: skyblue;
+}
