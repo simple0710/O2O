@@ -3,9 +3,11 @@ import '../../style/MainPageApp.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Form } from 'react-bootstrap';
 
+
+
 const Modals = ({ show, handleClose }) => {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={() => handleClose(false)}>
       <Modal.Header closeButton>
         <Modal.Title>물품 요청하기</Modal.Title>
       </Modal.Header>
@@ -31,11 +33,11 @@ const Modals = ({ show, handleClose }) => {
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          확인
-        </Button>
-        <Button variant="primary" onClick={handleClose}>
+        <Button variant="secondary" onClick={() => handleClose(false)}>
           취소
+        </Button>
+        <Button variant="primary" onClick={() => handleClose(true)}>
+          확인
         </Button>
       </Modal.Footer>
     </Modal>
