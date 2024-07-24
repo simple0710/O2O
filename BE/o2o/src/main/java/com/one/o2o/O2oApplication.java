@@ -8,6 +8,7 @@ public class O2oApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(O2oApplication.class, args);
+		System.out.println("Hello World - 0724");
 	}
 
 }
