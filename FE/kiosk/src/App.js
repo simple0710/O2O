@@ -48,9 +48,9 @@ function Frame() {
       </div>
       <div className={styles['button-grid']}>
         <Button icon={image6} label="대여" onClick={() => handleButtonClick('대여')} />
-        <Button icon={image8} label="관리자" onClick={() => handleButtonClick('관리자')} />
-        <Button icon={image7} label="반납" onClick={() => handleButtonClick('반납')} />
+        <Button icon={image7} label="반납" onClick={() => handleButtonClick('반납')} />      
         <Button icon={image9} label="신고" onClick={() => handleButtonClick('신고')} />
+        <Button icon={image8} label="관리자" onClick={() => handleButtonClick('관리자')} />
       </div>
     </div>
 
