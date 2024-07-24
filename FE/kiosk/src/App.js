@@ -22,11 +22,12 @@ import RegisterBroken from './pages/RegisteBroken';
 import BorrowFinish from './pages/BorrowFinish';
 import ReturnStatus from './pages/ReturnStatus';
 import ChangeLocker from './pages/ChangeLocker';
-
 import ReturnFinish from './pages/ReturnFinish';
 import BrokenFinish from './pages/BrokenFinish';
 import QuantityChangeFinish from './pages/QuantityChangeFinish';
 import RegisterFinish from './pages/RegisterFinish';
+import BrokenLocker from './pages/BrokenLocker'
+
 
 
 function Frame() {
@@ -78,6 +79,9 @@ function App() {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/changelocker">Change Locker</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/brokenlocker">Broken Locker</Link>
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to="/serviceselection">ServiceSelection</Link>
@@ -133,6 +137,7 @@ function App() {
           <Route path="/registerbroken" element={<RegisterBroken />}/> 
           <Route path="/returnstatus" element={<ReturnStatus />}/> 
           <Route path="/changelocker" element={<ChangeLocker />}/> 
+          <Route path="/brokenlocker" element={<BrokenLocker />}/> 
           
 
 
