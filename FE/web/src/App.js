@@ -9,7 +9,7 @@ import Complain from './pages/admin/Complain';
 import Request from './pages/admin/Request';
 import Statistics from './pages/admin/Statistics';
 import UserList from './pages/admin/UserList';
-
+import { CartProvider } from './pages/user/CartContext';
 import './App.css';
 
 
@@ -17,6 +17,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+        <CartProvider>
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/findpwd' element={<Findpwd />} />
@@ -29,7 +30,7 @@ function App() {
           <Route path='/admin/userlist' element={<UserList />} />
 
         </Routes>
-
+        </CartProvider>
     </div>
   );
 }

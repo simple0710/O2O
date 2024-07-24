@@ -1,21 +1,67 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Button, Dropdown, Modal, Form } from 'react-bootstrap';
+import { Nav, Button, Dropdown, Modal, Form, Alert } from 'react-bootstrap';
 import '../../style/MainPageApp.css'; 
 import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Locker from './Locker';
 import Cart from './Cart';
-import { CartProvider } from './CartContext';
+import { CartProvider, CartContext } from './CartContext';
+import Swal from 'sweetalert2'
 
 
 
 function MainPage() {
-
+  const { cart, setCart } = useContext(CartContext);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+
+  const notRefund = [
+    { name: "가위", quantity: 4 },
+    { name: "풀", quantity: 5 },
+  ]
+
+  const register = [
+    { name: "풀", quantity: 5 },
+    { name: "잉크", quantity: 5 }
+  ]
+
+  const recent = [
+    { name: "가위", quantity: 4 },
+    { name: "잉크", quantity: 5 }
+  ]
+  
+
+  const addToCart = (item) => {
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.name === item.name);
+    const existingQuantity = existingItemIndex >= 0 ? cart[existingItemIndex].quantity : 0;
+    const totalQuantity = existingQuantity + item.quantity;
+
+    if (totalQuantity > item.quantity) {
+      Swal.fire({
+        title: "재고가 부족합니다.",
+        text: "장바구니에 물품이 있는지 확인해주세요.",
+        icon: "warning",
+        
+        confirmButtonColor: "#3085d6", //빨간색
+        confirmButtonText: "확인",
+      });
+    } else {
+      if (existingItemIndex >= 0) {
+        const updatedCart = cart.map((cartItem, index) =>
+          index === existingItemIndex ? { ...cartItem, quantity: totalQuantity } : cartItem
+        );
+        setCart(updatedCart);
+      } else {
+        setCart(prevCart => [...prevCart, { ...item, quantity: totalQuantity }]);
+      }
+     
+    }
+  };
+
 
   return (
     <div>
@@ -81,37 +127,43 @@ function MainPage() {
             <div>
               미반납 물품
               <ul>
-                <li>가위</li>
-                <li>풀</li>
+               {notRefund.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
+
               </ul>
             </div>
             <hr></hr>
             <div>
               예약 물품
               <ul>
-                <li>가위</li>
-                <li>풀</li>
+              {register.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
+
               </ul>
             </div>
             <hr></hr>
             <div>
               최근 대여 물품
               <ul>
-                <li>가위 <button className='btn'>담기</button></li> 
-                <li>풀 <button className='btn'>담기</button></li>
+              {recent.map((item, index) => (
+                <li key={index}>{item.name} {item.quantity}개 <button className='btn' onClick={() => addToCart(item)}>담기</button></li>
+              ))}
+
               </ul>
             </div>
             <hr></hr>
           </div>
           <div className="content">
-            <CartProvider>
+            {/* <CartProvider> */}
             <div className="locker">
               <Locker />
             </div>
             <div className="cart">
               <Cart />
             </div>
-            </CartProvider>
+            {/* </CartProvider> */}
           </div>
       </div>
     
