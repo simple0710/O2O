@@ -7,7 +7,6 @@ import Profile from '../../images/profile.png';
 import Locker from './Locker';
 import Cart from './Cart';
 import Modals from './Modals';
-
 import { CartProvider, CartContext } from './CartContext';
 import Swal from 'sweetalert2';
 
@@ -15,7 +14,6 @@ function MainPage() {
   const { cart, setCart } = useContext(CartContext);
   const [show, setShow] = useState(false);
   const [modalCloseConfirmed, setModalCloseConfirmed] = useState(false);
-
 
   const handleShow = () => setShow(true);
   
@@ -79,7 +77,6 @@ function MainPage() {
     }
   };
 
-
   return (
     <div>
       <nav className="navbar-custom">
@@ -92,9 +89,6 @@ function MainPage() {
           </Button>
         </div>
         <Modals show={show} handleClose={handleClose} />
-
-        
-        
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
             <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
@@ -131,21 +125,22 @@ function MainPage() {
             최근 대여 물품
             <ul>
               {recent.map((item, index) => (
-                <li key={index}>{item.name} {item.quantity}개 <button className='btn' onClick={() => addToCart(item)}>담기</button></li>
+                <li key={index}>
+                  {item.name} {item.quantity}개 
+                  <button className='btn' onClick={() => addToCart(item)}>담기</button>
+                </li>
               ))}
             </ul>
           </div>
           <hr />
         </div>
         <div className="content">
-          <CartProvider>
-            <div className="locker">
-              <Locker />
-            </div>
-            <div className="cart">
-              <Cart />
-            </div>
-          </CartProvider>
+          <div className="locker">
+            <Locker />
+          </div>
+          <div className="cart">
+            <Cart />
+          </div>
         </div>
       </div>
     </div>
