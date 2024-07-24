@@ -26,13 +26,10 @@ import ReturnFinish from './pages/ReturnFinish';
 import BrokenFinish from './pages/BrokenFinish';
 import QuantityChangeFinish from './pages/QuantityChangeFinish';
 import RegisterFinish from './pages/RegisterFinish';
-<<<<<<< HEAD
 import { FiAlertTriangle, FiArchive, FiCornerDownRight ,FiSettings    } from "react-icons/fi";
-=======
 import BrokenLocker from './pages/BrokenLocker'
 
 
->>>>>>> feat/31-locker
 
 function Frame() {
   const navigate = useNavigate();
