@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Button, Dropdown, Modal, Form } from 'react-bootstrap';
 import '../../style/MainPageApp.css'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Locker from './Locker';
 import Cart from './Cart';
@@ -11,11 +11,6 @@ import { CartProvider } from './CartContext';
 
 
 function MainPage() {
-  const navigate = useNavigate();
-
-  const gotoMain = () => {
-    navigate('/mainpage'); 
-  };
 
   const [show, setShow] = useState(false);
 
