@@ -1,13 +1,14 @@
 /* 기본 CSS */
 @font-face {
-  font-family: 'ONE-Mobile-POP';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff') format('woff');
+  font-family: 'LeferiPoint-BlackA';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-BlackA.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
+
 * {
-  font-family: 'ONE-Mobile-POP' !important;
+  font-family: 'LeferiPoint-BlackA' !important;
   box-sizing: border-box; /* 박스 사이징 설정 */
   margin: 0;
   padding: 0;
