@@ -34,4 +34,7 @@ public class Locker {
     public void updateTotal_cnt(int cnt){
         this.total_cnt = cnt;
     }
+    public void updateProduct_cnt(int cnt){
+        this.product_cnt = cnt;
+    }
 }

@@ -18,7 +18,7 @@ public class LockerDto {
     private int locker_row;
     @JsonProperty("is_usable")
     private boolean is_usable;
-    private int enable_cnt;
+    private int product_cnt;
     private int total_cnt;
 
 }

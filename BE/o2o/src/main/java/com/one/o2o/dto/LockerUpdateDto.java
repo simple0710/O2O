@@ -14,6 +14,6 @@ public class LockerUpdateDto {
     private int body_id;
     private int locker_column;
     private int locker_row;
-    private int enable_cnt;
+    private int product_cnt;
     private int total_cnt;
 }

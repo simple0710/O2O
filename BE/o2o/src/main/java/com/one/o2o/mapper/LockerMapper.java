@@ -19,7 +19,6 @@ public interface LockerMapper {
     @Mapping(source="locker.bodyId", target="body_id")
     @Mapping(source="locker.lockerId", target="locker_id")
     @Mapping(source="locker._usable", target="_usable")
-    @Mapping(source="locker.product_cnt", target="enable_cnt")
     @Mapping(source="product.product_id", target="product_id")
     @Mapping(source="product.product_nm", target="product_nm")
     LockerDto lockerToLockerDto(Locker locker);

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ErrorHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiResponse> badRequestError(BadRequestException e){
-        System.out.println("ErrorHandler.badRequestError");
         log.error("ErrorHandler.badRequestError");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.builder()
@@ -24,7 +23,6 @@ public class ErrorHandler {
 
     @ExceptionHandler(LockerException.LockerNotFoundException.class)
     public ResponseEntity<ApiResponse> LockerNotFoundException(LockerException.LockerNotFoundException e){
-        System.out.println("ErrorHandler.LockerNotFoundException");
         log.error("ErrorHandler.LockerNotFoundException");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.builder()

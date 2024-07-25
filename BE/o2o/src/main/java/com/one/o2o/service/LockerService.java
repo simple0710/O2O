@@ -57,6 +57,7 @@ public class LockerService implements LockerServiceInterface{
         Optional<Locker> findLocker = lockerRepository.findByLockerId(lockerUpdateDto.getLocker_id());
         Locker locker = findLocker.orElseThrow(LockerException.LockerNotFoundException::new);
         locker.updateTotal_cnt(lockerUpdateDto.getTotal_cnt());
+        locker.updateProduct_cnt(lockerUpdateDto.getProduct_cnt());
         return lockerMapper.lockerToLockerDto(locker);
     }
 
