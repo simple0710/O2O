@@ -1,5 +1,6 @@
 package com.one.o2o.service;
 
+import com.one.o2o.exception.error.exception.ArticleNotFoundException;
 import com.one.o2o.dto.DefaultResponseDto;
 import com.one.o2o.dto.productsrequest.*;
 import com.one.o2o.entity.productsrequest.ProductsRequest;
@@ -70,27 +71,30 @@ public class ProductsRequestServiceImpl {
         return response;
     }
 
+    public ProductsRequest findById(long id) {
+        return productsRequestRepository.findById(1)
+                .orElseThrow(ArticleNotFoundException::new);
+    }
+
+
     @Transactional
     public DefaultResponseDto updateProcess(RequestProcessDto requestProcessDto) {
-        ProductsRequest productsRequest = productsRequestRepository.findById(requestProcessDto.getReqId()).orElseThrow(() -> new RuntimeException("Entity not found"));
+        ProductsRequest productsRequest = productsRequestRepository.findById(requestProcessDto.getReqId())
+                .orElseThrow(ArticleNotFoundException::new);
         String status = requestProcessDto.getReqStatus();
         DefaultResponseDto response = new DefaultResponseDto("200", "message");
-        try {
-            if (status.equals("approved")) {
-                productsRequest.setIsApproved(true);
-                productsRequest.setIsRejected(false);
-                productsRequest.setRejectCmt(null);
-            } else if (status.equals("rejected")) {
-                productsRequest.setIsApproved(false);
-                productsRequest.setIsRejected(true);
-                productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
+        if (status.equals("approved")) {
+            productsRequest.setIsApproved(true);
+            productsRequest.setIsRejected(false);
+            productsRequest.setRejectCmt(null);
+        } else if (status.equals("rejected")) {
+            productsRequest.setIsApproved(false);
+            productsRequest.setIsRejected(true);
+            productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
+        } else {
 
-            } else {
-                return new DefaultResponseDto("400", "오류 메세지");
-            }
-            return response;
-        } catch (Exception e) {
-            return new DefaultResponseDto("400", e.getMessage());
+            return new DefaultResponseDto("400", "오류 메세지");
         }
+        return response;
     }
 }
