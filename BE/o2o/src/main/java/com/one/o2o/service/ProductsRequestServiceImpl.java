@@ -75,7 +75,7 @@ public class ProductsRequestServiceImpl {
             productsRequest.setIsRejected(true);
             productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
         } else {
-            System.out.println("잘못 된 출력");
+
         }
     }
 }
