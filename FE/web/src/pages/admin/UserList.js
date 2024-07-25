@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Form, Table, Pagination } from 'react-bootstrap';
+import Sidebar from './Sidebar';
+import AdminNav from './AdminNav';
+import '../../style/Complain.css';
 
-const UserList = () => {
+const Request = () => {
   return (
     <div>
-        <h1>연체 이용자 리스트 관리</h1>
+      <AdminNav />
+      <div className="content-container">
+        <Sidebar />
+        <div className="content">
+          <h3>연체 이용자 리스트 관리</h3>
+
+        </div>
+      </div>
     </div>
   );
 };
 
-export default UserList;
+export default Request;
