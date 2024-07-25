@@ -53,16 +53,14 @@ public class ProductsRequestServiceImpl {
         }
     }
 
+    // 물품 요청
     public DefaultResponseDto save(UsersRequestDto urd) {
-        DefaultResponseDto response;
         try {
-            ProductsRequest pr = new ProductsRequest(urd);
-            productsRequestRepository.save(pr);
-            response = new DefaultResponseDto("200", "message");
+            productsRequestRepository.save(new ProductsRequest(urd));
+            return new DefaultResponseDto("200", "message");
         } catch (Exception e) {
-            response = new DefaultResponseDto("400", "error message");
+            throw new InvalidInputValueException();
         }
-        return response;
     }
 
     public ProductsRequest findById(long id) {
