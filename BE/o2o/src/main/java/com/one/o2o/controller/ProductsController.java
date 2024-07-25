@@ -1,13 +1,11 @@
 package com.one.o2o.controller;
 
+import com.one.o2o.dto.productsrequest.UsersRequestDto;
 import com.one.o2o.service.ProductsRequestServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/products")
@@ -24,5 +22,12 @@ public class ProductsController {
         return new ResponseEntity<>(productsRequestServiceImpl.findAll(pageNumber, pageSize), HttpStatus.OK);
     }
 
+    // 물품 요청
+    @PostMapping("/request")
+    public ResponseEntity<?> userRequest(@RequestBody UsersRequestDto usersRequestDto) {
+        System.out.println(usersRequestDto);
+        productsRequestServiceImpl.save(usersRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

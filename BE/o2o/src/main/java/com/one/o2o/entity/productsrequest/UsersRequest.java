@@ -1,8 +1,13 @@
-package com.one.o2o.entity;
+package com.one.o2o.entity.productsrequest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.one.o2o.dto.productsrequest.UsersRequestDto;
+import com.one.o2o.entity.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
@@ -12,9 +17,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Table(name="PRODUCT_REQ")
-public class ProductsRequest {
+public class UsersRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "REQ_ID")
@@ -50,4 +54,13 @@ public class ProductsRequest {
 
     @Column(name = "REJECT_CMT")
     private String rejectCmt;
+
+    public UsersRequest(UsersRequestDto userRequestDto) {
+        User user = new User();
+        user.setUserId(userRequestDto.getUserId());
+        this.user = user;
+        this.productNm = userRequestDto.getProductNm();
+        this.productCnt = userRequestDto.getProductCnt();
+        this.reqContent = userRequestDto.getReqContent();
+    }
 }

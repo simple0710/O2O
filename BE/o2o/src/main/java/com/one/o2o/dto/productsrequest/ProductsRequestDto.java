@@ -1,16 +1,18 @@
 package com.one.o2o.dto.productsrequest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.one.o2o.entity.ProductsRequest;
+import com.one.o2o.entity.productsrequest.ProductsRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ProductsRequestDto {
     @JsonProperty("req_id")
     private Integer reqId;

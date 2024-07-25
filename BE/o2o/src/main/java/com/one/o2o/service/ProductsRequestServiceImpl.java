@@ -1,10 +1,7 @@
 package com.one.o2o.service;
 
-import com.one.o2o.dto.productsrequest.DataDto;
-import com.one.o2o.dto.productsrequest.PageInfoDto;
-import com.one.o2o.dto.productsrequest.ProductsRequestDto;
-import com.one.o2o.dto.productsrequest.ResponseDto;
-import com.one.o2o.entity.ProductsRequest;
+import com.one.o2o.dto.productsrequest.*;
+import com.one.o2o.entity.productsrequest.ProductsRequest;
 import com.one.o2o.repository.ProductsRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -57,5 +54,10 @@ public class ProductsRequestServiceImpl {
             System.out.println(e.getMessage());
         }
         return response;
+    }
+
+    public void save(UsersRequestDto urd) {
+        ProductsRequest pr = new ProductsRequest(urd);
+        productsRequestRepository.save(pr);
     }
 }
