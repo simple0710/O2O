@@ -7,7 +7,7 @@ import { Button, Modal, Form } from 'react-bootstrap';
 
 const Modals = ({ show, handleClose }) => {
   return (
-    <Modal show={show} onHide={() => handleClose(false)}>
+    <Modal show={show} onHide={() => handleClose(false)} centered>
       <Modal.Header closeButton>
         <Modal.Title>물품 요청하기</Modal.Title>
       </Modal.Header>
