@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface LockerRepository  extends JpaRepository<Locker, Integer> {
     List<Locker> findByBodyId(int body_id);
+    Locker findByLockerId(int locker_id);
 }

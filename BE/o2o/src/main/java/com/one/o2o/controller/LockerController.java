@@ -30,6 +30,13 @@ public class LockerController {
     }
 
 
+    @GetMapping("/locker")
+    public ResponseEntity<LockerDto> readLocker(@RequestParam int locker_id){
+        LockerDto lockerDto = lockerService.readLockerByLockerId(locker_id);
+        return new ResponseEntity<>(lockerDto, HttpStatus.OK);
+    }
+
+
     @GetMapping("/names")
     public ResponseEntity<List<LockerBody>> readLockerBodyList(){
         List<LockerBody> list = lockerService.readLockerBodyList();

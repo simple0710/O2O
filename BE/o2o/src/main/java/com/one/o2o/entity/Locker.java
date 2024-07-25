@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 public class Locker {
     @Id
-    private int locker_id;
+    @Column(name="locker_id")
+    private int lockerId;
     @Column(name="body_id")
     private int bodyId;
     @Column(name="column")

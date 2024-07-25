@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 interface LockerServiceInterface {
-    // 목록 조회
+    // 본체 목록 조회
     public List<LockerBody> readLockerBodyList();
-    // 본체 별 목록 조회
+    // 본체 별 현황 조회
     public List<LockerDto> readLockerByBodyId(int body_id);
+    // 사물함 칸 별 현황 조회
+    public LockerDto readLockerByLockerId(int locker_id);
 }
 
 @Service
@@ -36,5 +38,10 @@ public class LockerService implements LockerServiceInterface{
         List<Locker> list = lockerRepository.findByBodyId(body_id);
         list.forEach(locker -> Hibernate.initialize(locker.getProduct()));
         return lockerMapper.lockersToLockerDtoList(list);
+    }
+
+    public LockerDto readLockerByLockerId(int locker_id) {
+        Locker locker=lockerRepository.findByLockerId(locker_id);
+        return lockerMapper.lockerToLockerDto(locker);
     }
 }
