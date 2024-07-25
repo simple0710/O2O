@@ -1,6 +1,7 @@
 package com.one.o2o.controller;
 
 import com.one.o2o.dto.LockerDto;
+import com.one.o2o.dto.LockerUpdateDto;
 import com.one.o2o.entity.Locker;
 import com.one.o2o.entity.LockerBody;
 import com.one.o2o.mapper.LockerMapper;
@@ -9,10 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +31,12 @@ public class LockerController {
     @GetMapping("/locker")
     public ResponseEntity<LockerDto> readLocker(@RequestParam int locker_id){
         LockerDto lockerDto = lockerService.readLockerByLockerId(locker_id);
+        return new ResponseEntity<>(lockerDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/locker")
+    public ResponseEntity<LockerDto> updateLocker(@RequestBody LockerUpdateDto lockerUpdateDto){
+        LockerDto lockerDto = lockerService.updateLockerProductCount(lockerUpdateDto);
         return new ResponseEntity<>(lockerDto, HttpStatus.OK);
     }
 

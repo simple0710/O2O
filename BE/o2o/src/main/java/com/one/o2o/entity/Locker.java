@@ -3,10 +3,12 @@ package com.one.o2o.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @Entity
 @Getter
+@DynamicUpdate
 public class Locker {
     @Id
     @Column(name="locker_id")
@@ -28,4 +30,8 @@ public class Locker {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="body_id")
 //    private LockerBody body;
+
+    public void updateTotal_cnt(int cnt){
+        this.total_cnt = cnt;
+    }
 }
