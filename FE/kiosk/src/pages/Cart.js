@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Cart.css';
+import dummy from '../components/data.json'  //더미 데이터 저장 경로 불러오기
 
 const items = [
   { id: 1, name: '가위', icon: '✂️' },
@@ -81,3 +82,4 @@ function Cart() {
 }
 
 export default Cart;
+

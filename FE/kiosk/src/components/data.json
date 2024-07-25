@@ -1,0 +1,100 @@
+{
+    "borrow_list": [
+        {
+            "body_location": 1,
+            "column": 4,
+            "row": 2,
+            "lockers": [
+                {
+                    "locker_id": 41,
+                    "locker_column": 1,
+                    "locker_row": 1,
+                    "is_usable": false,
+                    "product_id": 1,
+                    "product_nm": "가위",
+                    "product_img": "이미지 링크",
+                    "total_cnt": 20,
+                    "product_cnt": 10
+                },
+                {
+                    "locker_id": 42,
+                    "locker_column": 1,
+                    "locker_row": 2,
+                    "is_usable": false,
+                    "product_id": 2,
+                    "product_nm": "줄자",
+                    "product_img": "이미지 링크",
+                    "total_cnt": 5,
+                    "product_cnt": 2
+                },
+                {
+                    "status": 200,
+                    "message": "성공 메시지",
+                    "data": {
+                        "locker_id": 1,
+                        "locker_column": 3,
+                        "locker_row": 2,
+                        "product_img": "이미지 링크",
+                        "is_usable": false,
+                        "product_id": 1,
+                        "product_nm": "종이",
+                        "product_cnt": 20,
+                        "total_count": 20
+                    }
+                },
+                {
+                    "status": 200,
+                    "message": "성공 메시지",
+                    "data": {
+                        "locker_id": 1,
+                        "locker_column": 3,
+                        "locker_row": 1,
+                        "is_usable": false,
+                        "product_id": 1,
+                        "product_nm": "카메라",
+                        "product_img": "이미지 링크",
+                        "product_cnt": 20,
+                        "total_count": 20
+                    }
+                }
+            ]
+        },
+        {
+            "body_location": 2,
+            "column": 4,
+            "row": 4,
+            "lockers": [
+                {
+                    "status": 200,
+                    "message": "성공 메시지",
+                    "data": {
+                        "locker_id": 2,
+                        "locker_column": 4,
+                        "locker_row": 3,
+                        "is_usable": false,
+                        "product_id": 1,
+                        "product_nm": "카메라",
+                        "product_img": "이미지 링크",
+                        "product_cnt": 20,
+                        "total_count": 20
+                    }
+                },
+                {
+                    "status": 200,
+                    "message": "성공 메시지",
+                    "data": {
+                        "locker_id": 2,
+                        "locker_column": 2,
+                        "locker_row": 2,
+                        "is_usable": false,
+                        "product_id": 1,
+                        "product_nm": "핸드폰",
+                        "product_img": "이미지 링크",
+                        "product_cnt": 20,
+                        "total_count": 20
+                    }
+                }
+            ]
+        }
+    ]
+}
