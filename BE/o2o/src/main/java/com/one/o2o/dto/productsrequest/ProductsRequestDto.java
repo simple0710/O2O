@@ -1,19 +1,45 @@
-package com.one.o2o.dto;
+package com.one.o2o.dto.productsrequest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.one.o2o.entity.ProductsRequest;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class ProductsRequestDto {
+    @JsonProperty("req_id")
     private Integer reqId;
-    private String userNm = "1";
+
+    @JsonProperty("user_nm")
+    private String userNm;
+
+    @JsonProperty("product_nm")
     private String productNm;
+
+    @JsonProperty("product_cnt")
     private Integer productCnt;
+
+    @JsonProperty("req_dt")
     private LocalDateTime reqDt;
+
+    @JsonProperty("req_url")
     private String reqUrl;
+
+    @JsonProperty("req_content")
     private String reqContent;
+
+    @JsonProperty("is_approved")
     private Boolean isApproved;
+
+    @JsonProperty("is_rejected")
     private Boolean isRejected;
+
+    @JsonProperty("reject_cmt")
     private String rejectCmt;
 
     public ProductsRequestDto(ProductsRequest pr) {
