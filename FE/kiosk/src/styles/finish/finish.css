@@ -1,0 +1,15 @@
+.frame-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Viewport height */
+    text-align: center; 
+  }
+
+
+  .instruction {
+    margin-bottom: 50px; /* 간격 조정 */
+    width: 100%;
+  }
+  
