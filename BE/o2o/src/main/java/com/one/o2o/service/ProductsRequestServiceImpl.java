@@ -68,24 +68,30 @@ public class ProductsRequestServiceImpl {
                 .orElseThrow(ArticleNotFoundException::new);
     }
 
-
+    // 물품 요청 처리
     @Transactional
     public DefaultResponseDto updateProcess(RequestProcessDto requestProcessDto) {
         ProductsRequest productsRequest = productsRequestRepository.findById(requestProcessDto.getReqId())
                 .orElseThrow(ArticleNotFoundException::new);
-        String status = requestProcessDto.getReqStatus();
+        String reqStatus = requestProcessDto.getReqStatus();
         DefaultResponseDto response = new DefaultResponseDto("200", "message");
-        if (status.equals("approved")) {
-            productsRequest.setIsApproved(true);
-            productsRequest.setIsRejected(false);
-            productsRequest.setRejectCmt(null);
-        } else if (status.equals("rejected")) {
-            productsRequest.setIsApproved(false);
-            productsRequest.setIsRejected(true);
-            productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
-        } else {
-
-            return new DefaultResponseDto("400", "오류 메세지");
+        try {
+            switch (reqStatus) {
+                case "approved":
+                    productsRequest.setIsApproved(true);
+                    productsRequest.setIsRejected(false);
+                    productsRequest.setRejectCmt(null);
+                    break;
+                case "rejected":
+                    productsRequest.setIsApproved(false);
+                    productsRequest.setIsRejected(true);
+                    productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
+                    break;
+                default:
+                    throw new InvalidInputValueException();
+            }
+        } catch (Exception e) {
+            throw new InvalidInputValueException();
         }
         return response;
     }
