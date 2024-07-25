@@ -3,6 +3,7 @@ package com.one.o2o.service;
 import com.one.o2o.dto.productsrequest.*;
 import com.one.o2o.entity.productsrequest.ProductsRequest;
 import com.one.o2o.repository.ProductsRequestRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -59,5 +60,22 @@ public class ProductsRequestServiceImpl {
     public void save(UsersRequestDto urd) {
         ProductsRequest pr = new ProductsRequest(urd);
         productsRequestRepository.save(pr);
+    }
+
+    @Transactional
+    public void updateProcess(RequestProcessDto requestProcessDto) {
+        ProductsRequest productsRequest = productsRequestRepository.findById(requestProcessDto.getReqId()).orElseThrow(() -> new RuntimeException("Entity not found"));
+        String status = requestProcessDto.getReqStatus();
+        if (status.equals("approved")) {
+            productsRequest.setIsApproved(true);
+            productsRequest.setIsRejected(false);
+            productsRequest.setRejectCmt(null);
+        } else if (status.equals("rejected")) {
+            productsRequest.setIsApproved(false);
+            productsRequest.setIsRejected(true);
+            productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
+        } else {
+            System.out.println("잘못 된 출력");
+        }
     }
 }
