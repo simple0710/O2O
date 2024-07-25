@@ -21,7 +21,7 @@ function ChangePwd() {
         <Nav className="navbar-left">
           <Nav.Link href="/mainpage">O<span className="highlight">2</span>O</Nav.Link>
         </Nav>
-        <Dropdown>
+        {/* <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
           <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
             홍길동 님
@@ -30,7 +30,7 @@ function ChangePwd() {
             <Dropdown.Item as={Link} to="/profile">프로필정보</Dropdown.Item>
             <Dropdown.Item as={Link} to="/login">로그아웃</Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
       </nav>
 
       <div className="content-container">
