@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface LockerBodyRepository extends JpaRepository<LockerBody, Integer> {
+    LockerBody findById(int body_id);
     @Override
     List<LockerBody> findAll();
 }

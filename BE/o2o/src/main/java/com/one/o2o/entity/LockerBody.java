@@ -12,7 +12,7 @@ import lombok.Data;
 public class LockerBody {
     @Id
     @Column(name="body_id")
-    private int locker_body_id;
+    private int id;
     @Column(name="body_location")
     private String locker_body_name;
 
