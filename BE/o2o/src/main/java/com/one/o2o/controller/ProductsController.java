@@ -27,13 +27,11 @@ public class ProductsController {
     // 물품 요청
     @PostMapping("/request")
     public ResponseEntity<?> userRequest(@RequestBody UsersRequestDto usersRequestDto) {
-        productsRequestServiceImpl.save(usersRequestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(productsRequestServiceImpl.save(usersRequestDto), HttpStatus.OK);
     }
 
     @PutMapping("/request/process")
     public ResponseEntity<?> updateRequest(@RequestBody RequestProcessDto requestProcessDto) {
-        productsRequestServiceImpl.updateProcess(requestProcessDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(productsRequestServiceImpl.updateProcess(requestProcessDto), HttpStatus.OK);
     }
 }
