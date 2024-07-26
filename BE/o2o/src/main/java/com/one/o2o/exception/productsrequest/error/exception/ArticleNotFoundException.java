@@ -1,6 +1,6 @@
-package com.one.o2o.exception.error.exception;
+package com.one.o2o.exception.productsrequest.error.exception;
 
-import com.one.o2o.exception.error.ErrorCode;
+import com.one.o2o.exception.productsrequest.error.ErrorCode;
 
 public class ArticleNotFoundException extends NotFoundException {
     public ArticleNotFoundException() {

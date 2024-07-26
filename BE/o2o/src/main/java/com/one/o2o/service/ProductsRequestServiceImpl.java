@@ -1,10 +1,10 @@
 package com.one.o2o.service;
 
 import com.one.o2o.dto.Response;
-import com.one.o2o.exception.error.exception.ArticleNotFoundException;
+import com.one.o2o.exception.productsrequest.error.exception.ArticleNotFoundException;
 import com.one.o2o.dto.productsrequest.*;
 import com.one.o2o.entity.productsrequest.ProductsRequest;
-import com.one.o2o.exception.error.exception.InvalidInputValueException;
+import com.one.o2o.exception.productsrequest.error.exception.InvalidInputValueException;
 import com.one.o2o.repository.ProductsRequestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ProductsRequestServiceImpl {
+public class ProductsRequestServiceImpl implements ProductsRequestService{
 
     private final ProductsRequestRepository productsRequestRepository;
 
@@ -27,7 +27,6 @@ public class ProductsRequestServiceImpl {
             Response response = new Response(200, "요청 비품 목록 관리 페이지 이동 성공");
             Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
             Page<ProductsRequest> requestPage = productsRequestRepository.findAll(pageable);
-
             // data
             DataDto data = new DataDto();
             // data - reqs

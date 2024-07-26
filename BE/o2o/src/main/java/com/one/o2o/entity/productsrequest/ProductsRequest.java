@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @Table(name="PRODUCT_REQ")
+@ToString
 public class ProductsRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -46,8 +46,8 @@ public class ProductsRequestDto {
 
     public ProductsRequestDto(ProductsRequest pr) {
         this.reqId = pr.getReqId();
-//        this.userNm = pr.getUser().getUserNm();
-        this.productNm = pr.getProductNm();
+        this.userNm = pr.getUser().getUserNm();
+//        this.productNm = pr.getProductNm();
         this.productCnt = pr.getProductCnt();
         this.reqDt = pr.getReqDt();
         this.reqUrl = pr.getReqUrl();
