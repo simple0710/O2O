@@ -2,6 +2,7 @@
     width: 100%; /* 부모 요소의 크기에 맞게 설정 */
     height: 100%; /* 부모 요소의 크기에 맞게 설정 */
     object-fit: cover;
+    margin-left: 8px;
     border-radius: 50%; /* 이미지도 둥글게 만듦 */
 }
 

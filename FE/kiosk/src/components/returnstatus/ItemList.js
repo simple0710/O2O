@@ -5,7 +5,8 @@ function ItemList() {
     const items = [
         { id: 1, name: '가위', icon: '✂️', count: 1 },
         { id: 2, name: '잉크', icon: '🖋️', count: 2 },
-        { id: 4, name: '카메라', icon: '📷', count: 3 },
+        { id: 3, name: '연필', icon: '✏️' , count: 7},
+        { id: 4, name: '카메라', icon: '📷', count: 3 }
     ];
 
     return (

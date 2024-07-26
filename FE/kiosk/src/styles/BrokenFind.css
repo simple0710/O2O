@@ -1,4 +1,3 @@
-
 .frame-container {
   display: flex;
   flex-direction: column;
@@ -8,66 +7,6 @@
   text-align: center;
 }
 
-.container1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* 중앙 정렬을 위해 추가 */
-  width: 100%; /* 반응형 디자인을 위한 너비 설정 */
-  max-width: 375px; /* 최대 너비 설정 */
-  height: auto; /* 내용에 따라 높이 자동 조정 */
-  max-height: 812px; /* 최대 높이 설정 */
-  margin: 0 auto;
-  padding: 20px;
-  background: white; /* 배경색 설정 */
-  box-sizing: border-box; /* 박스 크기 조정 */
-  position: relative; /* 버튼 위치 조정을 위해 상대 위치 설정 */
-}
-
-.image-placeholder {
-  width: 150px;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  background: #f0f0f0; /* 배경색 설정 */
-}
-
-.input {
-  width: 80%;
-  margin-bottom: 20px;
-}
-
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.quantity-controls .MuiTypography-root {
-  margin: 0 10px;
-}
-
-.register-button {
-  width: 80%;
-}
-
-.back-button {
-  position: absolute;
-  top: 20px; /* 원하는 위치로 조정 */
-  left: 20px; /* 원하는 위치로 조정 */
-}
-
-/* 추가된 CSS */
-@media (max-width: 768px) {
-  .container1 {
-    max-width: 100%; /* 더 작은 화면에서는 너비를 100%로 설정 */
-    padding: 10px; /* 패딩을 줄여서 공간을 더 확보 */
-  }
-}
-
-/* 기존 CSS를 수정하여 중앙 정렬 및 반응형 디자인 유지 */
 .cart-container {
   width: 100%;
   max-width: 375px;
@@ -117,6 +56,7 @@ h2 {
 .item-name {
   font-size: 18px;
   flex-grow: 1;
+  white-space: nowrap; /* Prevents text from wrapping */
 }
 
 .item-controls {
@@ -132,6 +72,7 @@ h2 {
 
 .control span {
   margin: 0 5px;
+  white-space: nowrap; /* Prevents text from wrapping */
 }
 
 button {
@@ -160,4 +101,17 @@ button:disabled {
 
 .report-button:hover {
   background-color: #0093ED;
+}
+
+
+/* Ensure text remains horizontal */
+.preserve-horizontal-text {
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+@media (max-width: 768px) {
+  .cart-container {
+    max-width: 100%; /* 더 작은 화면에서는 너비를 100%로 설정 */
+    padding: 10px; /* 패딩을 줄여서 공간을 더 확보 */
+  }
 }
