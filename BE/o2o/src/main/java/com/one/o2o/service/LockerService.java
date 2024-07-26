@@ -54,10 +54,10 @@ public class LockerService implements LockerServiceInterface{
     @Override
     @Transactional
     public LockerDto updateLockerProductCount(LockerUpdateDto lockerUpdateDto) {
-        Optional<Locker> findLocker = lockerRepository.findByLockerId(lockerUpdateDto.getLocker_id());
+        Optional<Locker> findLocker = lockerRepository.findByLockerId(lockerUpdateDto.getLockerId());
         Locker locker = findLocker.orElseThrow(LockerException.LockerNotFoundException::new);
-        locker.updateTotal_cnt(lockerUpdateDto.getTotal_cnt());
-        locker.updateProduct_cnt(lockerUpdateDto.getProduct_cnt());
+        locker.updateTotalCnt(lockerUpdateDto.getTotalCnt());
+        locker.updateProductCnt(lockerUpdateDto.getProductCnt());
         return lockerMapper.lockerToLockerDto(locker);
     }
 

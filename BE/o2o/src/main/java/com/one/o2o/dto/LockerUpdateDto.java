@@ -1,19 +1,22 @@
 package com.one.o2o.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LockerUpdateDto {
-    private int locker_id;
-    private int product_id;
-    private String product_nm;
-    private int body_id;
-    private int locker_column;
-    private int locker_row;
-    private int product_cnt;
-    private int total_cnt;
+    private int lockerId;
+    private int productId;
+    private String productNm;
+    private int bodyId;
+    private int lockerColumn;
+    private int lockerRow;
+    private int productCnt;
+    private int totalCnt;
 }
