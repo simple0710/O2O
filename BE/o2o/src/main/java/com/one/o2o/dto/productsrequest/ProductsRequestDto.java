@@ -3,7 +3,6 @@ package com.one.o2o.dto.productsrequest;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.one.o2o.entity.productsrequest.ProductsRequest;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

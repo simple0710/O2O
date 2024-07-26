@@ -1,8 +1,6 @@
 package com.one.o2o.service;
 
 import com.one.o2o.dto.Response;
-import com.one.o2o.dto.productsrequest.DataDto;
-import com.one.o2o.dto.productsrequest.PageInfoDto;
 import com.one.o2o.entity.productsreport.ProductsReport;
 import com.one.o2o.repository.ProductsReportRepository;
 import lombok.RequiredArgsConstructor;
