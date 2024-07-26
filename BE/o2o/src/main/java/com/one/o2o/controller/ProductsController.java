@@ -2,7 +2,6 @@ package com.one.o2o.controller;
 
 import com.one.o2o.dto.productsrequest.RequestProcessDto;
 import com.one.o2o.dto.productsrequest.UsersRequestDto;
-import com.one.o2o.repository.ProductsReportRepository;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
 import lombok.RequiredArgsConstructor;
