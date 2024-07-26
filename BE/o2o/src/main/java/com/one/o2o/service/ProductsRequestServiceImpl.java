@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,19 +29,16 @@ public class ProductsRequestServiceImpl implements ProductsRequestService{
             Response response = new Response(200, "요청 비품 목록 관리 페이지 이동 성공");
             Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
             Page<ProductsRequest> requestPage = productsRequestRepository.findAll(pageable);
-            // data
-            DataDto data = new DataDto();
-            // data - reqs
-            data.setReqs(requestPage.stream()
+            Map<String, Object> map = new HashMap<>();
+            map.put("reqs", requestPage.stream()
                     .map(ProductsRequestDto::new)
-                    .collect(Collectors.toList())
-            );
-            // data - pages
-            data.setPages(new PageInfoDto(
+                    .collect(Collectors.toList()));
+            map.put("pages", new PageInfoDto(
                     requestPage.getNumber() + 1,
                     requestPage.getTotalPages(),
                     requestPage.getTotalElements())
             );
+            response.setData(map);
             return response;
         } catch (Exception e) {
             throw new InvalidInputValueException();
