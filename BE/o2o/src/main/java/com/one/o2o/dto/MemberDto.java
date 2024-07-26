@@ -8,8 +8,6 @@ import org.hibernate.annotations.ColumnDefault;
 @Data
 public class MemberDto {
 
-
-
     private String user_lgid;
     private String user_pw;
     private String  user_nm;
@@ -21,8 +19,6 @@ public class MemberDto {
     private String user_tel;
     @ColumnDefault("true")
     private boolean is_active;
-
-
 
 
 }
