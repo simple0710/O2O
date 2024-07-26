@@ -1,10 +1,7 @@
 package com.one.o2o.service;
 
 import com.one.o2o.dto.Response;
-import com.one.o2o.exception.error.ErrorCode;
-import com.one.o2o.exception.error.ErrorResponse;
 import com.one.o2o.exception.error.exception.ArticleNotFoundException;
-import com.one.o2o.dto.DefaultResponseDto;
 import com.one.o2o.dto.productsrequest.*;
 import com.one.o2o.entity.productsrequest.ProductsRequest;
 import com.one.o2o.exception.error.exception.InvalidInputValueException;
@@ -16,8 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,10 +49,10 @@ public class ProductsRequestServiceImpl {
     }
 
     // 물품 요청
-    public DefaultResponseDto save(UsersRequestDto urd) {
+    public Response save(UsersRequestDto urd) {
         try {
             productsRequestRepository.save(new ProductsRequest(urd));
-            return new DefaultResponseDto("200", "message");
+            return new Response(200, "message");
         } catch (Exception e) {
             throw new InvalidInputValueException();
         }
@@ -70,12 +65,11 @@ public class ProductsRequestServiceImpl {
 
     // 물품 요청 처리
     @Transactional
-    public DefaultResponseDto updateProcess(RequestProcessDto requestProcessDto) {
-        ProductsRequest productsRequest = productsRequestRepository.findById(requestProcessDto.getReqId())
-                .orElseThrow(ArticleNotFoundException::new);
-        String reqStatus = requestProcessDto.getReqStatus();
-        DefaultResponseDto response = new DefaultResponseDto("200", "message");
+    public Response updateProcess(RequestProcessDto requestProcessDto) {
         try {
+            ProductsRequest productsRequest = productsRequestRepository.findById(requestProcessDto.getReqId())
+                    .orElseThrow(ArticleNotFoundException::new);
+            String reqStatus = requestProcessDto.getReqStatus();
             switch (reqStatus) {
                 case "approved":
                     productsRequest.setIsApproved(true);
@@ -90,9 +84,9 @@ public class ProductsRequestServiceImpl {
                 default:
                     throw new InvalidInputValueException();
             }
+            return new Response(200, "message");
         } catch (Exception e) {
             throw new InvalidInputValueException();
         }
-        return response;
     }
 }
