@@ -1,7 +1,9 @@
 package com.one.o2o.dto.productsrequest;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.one.o2o.entity.productsrequest.ProductsRequest;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +28,7 @@ public class ProductsRequestDto {
     @JsonProperty("product_cnt")
     private Integer productCnt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     @JsonProperty("req_dt")
     private LocalDateTime reqDt;
 
@@ -47,7 +50,7 @@ public class ProductsRequestDto {
     public ProductsRequestDto(ProductsRequest pr) {
         this.reqId = pr.getReqId();
         this.userNm = pr.getUser().getUserNm();
-//        this.productNm = pr.getProductNm();
+        this.productNm = pr.getProductNm();
         this.productCnt = pr.getProductCnt();
         this.reqDt = pr.getReqDt();
         this.reqUrl = pr.getReqUrl();
