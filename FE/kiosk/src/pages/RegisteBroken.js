@@ -17,36 +17,38 @@ function RegisterBroken() {
   const location = useLocation();
   const { reportedItems } = location.state || { reportedItems: [] };
   const navigate = useNavigate();
-  const brokenfinish = () => {
-    navigate('/BrokenFinish')
-  }
+  
+  const brokenlocker = () => {
+    navigate('/BrokenLocker');
+  };
 
   return (
     <div className='frame-container'>
-    <div className="report-container">
-      
-      {reportedItems.map(item => (
-        <div key={item.id} className="item">
-          {iconMap[item.name]}
-          <div className="item-description">{item.name}</div>
-          {item.broken > 0 && (
-            <div className="item-status">
-              <span className="item-count">{item.broken}</span>
-              <Button variant="outline-primary" className="status-button">파손</Button>
+      <div className="report-container">
+        {reportedItems.map(item => (
+          <div key={item.id} className="item">
+            {iconMap[item.name]}
+            <div className="item-description">{item.name}</div>
+            <div className="item-status-container">
+              {item.broken > 0 && (
+                <div className="item-status">
+                  <span className="status-label">파손 :</span>
+                  <span className="item-count">{item.broken}</span>
+                </div>
+              )}
+              {item.missing > 0 && (
+                <div className="item-status">
+                  <span className="status-label">분실 :</span>
+                  <span className="item-count">{item.missing}</span>
+                </div>
+              )}
             </div>
-          )}
-          {item.missing > 0 && (
-            <div className="item-status">
-              <span className="item-count">{item.missing}</span>
-              <Button variant="outline-primary" className="status-button">분실</Button>
-            </div>
-          )}
+          </div>
+        ))}
+        <div className="register-button-container">
+          <Button variant="primary" className="register-button" onClick={brokenlocker}>등록</Button>
         </div>
-      ))}
-      <div className="register-button-container">
-        <Button variant="primary" className="register-button" onClick={brokenfinish}>등록</Button>
       </div>
-    </div>
     </div>
   );
 }

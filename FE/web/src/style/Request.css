@@ -1,0 +1,48 @@
+
+.success-button {
+    background-color: #87cdea; 
+    color: white; 
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+  }
+  
+
+  .success-button:disabled {
+    background-color: #87cdea;
+    color: white;
+    cursor: not-allowed;
+  }
+  
+
+  .success-button:hover {
+    background-color: #87cdea;
+    color: white; 
+  }
+  
+  .reject-button {
+    background-color: #87cdea; 
+    color: white; 
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px; 
+    cursor: pointer;
+  }
+  
+
+  .reject-button:disabled {
+    background-color: #87cdea;
+    color: white; 
+    cursor: not-allowed; 
+  }
+  
+  
+  .reject-button:hover {
+    background-color: #87cdea;
+    color: white; 
+  }
+
+
+  
+  

@@ -22,11 +22,13 @@ import RegisterBroken from './pages/RegisteBroken';
 import BorrowFinish from './pages/BorrowFinish';
 import ReturnStatus from './pages/ReturnStatus';
 import ChangeLocker from './pages/ChangeLocker';
-
 import ReturnFinish from './pages/ReturnFinish';
 import BrokenFinish from './pages/BrokenFinish';
 import QuantityChangeFinish from './pages/QuantityChangeFinish';
 import RegisterFinish from './pages/RegisterFinish';
+import { FiAlertTriangle, FiArchive, FiCornerDownRight ,FiSettings    } from "react-icons/fi";
+import BrokenLocker from './pages/BrokenLocker'
+
 
 
 function Frame() {
@@ -47,10 +49,10 @@ function Frame() {
         <Instruction />
       </div>
       <div className={styles['button-grid']}>
-        <Button icon={image6} label="대여" onClick={() => handleButtonClick('대여')} />
-        <Button icon={image8} label="관리자" onClick={() => handleButtonClick('관리자')} />
-        <Button icon={image7} label="반납" onClick={() => handleButtonClick('반납')} />
-        <Button icon={image9} label="신고" onClick={() => handleButtonClick('신고')} />
+        <Button icon={FiArchive } label="대여" onClick={() => handleButtonClick('대여')} />
+        <Button icon={FiCornerDownRight   } label="반납" onClick={() => handleButtonClick('반납')} />        
+        <Button icon={FiAlertTriangle  } label="신고" onClick={() => handleButtonClick('신고')} />
+        <Button icon={FiSettings   } label="관리자" onClick={() => handleButtonClick('관리자')} />
       </div>
     </div>
 
@@ -78,6 +80,9 @@ function App() {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/changelocker">Change Locker</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/brokenlocker">Broken Locker</Link>
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to="/serviceselection">ServiceSelection</Link>
@@ -133,6 +138,7 @@ function App() {
           <Route path="/registerbroken" element={<RegisterBroken />}/> 
           <Route path="/returnstatus" element={<ReturnStatus />}/> 
           <Route path="/changelocker" element={<ChangeLocker />}/> 
+          <Route path="/brokenlocker" element={<BrokenLocker />}/> 
           
 
 
