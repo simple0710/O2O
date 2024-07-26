@@ -2,6 +2,7 @@ package com.one.o2o.controller;
 
 import com.one.o2o.dto.LockerDto;
 import com.one.o2o.dto.LockerUpdateDto;
+import com.one.o2o.dto.Response;
 import com.one.o2o.entity.Locker;
 import com.one.o2o.entity.LockerBody;
 import com.one.o2o.mapper.LockerMapper;
@@ -22,29 +23,29 @@ public class LockerController {
 
 
     @GetMapping()
-    public ResponseEntity<List<LockerDto>> readLockerList(@RequestParam int locker_body_id){
+    public ResponseEntity<Response> readLockerList(@RequestParam int locker_body_id){
         List<LockerDto> list = lockerService.readLockerByBodyId(locker_body_id);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(list), HttpStatus.OK);
     }
 
 
     @GetMapping("/locker")
-    public ResponseEntity<LockerDto> readLocker(@RequestParam int locker_id){
+    public ResponseEntity<Response> readLocker(@RequestParam int locker_id){
         LockerDto lockerDto = lockerService.readLockerByLockerId(locker_id);
-        return new ResponseEntity<>(lockerDto, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(lockerDto), HttpStatus.OK);
     }
 
     @PutMapping("/locker")
-    public ResponseEntity<LockerDto> updateLocker(@RequestBody LockerUpdateDto lockerUpdateDto){
+    public ResponseEntity<Response> updateLocker(@RequestBody LockerUpdateDto lockerUpdateDto){
         LockerDto lockerDto = lockerService.updateLockerProductCount(lockerUpdateDto);
-        return new ResponseEntity<>(lockerDto, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(lockerDto), HttpStatus.OK);
     }
 
 
     @GetMapping("/names")
-    public ResponseEntity<List<LockerBody>> readLockerBodyList(){
+    public ResponseEntity<Response> readLockerBodyList(){
         List<LockerBody> list = lockerService.readLockerBodyList();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(list), HttpStatus.OK);
     }
 
 

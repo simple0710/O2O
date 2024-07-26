@@ -1,4 +1,4 @@
-package com.one.o2o.dto;
+package com.one.o2o.dto.common;
 
 import lombok.Builder;
 import lombok.Getter;

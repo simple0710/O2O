@@ -12,7 +12,7 @@ public class RentLog {
     private int id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="rent_id")
-    private int rent_id;
+    private Rent rent;
     private int user_id;
     private int locker_id;
     private int product_id;

@@ -21,4 +21,12 @@ public class Response {
         this.status = status;
         this.message = message;
     }
+
+    public Response(String message){
+        this.message = message;
+    }
+
+    public Response(Object data){
+        this.data = data;
+    }
 }

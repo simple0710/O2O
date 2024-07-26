@@ -20,7 +20,7 @@ public class Locker {
     @Column(name="row")
     private int locker_row;
     private boolean is_usable;
-    private int product_cnt;
+    private int productCnt;
     private int total_cnt;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -35,6 +35,6 @@ public class Locker {
         this.total_cnt = cnt;
     }
     public void updateProduct_cnt(int cnt){
-        this.product_cnt = cnt;
+        this.productCnt = cnt;
     }
 }
