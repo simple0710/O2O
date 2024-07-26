@@ -8,6 +8,6 @@ import java.util.List;
 
 @Getter @Setter
 public class DataDto {
-    List<ProductsRequestDto> reqs;
+    List<Object> reqs;
     PageInfoDto pages;
 }

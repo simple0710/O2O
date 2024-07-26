@@ -2,10 +2,7 @@ package com.one.o2o.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
@@ -13,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="USER")
+@ToString
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id

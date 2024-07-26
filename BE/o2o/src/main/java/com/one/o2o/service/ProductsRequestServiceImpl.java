@@ -40,7 +40,6 @@ public class ProductsRequestServiceImpl implements ProductsRequestService{
                     requestPage.getTotalPages(),
                     requestPage.getTotalElements())
             );
-            response.setData(data);
             return response;
         } catch (Exception e) {
             throw new InvalidInputValueException();
