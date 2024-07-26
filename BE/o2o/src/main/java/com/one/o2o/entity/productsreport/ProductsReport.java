@@ -1,6 +1,7 @@
 package com.one.o2o.entity.productsreport;
 
 import com.one.o2o.entity.Locker;
+import com.one.o2o.entity.LockerBody;
 import com.one.o2o.entity.Product;
 import com.one.o2o.entity.User;
 import jakarta.persistence.*;
@@ -26,7 +27,7 @@ public class ProductsReport {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCKER_ID")
-    private Locker locker; // 객체
+    private LockerBody lockerBody; // 객체
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
@@ -46,4 +47,7 @@ public class ProductsReport {
 
     @Column
     private Boolean isProcessed;
+
+    @Column
+    private Integer statusId;
 }

@@ -1,5 +1,6 @@
 package com.one.o2o.service;
 
+import com.one.o2o.dto.PageInfoDto;
 import com.one.o2o.dto.Response;
 import com.one.o2o.exception.productsrequest.error.exception.ArticleNotFoundException;
 import com.one.o2o.dto.productsrequest.*;
