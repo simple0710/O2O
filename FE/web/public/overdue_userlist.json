@@ -1,0 +1,124 @@
+{
+    "status": 200,
+    "message": "성공 메시지",
+    "data": {
+      "rents": [
+        {
+          "user_id": 123,
+          "user_nm": "유저 이름1",
+          "rent_id": 155,
+          "rent_dt": "2024.07.12 15:50",
+          "due_dt": "2024.07.16 15:50",
+          "is_late": true,
+          "products": [
+            {
+              "product_id": 14,
+              "product_name": "줄자",
+              "locker_body": "1층 사물함",
+              "locker_loc": "1단 3연",
+              "product_cnt": 7,
+              "status": {
+                "1": {
+                  "status_nm": "대여",
+                  "product_cnt": 4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "user_id": 124,
+          "user_nm": "유저 이름2",
+          "rent_id": 156,
+          "rent_dt": "2024.07.13 10:30",
+          "due_dt": "2024.07.17 10:30",
+          "is_late": true,
+          "products": [
+            {
+              "product_id": 25,
+              "product_name": "가위",
+              "locker_body": "1층 사물함",
+              "locker_loc": "2단 2연",
+              "product_cnt": 3,
+              "status": {
+                "1": 2
+              }
+            }
+          ]
+        },
+        {
+          "user_id": 125,
+          "user_nm": "유저 이름3",
+          "rent_id": 157,
+          "rent_dt": "2024.07.14 14:20",
+          "due_dt": "2024.07.18 14:20",
+          "is_late": true,
+          "products": [
+            {
+              "product_id": 30,
+              "product_name": "연필",
+              "locker_body": "2층 사물함",
+              "locker_loc": "3단 1연",
+              "product_cnt": 10,
+              "status": {
+                "1": {
+                  "status_nm": "대여",
+                  "product_cnt": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "user_id": 126,
+          "user_nm": "유저 이름4",
+          "rent_id": 158,
+          "rent_dt": "2024.07.15 09:10",
+          "due_dt": "2024.07.19 09:10",
+          "is_late": true,
+          "products": [
+            {
+              "product_id": 35,
+              "product_name": "자",
+              "locker_body": "2층 사물함",
+              "locker_loc": "3단 2연",
+              "product_cnt": 5,
+              "status": {
+                "1": {
+                  "status_nm": "대여",
+                  "product_cnt": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "user_id": 127,
+          "user_nm": "유저 이름5",
+          "rent_id": 159,
+          "rent_dt": "2024.07.16 12:00",
+          "due_dt": "2024.07.20 12:00",
+          "is_late": true,
+          "products": [
+            {
+              "product_id": 40,
+              "product_name": "책",
+              "locker_body": "3층 사물함",
+              "locker_loc": "4단 1연",
+              "product_cnt": 2,
+              "status": {
+                "1": {
+                  "status_nm": "대여",
+                  "product_cnt": 1
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "cur_pg": 1,
+      "total_pg": 10,
+      "total_rents": 100
+    }
+  }
+  
