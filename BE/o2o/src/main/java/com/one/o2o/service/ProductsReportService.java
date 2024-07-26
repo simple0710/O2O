@@ -27,7 +27,7 @@ public class ProductsReportService implements ProductsReportServiceInterface {
 
     @Override
     public Response findAll(int pageNumber, int pageSize) {
-        Response response = new Response(200, "요청 비품 목록 관리 페이지 이동 성공");
+        Response response = new Response(200, "이상 신고 목록 관리 페이지 이동 성공");
         Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
         Page<ProductsReport> requestPage = productsReportRepository.findAll(pageable);
         Map<String, Object> map = new HashMap<>();
