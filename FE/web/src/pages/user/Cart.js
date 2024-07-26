@@ -109,7 +109,7 @@ const Cart = () => {
     return (
         <Container fluid>
             <Row>
-                <Col md={3} className="left-banner">
+                {/* <Col md={3} className="left-banner">
                     <h2>예약 물품</h2>
                     {reservations.length > 0 ? (
                         reservations.map((reservation, index) => (
@@ -126,7 +126,7 @@ const Cart = () => {
                     ) : (
                         <p>예약된 물품이 없습니다.</p>
                     )}
-                </Col>
+                </Col> */}
                 <Col md={9} className="main-content">
                     <h2>장바구니</h2>
                     {showAlert && (

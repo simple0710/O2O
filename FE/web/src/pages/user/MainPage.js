@@ -8,6 +8,7 @@ import Locker from './Locker';
 import Cart from './Cart';
 import Modals from './Modals';
 import { CartProvider, CartContext } from './CartContext';
+import { ReservationProvider } from './ReservationContext';
 import Swal from 'sweetalert2';
 
 function MainPage() {
