@@ -19,6 +19,8 @@ import java.util.Optional;
 interface LockerServiceInterface {
     // 본체 목록 조회
     public List<LockerBody> readLockerBodyList();
+    // 아이디로 본체 조회
+    public LockerBody readLockerBodyById(int body_id);
     // 본체 별 현황 조회
     public List<LockerDto> readLockerByBodyId(int body_id);
     // 사물함 칸 별 현황 조회
@@ -40,12 +42,21 @@ public class LockerService implements LockerServiceInterface{
         return lockerBodyRepository.findAll();
     }
 
-    public List<LockerDto> readLockerByBodyId(int body_id) {
-        List<Locker> list = lockerRepository.findByBodyId(body_id);
-        list.forEach(locker -> Hibernate.initialize(locker.getProduct()));
-        return lockerMapper.lockersToLockerDtoList(list);
+    @Override
+    public LockerBody readLockerBodyById(int body_id) {
+        return lockerBodyRepository.findById(body_id);
     }
 
+    @Override
+    public List<LockerDto> readLockerByBodyId(int body_id) {
+        List<Locker> list = lockerRepository.findByLockerBody_Id(body_id);
+        list.forEach(locker -> {
+            Hibernate.initialize(locker.getProduct());
+            Hibernate.initialize(locker.getLockerBody());
+        } );
+        return lockerMapper.lockersToLockerDtoList(list);
+    }
+    @Override
     public LockerDto readLockerByLockerId(int locker_id) {
         Locker locker=lockerRepository.findByLockerId(locker_id).orElseThrow();
         return lockerMapper.lockerToLockerDto(locker);
