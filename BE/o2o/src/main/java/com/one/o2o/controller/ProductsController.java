@@ -1,5 +1,6 @@
 package com.one.o2o.controller;
 
+import com.one.o2o.dto.productsreport.UsersReportDto;
 import com.one.o2o.dto.productsrequest.RequestProcessDto;
 import com.one.o2o.dto.productsrequest.UsersRequestDto;
 import com.one.o2o.service.ProductsReportService;
@@ -42,5 +43,11 @@ public class ProductsController {
             @RequestParam(name = "pg_no", defaultValue = "1") int pageNumber,
             @RequestParam(name = "per_page", defaultValue = "10") int pageSize) {
         return new ResponseEntity<>(productsReportService.findAll(pageNumber, pageSize), HttpStatus.OK);
+    }
+
+    // 이상 신고
+    @PostMapping("/report")
+    public ResponseEntity<?> createProductsReport(@RequestBody UsersReportDto userReportDto) {
+        return new ResponseEntity<>(productsReportService.save(userReportDto) , HttpStatus.OK);
     }
 }

@@ -33,9 +33,10 @@ public class ProductsReportDto {
 
     public ProductsReportDto(ProductsReport productsReport) {
         this.rptId = productsReport.getRptId();
+        this.productId = 1;
 //        this.productId = productsReport.getProduct().getProductId();
-//        this.lockerId = productsReport.getLockerBody().getLockerId();
-//        this.lockerBody = productsReport.getLockerBody().get();
+//        this.lockerId = productsReport.getLocker().getLockerId();
+//        this.lockerBody = productsReport.getLocker().getL();
 //        this.lockerLoc = productsReport.getLocker().getLockerLoc();
         this.userNm = productsReport.getUser().getUserNm();
         this.productCnt = productsReport.getProductCnt();
@@ -43,7 +44,7 @@ public class ProductsReportDto {
         this.rptDt = productsReport.getRptDt();
         this.rptImg = productsReport.getRptImg();
         this.isProcessed = productsReport.getIsProcessed();
-        this.statusId = productsReport.getStatusId();
+//        this.statusId = productsReport.getStatusId();
     }
 }
 

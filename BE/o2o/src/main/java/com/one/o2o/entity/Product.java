@@ -3,6 +3,7 @@ package com.one.o2o.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Getter
 @Entity
 @ToString
+@Setter
 public class Product {
     @Id
     private int product_id;

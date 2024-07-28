@@ -1,13 +1,14 @@
 package com.one.o2o.entity.productsreport;
 
-import com.one.o2o.entity.Locker;
-import com.one.o2o.entity.LockerBody;
-import com.one.o2o.entity.Product;
-import com.one.o2o.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.one.o2o.dto.productsreport.UsersReportDto;
+import com.one.o2o.entity.*;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -27,7 +28,7 @@ public class ProductsReport {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCKER_ID")
-    private LockerBody lockerBody; // 객체
+    private Locker locker; // 객체
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
@@ -39,15 +40,42 @@ public class ProductsReport {
     @Column
     private String rptContent;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     @Column
     private LocalDateTime rptDt;
 
     @Column
     private String rptImg;
 
+    @ColumnDefault("false")
     @Column
     private Boolean isProcessed;
 
-    @Column
-    private Integer statusId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private ProductStatus productStatus;
+
+    public ProductsReport(UsersReportDto userReportDto) {
+        // 사용자 저장
+        this.user = new User();
+        this.user.setUserId(userReportDto.getUserId());
+        // 물품 정보 저장
+        this.productStatus = new ProductStatus();
+        this.productStatus.setStatusId(userReportDto.getStatusId());
+        this.product = new Product();
+        this.product.setProduct_id(1);
+//        this.product.(userReportDto.getProductId());
+        this.locker = new Locker();
+        this.locker.setLockerId(userReportDto.getLockerId());
+        // 기타 정보 저장
+        this.rptContent = userReportDto.getRptContent();
+        this.rptImg = userReportDto.getRptImg();
+    }
+
+    @PrePersist
+    public void perPersist() {
+        if (this.rptDt == null) {
+            this.rptDt = LocalDateTime.now();
+        }
+    }
 }

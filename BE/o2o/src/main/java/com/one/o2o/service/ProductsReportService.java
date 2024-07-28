@@ -3,6 +3,7 @@ package com.one.o2o.service;
 import com.one.o2o.dto.Response;
 import com.one.o2o.dto.PageInfoDto;
 import com.one.o2o.dto.productsreport.ProductsReportDto;
+import com.one.o2o.dto.productsreport.UsersReportDto;
 import com.one.o2o.entity.productsreport.ProductsReport;
 import com.one.o2o.repository.ProductsReportRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 interface ProductsReportServiceInterface {
     Response findAll(int pageNumber, int pageSize);
+    Response save(UsersReportDto userReportDto);
 }
 
 @Service
@@ -39,6 +41,13 @@ public class ProductsReportService implements ProductsReportServiceInterface {
                 requestPage.getTotalPages(),
                 requestPage.getTotalElements()));
         response.setData(map);
+        return response;
+    }
+
+    @Override
+    public Response save(UsersReportDto userReportDto) {
+        Response response = new Response(200, "이상 신고 등록 완료");
+        productsReportRepository.save(new ProductsReport(userReportDto));
         return response;
     }
 }
