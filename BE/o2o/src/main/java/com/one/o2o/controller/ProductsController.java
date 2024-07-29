@@ -1,5 +1,6 @@
 package com.one.o2o.controller;
 
+import com.one.o2o.dto.productsreport.ReportProcessDto;
 import com.one.o2o.dto.productsreport.UsersReportDto;
 import com.one.o2o.dto.productsrequest.RequestProcessDto;
 import com.one.o2o.dto.productsrequest.UsersRequestDto;
@@ -49,5 +50,10 @@ public class ProductsController {
     @PostMapping("/report")
     public ResponseEntity<?> createProductsReport(@RequestBody UsersReportDto userReportDto) {
         return new ResponseEntity<>(productsReportService.save(userReportDto) , HttpStatus.OK);
+    }
+
+    @PutMapping("/report/process")
+    private ResponseEntity<?> processProductsReport(@RequestBody ReportProcessDto reportProcessDto) {
+        return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
     }
 }
