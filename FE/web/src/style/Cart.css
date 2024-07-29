@@ -1,7 +1,30 @@
-.cart-items{
-  overflow-x: scroll;
+.cart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 100%;
+   flex-grow: 0; /* 컨테이너가 늘어나지 않도록 설정 */
+  flex-shrink: 0; /* 컨테이너가 줄어들지 않도록 설정 */
 }
 
+.cart-content {
+  flex-grow: 0; /* 컨테이너가 늘어나지 않도록 설정 */
+  flex-shrink: 0; /* 컨테이너가 줄어들지 않도록 설정 */
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  width: calc(100% - 150px); /* 버튼을 위한 공간을 제외한 너비 설정 */
+  max-width: calc(100% - 150px); /* 버튼을 위한 공간을 제외한 최대 너비 설정 */
+}
+
+.cart-items {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 10px;
+}
 
 .cart-item {
   background-color: #bbdefb;
@@ -11,8 +34,28 @@
   border-radius: 8px;
   padding: 10px;
   position: relative;
-  float: left;
-  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.reser-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-height: 400px;
+  padding-right: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.reser-item {
+  background-color: #bbdefb;
+  border: 1px solid #90caf9;
+  width: 150px;
+  height: 100px;
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+  margin-bottom: 10px;
 }
 
 .cart-item span {
@@ -31,13 +74,19 @@
   right: 5px;
 }
 
-/* 버튼 스타일링 */
+.cart-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100px; /* 버튼 영역의 고정된 너비 설정 */
+}
+
 .cart-button {
-  padding: 8px 16px; /* 크기 조정 */
+  padding: 8px 16px;
   border-radius: 8px;
   border: 1px solid transparent;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: 14px; /* 폰트 크기 조정 */
+  font-size: 14px;
   transition: all 0.2s ease-in-out;
 }
 
@@ -50,7 +99,6 @@
   transform: translateY(1px);
 }
 
-/* 예약하기 버튼 */
 .cart-button-primary {
   background-color: #42a5f5;
   color: white;
@@ -60,7 +108,6 @@
   background-color: #3391f2;
 }
 
-/* 취소 버튼 */
 .cart-button-danger {
   background-color: #ef5350;
   color: white;
@@ -70,7 +117,6 @@
   background-color: #e53935;
 }
 
-/* 모달 내 버튼 스타일링 */
 .modal-footer .btn {
   padding: 8px 16px;
   border-radius: 8px;

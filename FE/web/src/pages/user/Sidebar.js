@@ -87,18 +87,21 @@ function Sidebar() {
             <hr />
             <div>
                 예약 물품
-                <ul>
                     {updatedReservations.map((reservation, index) => (
-                        <li key={index}>
+                        <ul key={index}>
+                             <li>
                             {reservation.items.map((item, itemIndex) => (
                                 <div key={itemIndex}>
+                                   
                                     {item.name} - {item.quantity}개
                                     남은 시간: {formatRemainingTime(reservation.remainingTime)}
+                                   
                                 </div>
                             ))}
-                        </li>
+                             </li>
+                        </ul>
                     ))}
-                </ul>
+                
             </div>
             <hr />
             <div>
