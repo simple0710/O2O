@@ -70,9 +70,9 @@ function MainPage() {
       <div className="content-container">
         <Sidebar/>
         <div className="content">
-          <div className="locker">
+          
             <Locker />
-          </div>
+         
           <div className="cart">
             <Cart />
           </div>
