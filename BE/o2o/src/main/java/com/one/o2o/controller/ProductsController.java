@@ -1,9 +1,11 @@
 package com.one.o2o.controller;
 
+import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
+import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +18,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProductsController {
 
+    private final ProductsManageService productsManageService;
     private final ProductsRequestService productsRequestService;
     private final ProductsReportService productsReportService;
+
+    // 물품 등록
+    @PostMapping("/regist")
+    public ResponseEntity<?> registProducts(@RequestBody ProductsDto productsDto) {
+        return new ResponseEntity<>(productsManageService.regist(productsDto), HttpStatus.OK);
+    }
 
     // 요청 물품 목록 가져오기
     @GetMapping("/request")

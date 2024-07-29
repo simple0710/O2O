@@ -6,7 +6,6 @@ import com.one.o2o.dto.products.request.ProductsRequestDto;
 import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
 import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
-import com.one.o2o.dto.productsrequest.*;
 import com.one.o2o.entity.products.request.ProductsRequest;
 import com.one.o2o.exception.products.error.exception.InvalidInputValueException;
 import com.one.o2o.repository.ProductsRequestRepository;
