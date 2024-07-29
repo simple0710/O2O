@@ -2,10 +2,10 @@ package com.one.o2o.service;
 
 import com.one.o2o.dto.PageInfoDto;
 import com.one.o2o.dto.Response;
-import com.one.o2o.exception.productsrequest.error.exception.ArticleNotFoundException;
+import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.dto.productsrequest.*;
 import com.one.o2o.entity.productsrequest.ProductsRequest;
-import com.one.o2o.exception.productsrequest.error.exception.InvalidInputValueException;
+import com.one.o2o.exception.products.error.exception.InvalidInputValueException;
 import com.one.o2o.repository.ProductsRequestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

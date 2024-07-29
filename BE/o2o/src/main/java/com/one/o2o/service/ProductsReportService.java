@@ -6,7 +6,7 @@ import com.one.o2o.dto.productsreport.ProductsReportDto;
 import com.one.o2o.dto.productsreport.ReportProcessDto;
 import com.one.o2o.dto.productsreport.UsersReportDto;
 import com.one.o2o.entity.productsreport.ProductsReport;
-import com.one.o2o.exception.productsrequest.error.exception.ArticleNotFoundException;
+import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.ProductsReportRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -61,8 +61,6 @@ public class ProductsReportService implements ProductsReportServiceInterface {
         Response response = new Response(200, "이상 처리 완료");
         ProductsReport productsReport = productsReportRepository.findById(reportProcessDto.getRptId())
                 .orElseThrow(ArticleNotFoundException::new);
-        System.out.println(productsReport);
-        System.out.println(reportProcessDto.getIsProcessed());
         productsReport.setIsProcessed(reportProcessDto.getIsProcessed());
         return response;
     }
