@@ -52,24 +52,31 @@ public class ProductsReport {
     private Boolean isProcessed;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "STATUS_ID")
     private ProductStatus productStatus;
 
     public ProductsReport(UsersReportDto userReportDto) {
         // 사용자 저장
         this.user = new User();
         this.user.setUserId(userReportDto.getUserId());
+
         // 물품 정보 저장
         this.productStatus = new ProductStatus();
         this.productStatus.setStatusId(userReportDto.getStatusId());
+
         this.product = new Product();
-        this.product.setProduct_id(1);
-//        this.product.(userReportDto.getProductId());
+        this.product.setProduct_id(userReportDto.getProductId());
+        this.productCnt = userReportDto.getProductCnt();
+        // 사물함 정보 저장
         this.locker = new Locker();
         this.locker.setLockerId(userReportDto.getLockerId());
+
         // 기타 정보 저장
         this.rptContent = userReportDto.getRptContent();
         this.rptImg = userReportDto.getRptImg();
+
+        this.productStatus = new ProductStatus();
+        this.productStatus.setStatusId(userReportDto.getStatusId());
     }
 
     @PrePersist

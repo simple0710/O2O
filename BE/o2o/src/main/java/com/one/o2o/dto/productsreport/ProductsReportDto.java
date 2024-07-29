@@ -33,18 +33,17 @@ public class ProductsReportDto {
 
     public ProductsReportDto(ProductsReport productsReport) {
         this.rptId = productsReport.getRptId();
-        this.productId = 1;
-//        this.productId = productsReport.getProduct().getProductId();
-//        this.lockerId = productsReport.getLocker().getLockerId();
-//        this.lockerBody = productsReport.getLocker().getL();
-//        this.lockerLoc = productsReport.getLocker().getLockerLoc();
+        this.productId = productsReport.getProduct().getProduct_id();
+        this.lockerId = productsReport.getLocker().getLockerId();
+//        this.lockerBody = productsReport.getLocker().getLocker;
+//        this.lockerLoc = productsReport.getLocker().getLockerBody().getLocker_body_name();
         this.userNm = productsReport.getUser().getUserNm();
         this.productCnt = productsReport.getProductCnt();
         this.rptContent = productsReport.getRptContent();
         this.rptDt = productsReport.getRptDt();
         this.rptImg = productsReport.getRptImg();
         this.isProcessed = productsReport.getIsProcessed();
-//        this.statusId = productsReport.getStatusId();
+        this.statusId = productsReport.getProductStatus().getStatusId();
     }
 }
 
