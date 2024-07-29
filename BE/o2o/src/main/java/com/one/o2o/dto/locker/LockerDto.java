@@ -1,12 +1,8 @@
-package com.one.o2o.dto;
+package com.one.o2o.dto.locker;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.one.o2o.entity.Locker;
-import com.one.o2o.entity.LockerBody;
-import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter

@@ -1,6 +1,6 @@
 package com.one.o2o.service;
 
-import com.one.o2o.dto.Response;
+import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.productsrequest.RequestProcessDto;
 import com.one.o2o.dto.productsrequest.UsersRequestDto;
 import com.one.o2o.entity.productsrequest.ProductsRequest;

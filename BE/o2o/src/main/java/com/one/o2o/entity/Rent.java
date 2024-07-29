@@ -1,22 +1,32 @@
 package com.one.o2o.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="Rent")
+@Getter
+@Setter
 public class Rent {
     @Id
     @Column(name="rent_id")
     private Integer id;
-    private int user_id;
-    private int reserve_id;
-    private Date start_dt;
-    private Date due_dt;
-    private Date end_dt;
-    private boolean is_returned;
+    private int userId;
+    private Integer reserveId;
+    private LocalDateTime startDt;
+    private LocalDateTime dueDt;
+    private LocalDateTime endDt;
+    private boolean isReturned;
+
+    @OneToMany(mappedBy = "rentId",  fetch = FetchType.LAZY)
+    private List<RentLog> rentLogs;
+
+
 }

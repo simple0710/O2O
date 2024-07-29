@@ -13,8 +13,6 @@ public class Locker {
     @Id
     @Column(name="locker_id")
     private int lockerId;
-    @Column(name="body_id")
-    private int bodyId;
     @Column(name="column")
     private int lockerColumn;
     @Column(name="row")
@@ -28,9 +26,9 @@ public class Locker {
     @JoinColumn(name="product_id")
     public Product product;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="body_id")
-//    private LockerBody body;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="body_id")
+    private LockerBody body;
 
     public void updateTotalCnt(int cnt){
         this.totalCnt = cnt;

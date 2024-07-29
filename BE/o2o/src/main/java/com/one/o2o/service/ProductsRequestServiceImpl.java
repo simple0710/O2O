@@ -1,6 +1,6 @@
 package com.one.o2o.service;
 
-import com.one.o2o.dto.Response;
+import com.one.o2o.dto.common.Response;
 import com.one.o2o.exception.productsrequest.error.exception.ArticleNotFoundException;
 import com.one.o2o.dto.productsrequest.*;
 import com.one.o2o.entity.productsrequest.ProductsRequest;

@@ -1,11 +1,6 @@
-package com.one.o2o.dto;
+package com.one.o2o.dto.common;
 
-import com.one.o2o.dto.productsrequest.DataDto;
-import com.one.o2o.dto.productsrequest.PageInfoDto;
-import com.one.o2o.dto.productsrequest.ProductsRequestDto;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +23,11 @@ public class Response {
     }
 
     public Response(Object data){
+        this.data = data;
+    }
+
+    public Response(Integer status, Object data){
+        this.status = status;
         this.data = data;
     }
 }

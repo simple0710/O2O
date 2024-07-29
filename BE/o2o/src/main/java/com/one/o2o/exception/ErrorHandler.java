@@ -1,6 +1,6 @@
 package com.one.o2o.exception;
 
-import com.one.o2o.dto.Response;
+import com.one.o2o.dto.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
