@@ -77,12 +77,16 @@ public class ProductsReport {
 
         this.productStatus = new ProductStatus();
         this.productStatus.setStatusId(userReportDto.getStatusId());
+
     }
 
     @PrePersist
     public void perPersist() {
         if (this.rptDt == null) {
             this.rptDt = LocalDateTime.now();
+        }
+        if (this.isProcessed == null) {
+            this.isProcessed = false;
         }
     }
 }
