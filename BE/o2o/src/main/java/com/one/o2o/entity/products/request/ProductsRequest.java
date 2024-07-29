@@ -1,7 +1,7 @@
-package com.one.o2o.entity.productsrequest;
+package com.one.o2o.entity.products.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.one.o2o.dto.productsrequest.UsersRequestDto;
+import com.one.o2o.dto.products.request.UsersRequestDto;
 import com.one.o2o.entity.User;
 import jakarta.persistence.*;
 import lombok.*;

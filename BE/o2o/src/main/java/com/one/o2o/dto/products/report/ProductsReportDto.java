@@ -1,16 +1,14 @@
-package com.one.o2o.dto.productsreport;
+package com.one.o2o.dto.products.report;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.one.o2o.entity.productsreport.ProductsReport;
-import jakarta.persistence.Column;
+import com.one.o2o.entity.products.report.ProductsReport;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
