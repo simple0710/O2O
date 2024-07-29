@@ -21,7 +21,7 @@ public class MemberEntity {
     private Integer user_id;
 
     @Column(name="user_lgid")
-    private String user_lgid;
+    private String userLgid;
 
     @Column(name="user_pw")
     private String user_pw;
@@ -49,7 +49,7 @@ public class MemberEntity {
     // DTO를 Entity로 변환하는 메서드
     public static MemberEntity toEntity(MemberDto dto) {
         MemberEntity entity = new MemberEntity();
-        entity.setUser_lgid(dto.getUser_lgid());
+        entity.setUserLgid(dto.getUser_lgid());
         entity.setUser_pw(dto.getUser_pw());
         entity.setUser_nm(dto.getUser_nm());
         entity.setEmp_cd(dto.getEmp_cd());

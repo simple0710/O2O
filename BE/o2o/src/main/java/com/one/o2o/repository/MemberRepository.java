@@ -1,5 +1,6 @@
 package com.one.o2o.repository;
 
+import com.one.o2o.dto.MemberDto;
 import com.one.o2o.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,8 +19,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Integer>{
     long existsByUserLgid(@Param("getUserLgid") String getUserLgid);
 
 
-
-
-
-
+    //user_lgid
+    //findB
+    Optional<MemberEntity> findByUserLgid(String user_lgid);
 }
