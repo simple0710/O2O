@@ -1,6 +1,7 @@
 package com.one.o2o.controller;
 
 import com.one.o2o.dto.LockerDto;
+import com.one.o2o.dto.LockerListDto;
 import com.one.o2o.dto.LockerUpdateDto;
 import com.one.o2o.entity.Locker;
 import com.one.o2o.entity.LockerBody;
@@ -22,9 +23,15 @@ public class LockerController {
 
 
     @GetMapping()
-    public ResponseEntity<List<LockerDto>> readLockerList(@RequestParam int locker_body_id){
+    public ResponseEntity<LockerListDto> readLockerList(@RequestParam int locker_body_id){
+        LockerBody body = lockerService.readLockerBodyById(locker_body_id);
         List<LockerDto> list = lockerService.readLockerByBodyId(locker_body_id);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        LockerListDto dto = new LockerListDto();
+        dto.setBody_location(body.getLocker_body_name());
+        dto.setRow(body.getRow());
+        dto.setColumn(body.getColumn());
+        dto.setLockers(list);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 

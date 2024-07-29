@@ -16,7 +16,7 @@ public interface LockerMapper {
 
     // Locker -> LockerDto 매핑
     @Named("LOCKER")
-    @Mapping(source="locker.bodyId", target="body_id")
+    @Mapping(source="lockerBody.id", target="body_id")
     @Mapping(source="locker.lockerId", target="locker_id")
     @Mapping(source="locker._usable", target="_usable")
     @Mapping(source="product.product_id", target="product_id")
