@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react';
 import AdminNav from './AdminNav';
 import Sidebar from './Sidebar';
 import { Bar } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+import Chart, { Title } from 'chart.js/auto';
 import axios from 'axios';
+import Rent from './Rent';
+import Usage from './Usage';
+import '../../style/Statistics.css';
 
 const Statistics = () => {
   const [chartData, setChartData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/statistics.json')
+    axios.get('/usage_data.json')
       .then(response => {
         const data = response.data;
         const productNames = data.products.map(product => product.product_nm);
@@ -27,6 +30,7 @@ const Statistics = () => {
               borderWidth: 1,
             },
           ],
+          
         });
       })
       .catch(error => console.error('페이지를 표시할 수 없습니다.', error))
@@ -34,6 +38,24 @@ const Statistics = () => {
         setIsLoading(false);
       });
   }, []);
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: '사용률',
+        font: {
+          size: 20,
+        },
+        padding: {
+          bottom: 20,
+        }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false
+  };
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -49,8 +71,14 @@ const Statistics = () => {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <h3>물건 사용빈도 통계</h3>
-          <Bar data={chartData} />
+            <h3>물건 사용빈도 통계</h3>
+            <div className="chart-container">
+              <Bar data={chartData} options={options} />
+          </div>
+        <div className='out-chart'>
+          <Rent />
+          <Usage />
+        </div>
         </div>
       </div>
     </div>
