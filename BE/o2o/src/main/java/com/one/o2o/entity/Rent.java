@@ -1,5 +1,6 @@
 package com.one.o2o.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Rent {
     private LocalDateTime startDt;
     private LocalDateTime dueDt;
     private LocalDateTime endDt;
+
     private boolean isReturned;
 
     @OneToMany(mappedBy = "rentId",  fetch = FetchType.LAZY)

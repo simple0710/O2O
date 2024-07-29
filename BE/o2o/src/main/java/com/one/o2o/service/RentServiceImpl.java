@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,8 @@ public class RentServiceImpl implements RentService {
         Page<Rent> listPage = rentRepository.findAllByUserId(userId, pageable);
         List<Rent> rentList = listPage.getContent();
         System.out.println("rentList = " + rentList);
+        RentResponseDto res = new RentResponseDto();
+        List<RentResponseDto.RentListResponseDto> rentDtoList = new ArrayList<>();
         for (Rent rent : rentList) {
             List<RentLog> rl = rent.getRentLogs();
             rl.sort(Comparator.comparing(RentLog::getLogDt));
@@ -39,11 +42,13 @@ public class RentServiceImpl implements RentService {
                 rentLog.getProduct();
                 rentLog.getLocker();
             }
+            RentResponseDto.RentListResponseDto dto = rentMapper.rentToRentListResponseDto(rent);
+            // 가장 마지막 기록을 updateAt으로 등록환다
+            dto.setUpdateAt(rl.get(rl.size()-1).getLogDt());
+            rentDtoList.add(dto);
         }
-        List<Status> statusList = statusRepository.findAll();
-        RentResponseDto res = new RentResponseDto();
-        List<RentResponseDto.RentListResponseDto> rentDtoList = rentMapper.rentsToRentListResponseDtos(rentList);
         res.setRents(rentDtoList);
+        List<Status> statusList = statusRepository.findAll();
         res.setStatus(statusList.stream().collect(Collectors.toMap(Status::getStatusId, status -> status)));
         res.setTotalRents(listPage.getTotalElements());
         res.setTotalPg(listPage.getTotalPages());

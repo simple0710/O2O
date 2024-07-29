@@ -1,5 +1,6 @@
 package com.one.o2o.dto.rent;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.one.o2o.entity.Status;
@@ -25,7 +26,9 @@ public class RentResponseDto {
         private int rentId;
         private LocalDateTime rentDt;
         private LocalDateTime dueDt;
-        private boolean isLate;
+        private LocalDateTime updateAt;
+        @JsonProperty("is_ended")
+        private boolean isEnded;
         private Map<Integer, RentProductDto> products;
 
 
