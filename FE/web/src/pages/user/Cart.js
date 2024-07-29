@@ -1,17 +1,17 @@
+
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Button, Form, Alert, Row, Col, Container } from 'react-bootstrap';
 import { CartContext } from './CartContext'; // CartContext 경로를 수정하세요.
 import '../../style/Cart.css'; // 기존 CSS 파일 경로
 
 const Cart = () => {
-    const { cart, setCart } = useContext(CartContext);
+    const { cart, setCart, reservations, setReservations } = useContext(CartContext);
     const [show, setShow] = useState(false);
     const [modalContent, setModalContent] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState(0);
     const [showReservation, setShowReservation] = useState(false);
     const [reservationDate, setReservationDate] = useState('');
-    const [reservations, setReservations] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
 
@@ -28,7 +28,7 @@ const Cart = () => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [setReservations]);
 
     useEffect(() => {
         if (showAlert) {
@@ -100,34 +100,10 @@ const Cart = () => {
         }
     };
 
-    const formatRemainingTime = (remainingTime) => {
-        const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        return `${days}일 ${hours}시간`;
-    };
-
     return (
         <Container fluid>
             <Row>
-                <Col md={3} className="left-banner">
-                    <h2>예약 물품</h2>
-                    {reservations.length > 0 ? (
-                        reservations.map((reservation, index) => (
-                            <div key={index} className="mb-3 p-2 border rounded bg-light">
-                                <p>예약 날짜: {new Date(reservation.date).toLocaleString()}</p>
-                                <p>남은 시간: {formatRemainingTime(reservation.remainingTime)}</p>
-                                {reservation.items.map((item, itemIndex) => (
-                                    <div key={itemIndex} className="d-flex justify-content-between align-items-center border p-2 rounded mb-1 bg-white">
-                                        <span>{item.name} - {item.quantity}개</span>
-                                    </div>
-                                ))}
-                            </div>
-                        ))
-                    ) : (
-                        <p>예약된 물품이 없습니다.</p>
-                    )}
-                </Col>
-                <Col md={9} className="main-content">
+                <Col md={10} className="main-content">
                     <h2>장바구니</h2>
                     {showAlert && (
                         <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>

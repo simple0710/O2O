@@ -5,14 +5,14 @@ import '../../style/MainPageApp.css';
 import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Locker from './Locker';
+import Sidebar from './Sidebar';
 import Cart from './Cart';
 import Modals from './Modals';
-import { CartProvider, CartContext } from './CartContext';
 import { ReservationProvider } from './ReservationContext';
 import Swal from 'sweetalert2';
 
 function MainPage() {
-  const { cart, setCart } = useContext(CartContext);
+
   const [show, setShow] = useState(false);
   const [modalCloseConfirmed, setModalCloseConfirmed] = useState(false);
 
@@ -42,45 +42,6 @@ function MainPage() {
     }
   }, [modalCloseConfirmed]);
 
-  const notRefund = [
-    { name: "가위", quantity: 4 },
-    { name: "풀", quantity: 5 },
-  ];
-
-  const register = [
-    { name: "풀", quantity: 5 },
-    { name: "잉크", quantity: 5 }
-  ];
-
-  const recent = [
-    { name: "가위", quantity: 4 },
-    { name: "잉크", quantity: 5 }
-  ];
-
-  const addToCart = (item) => {
-    const existingItemIndex = cart.findIndex(cartItem => cartItem.name === item.name);
-    const existingQuantity = existingItemIndex >= 0 ? cart[existingItemIndex].quantity : 0;
-    const totalQuantity = existingQuantity + item.quantity;
-
-    if (totalQuantity > item.quantity) {
-      Swal.fire({
-        title: "재고가 부족합니다.",
-        text: "장바구니에 물품이 있는지 확인해주세요.",
-        icon: "warning",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "확인",
-      });
-    } else {
-      if (existingItemIndex >= 0) {
-        const updatedCart = cart.map((cartItem, index) =>
-          index === existingItemIndex ? { ...cartItem, quantity: totalQuantity } : cartItem
-        );
-        setCart(updatedCart);
-      } else {
-        setCart(prevCart => [...prevCart, { ...item, quantity: totalQuantity }]);
-      }
-    }
-  };
 
   return (
     <div>
@@ -107,38 +68,7 @@ function MainPage() {
       </nav>
 
       <div className="content-container">
-        <div className="side-bar">
-          <div>
-            미반납 물품
-            <ul>
-              {notRefund.map((item, index) => (
-                <li key={index}>{item.name}</li>
-              ))}
-            </ul>
-          </div>
-          <hr />
-          <div>
-            예약 물품
-            <ul>
-              {register.map((item, index) => (
-                <li key={index}>{item.name}</li>
-              ))}
-            </ul>
-          </div>
-          <hr />
-          <div>
-            최근 대여 물품
-            <ul>
-              {recent.map((item, index) => (
-                <li key={index}>
-                  {item.name} {item.quantity}개 
-                  <button className='btn' onClick={() => addToCart(item)}>담기</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <hr />
-        </div>
+        <Sidebar/>
         <div className="content">
           <div className="locker">
             <Locker />
