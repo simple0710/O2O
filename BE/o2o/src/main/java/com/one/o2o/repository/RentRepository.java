@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RentRepository  extends JpaRepository<Rent, Integer> {
     Page<Rent> findAllByUserId(int userId, Pageable pageable);
+    Page<Rent> findAllByUserIdAndIsReturnedIsFalse(int userId, Pageable pageable);
 }

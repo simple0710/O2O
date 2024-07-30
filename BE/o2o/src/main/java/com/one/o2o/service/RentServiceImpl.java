@@ -70,7 +70,7 @@ public class RentServiceImpl implements RentService {
     public Integer createRent(RentRequestDto rentRequestDto, User user) {
         // 트랜잭션 종료
         Integer rentId = createRentTransaction(rentRequestDto, user);
-//
+//        제대로 read 안되는 문제: 결국 해결 X
 //
 //        Optional<Rent> findRent = rentRepository.findById(rentId);
 //        Rent rent = findRent.orElseThrow(() -> new RentException.RentNotFoundException("대여가 정상적으로 저장되지 않았습니다"));
@@ -80,6 +80,35 @@ public class RentServiceImpl implements RentService {
 //        System.out.println("new [" + rentId + "] logs = " + logs);
 //        rent.setRentLogs(logs);
         return rentId;
+    }
+
+    public RentResponseDto readOngoingRentByUserId(int userId, int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
+        Page<Rent> listPage = rentRepository.findAllByUserIdAndIsReturnedIsFalse(userId, pageable);
+        List<Rent> rentList = listPage.getContent();
+        System.out.println("rentList = " + rentList);
+        RentResponseDto res = new RentResponseDto();
+        List<RentResponseSingleDto> rentDtoList = new ArrayList<>();
+        for (Rent rent : rentList) {
+            List<RentLog> rl = rent.getRentLogs();
+            rl.sort(Comparator.comparing(RentLog::getLogDt));
+            for (RentLog rentLog : rl) {
+                System.out.println("rentLog = " + rentLog);
+                rentLog.getProduct();
+                rentLog.getLocker();
+            }
+            RentResponseSingleDto dto = rentMapper.rentToRentListResponseDto(rent);
+            // 가장 마지막 기록을 updateDt으로 등록환다
+            dto.setUpdateDt(rl.get(rl.size()-1).getLogDt());
+            rentDtoList.add(dto);
+        }
+        res.setRents(rentDtoList);
+        List<Status> statusList = statusRepository.findAll();
+        res.setStatus(statusList.stream().collect(Collectors.toMap(Status::getStatusId, status -> status)));
+        res.setTotalRents(listPage.getTotalElements());
+        res.setTotalPg(listPage.getTotalPages());
+        res.setCurPg(pageNumber);
+        return res;
     }
 
 

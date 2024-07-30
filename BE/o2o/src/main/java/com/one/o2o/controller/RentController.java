@@ -35,4 +35,10 @@ public class RentController {
         map.put("rent_id", rentId);
         return new ResponseEntity<>(new Response(map), HttpStatus.OK);
     }
+
+    @GetMapping("/current")
+    public ResponseEntity<Response> readRentCurrent(@RequestParam int userId, int pg_no, int per_page) {
+        RentResponseDto rentResponseDto = rentService.readOngoingRentByUserId(userId, pg_no, per_page);
+        return new ResponseEntity<>(new Response(rentResponseDto), HttpStatus.OK);
+    }
 }

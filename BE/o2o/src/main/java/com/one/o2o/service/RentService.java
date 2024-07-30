@@ -14,4 +14,7 @@ public interface RentService {
 
     // 대여 실행
     public Integer createRent(RentRequestDto rentRequestDto, User user);
+
+    // 현재 대여 중인 거 조회
+    public RentResponseDto readOngoingRentByUserId(int userId, int pageNumber, int pageSize);
 }
