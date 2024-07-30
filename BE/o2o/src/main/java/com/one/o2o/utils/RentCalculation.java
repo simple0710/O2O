@@ -1,8 +1,11 @@
 package com.one.o2o.utils;
 
 import com.one.o2o.dto.rent.RentResponseSingleDto;
+import com.one.o2o.entity.RentLog;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RentCalculation {
@@ -35,6 +38,18 @@ public class RentCalculation {
             sum += sd.getProductCnt() * calMap.get(sd.getStatusId());
         }
         return sum * -1;
+    }
+
+
+    public static Map<Integer, Integer> getProductRentFromEntity(List<RentLog> logs)
+    {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(RentLog rl : logs){
+            int pid = rl.getNewProductId();
+            if(!map.containsKey(pid)) map.put(pid, 0);
+            map.put(pid, map.get(pid)+rl.getLogCnt() * calMap.get(rl.getStatusId()) * -1);
+        }
+        return map;
     }
 
     public static LocalDateTime getDueDateTime(LocalDateTime startDt){

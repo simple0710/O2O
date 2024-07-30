@@ -5,6 +5,7 @@ import com.one.o2o.dto.locker.LockerDto;
 import com.one.o2o.dto.rent.RentRequestDto;
 import com.one.o2o.dto.rent.RentResponseDto;
 import com.one.o2o.dto.rent.RentResponseSingleDto;
+import com.one.o2o.dto.rent.ReturnRequestDto;
 import com.one.o2o.entity.User;
 import com.one.o2o.service.RentService;
 import lombok.AllArgsConstructor;
@@ -25,20 +26,27 @@ public class RentController {
     @GetMapping("/history")
     public ResponseEntity<Response> readRentHistory(@RequestParam int userId, int pg_no, int per_page) {
         RentResponseDto rentResponseDto = rentService.readRentByUserId(userId, pg_no, per_page);
-        return new ResponseEntity<>(new Response(rentResponseDto), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "대여 조회 성공했습니다.", rentResponseDto), HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<Response> createRent(@RequestBody RentRequestDto rentRequestDto) {
-        Integer rentId = rentService.createRent(rentRequestDto, new User(4, ""));
+        Integer rentId = rentService.createRent(4, rentRequestDto);
         Map<String, Object> map = new HashMap<>();
         map.put("rent_id", rentId);
-        return new ResponseEntity<>(new Response(map), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "대여가 완료되었습니다.", map), HttpStatus.OK);
     }
 
     @GetMapping("/current")
     public ResponseEntity<Response> readRentCurrent(@RequestParam int userId, int pg_no, int per_page) {
         RentResponseDto rentResponseDto = rentService.readOngoingRentByUserId(userId, pg_no, per_page);
-        return new ResponseEntity<>(new Response(rentResponseDto), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "진행 중 대여를 조회 성공했습니다", rentResponseDto), HttpStatus.OK);
+    }
+
+    @PutMapping()
+    public ResponseEntity<Response> createReturn(@RequestBody ReturnRequestDto returnRequestDto) {
+        boolean flag = rentService.createReturn(4, returnRequestDto);
+        String msg = flag? "반납이 완료되었습니다.":"반납이 완료되지 않았습니다.";
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), msg), HttpStatus.OK);
     }
 }

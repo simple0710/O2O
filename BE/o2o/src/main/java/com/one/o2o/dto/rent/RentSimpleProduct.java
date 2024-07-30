@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class RentRequestDto {
-    private Integer reserveID;
-    private Integer lockerBodyId;
-    private List<RentSimpleProduct> products;
+public class RentSimpleProduct {
+    private int productId;
+    private int productCnt;
+    private int lockerId;
+    private int statusId;
 }

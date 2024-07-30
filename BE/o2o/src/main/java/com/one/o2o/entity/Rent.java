@@ -30,4 +30,8 @@ public class Rent {
 
     @OneToMany(mappedBy = "rent",  fetch = FetchType.LAZY)
     private List<RentLog> rentLogs;
+
+    public void updateReturned(boolean result){
+        this.isReturned = result;
+    }
 }

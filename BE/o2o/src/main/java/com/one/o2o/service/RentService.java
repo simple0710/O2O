@@ -3,6 +3,7 @@ package com.one.o2o.service;
 import com.one.o2o.dto.rent.RentRequestDto;
 import com.one.o2o.dto.rent.RentResponseDto;
 import com.one.o2o.dto.rent.RentResponseSingleDto;
+import com.one.o2o.dto.rent.ReturnRequestDto;
 import com.one.o2o.entity.Rent;
 import com.one.o2o.entity.User;
 
@@ -13,8 +14,11 @@ public interface RentService {
     public RentResponseDto readRentByUserId(int userId, int pageNumber, int pageSize);
 
     // 대여 실행
-    public Integer createRent(RentRequestDto rentRequestDto, User user);
+    public Integer createRent(int userId, RentRequestDto rentRequestDto);
 
-    // 현재 대여 중인 거 조회
+    // 현재 진행 중인 대여 조회
     public RentResponseDto readOngoingRentByUserId(int userId, int pageNumber, int pageSize);
+
+    // 반납 실행
+    public boolean createReturn(int userId, ReturnRequestDto returnRequestDto);
 }

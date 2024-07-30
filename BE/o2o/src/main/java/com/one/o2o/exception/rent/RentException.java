@@ -9,4 +9,13 @@ public class RentException {
             super(msg);
         }
     }
+
+    public static class InvalidReturnException extends RuntimeException {
+        public InvalidReturnException(){
+            super("적절하지 않은 반납 시도입니다.");
+        }
+        public InvalidReturnException(String msg){
+            super(msg);
+        }
+    }
 }
