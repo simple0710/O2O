@@ -1,3 +1,5 @@
+// UserList.js
+
 import React, { useState, useEffect } from 'react';
 import { Table, Pagination } from 'react-bootstrap';
 import Sidebar from './Sidebar';
@@ -21,7 +23,7 @@ const UserList = () => {
             username: rent.user_nm,
             itemName: product.product_name,
             quantity: product.product_cnt,
-            overdueDays: calculateOverdueDays(rent.due_dt),
+            overduePeriod: calculateOverduePeriod(rent.due_dt),
             dueDate: rent.due_dt
           })));
         setOverdueUsers(overdueItems);
@@ -31,15 +33,22 @@ const UserList = () => {
       });
   }, []);
 
-  const calculateOverdueDays = (dueDate) => {
+  const calculateOverduePeriod = (dueDate) => {
     const due = new Date(dueDate);
     const now = new Date();
     const timeDiff = now - due;
-    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-    return daysDiff;
+
+    const days = Math.floor(timeDiff / (1000 * 3600 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+    const minutes = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
+
+    return `${days}일 ${hours}시간 ${minutes}분`;
   };
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
+  const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -47,7 +56,7 @@ const UserList = () => {
   const totalPages = Math.ceil(overdueUsers.length / postsPerPage);
 
   return (
-    <div>
+    <div className="page-container">
       <AdminNav />
       <div className="content-container">
         <Sidebar />
@@ -71,25 +80,41 @@ const UserList = () => {
                   <td>{user.username}</td>
                   <td>{user.itemName}</td>
                   <td>{user.quantity}개</td>
-                  <td>{user.overdueDays}일</td>
+                  <td>{user.overduePeriod}</td>
                   <td>{user.dueDate}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
-
-          <Pagination>
-            {[...Array(totalPages)].map((_, pageIndex) => (
-              <Pagination.Item
-                key={pageIndex + 1}
-                active={pageIndex + 1 === currentPage}
-                onClick={() => handlePageChange(pageIndex + 1)}
-              >
-                {pageIndex + 1}
+          <div className="pagination-container">
+          <Pagination className='justify-content-center'>
+            <Pagination.First onClick={() => handlePageChange(1)} />
+            <Pagination.Prev onClick={handlePrevChunk} />
+            <Pagination.Item onClick={() => handlePageChange(1)}>{1}</Pagination.Item>
+            {currentPage > 3 && <Pagination.Ellipsis />}
+            {Array.from({ length: totalPages }, (_, index) => index + 1)
+              .slice(Math.max(currentPage - 3, 1), Math.min(currentPage + 2, totalPages - 1))
+              .map(pageNumber => (
+                <Pagination.Item
+                  key={pageNumber}
+                  active={pageNumber === currentPage}
+                  onClick={() => handlePageChange(pageNumber)}
+                >
+                  {pageNumber}
+                </Pagination.Item>
+              ))}
+            {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
+            {totalPages > 1 && (
+              <Pagination.Item onClick={() => handlePageChange(totalPages)}>
+                {totalPages}
               </Pagination.Item>
-            ))}
+            )}
+            <Pagination.Next onClick={handleNextChunk} />
+            <Pagination.Last onClick={() => handlePageChange(totalPages)} />
           </Pagination>
         </div>
+        </div>
+        
       </div>
     </div>
   );
