@@ -38,8 +38,9 @@
 
 .side-bar {
   display: sticky;
-  margin-left: 30px;
-  margin-top: 50px;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   flex-shrink: 0;
 }
 
