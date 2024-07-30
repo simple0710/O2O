@@ -1,3 +1,4 @@
+
 .responsive-table {
     width: 100%; 
     border-collapse: collapse; 
@@ -18,6 +19,33 @@
   
   .responsive-table {
     margin-top: 40px;
+  }
+
+  .locker-select {
+    margin-bottom: 30px; 
+  }
+
+  .locker-table {
     width: 100%;
-    height: 80%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  .locker-table th,
+  .locker-table td {
+    border: 1px solid #ccc;
+    width: 100px; 
+    height: 100px; 
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden; 
+    word-wrap: break-word; 
+  }
+  
+  .locker-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .locker-cell div {
+    margin: 5px 0;
   }
