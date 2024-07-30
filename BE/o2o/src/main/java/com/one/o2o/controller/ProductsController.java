@@ -9,13 +9,19 @@ import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
+
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
+@Slf4j
 public class ProductsController {
 
     private final ProductsManageService productsManageService;
@@ -64,5 +70,14 @@ public class ProductsController {
     @PutMapping("/report/process")
     private ResponseEntity<?> processProductsReport(@RequestBody ReportProcessDto reportProcessDto) {
         return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/overdue")
+    private ResponseEntity<?> findAllOverdue(
+            @RequestParam(name = "pg_no", defaultValue = "1") int pageNumber,
+            @RequestParam(name = "per_page", defaultValue = "10") int pageSize) {
+        log.info("pageNumber : " + pageNumber);
+        log.info("pageSize = " + pageSize);
+        return new ResponseEntity<>(productsManageService.findAllOverdueList(pageNumber, pageSize), HttpStatus.OK);
     }
 }

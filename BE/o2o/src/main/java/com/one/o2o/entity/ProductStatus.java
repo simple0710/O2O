@@ -17,5 +17,4 @@ public class ProductStatus {
     private Integer statusId;
     @Column
     private String statusNm;
-
 }
