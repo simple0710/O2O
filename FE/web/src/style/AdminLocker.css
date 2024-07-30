@@ -9,7 +9,6 @@
     table-layout: fixed;
   }
   
-  .locker-table th,
   .locker-table td {
     border: 1px solid #ccc;
     width: 100px; 
@@ -20,10 +19,7 @@
     word-wrap: break-word; 
   }
   
-  .locker-table th {
-    background-color: #f4f4f4;
-  }
-  
+
   .locker-cell div {
     margin: 5px 0;
   }

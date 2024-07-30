@@ -63,25 +63,27 @@ const Locker = () => {
 
     return (
       <table className="locker-table">
-        <tbody>
+        <tbody className="locker-body">
           {Array.from({ length: row }).map((_, rowIndex) => (
             <tr key={rowIndex}>
               {Array.from({ length: column }).map((_, colIndex) => (
                 <td
                   key={colIndex}
                   className="locker-cell"
-                  onClick={() => handleShow(table[rowIndex][colIndex])}
                 >
                   {table[rowIndex][colIndex] ? (
-                    <>
+                    <div className="rounded-content"  onClick={() => handleShow(table[rowIndex][colIndex])}>
                       <div>{table[rowIndex][colIndex].product_nm}</div>
                       <div>
                         ({table[rowIndex][colIndex].product_cnt}/
                         {table[rowIndex][colIndex].total_cnt})
                       </div>
-                    </>
+                    </div>
                   ) : (
-                    "none"
+                    <div className="rounded-content">
+                      <div>none</div>
+                      <div>0/0</div>
+                    </div>
                   )}
                 </td>
               ))}
