@@ -16,11 +16,11 @@ public interface LockerMapper {
 
     // Locker -> LockerDto 매핑
     @Named("LOCKER")
-    @Mapping(source="lockerBody.id", target="body_id")
-    @Mapping(source="locker.lockerId", target="locker_id")
-    @Mapping(source="locker._usable", target="_usable")
-    @Mapping(source="product.product_id", target="product_id")
-    @Mapping(source="product.product_nm", target="product_nm")
+    @Mapping(source="lockerBody.id", target="bodyId")
+    @Mapping(source="locker.lockerId", target="lockerId")
+//    @Mapping(source="locker.isUsable", target="isUsable")
+    @Mapping(source="product.productId", target="productId")
+    @Mapping(source="product.productNm", target="productNm")
     LockerDto lockerToLockerDto(Locker locker);
 
     @IterableMapping(qualifiedByName = "LOCKER")

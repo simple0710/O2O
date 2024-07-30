@@ -39,11 +39,11 @@ public class ProductsReportDto {
 
     public ProductsReportDto(ProductsReport productsReport) {
         this.rptId = productsReport.getRptId();
-        this.productId = productsReport.getProduct().getProduct_id();
+        this.productId = productsReport.getProduct().getProductId();
         this.lockerId = productsReport.getLocker().getLockerId();
         this.bodyId = productsReport.getLocker().getLockerBody().getId();
-        this.col = productsReport.getLocker().getLocker_column();
-        this.row = productsReport.getLocker().getLocker_row();
+        this.col = productsReport.getLocker().getLockerColumn();
+        this.row = productsReport.getLocker().getLockerRow();
         this.lockerLoc = productsReport.getLocker().getLockerBody().getLocker_body_name();
         this.userNm = productsReport.getUser().getUserNm();
         this.productCnt = productsReport.getProductCnt();

@@ -15,12 +15,14 @@ public class Locker {
     private int lockerId;
 
     @Column(name="column")
-    private int locker_column;
+    private int lockerColumn;
     @Column(name="row")
-    private int locker_row;
-    private boolean is_usable;
-    private int product_cnt;
-    private int total_cnt;
+    private int lockerRow;
+//    @Column(name = "is_usable")
+    @Column
+    private boolean isUsable;
+    private int productCnt;
+    private int totalCnt;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="product_id")
@@ -31,9 +33,9 @@ public class Locker {
     private LockerBody lockerBody;
 
     public void updateTotal_cnt(int cnt){
-        this.total_cnt = cnt;
+        this.totalCnt = cnt;
     }
     public void updateProduct_cnt(int cnt){
-        this.product_cnt = cnt;
+        this.productCnt = cnt;
     }
 }
