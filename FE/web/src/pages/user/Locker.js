@@ -67,12 +67,12 @@ const Locker = () => {
           {Array.from({ length: row }).map((_, rowIndex) => (
             <tr key={rowIndex}>
               {Array.from({ length: column }).map((_, colIndex) => (
-                <td
-                  key={colIndex}
-                  className="locker-cell"
-                >
+                <td key={colIndex} className="locker-cell">
                   {table[rowIndex][colIndex] ? (
-                    <div className="rounded-content"  onClick={() => handleShow(table[rowIndex][colIndex])}>
+                    <div
+                      className="rounded-content"
+                      onClick={() => handleShow(table[rowIndex][colIndex])}
+                    >
                       <div>{table[rowIndex][colIndex].product_nm}</div>
                       <div>
                         ({table[rowIndex][colIndex].product_cnt}/
