@@ -18,7 +18,8 @@ public class LockerBody {
     private int lockerBodyId;
     @Column(name="body_location")
     private String lockerBodyName;
-
+    @Column(name="column", columnDefinition = "TINYINT(1)")
     private int column;
+    @Column(name="row", columnDefinition = "TINYINT(1)")
     private int row;
 }

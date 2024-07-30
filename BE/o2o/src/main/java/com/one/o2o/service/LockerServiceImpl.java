@@ -4,7 +4,7 @@ import com.one.o2o.dto.locker.LockerDto;
 import com.one.o2o.dto.locker.LockerUpdateDto;
 import com.one.o2o.entity.Locker;
 import com.one.o2o.entity.LockerBody;
-import com.one.o2o.exception.LockerException;
+import com.one.o2o.exception.locker.LockerException;
 import com.one.o2o.mapper.LockerMapper;
 import com.one.o2o.repository.LockerBodyRepository;
 import com.one.o2o.repository.LockerRepository;

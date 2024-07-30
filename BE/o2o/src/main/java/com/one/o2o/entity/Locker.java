@@ -13,13 +13,15 @@ public class Locker {
     @Id
     @Column(name="locker_id")
     private int lockerId;
-    @Column(name="column")
+    @Column(name="column", columnDefinition = "TINYINT(1)")
     private int lockerColumn;
-    @Column(name="row")
+    @Column(name="row", columnDefinition = "TINYINT(1)")
     private int lockerRow;
     @Column(name="is_usable")
     private boolean isUsable;
+    @Column(name="product_cnt", columnDefinition = "SMALLINT")
     private int productCnt;
+    @Column(name="total_cnt", columnDefinition = "SMALLINT")
     private int totalCnt;
 
     @ManyToOne(fetch=FetchType.LAZY)

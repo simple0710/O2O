@@ -1,6 +1,7 @@
 package com.one.o2o.mapper;
 
 import com.one.o2o.dto.rent.RentResponseDto;
+import com.one.o2o.dto.rent.RentResponseSingleDto;
 import com.one.o2o.entity.*;
 import com.one.o2o.utils.RentCalculation;
 import org.mapstruct.IterableMapping;
@@ -9,7 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,42 +25,42 @@ public interface RentMapper {
     @Mapping(source = "dueDt", target = "dueDt")
     @Mapping(source = "returned", target = "ended")
     @Mapping(source = "rentLogs", target = "products", qualifiedByName = "logsToproducts")
-    @Mapping(target="updateAt", ignore = true)
-    RentResponseDto.RentListResponseDto rentToRentListResponseDto(Rent rent);
+    @Mapping(target="updateDt", ignore = true)
+    RentResponseSingleDto rentToRentListResponseDto(Rent rent);
 
     @IterableMapping(qualifiedByName = "RENT")
-    List<RentResponseDto.RentListResponseDto> rentsToRentListResponseDtos(List<Rent> rent);
+    List<RentResponseSingleDto> rentsToRentListResponseDtos(List<Rent> rent);
 
     @Named("logsToproducts")
-    default Map<Integer, RentResponseDto.RentListResponseDto.RentProductDto> rentLogsToRentProductDtos(List<RentLog> rentLogs) {
-        Map<Integer, RentResponseDto.RentListResponseDto.RentProductDto> map = new HashMap<>();
-
+    default Map<Integer, RentResponseSingleDto.RentResponseProductDto> rentLogsToRentProductDtos(List<RentLog> rentLogs) {
+        Map<Integer, RentResponseSingleDto.RentResponseProductDto> map = new HashMap<>();
+        if(rentLogs == null) return map;
         for(RentLog rl : rentLogs){
             Product product = rl.getProduct();
             Locker locker = rl.getLocker();
-            RentResponseDto.RentListResponseDto.RentProductDto rentProductDto = map.getOrDefault(product.getProductId(), new RentResponseDto.RentListResponseDto.RentProductDto());
+            RentResponseSingleDto.RentResponseProductDto rentResponseProductDto = map.getOrDefault(product.getProductId(), new RentResponseSingleDto.RentResponseProductDto());
             int statusId = rl.getStatusId();
             if(!map.containsKey(product.getProductId())){ // 새로 물품 정보 등록
-                rentProductDto.setProductId(product.getProductId());
-                rentProductDto.setProductName(product.getProductNm());
-                rentProductDto.setLockerBody(locker.getBody().getLockerBodyName());
-                rentProductDto.setLockerLoc(locker.getLockerRow()+"단 "+locker.getLockerColumn()+"연");
-                rentProductDto.setProductCnt(rl.getLogCnt());
-                map.put(product.getProductId(), rentProductDto);
+                rentResponseProductDto.setProductId(product.getProductId());
+                rentResponseProductDto.setProductName(product.getProductNm());
+                rentResponseProductDto.setLockerBody(locker.getBody().getLockerBodyName());
+                rentResponseProductDto.setLockerLoc(locker.getLockerRow()+"단 "+locker.getLockerColumn()+"연");
+                rentResponseProductDto.setProductCnt(rl.getLogCnt());
+                map.put(product.getProductId(), rentResponseProductDto);
             }
-            if(rentProductDto.getStatus() == null) rentProductDto.setStatus(new HashMap<>());
+            if(rentResponseProductDto.getStatus() == null) rentResponseProductDto.setStatus(new HashMap<>());
             // 상태별로 데이터 삽입
-            Map<Integer, RentResponseDto.RentListResponseDto.RentProductDto.StatusDto> statusMap = rentProductDto.getStatus();
+            Map<Integer, RentResponseSingleDto.RentResponseProductDto.StatusDto> statusMap = rentResponseProductDto.getStatus();
             if(statusMap.containsKey(statusId)){
                 statusMap.get(statusId).setProductCnt(statusMap.get(statusId).getProductCnt()+rl.getLogCnt());
             } else {
-                statusMap.put(statusId, statusMap.getOrDefault(statusId, new RentResponseDto.RentListResponseDto.RentProductDto.StatusDto(statusId, rl.getLogCnt())));
+                statusMap.put(statusId, statusMap.getOrDefault(statusId, new RentResponseSingleDto.RentResponseProductDto.StatusDto(statusId, rl.getLogCnt())));
             }
 
         }
-        for(RentResponseDto.RentListResponseDto.RentProductDto rpd : map.values()){
+        for(RentResponseSingleDto.RentResponseProductDto rpd : map.values()){
             rpd.setProductCnt(RentCalculation.getProductSum(rpd.getStatus()));
-            rpd.getStatus().get(RentCalculation.getBorrowCode()).setProductCnt(RentCalculation.getProductRent(rpd.getStatus()));
+            rpd.getStatus().get(RentCalculation._borrow).setProductCnt(RentCalculation.getProductRent(rpd.getStatus()));
         }
 
         return map;

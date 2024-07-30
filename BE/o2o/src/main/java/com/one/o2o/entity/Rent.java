@@ -17,6 +17,7 @@ import java.util.List;
 @Setter
 public class Rent {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="rent_id")
     private Integer id;
     private int userId;
@@ -27,8 +28,6 @@ public class Rent {
 
     private boolean isReturned;
 
-    @OneToMany(mappedBy = "rentId",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "rent",  fetch = FetchType.LAZY)
     private List<RentLog> rentLogs;
-
-
 }

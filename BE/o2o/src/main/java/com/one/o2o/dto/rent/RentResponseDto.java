@@ -14,42 +14,10 @@ import java.util.Map;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RentResponseDto {
-    private List<RentListResponseDto> rents;
+    private List<RentResponseSingleDto> rents;
     private Map<Integer, Status> status;
     private int curPg;
     private int totalPg;
     private long totalRents;
-
-    @Data
-    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public static class RentListResponseDto {
-        private int rentId;
-        private LocalDateTime rentDt;
-        private LocalDateTime dueDt;
-        private LocalDateTime updateAt;
-        @JsonProperty("is_ended")
-        private boolean isEnded;
-        private Map<Integer, RentProductDto> products;
-
-
-        @Data
-        @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-        public static class RentProductDto {
-            private int productId;
-            private String productName;
-            private String lockerBody;
-            private String lockerLoc;
-            private int productCnt;
-            private Map<Integer, StatusDto> status;
-
-            @Data
-            @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-            @AllArgsConstructor
-            public static class StatusDto {
-                private Integer statusId;
-                private int productCnt;
-            }
-        }
-    }
 }
 
