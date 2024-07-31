@@ -81,9 +81,9 @@ function MainPage() {
         <div className="content">
           <Locker />
 
-          <div className="cart">
+          {/* <div className="cart">
             <Cart />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
