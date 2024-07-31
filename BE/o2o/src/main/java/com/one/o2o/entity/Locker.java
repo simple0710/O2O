@@ -28,9 +28,9 @@ public class Locker {
     @JoinColumn(name="product_id")
     public Product product;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="body_id")
-//    private LockerBody body;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="body_id")
+    private LockerBody body;
 
     public void updateTotalCnt(int cnt){
         this.totalCnt = cnt;
