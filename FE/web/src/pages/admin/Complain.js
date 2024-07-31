@@ -104,7 +104,7 @@ const Request = () => {
             </Button>
           </h3>
 
-          <Table striped bordered hover className="mt-4">
+          <Table>
             <thead>
               <tr>
                 <th></th>

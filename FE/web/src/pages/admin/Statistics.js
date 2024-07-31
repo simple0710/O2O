@@ -8,6 +8,7 @@ import Rent from './Rent';
 import Usage from './Usage';
 import '../../style/Statistics.css';
 
+
 const Statistics = () => {
   const [chartData, setChartData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

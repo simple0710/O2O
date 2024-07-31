@@ -9,7 +9,6 @@ function AdminMainpage() {
   return (
     <div>
       <AdminNav />
-
       <div className="content-container">
           <Sidebar />
           <div className="content">

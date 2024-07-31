@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form, Table, Pagination } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
-import '../../style/Request.css'; 
+import '../../style/Request.css';  
 
 const Request = () => {
   const [showModal, setShowModal] = useState(false);
@@ -96,7 +96,7 @@ const Request = () => {
             </Button>
           </h3>
 
-          <Table striped bordered hover className="mt-4">
+          <Table>
             <thead>
               <tr>
                 <th></th>

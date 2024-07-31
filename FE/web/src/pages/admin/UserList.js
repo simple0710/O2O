@@ -1,5 +1,3 @@
-// UserList.js
-
 import React, { useState, useEffect } from 'react';
 import { Table, Pagination } from 'react-bootstrap';
 import Sidebar from './Sidebar';
@@ -7,6 +5,7 @@ import AdminNav from './AdminNav';
 import '../../style/UserList.css';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const UserList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,7 +61,7 @@ const UserList = () => {
         <Sidebar />
         <div className="content">
           <h3>연체 이용자 리스트 관리</h3>
-          <Table striped bordered hover className="mt-4">
+          <Table>
             <thead>
               <tr>
                 <th>No.</th>
