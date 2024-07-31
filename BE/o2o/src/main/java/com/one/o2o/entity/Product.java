@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -14,9 +15,11 @@ import java.util.Date;
 @Setter
 public class Product {
     @Id
-    private int product_id;
-    private String product_nm;
-    private String product_img;
-    private String product_det;
-    private int user_id;
+    private int productId;
+    private String productNm;
+    private String productImg;
+    private String productDet;
+    private LocalDateTime registDt;
+    private int userId;
+
 }

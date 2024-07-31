@@ -65,7 +65,7 @@ public class ProductsReport {
         this.productStatus.setStatusId(userReportDto.getStatusId());
 
         this.product = new Product();
-        this.product.setProduct_id(userReportDto.getProductId());
+        this.product.setProductId(userReportDto.getProductId());
         this.productCnt = userReportDto.getProductCnt();
         // 사물함 정보 저장
         this.locker = new Locker();
