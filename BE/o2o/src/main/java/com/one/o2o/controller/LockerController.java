@@ -1,9 +1,8 @@
 package com.one.o2o.controller;
 
-import com.one.o2o.dto.LockerDto;
-import com.one.o2o.dto.LockerListDto;
-import com.one.o2o.dto.LockerUpdateDto;
-import com.one.o2o.entity.Locker;
+import com.one.o2o.dto.locker.LockerDto;
+import com.one.o2o.dto.locker.LockerUpdateDto;
+import com.one.o2o.dto.common.Response;
 import com.one.o2o.entity.LockerBody;
 import com.one.o2o.mapper.LockerMapper;
 import com.one.o2o.service.LockerService;
@@ -23,35 +22,29 @@ public class LockerController {
 
 
     @GetMapping()
-    public ResponseEntity<LockerListDto> readLockerList(@RequestParam int locker_body_id){
-        LockerBody body = lockerService.readLockerBodyById(locker_body_id);
+    public ResponseEntity<Response> readLockerList(@RequestParam int locker_body_id){
         List<LockerDto> list = lockerService.readLockerByBodyId(locker_body_id);
-        LockerListDto dto = new LockerListDto();
-        dto.setBody_location(body.getLocker_body_name());
-        dto.setRow(body.getRow());
-        dto.setColumn(body.getColumn());
-        dto.setLockers(list);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(list), HttpStatus.OK);
     }
 
 
     @GetMapping("/locker")
-    public ResponseEntity<LockerDto> readLocker(@RequestParam int locker_id){
+    public ResponseEntity<Response> readLocker(@RequestParam int locker_id){
         LockerDto lockerDto = lockerService.readLockerByLockerId(locker_id);
-        return new ResponseEntity<>(lockerDto, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(lockerDto), HttpStatus.OK);
     }
 
     @PutMapping("/locker")
-    public ResponseEntity<LockerDto> updateLocker(@RequestBody LockerUpdateDto lockerUpdateDto){
+    public ResponseEntity<Response> updateLocker(@RequestBody LockerUpdateDto lockerUpdateDto){
         LockerDto lockerDto = lockerService.updateLockerProductCount(lockerUpdateDto);
-        return new ResponseEntity<>(lockerDto, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(lockerDto), HttpStatus.OK);
     }
 
 
     @GetMapping("/names")
-    public ResponseEntity<List<LockerBody>> readLockerBodyList(){
+    public ResponseEntity<Response> readLockerBodyList(){
         List<LockerBody> list = lockerService.readLockerBodyList();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(list), HttpStatus.OK);
     }
 
 

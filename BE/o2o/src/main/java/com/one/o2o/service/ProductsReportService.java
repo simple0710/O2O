@@ -1,11 +1,11 @@
 package com.one.o2o.service;
 
-import com.one.o2o.dto.Response;
 import com.one.o2o.dto.PageInfoDto;
-import com.one.o2o.dto.products.report.ProductsReportDto;
-import com.one.o2o.dto.products.report.ReportProcessDto;
-import com.one.o2o.dto.products.report.UsersReportDto;
-import com.one.o2o.entity.products.report.ProductsReport;
+import com.one.o2o.dto.common.Response;
+import com.one.o2o.dto.productsreport.ProductsReportDto;
+import com.one.o2o.dto.productsreport.ReportProcessDto;
+import com.one.o2o.dto.productsreport.UsersReportDto;
+import com.one.o2o.entity.productsreport.ProductsReport;
 import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.ProductsReportRepository;
 import jakarta.transaction.Transactional;

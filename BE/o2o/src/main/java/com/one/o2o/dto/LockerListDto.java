@@ -1,5 +1,6 @@
 package com.one.o2o.dto;
 
+import com.one.o2o.dto.locker.LockerDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
