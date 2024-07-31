@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface LockerRepository  extends JpaRepository<Locker, Integer> {
-    List<Locker> findByLockerBody_Id(int body_id);
+    List<Locker> findByBody_LockerBodyId(int body_id);
     Optional<Locker> findByLockerId(int locker_id);
+    Optional<Locker> findByLockerIdAndProduct_ProductId(int locker_id, int product_id);
 }
