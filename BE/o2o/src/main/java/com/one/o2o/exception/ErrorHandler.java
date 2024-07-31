@@ -30,4 +30,14 @@ public class ErrorHandler {
                         .message(e.getMessage())
                         .build());
     }
+
+    @ExceptionHandler(GeneralException.class)
+    public ResponseEntity<Response> GeneralException(RuntimeException e){
+        log.error("ErrorHandler.GeneralException");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Response.builder()
+                        .message(e.getMessage())
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .build());
+    }
 }
