@@ -20,7 +20,6 @@ public class Product {
     private String productImg;
     private String productDet;
     private LocalDateTime registDt;
-    private int userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")

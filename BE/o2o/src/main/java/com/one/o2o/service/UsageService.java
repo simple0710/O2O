@@ -1,6 +1,6 @@
 package com.one.o2o.service;
 
-import com.one.o2o.dto.Response;
+import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.usage.ProductsRetentionRateDto;
 import com.one.o2o.entity.Product;
 import com.one.o2o.repository.ProductsUsageRepository;
