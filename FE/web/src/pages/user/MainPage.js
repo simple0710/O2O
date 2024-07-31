@@ -1,26 +1,85 @@
-import React, {useState} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Button, Dropdown, Modal, Form } from 'react-bootstrap';
+import { Nav, Button, Dropdown } from 'react-bootstrap';
 import '../../style/MainPageApp.css'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Locker from './Locker';
 import Cart from './Cart';
-import { CartProvider } from './CartContext';
-
-
+import Modals from './Modals';
+import { CartProvider, CartContext } from './CartContext';
+import Swal from 'sweetalert2';
 
 function MainPage() {
-  const navigate = useNavigate();
+  const { cart, setCart } = useContext(CartContext);
+  const [show, setShow] = useState(false);
+  const [modalCloseConfirmed, setModalCloseConfirmed] = useState(false);
 
-  const gotoMain = () => {
-    navigate('/mainpage'); 
+  const handleShow = () => {
+    setShow(true);
+    document.body.style.overflow = 'hidden'; // 모달 팝업시 배경 움직이지 않도록
+  };
+  
+  // 확인 버튼 클릭 시만 SweetAlert를 트리거
+  const handleClose = (confirmed) => {
+    setShow(false);
+    document.body.style.overflow = 'hidden';
+    if (confirmed) {
+      setModalCloseConfirmed(true);
+    }
   };
 
-  const [show, setShow] = useState(false);
+  useEffect(() => {
+    if (modalCloseConfirmed) {
+      Swal.fire({
+        title: "요청이 접수되었습니다.",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "확인",
+      });
+      setModalCloseConfirmed(false); // Reset after showing the alert
+    }
+  }, [modalCloseConfirmed]);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const notRefund = [
+    { name: "가위", quantity: 4 },
+    { name: "풀", quantity: 5 },
+  ];
+
+  const register = [
+    { name: "풀", quantity: 5 },
+    { name: "잉크", quantity: 5 }
+  ];
+
+  const recent = [
+    { name: "가위", quantity: 4 },
+    { name: "잉크", quantity: 5 }
+  ];
+
+  const addToCart = (item) => {
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.name === item.name);
+    const existingQuantity = existingItemIndex >= 0 ? cart[existingItemIndex].quantity : 0;
+    const totalQuantity = existingQuantity + item.quantity;
+
+    if (totalQuantity > item.quantity) {
+      Swal.fire({
+        title: "재고가 부족합니다.",
+        text: "장바구니에 물품이 있는지 확인해주세요.",
+        icon: "warning",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "확인",
+      });
+    } else {
+      if (existingItemIndex >= 0) {
+        const updatedCart = cart.map((cartItem, index) =>
+          index === existingItemIndex ? { ...cartItem, quantity: totalQuantity } : cartItem
+        );
+        setCart(updatedCart);
+      } else {
+        setCart(prevCart => [...prevCart, { ...item, quantity: totalQuantity }]);
+      }
+    }
+  };
 
   return (
     <div>
@@ -28,50 +87,15 @@ function MainPage() {
         <Nav className="navbar-left">
           <Nav.Link href="/mainpage">O<span className="highlight">2</span>O</Nav.Link>
         </Nav>
-        <Button variant="danger" onClick={handleShow}>
-          요청
-        </Button>
-
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>물품 요청하기</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-
-          <Form.Group className="mb-3" controlId="formGridAddress1">
-            <Form.Label>물품 명</Form.Label>
-            <Form.Control placeholder="요청 물품 명을 적어주세요." />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formGridAddress2">
-            <Form.Label>신청 사유</Form.Label>
-            <Form.Control placeholder="물품 신청 사유를 적어주세요." />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formGridAddress2">
-            <Form.Label>물품 링크</Form.Label>
-            <Form.Control placeholder="물품 신청 사유를 적어주세요." />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formGridAddress2">
-            <Form.Label>물품 개수</Form.Label>
-            <Form.Control placeholder="물건 개수를 입력해주세요.(숫자만 입력해주세요)" />
-          </Form.Group>
-            
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              확인
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-              취소
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
+        <div className="text-center"> {/* 중앙 정렬을 위한 div 추가 */}
+          <Button variant="danger" onClick={handleShow}>
+            요청
+          </Button>
+        </div>
+        <Modals show={show} handleClose={handleClose} />
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
-          <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
+            <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
             홍길동 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -82,48 +106,49 @@ function MainPage() {
       </nav>
 
       <div className="content-container">
-          <div className="side-bar">
-            <div>
-              미반납 물품
-              <ul>
-                <li>가위</li>
-                <li>풀</li>
-              </ul>
-            </div>
-            <hr></hr>
-            <div>
-              예약 물품
-              <ul>
-                <li>가위</li>
-                <li>풀</li>
-              </ul>
-            </div>
-            <hr></hr>
-            <div>
-              최근 대여 물품
-              <ul>
-                <li>가위 <button className='btn'>담기</button></li> 
-                <li>풀 <button className='btn'>담기</button></li>
-              </ul>
-            </div>
-            <hr></hr>
+        <div className="side-bar">
+          <div>
+            미반납 물품
+            <ul>
+              {notRefund.map((item, index) => (
+                <li key={index}>{item.name}</li>
+              ))}
+            </ul>
           </div>
-          <div className="content">
-            <CartProvider>
-            <div className="locker">
-              <Locker />
-            </div>
-            <div className="cart">
-              <Cart />
-            </div>
-            </CartProvider>
+          <hr />
+          <div>
+            예약 물품
+            <ul>
+              {register.map((item, index) => (
+                <li key={index}>{item.name}</li>
+              ))}
+            </ul>
           </div>
+          <hr />
+          <div>
+            최근 대여 물품
+            <ul>
+              {recent.map((item, index) => (
+                <li key={index}>
+                  {item.name} {item.quantity}개 
+                  <button className='btn' onClick={() => addToCart(item)}>담기</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <hr />
+        </div>
+        <div className="content">
+          <div className="locker">
+            <Locker />
+          </div>
+          <div className="cart">
+            <Cart />
+          </div>
+        </div>
       </div>
-    
     </div>
   );
 }
 
 export default MainPage;
-
-

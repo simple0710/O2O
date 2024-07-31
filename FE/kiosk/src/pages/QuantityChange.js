@@ -51,14 +51,14 @@ const ItemRegistration = () => {
      
       
       <Box className="quantity-controls" mt={2} display="flex" alignItems="center" justifyContent="center">
-        <IconButton onClick={handleIncrease}>
-          <Add />
+        <IconButton onClick={handleDecrease}>
+        <Remove />
         </IconButton>
         <Typography variant="h6" component="span" mx={2}>
           {quantity}
         </Typography>
-        <IconButton onClick={handleDecrease}>
-          <Remove />
+        <IconButton onClick={handleIncrease}>
+          <Add />
         </IconButton>
       </Box>
       

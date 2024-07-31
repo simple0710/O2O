@@ -1,16 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Locker.css';
+import '../styles/BrokenLocker.css';
 
 const Locker = () => {
   const navigate = useNavigate();
 
   const back = () => {
-    navigate('/');
+    navigate('/Locker');
   };
 
-  const borrowfinish  = () => {
-    navigate('/BorrowFinish')
+  const brokenfinish = () => {
+    navigate('/BrokenFinish')
   }
 
   return (
@@ -18,19 +18,19 @@ const Locker = () => {
     <div className="locker-container">
       <button className="btn btn-primary btn-sm mr-2 back-button" onClick={back}>뒤로가기</button>
       <div className="locker-header">
-        표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
+        표시된 파손함에<br /> 파손 물품을 넣어주세요 <br /> <br />
       </div>
+      
       <div className="locker highlight" style={{ top: '40%' }} />
-      <div className="locker" style={{ top: '20%', left: '25%' }} />
-      <div className="locker" style={{ top: '20%', left: '50%', backgroundColor: 'red' }} onClick={borrowfinish}/>
+      <div className="locker" style={{ top: '20%', left: '25%'}} />
+      <div className="locker" style={{ top: '20%', left: '50%' }} />
       <div className="locker" style={{ top: '20%', left: '75%' }} />
       <div className="locker" style={{ top: '60%', left: '25%' }} />
       <div className="locker" style={{ top: '60%', left: '50%' }} />
-      <div className="locker" style={{ top: '60%', left: '75%' }} />
+      <div className="locker" style={{ top: '60%', left: '75%' , backgroundColor: 'pink'  }} onClick={brokenfinish}/>
       <div className="locker" style={{ top: '40%', left: '25%' }} />
-      <div className="locker" style={{ top: '40%', left: '75%' }} />
+      <div className="locker" style={{ top: '40%', left: '75%', }} />
     </div>
-      
     </div>
   );
 };

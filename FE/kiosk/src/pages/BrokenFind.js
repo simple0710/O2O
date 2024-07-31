@@ -51,18 +51,18 @@ function BrokenFind() {
               <span className="item-name">{item.name}</span>
             </div>
             <div className="item-controls">
-              <div className="control">
-                <span>파손</span>
-                <button onClick={() => decreaseQuantity(item.id, 'broken')}>-</button>
-                <span>{quantities[item.id].broken}</span>
-                <button onClick={() => increaseQuantity(item.id, 'broken')}>+</button>
-              </div>
-              <div className="control">
-                <span>분실</span>
-                <button onClick={() => decreaseQuantity(item.id, 'missing')}>-</button>
-                <span>{quantities[item.id].missing}</span>
-                <button onClick={() => increaseQuantity(item.id, 'missing')}>+</button>
-              </div>
+            <div className="control">
+              <span className="preserve-horizontal-text">파손</span>
+              <button className="btn btn-sm mx-1" onClick={() => decreaseQuantity(item.id, 'broken')}>-</button>
+              <span className="mx-1">{quantities[item.id].broken}</span>
+              <button className="btn btn-sm mx-1" onClick={() => increaseQuantity(item.id, 'broken')}>+</button>
+            </div>
+            <div className="control">
+              <span className="preserve-horizontal-text">분실</span>
+              <button className="btn btn-sm mx-1" onClick={() => decreaseQuantity(item.id, 'missing')}>-</button>
+              <span className="mx-1">{quantities[item.id].missing}</span>
+              <button className="btn btn-sm mx-1" onClick={() => increaseQuantity(item.id, 'missing')}>+</button>
+            </div>
             </div>
           </div>
         ))}
