@@ -81,6 +81,9 @@ const Request = () => {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
+  const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
+  const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
+
   return (
     <div>
       <AdminNav />
@@ -125,17 +128,33 @@ const Request = () => {
           </Table>
 
           
-          <Pagination>
-            {[...Array(totalPages)].map((_, pageIndex) => (
-              <Pagination.Item
-                key={pageIndex + 1}
-                active={pageIndex + 1 === currentPage}
-                onClick={() => handlePageChange(pageIndex + 1)}
-              >
-                {pageIndex + 1}
+          <div className="pagination-container">
+          <Pagination className='justify-content-center'>
+            <Pagination.First onClick={() => handlePageChange(1)} />
+            <Pagination.Prev onClick={handlePrevChunk} />
+            <Pagination.Item onClick={() => handlePageChange(1)}>{1}</Pagination.Item>
+            {currentPage > 3 && <Pagination.Ellipsis />}
+            {Array.from({ length: totalPages }, (_, index) => index + 1)
+              .slice(Math.max(currentPage - 3, 1), Math.min(currentPage + 2, totalPages - 1))
+              .map(pageNumber => (
+                <Pagination.Item
+                  key={pageNumber}
+                  active={pageNumber === currentPage}
+                  onClick={() => handlePageChange(pageNumber)}
+                >
+                  {pageNumber}
+                </Pagination.Item>
+              ))}
+            {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
+            {totalPages > 1 && (
+              <Pagination.Item onClick={() => handlePageChange(totalPages)}>
+                {totalPages}
               </Pagination.Item>
-            ))}
+            )}
+            <Pagination.Next onClick={handleNextChunk} />
+            <Pagination.Last onClick={() => handlePageChange(totalPages)} />
           </Pagination>
+        </div>
 
           <div className="mt-3">
             <Button
