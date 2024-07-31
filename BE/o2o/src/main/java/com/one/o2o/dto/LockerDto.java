@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @ToString
 public class LockerDto {
-    private int lockerId;
+    private int locker_id;
     private int product_id;
     private String product_nm;
     private int body_id;
@@ -20,4 +20,5 @@ public class LockerDto {
     private boolean is_usable;
     private int product_cnt;
     private int total_cnt;
+
 }

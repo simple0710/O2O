@@ -24,7 +24,7 @@ public class ProductsReportDto {
     private Integer productId;
     private Integer bodyId;
     private Integer lockerId;
-//    private String lockerBody;
+    //    private String lockerBody;
     private String lockerLoc;
     private String userNm;
     private Integer productCnt;
@@ -41,10 +41,10 @@ public class ProductsReportDto {
         this.rptId = productsReport.getRptId();
         this.productId = productsReport.getProduct().getProductId();
         this.lockerId = productsReport.getLocker().getLockerId();
-        this.bodyId = productsReport.getLocker().getLockerBody().getId();
+        this.bodyId = productsReport.getLocker().getBody().getLockerBodyId();
         this.col = productsReport.getLocker().getLockerColumn();
         this.row = productsReport.getLocker().getLockerRow();
-        this.lockerLoc = productsReport.getLocker().getLockerBody().getLocker_body_name();
+        this.lockerLoc = productsReport.getLocker().getBody().getLockerBodyName();
         this.userNm = productsReport.getUser().getUserNm();
         this.productCnt = productsReport.getProductCnt();
         this.rptContent = productsReport.getRptContent();

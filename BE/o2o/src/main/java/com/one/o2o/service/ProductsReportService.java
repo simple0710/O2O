@@ -1,7 +1,7 @@
 package com.one.o2o.service;
 
-import com.one.o2o.dto.Response;
 import com.one.o2o.dto.PageInfoDto;
+import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.productsreport.ProductsReportDto;
 import com.one.o2o.dto.productsreport.ReportProcessDto;
 import com.one.o2o.dto.productsreport.UsersReportDto;
