@@ -1,9 +1,6 @@
 package com.one.o2o.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,11 +17,23 @@ public class ReserveDet {
     private Integer detId;
     private Integer reserveId;
     private Integer userId;
-    private Integer productId;
-    private Integer lockerId;
+    @Column(name="product_id")
+    private Integer newProductId;
+    @Column(name="locker_id")
+    private Integer newLockerId;
     @Column(name="status_id", columnDefinition = "TINYINT(1)")
     private Integer statusId;
     @Column(name="det_cnt", columnDefinition = "SMALLINT")
     private Integer detCnt;
     private LocalDateTime logDt;
+
+
+    // join
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="locker_id", insertable=false, updatable=false)
+    private Locker locker;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="product_id", insertable=false, updatable=false)
+    private Product product;
 }

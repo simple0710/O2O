@@ -1,14 +1,12 @@
 package com.one.o2o.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @Getter @Setter
 @Data
+@Builder
 public class PageInfoDto {
     @JsonProperty("cur_pg")
     private Integer curPg;

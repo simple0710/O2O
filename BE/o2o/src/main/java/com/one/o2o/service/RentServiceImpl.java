@@ -57,7 +57,7 @@ public class RentServiceImpl implements RentService {
         res.setStatus(statusList.stream().collect(Collectors.toMap(Status::getStatusId, status -> status)));
         res.setTotalRents(listPage.getTotalElements());
         res.setTotalPg(listPage.getTotalPages());
-        res.setCurPg(pageNumber);
+        res.setCurPg(listPage.getNumber() + 1);
         return res;
     }
 
