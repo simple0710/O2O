@@ -24,3 +24,19 @@
     margin: 5px 0;
   }
   
+
+  /* 모서리가 둥근 div 스타일 추가 */
+.rounded-content {
+  border-radius: 10px; /* 원하는 둥근 모서리 크기 설정 */
+  background-color: #f8f9fa; /* 배경색 설정, 필요에 따라 변경 */
+  padding: 10px; /* 내부 여백 설정 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 추가, 필요에 따라 변경 */
+}
+
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}

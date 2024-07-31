@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Table, Pagination } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import '../../style/Request.css';  
+
+
 
 const Request = () => {
   const [showModal, setShowModal] = useState(false);
@@ -13,6 +15,8 @@ const Request = () => {
     itemLink: '',
     itemCount: ''
   });
+
+
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
   const postsPerPage = 10;
@@ -83,8 +87,8 @@ const Request = () => {
 
   const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
   const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
-
   return (
+    
     <div>
       <AdminNav />
       <div className="content-container">
