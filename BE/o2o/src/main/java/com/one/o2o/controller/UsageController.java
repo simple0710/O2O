@@ -24,4 +24,8 @@ public class UsageController  {
         return new ResponseEntity<>(usageService.findAllProductRentCount(), HttpStatus.OK);
     }
 
+    @GetMapping("/analysis/usage-rate")
+    public ResponseEntity<?> findAllProductUsageRate() {
+        return new ResponseEntity<>(usageService.findAllProductUsageRate(), HttpStatus.OK);
+    }
 }

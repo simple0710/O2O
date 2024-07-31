@@ -21,4 +21,11 @@ public interface ProductsUsageRepository extends JpaRepository<Product, Integer>
 
     @Query("SELECT rl.product.id, rl.product.productNm, SUM(rl.logCnt) FROM RentLog rl GROUP BY rl.product.id")
     List<Object[]> findAllProductRentCount();
+    // 사용률 -> 대여 횟수 / 물품 수
+    @Query("SELECT rl.product.id, rl.product.productNm, SUM(rl.logCnt), SUM(rl.locker.totalCnt) FROM RentLog rl WHERE rl.statusId = 1 GROUP BY rl.product.id")
+    List<Object[]> findAllProductUsageRate();
+
+//    @Query("SELECT rl.product_id, SUM(rl.logCnt)/rl.locker.totalCnt FROM RentLog rl GROUP BY rl.product.id")
+//    List<Object[]> findAllProductUsageRate();
+
 }

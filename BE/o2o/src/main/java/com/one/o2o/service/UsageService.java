@@ -2,6 +2,7 @@ package com.one.o2o.service;
 
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.usage.ProductRentCountDto;
+import com.one.o2o.dto.usage.ProductUsageRateDto;
 import com.one.o2o.dto.usage.ProductsRetentionRateDto;
 import com.one.o2o.entity.Product;
 import com.one.o2o.entity.RentLog;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 interface UsageServiceInterface {
     Response findAllRetentionRate();
     Response findAllProductRentCount();
+    Response findAllProductUsageRate();
 }
 
 @Service
@@ -65,4 +67,29 @@ public class UsageService implements UsageServiceInterface {
                 .collect(Collectors.toList()));
         return response;
     }
+
+    @Override
+    public Response findAllProductUsageRate() {
+        Response response = new Response(HttpStatus.OK.value(), "사용률 조회");
+        List<Object[]> allProductUsageRate = productsUsageRepository.findAllProductUsageRate();
+        response.setData(allProductUsageRate.stream()
+                .map(object -> {
+                    Integer productId = Integer.valueOf(object[0].toString());
+                    String productNm = object[1].toString();
+                    Double numerator = Double.parseDouble(object[2].toString());
+                    // object[3]은 Long이므로 Double로 변환
+                    Double denominator = ((Number) object[3]).doubleValue();
+                    Double usageRate = numerator / denominator;
+                    return ProductUsageRateDto.builder()
+                            .productId(productId)
+                            .productNm(productNm)
+                            .usageRate(usageRate)
+                            .build();
+                })
+                .collect(Collectors.toList())
+        );
+        return response;
+    }
+
+
 }
