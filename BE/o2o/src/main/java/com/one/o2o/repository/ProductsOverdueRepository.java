@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ProductsOverdueRepository extends JpaRepository<Rent, Integer> {
     @Query("SELECT r FROM Rent r "
-            + "WHERE r.dueDt > NOW() "
+            + "WHERE r.dueDt <= NOW() "
             + "AND r.isReturned = false")
     Page<Rent> findActiveRentsWithDetails(Pageable pageable);
 

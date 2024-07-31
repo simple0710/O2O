@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -18,5 +17,5 @@ public class ProductsOverdueDto {
     private String lockerBody;
     private String lockerLoc;
     private Integer productCnt;
-    private Map<Integer, StatusDto> status;
+    private Map<Integer, OverdueStatusDto> status;
 }

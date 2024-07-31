@@ -5,12 +5,15 @@ import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.manage.OverdueDto;
 import com.one.o2o.dto.products.manage.ProductsOverdueDto;
-import com.one.o2o.dto.products.manage.StatusDto;
+import com.one.o2o.dto.products.manage.OverdueStatusDto;
 import com.one.o2o.entity.Product;
 import com.one.o2o.entity.Rent;
 import com.one.o2o.entity.RentLog;
+import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.ProductsManageRepository;
 import com.one.o2o.repository.ProductsOverdueRepository;
+import com.one.o2o.repository.StatusRepository;
+import com.one.o2o.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +39,9 @@ public class ProductsManageService implements ProductsManageInterface {
 
     private final ProductsManageRepository productsManageRepository;
     private final ProductsOverdueRepository productsOverdueRepository;
+    private final UserRepository userRepository;
+    private final StatusRepository statusRepository;
+
     @Transactional
     public Response regist(ProductsDto productsDto) {
         Response response = new Response(200, "물품 등록 완료");
@@ -51,30 +57,43 @@ public class ProductsManageService implements ProductsManageInterface {
         Map<String, Object> map = new HashMap<>();
         List<OverdueDto> rentsList = new ArrayList<>();
 
+        StringBuilder sb = new StringBuilder();
+        HashMap<Integer, OverdueStatusDto> rentIdMap = new HashMap<>();
         for (Rent rent : overduePage) {
-            // DTO 변환
             List<RentLog> rentLogs = rent.getRentLogs();
+
+            // DTO 변환
             List<ProductsOverdueDto> products = new ArrayList<>();
-            for (RentLog rentlog : rentLogs) {
-                Product nowProduct = rentlog.getProduct();
-                log.info("status" + rentlog.getStatusId());
-                // 여기서 status를 정리 해야 함
-                Map<Integer, StatusDto> status = new HashMap<>();
-                status.put(1, new PageInfoDto(1, 1, 20L));
+            int rentCnt = 0;
+            for (RentLog rentLog : rentLogs) {
+                Product nowProduct = rentLog.getProduct();
+                log.info("status" + rentLog.getStatusId());
+
+                // 상태
+                Map<Integer, OverdueStatusDto> status = new HashMap<>();
+                rentCnt += rentLog.getLogCnt();
+                status.put(rentLog.getStatusId(), OverdueStatusDto.builder()
+                        .statusNm(statusRepository.findAllByStatusId(rentLog.getStatusId())
+                                .orElseThrow(ArticleNotFoundException::new).getStatusNm())
+                        .productCnt(rentLog.getLogCnt())
+                        .build()
+                );
                 products.add(ProductsOverdueDto.builder()
                         .productId(nowProduct.getProductId())
                         .productNm(nowProduct.getProductNm())
-                        .lockerBody("1층 사물함")
-                        .lockerLoc("1단 3연")
-                        .productCnt(1)
+                        .lockerBody(rentLog.getLocker().getBody().getLockerBodyName())
+                        .lockerLoc(rentLog.getLocker().getLockerRow() + "단 " + rentLog.getLocker().getLockerRow() + "연")
+                        .productCnt(rentCnt)
                         .status(status)
                         .build()
                 );
             }
-            // 상태를 저장했으면 status에
+            System.out.println(sb);
             OverdueDto overdueDto = OverdueDto.builder()
                     .userId(rent.getUserId())
-//                    .userNm(rent.getUserNm())  // Rent 객체에 userNm 필드가 있어야 함
+                    .userNm(userRepository.findAllByUserId(rent.getUserId())
+                            .orElseThrow(ArticleNotFoundException::new)
+                            .getUserNm())
                     .rentId(rent.getId())
                     .rentDt(rent.getStartDt())
                     .dueDt(rent.getDueDt())
@@ -82,14 +101,6 @@ public class ProductsManageService implements ProductsManageInterface {
                     .isLate(true)
                     .build();
             rentsList.add(overdueDto);
-
-
-            // 로그 출력
-//            log.info("Created DTO: userId=" + productsOverdueDto.getUserId() +
-////                    ", userNm=" + productsOverdueDto.getUserNm() +
-//                    ", rentId=" + productsOverdueDto.getRentId() +
-//                    ", rentDt=" + productsOverdueDto.getRentDt() +
-//                    ", dueDt=" + productsOverdueDto.getDueDt());
         }
 
         map.put("rents", rentsList);
