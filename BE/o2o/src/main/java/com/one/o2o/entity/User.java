@@ -2,8 +2,6 @@ package com.one.o2o.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.one.o2o.entity.products.manage.Rent;
-import com.one.o2o.entity.products.manage.RentLog;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +25,8 @@ public class User {
     @Column(name = "USER_NM")
     private String userNm;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     @JsonBackReference
     private List<Rent> rentLogList = new ArrayList<>();
 }

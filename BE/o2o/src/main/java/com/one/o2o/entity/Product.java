@@ -1,8 +1,10 @@
 package com.one.o2o.entity;
 
+import com.one.o2o.dto.products.ProductsDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,6 +15,7 @@ import java.util.Date;
 @Entity
 @ToString
 @Setter
+@NoArgsConstructor
 public class Product {
     @Id
     private int productId;
@@ -22,4 +25,10 @@ public class Product {
     private LocalDateTime registDt;
     private int userId;
 
+    public Product(ProductsDto productsDto) {
+        this.productNm = productsDto.getProductNm();
+        this.productImg = productsDto.getProductImg();
+        this.productDet = productsDto.getProductDet();
+        this.userId = productsDto.getUserId();
+    }
 }
