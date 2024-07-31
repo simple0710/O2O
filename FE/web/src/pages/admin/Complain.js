@@ -1,65 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, Table, Pagination } from 'react-bootstrap';
+import { Table, Pagination, Button, Form } from 'react-bootstrap';
+import axios from 'axios';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import '../../style/Complain.css';
 
 const Request = () => {
-  const [showModal, setShowModal] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [formData, setFormData] = useState({
-    itemName: '',
-    reason: '',
-    itemLink: '',
-    itemCount: ''
-  });
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
   const postsPerPage = 10;
 
-  const handleShow = () => setShowModal(true);
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://i11d101.p.ssafy.io:8000/products/report');
+        const data = response.data;
+        console.log(data)
+        setPosts(data.data.rpts);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const handleClose = () => {
-    setFormData({
-      itemName: '',
-      reason: '',
-      itemLink: '',
-      itemCount: ''
-    });
-    setShowModal(false);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = () => {
-    const { itemName, itemCount } = formData;
-    if (itemName.trim() && itemCount.trim() && parseInt(itemCount, 10) >= 1) {
-      const newPost = {
-        ...formData,
-        id: Date.now(),  // 고유 ID 생성
-        requestDate: new Date().toISOString().split('T')[0],
-        status: '미처리'
-      };
-      setPosts([...posts, newPost]);
-      setFormData({
-        itemName: '',
-        reason: '',
-        itemLink: '',
-        itemCount: ''
-      });
-      handleClose();
-    }
-  };
+    fetchData();
+  }, []);
 
   const handleStatusChange = (status) => {
     const updatedPosts = posts.map((post) =>
-      selectedPosts.includes(post.id) ? { ...post, status } : post
+      selectedPosts.includes(post.rpt_id) ? { ...post, is_processed: status === '처리완료' } : post
     );
     setPosts(updatedPosts);
     setSelectedPosts([]);
@@ -83,26 +53,13 @@ const Request = () => {
   const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
   const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
 
-  // useEffect를 사용하여 처리완료 상태 변경 시 자동 삭제 타이머 설정
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setPosts((prevPosts) => prevPosts.filter((post) => post.status !== '처리완료'));
-    }, 259200000); //3일
-
-    return () => clearTimeout(timer);
-  }, [posts]);
-
   return (
     <div>
       <AdminNav />
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <h3>파손 분실 신고 내역
-            <Button variant="primary" onClick={handleShow} style={{ width: '20%', marginLeft: '10px' }}>
-              신고하기
-            </Button>
-          </h3>
+          <h3>파손 분실 신고 내역</h3>
 
           <Table>
             <thead>
@@ -117,51 +74,23 @@ const Request = () => {
             </thead>
             <tbody>
               {currentPosts.map((post, index) => (
-                <tr key={post.id}>
+                <tr key={post.rpt_id}>
                   <td>
                     <Form.Check
                       type="checkbox"
-                      onChange={() => handleCheckboxChange(post.id)}
-                      checked={selectedPosts.includes(post.id)}
+                      onChange={() => handleCheckboxChange(post.rpt_id)}
+                      checked={selectedPosts.includes(post.rpt_id)}
                     />
                   </td>
                   <td>{indexOfFirstPost + index + 1}</td>
-                  <td>{post.itemName}</td>
-                  <td>{post.itemCount}</td>
-                  <td>{post.status}</td>
-                  <td>{post.requestDate}</td>
+                  <td>{post.product_id}</td>
+                  <td>{post.product_cnt}</td>
+                  <td>{post.is_processed ? '처리완료' : '미처리'}</td>
+                  <td>{post.rpt_dt}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
-
-          <div className="pagination-container">
-          <Pagination className='justify-content-center'>
-            <Pagination.First onClick={() => handlePageChange(1)} />
-            <Pagination.Prev onClick={handlePrevChunk} />
-            <Pagination.Item onClick={() => handlePageChange(1)}>{1}</Pagination.Item>
-            {currentPage > 3 && <Pagination.Ellipsis />}
-            {Array.from({ length: totalPages }, (_, index) => index + 1)
-              .slice(Math.max(currentPage - 3, 1), Math.min(currentPage + 2, totalPages - 1))
-              .map(pageNumber => (
-                <Pagination.Item
-                  key={pageNumber}
-                  active={pageNumber === currentPage}
-                  onClick={() => handlePageChange(pageNumber)}
-                >
-                  {pageNumber}
-                </Pagination.Item>
-              ))}
-            {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
-            {totalPages > 1 && (
-              <Pagination.Item onClick={() => handlePageChange(totalPages)}>
-                {totalPages}
-              </Pagination.Item>
-            )}
-            <Pagination.Next onClick={handleNextChunk} />
-            <Pagination.Last onClick={() => handlePageChange(totalPages)} />
-          </Pagination>
-        </div>
 
           <div className="mt-3">
             <Button
@@ -174,45 +103,35 @@ const Request = () => {
             </Button>
           </div>
 
-          <Modal show={showModal} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>새 물품 신청</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group controlId="formItemName">
-                  <Form.Label>물품 명</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="itemName"
-                    value={formData.itemName}
-                    onChange={handleInputChange}
-                    placeholder="물품 명을 입력하세요"
-                  />
-                </Form.Group>
+          <div className="pagination-container">
+            <Pagination className='justify-content-center'>
+              <Pagination.First onClick={() => handlePageChange(1)} />
+              <Pagination.Prev onClick={handlePrevChunk} />
+              <Pagination.Item onClick={() => handlePageChange(1)}>{1}</Pagination.Item>
+              {currentPage > 3 && <Pagination.Ellipsis />}
+              {Array.from({ length: totalPages }, (_, index) => index + 1)
+                .slice(Math.max(currentPage - 3, 1), Math.min(currentPage + 2, totalPages - 1))
+                .map(pageNumber => (
+                  <Pagination.Item
+                    key={pageNumber}
+                    active={pageNumber === currentPage}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </Pagination.Item>
+                ))}
+              {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
+              {totalPages > 1 && (
+                <Pagination.Item onClick={() => handlePageChange(totalPages)}>
+                  {totalPages}
+                </Pagination.Item>
+              )}
+              <Pagination.Next onClick={handleNextChunk} />
+              <Pagination.Last onClick={() => handlePageChange(totalPages)} />
+            </Pagination>
+          </div>
 
-                <Form.Group controlId="formItemCount">
-                  <Form.Label>수량</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="itemCount"
-                    value={formData.itemCount}
-                    onChange={handleInputChange}
-                    placeholder="수량을 입력하세요"
-                    min="1"
-                  />
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                닫기
-              </Button>
-              <Button variant="primary" onClick={handleSubmit}>
-                제출
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          
         </div>
       </div>
     </div>
