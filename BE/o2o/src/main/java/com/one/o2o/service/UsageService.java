@@ -1,17 +1,23 @@
 package com.one.o2o.service;
 
 import com.one.o2o.dto.common.Response;
+import com.one.o2o.dto.usage.ProductRentCountDto;
 import com.one.o2o.dto.usage.ProductsRetentionRateDto;
 import com.one.o2o.entity.Product;
+import com.one.o2o.entity.RentLog;
 import com.one.o2o.repository.ProductsUsageRepository;
+import com.one.o2o.repository.RentLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 interface UsageServiceInterface {
     Response findAllRetentionRate();
+    Response findAllProductRentCount();
 }
 
 @Service
@@ -20,6 +26,7 @@ interface UsageServiceInterface {
 public class UsageService implements UsageServiceInterface {
 
     private final ProductsUsageRepository productsUsageRepository;
+    private final RentLogRepository rentLogRepository;
     @Override
     public Response findAllRetentionRate() {
         Response response = new Response(200, "보유율 조회 완료");
@@ -37,6 +44,25 @@ public class UsageService implements UsageServiceInterface {
         Map<String, List<ProductsRetentionRateDto>> map = new HashMap<>();
         map.put("products", retentionRateList);
         response.setData(map);
+        return response;
+    }
+
+    @Override
+    public Response findAllProductRentCount() {
+        Response response = new Response(HttpStatus.OK.value(), "message");
+        List<Object[]> allProductRentCount = productsUsageRepository.findAllProductRentCount();
+        response.setData(allProductRentCount.stream()
+                .map(object -> {
+                    Integer productId = Integer.valueOf(object[0].toString());
+                    String productNm = object[1].toString();
+                    Integer rentCnt = Integer.valueOf(object[2].toString());
+                    return ProductRentCountDto.builder()
+                            .productId(productId)
+                            .productNm(productNm)
+                            .rentCnt(rentCnt)
+                            .build();
+                })
+                .collect(Collectors.toList()));
         return response;
     }
 }

@@ -19,4 +19,9 @@ public class UsageController  {
         return new ResponseEntity<>(usageService.findAllRetentionRate(), HttpStatus.OK);
     }
 
+    @GetMapping("/analysis/rent-count")
+    public ResponseEntity<?> findAllProductRentCount() {
+        return new ResponseEntity<>(usageService.findAllProductRentCount(), HttpStatus.OK);
+    }
+
 }
