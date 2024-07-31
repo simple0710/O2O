@@ -12,14 +12,16 @@ import lombok.ToString;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProductsRetentionRateDto {
     private Integer productId;
-    private Integer productCnt;
-    private Integer totalCnt;
+    private String productNm;
+//    private Integer productCnt;
+//    private Integer totalCnt;
     private Integer retentionRate;
-    public ProductsRetentionRateDto(Integer productId, Integer productCnt, Integer totalCountSum) {
+    public ProductsRetentionRateDto(Integer productId, String productNm, Integer productCnt, Integer totalCountSum) {
         this.productId = productId;
-        this.productCnt = productCnt;
-        this.totalCnt = totalCountSum;
-        this.retentionRate = 100 / totalCnt;
+        this.productNm = productNm;
+//        this.productCnt = productCnt;
+//        this.totalCnt = totalCountSum;
+        this.retentionRate = productCnt * 100 / totalCountSum;
     }
 
 }

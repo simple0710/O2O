@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/usage")
 @RequiredArgsConstructor
-public class usageController {
+public class UsageController {
     private final UsageService usageService;
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
+    @GetMapping("/analysis/retention-rate")
+    public ResponseEntity<?> findAllRetentionRate() {
         return new ResponseEntity<>(usageService.findAllRetentionRate(), HttpStatus.OK);
     }
 

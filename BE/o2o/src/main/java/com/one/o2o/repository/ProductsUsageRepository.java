@@ -17,12 +17,13 @@ public interface ProductsUsageRepository extends JpaRepository<Product, Integer>
 
 //    @Query("SELECT p FROM Product p")
 //    List<Product> findMyTest();
-    @Query(value = "select p.product_id, SUM(l.product_cnt), SUM(l.total_cnt) " +
-            "from locker as l " +
-            "INNER JOIN product as p on l.product_id = p.product_id " +
-            "GROUP BY l.product_id;",
+    @Query(value = "SELECT p.product_id, p.product_nm, SUM(l.product_cnt), SUM(l.total_cnt) " +
+            "FROM locker AS l " +
+            "INNER JOIN product AS p ON l.product_id = p.product_id " +
+            "GROUP BY p.product_id, p.product_nm",
             nativeQuery = true)
-    List<Object[]> findMyTest();
+    List<Object[]> findProductsRetentionRate();
+
 //    @Query(value = "SELECT p FROM Product p",
 //            nativeQuery = true)
 //    List<Product> findMyTest();

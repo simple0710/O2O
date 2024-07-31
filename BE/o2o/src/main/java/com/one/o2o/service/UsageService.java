@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 interface UsageServiceInterface {
     Response findAllRetentionRate();
@@ -26,19 +23,20 @@ public class UsageService implements UsageServiceInterface {
     @Override
     public Response findAllRetentionRate() {
         Response response = new Response(200, "보유율 조회 완료");
-        List<Object[]> results = productsUsageRepository.findMyTest();
-        List<ProductsRetentionRateDto> dtos = new ArrayList<>();
-
+        List<Object[]> results = productsUsageRepository.findProductsRetentionRate();
+        List<ProductsRetentionRateDto> retentionRateList = new ArrayList<>();
         for (Object[] result : results) {
             Integer productId = ((Number) result[0]).intValue();
-            Integer productCnt = ((Number) result[1]).intValue();
-            Integer totalCountSum = ((Number) result[2]).intValue();
-            ProductsRetentionRateDto dto = new ProductsRetentionRateDto(productId, productCnt, totalCountSum);
-            dtos.add(dto);
-            log.info(dtos.toString());
+            String productNm = ((String) result[1]);
+            Integer productCnt = ((Number) result[2]).intValue();
+            Integer totalCountSum = ((Number) result[3]).intValue();
+            ProductsRetentionRateDto dto = new ProductsRetentionRateDto(productId, productNm, productCnt, totalCountSum);
+            retentionRateList.add(dto);
+            log.info(dto.toString());
         }
-
-//        response.setData(allRetentionRate);
+        Map<String, List<ProductsRetentionRateDto>> map = new HashMap<>();
+        map.put("products", retentionRateList);
+        response.setData(map);
         return response;
     }
 }
