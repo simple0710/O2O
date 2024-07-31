@@ -1,4 +1,4 @@
-package com.one.o2o.exception.productsrequest.error;
+package com.one.o2o.exception.products.error;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.one.o2o.exception.productsrequest.error;
+package com.one.o2o.exception.products.error;
 
-import com.one.o2o.exception.productsrequest.error.exception.BusinessBaseException;
+import com.one.o2o.exception.products.error.exception.BusinessBaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
