@@ -3,9 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../style/MainPageApp.css";
 import "../../style/Locker.css";
 import { Modal, Button } from "react-bootstrap";
-import { CartContext } from "./CartContext"; // CartContext 경로를 수정하세요.
+import { CartContext } from "./CartContext";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
+import { GridLoader } from 'react-spinners';
 
 const Locker = () => {
   const [show, setShow] = useState(false);
@@ -17,22 +19,55 @@ const Locker = () => {
   const [lockersData, setLockersData] = useState([]);
   const [selectedLockerBody, setSelectedLockerBody] = useState(null);
   const [lockerOptions, setLockerOptions] = useState([]);
+  const [additionalLockersData, setAdditionalLockersData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const lockerBodyId = queryParams.get('locker_body_id');
+
     axios
-      .get("/locker.json")
+      .get("/lockers/names")
       .then((response) => {
-        const data = response.data;
+        const data = response.data.data;
         setLockersData(data);
 
         const options = data.map((lockerBody) => ({
           value: lockerBody.locker_body_name,
           label: lockerBody.locker_body_name,
+          id: lockerBody.locker_body_id,
         }));
         setLockerOptions(options);
+
+        if (lockerBodyId) {
+          const selectedBody = data.find(
+            (body) => body.locker_body_id.toString() === lockerBodyId
+          );
+          if (selectedBody) {
+            setSelectedLockerBody(selectedBody);
+            fetchLockerDetails(selectedBody.locker_body_id);
+          }
+        }
       })
       .catch((error) => console.error("Failed to load locker data:", error));
-  }, []);
+  }, [location.search]);
+
+  const fetchLockerDetails = (bodyId) => {
+    setLoading(true);
+    axios
+      .get(`/lockers?locker_body_id=${bodyId}`)
+      .then((response) => {
+        const lockers = response.data.data;
+        setLockerDetails(lockers);
+      })
+      .catch((error) => console.error("Failed to load locker details:", error))
+      .finally(() => setLoading(false));
+  };
+
+  const setLockerDetails = (details) => {
+    setAdditionalLockersData(details);
+  };
 
   const handleLockerChange = (event) => {
     const lockerBodyName = event.target.value;
@@ -40,44 +75,48 @@ const Locker = () => {
       (body) => body.locker_body_name === lockerBodyName
     );
     setSelectedLockerBody(selectedBody);
+
+    if (selectedBody) {
+      fetchLockerDetails(selectedBody.locker_body_id);
+    }
   };
 
   const renderTable = () => {
     if (!selectedLockerBody) return null;
 
-    const { row, column, lockers } = selectedLockerBody;
+    const { row, column } = selectedLockerBody;
 
+    // Create 2D array to represent the table structure
     const table = Array.from({ length: row }, () =>
       Array.from({ length: column }).fill(null)
     );
 
-    lockers.forEach((locker) => {
-      const { locker_row, locker_column, product_nm, total_cnt, product_cnt } =
-        locker;
-      table[locker_row - 1][locker_column - 1] = {
-        product_nm,
-        total_cnt,
-        product_cnt,
-      };
+    // Populate the table with data based on locker_row and locker_column
+    additionalLockersData.forEach((locker) => {
+      if (locker.body_id === selectedLockerBody.locker_body_id) {
+        const { locker_row, locker_column, product_nm, total_cnt, product_cnt } = locker;
+        table[locker_row - 1][locker_column - 1] = {
+          product_nm,
+          total_cnt,
+          product_cnt,
+        };
+      }
     });
 
     return (
       <table className="locker-table">
-        <tbody className="locker-body">
-          {Array.from({ length: row }).map((_, rowIndex) => (
+        <tbody>
+          {table.map((row, rowIndex) => (
             <tr key={rowIndex}>
-              {Array.from({ length: column }).map((_, colIndex) => (
+              {row.map((cell, colIndex) => (
                 <td key={colIndex} className="locker-cell">
-                  {table[rowIndex][colIndex] ? (
+                  {cell ? (
                     <div
                       className="rounded-content"
-                      onClick={() => handleShow(table[rowIndex][colIndex])}
+                      onClick={() => handleShow(cell)}
                     >
-                      <div>{table[rowIndex][colIndex].product_nm}</div>
-                      <div>
-                        ({table[rowIndex][colIndex].product_cnt}/
-                        {table[rowIndex][colIndex].total_cnt})
-                      </div>
+                      <div>{cell.product_nm}</div>
+                      <div>({cell.product_cnt}/{cell.total_cnt})</div>
                     </div>
                   ) : (
                     <div className="rounded-content">
@@ -94,8 +133,14 @@ const Locker = () => {
     );
   };
 
-  const handleCloseWithoutAddToCart = () => {
-    setShow(false);
+  const handleShow = (item) => {
+    if (item) {
+      setSelectedItem(item);
+      setQuantity(0);
+      setModalContent(item.product_nm);
+      setWarning("");
+      setShow(true);
+    }
   };
 
   const handleAddToCart = () => {
@@ -108,7 +153,6 @@ const Locker = () => {
       const totalQuantity = existingQuantity + quantity;
 
       if (totalQuantity > selectedItem.product_cnt) {
-        // Compare with product_cnt instead of total_cnt
         Swal.fire({
           title: "재고가 부족합니다.",
           text: "장바구니에 물품이 있는지 확인해주세요.",
@@ -120,6 +164,7 @@ const Locker = () => {
       } else {
         const itemDetails = { name: modalContent, quantity };
 
+        // Update cart
         if (existingItemIndex >= 0) {
           const updatedCart = cart.map((item, index) =>
             index === existingItemIndex
@@ -130,20 +175,22 @@ const Locker = () => {
         } else {
           setCart((prevCart) => [...prevCart, itemDetails]);
         }
+
+        // Update locker data with new quantities
+        const updatedLockersData = additionalLockersData.map((item) => {
+          if (item.product_nm === selectedItem.product_nm) {
+            return {
+              ...item,
+              product_cnt: item.product_cnt - quantity,
+            };
+          }
+          return item;
+        });
+        setAdditionalLockersData(updatedLockersData);
         setShow(false);
       }
     } else {
       setWarning("수량을 선택해주세요.");
-    }
-  };
-
-  const handleShow = (item) => {
-    if (item) {
-      setSelectedItem(item);
-      setQuantity(0);
-      setModalContent(item.product_nm);
-      setWarning("");
-      setShow(true);
     }
   };
 
@@ -166,17 +213,21 @@ const Locker = () => {
       <br />
       <select onChange={handleLockerChange} className="locker-select">
         <option value="">사물함을 선택하세요</option>
-        {lockerOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+        {lockerOptions.map((option, index) => (
+          <option key={index} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
 
-      {selectedLockerBody && renderTable()}
+      {selectedLockerBody && (
+        <div className="table-container"> {/* 테이블을 감싸는 div 추가 */}
+          {renderTable()}
+        </div>
+      )}
 
       {selectedItem && (
-        <Modal show={show} onHide={handleCloseWithoutAddToCart} centered>
+        <Modal show={show} onHide={() => setShow(false)} centered>
           <Modal.Header closeButton>
             <Modal.Title>{modalContent} 예약하기</Modal.Title>
           </Modal.Header>
@@ -200,6 +251,8 @@ const Locker = () => {
           </Modal.Footer>
         </Modal>
       )}
+
+      {loading && <GridLoader size={10} color={"#123abc"} />} {/* 로딩 표시 */}
     </div>
   );
 };

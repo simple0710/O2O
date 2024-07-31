@@ -5,45 +5,46 @@
   height: 100vh;
   background-color: #f8f9fa;
   border-right: 1px solid #e5e5e5;
-  padding: 20px 10px 10px 15px;
+  padding: 20px 15px 10px 15px; /* 패딩을 좀 더 균등하게 */
   font-family: Arial, sans-serif;
-  font-size: 14px;
+  font-size: 15px; /* 기본 폰트 크기를 약간 키움 */
   color: #495057;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  overflow-y: auto; /* To allow scrolling if content overflows */
+  overflow-y: auto;
 }
 
 .menu-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px; /* 간격을 조금 더 줌 */
 }
 
 .menu-header span {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px; /* 폰트 크기를 키움 */
+  font-weight: 700; /* 좀 더 두꺼운 글꼴 */
 }
 
 .menu-section {
-  margin-bottom: 20px;
+  margin-bottom: 25px; /* 섹션 간격을 넓힘 */
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  padding: 15px 0; /* 상하 패딩을 조금 더 줌 */
   color: #212529;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, padding 0.3s;
 }
 
 .menu-item span {
-  margin-left: 10px;
+  margin-left: 15px; /* 텍스트와 아이콘 간격을 조금 더 줌 */
+  font-size: 16px; /* 텍스트 크기 조정 */
 }
 
 .menu-item:hover {
   background-color: #e9ecef;
-  border-radius: 4px;
+  border-radius: 8px; /* 둥근 모서리 */
 }
 
 .submenu-content {
@@ -57,12 +58,12 @@
 }
 
 .submenu-content.open {
-  max-height: 200px; /* Adjust max-height based on expected content */
+  max-height: 200px;
   opacity: 1;
 }
 
 .submenu-content li {
-  padding: 8px 0;
+  padding: 10px 0; /* 서브메뉴 항목 패딩 조정 */
 }
 
 .submenu-content li:hover {
@@ -74,54 +75,20 @@
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 3px;
+  padding: 6px 12px; /* 버튼 패딩 조정 */
+  border-radius: 4px; /* 둥근 모서리 */
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .btn:hover {
   background-color: #0056b3;
 }
 
-.calendar-component {
-  margin-top: 10px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+.modal-header, .modal-body {
+  text-align: center;
 }
 
-.highlight {
-  background: #00b894 !important;
-  color: white !important;
-  border-radius: 50%;
+.modal-title {
+  margin: auto;
 }
-
-.react-calendar__tile--active {
-  background: #00b894 !important;
-  color: white !important;
-}
-
-.react-calendar__tile--now {
-  background: #f8f9fa !important;
-  border-radius: 50%;
-}
-
-.selected-date-reservations {
-  margin-top: 20px;
-}
-
-.selected-date-reservations h5 {
-  margin-bottom: 10px;
-}
-
-.reservation-detail {
-  margin-bottom: 10px;
-}
-
-.reservation-item {
-  margin: 0;
-  font-size: 14px;
-}
-
