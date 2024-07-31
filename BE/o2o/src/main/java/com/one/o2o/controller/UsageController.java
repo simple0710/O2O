@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/usage")
 @RequiredArgsConstructor
-public class UsageController {
+public class UsageController  {
     private final UsageService usageService;
 
     @GetMapping("/analysis/retention-rate")
