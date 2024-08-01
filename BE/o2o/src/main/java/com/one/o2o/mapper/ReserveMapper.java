@@ -1,7 +1,5 @@
 package com.one.o2o.mapper;
 
-import com.one.o2o.dto.rent.RentResponseSingleDto;
-import com.one.o2o.dto.reserve.ReserveResponseDto;
 import com.one.o2o.dto.reserve.ReserveResponseSingleDto;
 import com.one.o2o.dto.reserve.ReserveSimpleProduct;
 import com.one.o2o.entity.Reserve;

@@ -29,5 +29,6 @@ public class Reserve {
 
 
     @OneToMany(mappedBy = "reserveId", fetch = FetchType.LAZY)
+    @Column(insertable = false, updatable = false)
     private List<ReserveDet> reserveDetList;
 }

@@ -1,9 +1,7 @@
 package com.one.o2o.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +10,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReserveDet {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer detId;
     private Integer reserveId;
     private Integer userId;

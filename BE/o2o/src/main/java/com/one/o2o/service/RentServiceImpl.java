@@ -77,6 +77,7 @@ public class RentServiceImpl implements RentService {
         return rentId;
     }
 
+    @Override
     public RentResponseDto readOngoingRentByUserId(int userId, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
         Page<Rent> listPage = rentRepository.findAllByUserIdAndIsReturnedIsFalse(userId, pageable);
@@ -109,7 +110,7 @@ public class RentServiceImpl implements RentService {
 
     @Transactional
     public int createRentTransaction(int userId, RentRequestDto rentRequestDto) {
-        // 1. 대여 생성
+        // 1) 대여 생성
         Rent rent = new Rent();
         // (1) 대여 정보 수정
         rent.setUserId(userId);

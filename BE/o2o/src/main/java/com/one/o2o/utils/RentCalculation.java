@@ -10,9 +10,11 @@ import java.util.Map;
 
 public class RentCalculation {
     public static final int _borrow = 1; // 대여
-    public static final  int _return = 8;
-    public static final  int _lost = 6;
+    public static final int _reserve = 2;
+    public static final int _lost = 6;
     public static final int _broken = 7;
+    public static final int _return = 8; // 반납
+
     // 사물함 개수 변동 저장(1: 사물함에 추가, -1: 사물함 제거)
     private static Map<Integer, Integer> calMap = Map.of(
             1, -1,
@@ -55,4 +57,5 @@ public class RentCalculation {
     public static LocalDateTime getDueDateTime(LocalDateTime startDt){
         return startDt.plusDays(3);
     }
+
 }
