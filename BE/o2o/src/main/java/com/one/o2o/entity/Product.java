@@ -1,30 +1,43 @@
 package com.one.o2o.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Entity
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
+@NoArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
     private String productNm;
     private String productImg;
     private String productDet;
+    @Column(nullable = false, updatable = false)
     private LocalDateTime registDt;
+    private int userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
+    public Product(ProductsDto productsDto) {
+        this.productNm = productsDto.getProductNm();
+        this.productImg = productsDto.getProductImg();
+        this.productDet = productsDto.getProductDet();
+        this.userId = productsDto.getUserId();
+    }
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<Locker> lockers;
+    @PrePersist
+    protected void onCreate() {
+        if (registDt == null) {
+            registDt = LocalDateTime.now();
+        }
+    }
 }

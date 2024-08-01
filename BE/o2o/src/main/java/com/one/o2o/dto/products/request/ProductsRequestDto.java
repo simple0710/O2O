@@ -1,8 +1,8 @@
-package com.one.o2o.dto.productsrequest;
+package com.one.o2o.dto.products.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.one.o2o.entity.productsrequest.ProductsRequest;
+import com.one.o2o.entity.products.request.ProductsRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

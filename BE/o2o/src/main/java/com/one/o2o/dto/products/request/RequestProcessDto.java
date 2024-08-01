@@ -1,4 +1,4 @@
-package com.one.o2o.dto.productsrequest;
+package com.one.o2o.dto.products.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
