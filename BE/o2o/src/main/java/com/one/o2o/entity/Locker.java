@@ -3,11 +3,13 @@ package com.one.o2o.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @Entity
 @Getter
+@Setter
 @DynamicUpdate
 public class Locker {
     @Id
@@ -22,12 +24,14 @@ public class Locker {
     @Column(name="is_usable")
     private boolean isUsable;
     @Column(name="product_cnt", columnDefinition = "SMALLINT")
-    private int productCnt;
+    private Integer productCnt;
     @Column(name="total_cnt", columnDefinition = "SMALLINT")
-    private int totalCnt;
+    private Integer totalCnt;
+    @Column(name="product_id")
+    private Integer newProductId;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="product_id")
+    @JoinColumn(name="product_id", insertable = false, updatable = false)
     public Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,5 +43,11 @@ public class Locker {
     }
     public void updateProductCnt(int cnt){
         this.productCnt = cnt;
+    }
+    public void updateNewProduct(int productId, int productCnt, int totalCnt){
+        this.newProductId = productId;
+        this.productCnt = productCnt;
+        this.totalCnt = totalCnt;
+        this.isUsable = false;
     }
 }

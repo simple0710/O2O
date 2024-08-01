@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@DynamicUpdate
 public class Reserve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +33,10 @@ public class Reserve {
     @OneToMany(mappedBy = "reserveId", fetch = FetchType.LAZY)
     @Column(insertable = false, updatable = false)
     private List<ReserveDet> reserveDetList;
+
+    public void updateIsEndedToTrue(LocalDateTime endDt){
+        System.out.println("updateIsEndedToTrue");
+        this.isEnded = true;
+        this.endDt = endDt;
+    }
 }

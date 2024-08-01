@@ -14,6 +14,8 @@ public class RentCalculation {
     public static final int _lost = 6;
     public static final int _broken = 7;
     public static final int _return = 8; // 반납
+    public static final int _reserveCancel = 9; // 예약 취소
+    public static final int _reserveOver = 10; // 예약 만료
 
     // 사물함 개수 변동 저장(1: 사물함에 추가, -1: 사물함 제거)
     private static Map<Integer, Integer> calMap = Map.of(
@@ -24,7 +26,9 @@ public class RentCalculation {
             5, 1,
             6, 1,
             7, 1,
-            8, 1
+            8, 1,
+            9, 1,
+            10, 1
     );
     // 대여, 반납 별 개수 계산
     public static int getProductSum(Map<Integer, RentResponseSingleDto.RentResponseProductDto.StatusDto> map){
@@ -56,6 +60,10 @@ public class RentCalculation {
 
     public static LocalDateTime getDueDateTime(LocalDateTime startDt){
         return startDt.plusDays(3);
+    }
+
+    public static int getMul(int statusId){
+        return calMap.get(statusId);
     }
 
 }

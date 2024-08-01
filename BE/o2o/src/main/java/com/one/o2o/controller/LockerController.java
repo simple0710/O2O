@@ -37,7 +37,14 @@ public class LockerController {
     @PutMapping("/locker")
     public ResponseEntity<Response> updateLocker(@RequestBody LockerUpdateDto lockerUpdateDto){
         LockerDto lockerDto = lockerService.updateLockerProductCount(lockerUpdateDto);
+        System.out.println("lockerUpdateDto = " + lockerUpdateDto);
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "사물함 상태 변경 완료", lockerDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/registerProduct")
+    public ResponseEntity<Response> registerProduct(@RequestBody LockerUpdateDto lockerUpdateDto){
+        boolean flag = lockerService.updateLockerNewProduct(lockerUpdateDto);
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품이 등록되었습니다", null), HttpStatus.OK);
     }
 
 

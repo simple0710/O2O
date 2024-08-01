@@ -19,6 +19,7 @@ public class ErrorHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.builder()
                         .message(e.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
                         .build());
     }
 
@@ -28,6 +29,7 @@ public class ErrorHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.builder()
                         .message(e.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
                         .build());
     }
 

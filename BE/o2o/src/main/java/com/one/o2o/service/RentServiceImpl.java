@@ -30,6 +30,7 @@ public class RentServiceImpl implements RentService {
     private final StatusRepository statusRepository;
     private final LockerRepository lockerRepository;
     private final RentMapper rentMapper;
+    private final LockerService lockerService;
 
     @Override
     public RentResponseDto readRentByUserId(int userId, int pageNumber, int pageSize) {
@@ -121,17 +122,9 @@ public class RentServiceImpl implements RentService {
 
         int rentId = rent.getId();
         for(RentSimpleProduct product: rentRequestDto.getProducts()){
-            // 2) 대여 가능 여부 확인
-            Optional<Locker> findLocker = lockerRepository.findByLockerIdAndProduct_ProductId(product.getLockerId(), product.getProductId());
-            Locker locker = findLocker.orElseThrow(LockerException.LockerNotFoundException::new);
-            // (1) 수량 확인
-            int lockerCnt = locker.getProductCnt();
-            if(lockerCnt < product.getProductCnt()) throw new LockerException.InsufficientProductQuantityException();
-
-            // 3) 사물함 차감
-            locker.updateProductCnt(lockerCnt-product.getProductCnt());
-
-            // 4) 대여로그 추가
+            // 2) 대여 가능 여부 확인 및 사물함 수량 차감
+            lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._borrow));
+            // 3) 대여로그 추가
             RentLog rentLog = new RentLog();
             rentLog.setRent(rent);
             rentLog.setNewRentId(rentId);
@@ -178,6 +171,8 @@ public class RentServiceImpl implements RentService {
             rentLog.setNewLockerId(product.getLockerId());
             rentLog.setNewProductId(product.getProductId());
             rentLogRepository.save(rentLog);
+            // 2) 사물함 복원
+            lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._return));
         }
         // 3. 대여 변경
         // 1) 모든 반납이 완료되었으면, 완료로 설정한다.
