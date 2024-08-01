@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Table, Pagination } from 'react-bootstrap';
+import { Modal, Button, Form, Table, Pagination } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import '../../style/Request.css';  
 import axios from 'axios';
+
+
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -50,8 +52,8 @@ const Request = () => {
 
   const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
   const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
-
   return (
+    
     <div>
       <AdminNav />
       <div className="content-container">
