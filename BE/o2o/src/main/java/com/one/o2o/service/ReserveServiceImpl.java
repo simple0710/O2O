@@ -5,10 +5,8 @@ import com.one.o2o.dto.reserve.ReserveRequestDto;
 import com.one.o2o.dto.reserve.ReserveRequestProductDto;
 import com.one.o2o.dto.reserve.ReserveResponseDto;
 import com.one.o2o.dto.reserve.ReserveResponseSingleDto;
-import com.one.o2o.entity.Locker;
 import com.one.o2o.entity.Reserve;
 import com.one.o2o.entity.ReserveDet;
-import com.one.o2o.exception.locker.LockerException;
 import com.one.o2o.exception.reserve.ReserveException;
 import com.one.o2o.mapper.ReserveMapper;
 import com.one.o2o.repository.LockerRepository;
@@ -23,9 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,7 +137,7 @@ public class ReserveServiceImpl implements ReserveService {
         Reserve reserve = findReserve.orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
         if(reserve.isEnded()) return true;
         // 2. 예약 객체 상태 바꿔주기
-        reserve.updateIsEndedToTrue(LocalDateTime.now());
+        reserve.updateReserveToCanceled(LocalDateTime.now());
         // 3. 예약 상세
         for(ReserveDet det:reserve.getReserveDetList()){
             // 1) 물품 개수 파악
