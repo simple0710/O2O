@@ -14,7 +14,10 @@ services:
       - certbot
 
   certbot:
-    image: my-certbot  # Certbot 이미지 이름 변경
+    build:  # Certbot을 위한 Dockerfile을 빌드
+      context: ./certbot/
+      dockerfile: Dockerfile  # Certbot을 위한 Dockerfile의 경로
+    image: my-certbot  # 빌드한 Certbot 이미지 이름
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
