@@ -38,6 +38,9 @@
   transform: translateY(-20px);
   padding: 3px;
   line-height: 2;
+  margin-top: 33px;
+  border:none;
+  margin-left:6px;
 }
 
 .locker-select:after {
@@ -61,8 +64,27 @@ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 추가, 
 display: flex;
 justify-content: center;
 align-items: center;
-margin-top: 100px;
+margin-top: 150px;
 }
 
+ /* .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
 
+.zoom-in-logo {
+  animation: zoomIn 3s forwards;
+} 
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+} */
 
