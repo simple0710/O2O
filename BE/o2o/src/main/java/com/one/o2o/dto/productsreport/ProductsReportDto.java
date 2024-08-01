@@ -24,7 +24,7 @@ public class ProductsReportDto {
     private Integer productId;
     private Integer bodyId;
     private Integer lockerId;
-//    private String lockerBody;
+    //    private String lockerBody;
     private String lockerLoc;
     private String userNm;
     private Integer productCnt;
