@@ -12,6 +12,7 @@ import java.util.Optional;
 
 //@NoRepositoryBean
 public interface ProductsUsageRepository extends JpaRepository<Product, Integer> {
+    // 보유율 조회
     @Query(value = "SELECT p.product_id, p.product_nm, SUM(l.product_cnt), SUM(l.total_cnt) " +
             "FROM locker AS l " +
             "INNER JOIN product AS p ON l.product_id = p.product_id " +
@@ -19,13 +20,11 @@ public interface ProductsUsageRepository extends JpaRepository<Product, Integer>
             nativeQuery = true)
     List<Object[]> findProductsRetentionRate();
 
-    @Query("SELECT rl.product.id, rl.product.productNm, SUM(rl.logCnt) FROM RentLog rl GROUP BY rl.product.id")
+    // 대여 횟수 -> SUM(logCnt) and statusId = 1
+    @Query("SELECT rl.product.id, rl.product.productNm, SUM(rl.logCnt) FROM RentLog rl WHERE rl.statusId = 1 GROUP BY rl.product.id")
     List<Object[]> findAllProductRentCount();
-    // 사용률 -> 대여 횟수 / 물품 수
+    
+    // 물품별 사용률 조회 -> 대여 횟수 / 물품 수
     @Query("SELECT rl.product.id, rl.product.productNm, SUM(rl.logCnt), SUM(rl.locker.totalCnt) FROM RentLog rl WHERE rl.statusId = 1 GROUP BY rl.product.id")
     List<Object[]> findAllProductUsageRate();
-
-//    @Query("SELECT rl.product_id, SUM(rl.logCnt)/rl.locker.totalCnt FROM RentLog rl GROUP BY rl.product.id")
-//    List<Object[]> findAllProductUsageRate();
-
 }

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,18 +73,19 @@ public class UsageService implements UsageServiceInterface {
     public Response findAllProductUsageRate() {
         Response response = new Response(HttpStatus.OK.value(), "사용률 조회");
         List<Object[]> allProductUsageRate = productsUsageRepository.findAllProductUsageRate();
+        DecimalFormat df = new DecimalFormat("#.##");
         response.setData(allProductUsageRate.stream()
                 .map(object -> {
                     Integer productId = Integer.valueOf(object[0].toString());
                     String productNm = object[1].toString();
                     Double numerator = Double.parseDouble(object[2].toString());
-                    // object[3]은 Long이므로 Double로 변환
                     Double denominator = ((Number) object[3]).doubleValue();
                     Double usageRate = numerator / denominator;
+                    String formattedUsageRate = df.format(usageRate);
                     return ProductUsageRateDto.builder()
                             .productId(productId)
                             .productNm(productNm)
-                            .usageRate(usageRate)
+                            .usageRate(Double.parseDouble(formattedUsageRate))
                             .build();
                 })
                 .collect(Collectors.toList())
