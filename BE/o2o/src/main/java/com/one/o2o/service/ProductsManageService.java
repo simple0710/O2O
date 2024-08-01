@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +32,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 interface ProductsManageInterface {
-    Product saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException;
+    Response saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException;
     Response findAllOverdueList(int pageNumber, int pageSize);
 }
 
@@ -48,20 +49,24 @@ public class ProductsManageService implements ProductsManageInterface {
     private final StatusRepository statusRepository;
 
     @Override
-    public Product saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException {
-        if (!file.isEmpty()) {
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();;
-            Path uploadPath = Paths.get(uploadDir + "/products/" + fileName);
+    public Response saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException {
+        try {
+            if (!file.isEmpty()) {
+                String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();;
+                Path uploadPath = Paths.get(uploadDir + "/products/" + fileName);
 
-            // 디렉토리가 존재하지 않으면 생성
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
+                // 디렉토리가 존재하지 않으면 생성
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
+                productsDto.setProductImg(fileName);
             }
-            Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
-            productsDto.setProductImg(fileName);
+            productsManageRepository.save(new Product(productsDto));
+        } catch (Exception e) {
+            throw new RuntimeException();
         }
-        productsManageRepository.save(new Product(productsDto));
-        return null;
+        return new Response(HttpStatus.OK.value(), "물품 등록 완료");
     }
 
     @Override
