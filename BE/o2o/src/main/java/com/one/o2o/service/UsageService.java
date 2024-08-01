@@ -54,7 +54,8 @@ public class UsageService implements UsageServiceInterface {
     public Response findAllProductRentCount() {
         Response response = new Response(HttpStatus.OK.value(), "message");
         List<Object[]> allProductRentCount = productsUsageRepository.findAllProductRentCount();
-        response.setData(allProductRentCount.stream()
+        HashMap<String, List<ProductRentCountDto>> map = new HashMap<>();
+        map.put("products", allProductRentCount.stream()
                 .map(object -> {
                     Integer productId = Integer.valueOf(object[0].toString());
                     String productNm = object[1].toString();
@@ -66,6 +67,7 @@ public class UsageService implements UsageServiceInterface {
                             .build();
                 })
                 .collect(Collectors.toList()));
+        response.setData(map);
         return response;
     }
 
@@ -74,7 +76,8 @@ public class UsageService implements UsageServiceInterface {
         Response response = new Response(HttpStatus.OK.value(), "사용률 조회");
         List<Object[]> allProductUsageRate = productsUsageRepository.findAllProductUsageRate();
         DecimalFormat df = new DecimalFormat("#.##");
-        response.setData(allProductUsageRate.stream()
+        HashMap<String, List<ProductUsageRateDto>> map = new HashMap<>();
+        map.put("products", allProductUsageRate.stream()
                 .map(object -> {
                     Integer productId = Integer.valueOf(object[0].toString());
                     String productNm = object[1].toString();
@@ -90,6 +93,7 @@ public class UsageService implements UsageServiceInterface {
                 })
                 .collect(Collectors.toList())
         );
+        response.setData(map);
         return response;
     }
 
