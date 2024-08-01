@@ -39,6 +39,8 @@
   padding: 3px;
   line-height: 2;
   margin-top: 33px;
+  border:none;
+  margin-left:6px;
 }
 
 .locker-select:after {
