@@ -89,8 +89,6 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
                     productsRequest.setIsRejected(true);
                     productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
                     break;
-                default:
-                    throw new InvalidInputValueException();
             }
             return new Response(200, "message");
         } catch (Exception e) {
