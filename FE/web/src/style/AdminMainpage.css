@@ -30,17 +30,12 @@
 
 .side-bar {
   width: 220px;
-  padding: 20px;
+  /* padding: 20px; */
   display: flex;
   flex-direction: column;
 }
 
-.side-bar-item {
-  margin-bottom: 30px;
-  text-decoration: none;
-  color: black;
-  font-weight: bold;
-}
+
 
 .side-bar-item:hover {
   color: blue;
@@ -48,7 +43,6 @@
 
 .content {
   flex-grow: 1;
-  padding: 20px;
 }
 
 .locker {
