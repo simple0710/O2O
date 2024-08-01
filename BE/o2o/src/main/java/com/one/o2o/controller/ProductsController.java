@@ -13,8 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/products")
@@ -25,11 +26,12 @@ public class ProductsController {
     private final ProductsManageService productsManageService;
     private final ProductsRequestService productsRequestService;
     private final ProductsReportService productsReportService;
-
     // 물품 등록
     @PostMapping("/regist")
-    public ResponseEntity<?> registProducts(@RequestBody ProductsDto productsDto) {
-        return new ResponseEntity<>(productsManageService.regist(productsDto), HttpStatus.OK);
+    public ResponseEntity<?> registProduct(
+            @RequestPart("productsDto") ProductsDto productsDto,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+        return new ResponseEntity<>(productsManageService.saveProduct(productsDto, file), HttpStatus.OK);
     }
 
     // 요청 물품 목록 가져오기
@@ -78,4 +80,5 @@ public class ProductsController {
         log.info("pageSize = " + pageSize);
         return new ResponseEntity<>(productsManageService.findAllOverdueList(pageNumber, pageSize), HttpStatus.OK);
     }
+
 }

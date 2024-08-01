@@ -14,21 +14,24 @@ import com.one.o2o.repository.ProductsManageRepository;
 import com.one.o2o.repository.ProductsOverdueRepository;
 import com.one.o2o.repository.StatusRepository;
 import com.one.o2o.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 interface ProductsManageInterface {
-    Response regist(ProductsDto productsDto);
+    Product saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException;
     Response findAllOverdueList(int pageNumber, int pageSize);
 }
 
@@ -37,16 +40,28 @@ interface ProductsManageInterface {
 @Slf4j
 public class ProductsManageService implements ProductsManageInterface {
 
+    @Value("${file.upload.dir}")
+    private String uploadDir;
     private final ProductsManageRepository productsManageRepository;
     private final ProductsOverdueRepository productsOverdueRepository;
     private final UserRepository userRepository;
     private final StatusRepository statusRepository;
 
-    @Transactional
-    public Response regist(ProductsDto productsDto) {
-        Response response = new Response(200, "물품 등록 완료");
+    @Override
+    public Product saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();;
+            Path uploadPath = Paths.get(uploadDir + "/products/" + fileName);
+
+            // 디렉토리가 존재하지 않으면 생성
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
+            productsDto.setProductImg(fileName);
+        }
         productsManageRepository.save(new Product(productsDto));
-        return response;
+        return null;
     }
 
     @Override
@@ -112,5 +127,4 @@ public class ProductsManageService implements ProductsManageInterface {
         response.setData(map);
         return response;
     }
-
 }
