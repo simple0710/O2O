@@ -21,4 +21,13 @@ public class LockerException {
             super(msg);
         }
     }
+
+    public static class InvalidLockerException extends GeneralException {
+        public InvalidLockerException(){
+            super("유효하지 않은 사물함입니다.");
+        }
+        public InvalidLockerException(String msg){
+            super(msg);
+        }
+    }
 }

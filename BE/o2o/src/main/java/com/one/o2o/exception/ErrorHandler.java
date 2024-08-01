@@ -19,6 +19,7 @@ public class ErrorHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.builder()
                         .message(e.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
                         .build());
     }
 
@@ -28,16 +29,17 @@ public class ErrorHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.builder()
                         .message(e.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
                         .build());
     }
 
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<Response> GeneralException(RuntimeException e){
         log.error("ErrorHandler.GeneralException");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.builder()
                         .message(e.getMessage())
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .status(HttpStatus.BAD_REQUEST.value())
                         .build());
     }
 }
