@@ -43,10 +43,11 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
             map.put("reqs", requestPage.stream()
                     .map(ProductsRequestDto::new)
                     .collect(Collectors.toList()));
-            map.put("pages", new PageInfoDto(
-                    requestPage.getNumber() + 1,
-                    requestPage.getTotalPages(),
-                    requestPage.getTotalElements())
+            map.put("pages", PageInfoDto.builder()
+                    .curPg(requestPage.getNumber() + 1)
+                    .totalPg(requestPage.getTotalPages())
+                    .totalReqs(requestPage.getTotalElements())
+                    .build()
             );
             response.setData(map);
             return response;

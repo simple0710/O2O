@@ -1,6 +1,6 @@
 package com.one.o2o.service;
 
-import com.one.o2o.dto.PageInfoDto;
+import com.one.o2o.dto.common.PageInfoDto;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.productsreport.ProductsReportDto;
 import com.one.o2o.dto.productsreport.ReportProcessDto;
@@ -69,10 +69,12 @@ public class ProductsReportService implements ProductsReportServiceInterface {
                         })
                 .collect(Collectors.toList())
         );
-//        map.put("pages", new PageInfoDto(
-//                requestPage.getNumber() + 1,
-//                requestPage.getTotalPages(),
-//                requestPage.getTotalElements()));
+        map.put("pages", PageInfoDto.builder()
+                .curPg(reportsPage.getNumber() + 1)
+                .totalPg(reportsPage.getTotalPages())
+                .totalReqs(reportsPage.getTotalElements())
+                .build()
+        );
         response.setData(map);
         return response;
     }
