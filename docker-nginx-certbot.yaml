@@ -1,6 +1,4 @@
 
-version: '3'
-
 services:
   nginx:
     image: nginx-image  # Nginx 이미지 이름 변경1
