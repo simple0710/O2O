@@ -10,6 +10,7 @@ RUN ls -al
 RUN pwd
 # Gradle 빌드
 
+RUN rm -rf .gradle
 RUN ./gradlew cleanBuildCache
 RUN chmod +x ./gradlew && ./gradlew clean build
 
