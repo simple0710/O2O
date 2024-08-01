@@ -68,7 +68,7 @@ public class MemberController {
         //ResponseCookie respnosecookie
         // 유효기간 설정!
         //쿠키로 ㅁ보낼테니 쿠키로 받아!
-        return ;
+        return jwtToken;
     }
 
     @PostMapping("/testte")
