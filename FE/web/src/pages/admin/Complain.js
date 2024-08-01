@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
-import Sidebar from './Sidebar';
-import AdminNav from './AdminNav';
-import '../../style/Complain.css';
-import '../../style/Title.css';  
-import Pagination from './Pagination'; 
+import React, { useState, useEffect } from "react";
+import { Table, Button, Form } from "react-bootstrap";
+import axios from "axios";
+import Sidebar from "./Sidebar";
+import AdminNav from "./AdminNav";
+import "../../style/Complain.css";
+import "../../style/Title.css";
+import Pagination from "./Pagination";
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -14,12 +14,11 @@ const Request = () => {
   const postsPerPage = 10;
 
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://i11d101.p.ssafy.io:8000/products/report');
+        const response = await axios.get("/products/report");
         const data = response.data;
-        console.log(data)
+        console.log(data);
         setPosts(data.data.rpts);
       } catch (error) {
         console.log(error);
@@ -31,7 +30,9 @@ const Request = () => {
 
   const handleStatusChange = (status) => {
     const updatedPosts = posts.map((post) =>
-      selectedPosts.includes(post.rpt_id) ? { ...post, is_processed: status === '처리완료' } : post
+      selectedPosts.includes(post.rpt_id)
+        ? { ...post, is_processed: status === "처리완료" }
+        : post
     );
     setPosts(updatedPosts);
     setSelectedPosts([]);
@@ -53,7 +54,8 @@ const Request = () => {
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
   const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
-  const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
+  const handleNextChunk = () =>
+    setCurrentPage(Math.min(currentPage + 5, totalPages));
 
   return (
     <div>
@@ -61,10 +63,10 @@ const Request = () => {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-        <div className='title'>
-          <h3>파손 분실 신고 관리</h3>
-        </div>
-          <Table className='custom-table'>
+          <div className="title">
+            <h3>파손 분실 신고 관리</h3>
+          </div>
+          <Table className="custom-table">
             <thead>
               <tr>
                 <th></th>
@@ -88,7 +90,7 @@ const Request = () => {
                   <td>{indexOfFirstPost + index + 1}</td>
                   <td>{post.product_id}</td>
                   <td>{post.product_cnt}</td>
-                  <td>{post.is_processed ? '처리완료' : '미처리'}</td>
+                  <td>{post.is_processed ? "처리완료" : "미처리"}</td>
                   <td>{post.rpt_dt}</td>
                 </tr>
               ))}
@@ -97,10 +99,10 @@ const Request = () => {
 
           <div className="mt-3">
             <Button
-              className='check-button'
-              onClick={() => handleStatusChange('처리완료')}
+              className="check-button"
+              onClick={() => handleStatusChange("처리완료")}
               disabled={selectedPosts.length === 0}
-              style={{ marginRight: '10px' }}
+              style={{ marginRight: "10px" }}
             >
               처리완료
             </Button>
@@ -113,8 +115,6 @@ const Request = () => {
             handlePrevChunk={handlePrevChunk}
             handleNextChunk={handleNextChunk}
           />
-
-          
         </div>
       </div>
     </div>

@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, Table } from 'react-bootstrap';
-import Sidebar from './Sidebar';
-import AdminNav from './AdminNav';
-import '../../style/Request.css';  
-import '../../style/Table.css';  
-import '../../style/Title.css';  
-import axios from 'axios';
-import Pagination from './Pagination'; 
-
-
+import React, { useState, useEffect } from "react";
+import { Button, Form, Table } from "react-bootstrap";
+import Sidebar from "./Sidebar";
+import AdminNav from "./AdminNav";
+import "../../style/Request.css";
+import "../../style/Table.css";
+import "../../style/Title.css";
+import axios from "axios";
+import Pagination from "./Pagination";
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -16,17 +14,17 @@ const Request = () => {
   const [selectedPosts, setSelectedPosts] = useState([]);
   const postsPerPage = 10;
 
-  useEffect (() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://i11d101.p.ssafy.io:8000/products/request');
+        const response = await axios.get("/products/request");
         const data = response.data;
         console.log(data);
         setPosts(data.data.reqs);
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     fetchData();
   }, []);
 
@@ -54,19 +52,19 @@ const Request = () => {
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
   const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
-  const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
+  const handleNextChunk = () =>
+    setCurrentPage(Math.min(currentPage + 5, totalPages));
   return (
-    
     <div>
       <AdminNav />
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <div className='title'>
+          <div className="title">
             <h3>물건 요청 관리</h3>
           </div>
-          <Table className='custom-table'>
-            <thead className='custom-header'>
+          <Table className="custom-table">
+            <thead className="custom-header">
               <tr>
                 <th></th>
                 <th>No.</th>
@@ -83,37 +81,43 @@ const Request = () => {
                     <Form.Check
                       type="checkbox"
                       onChange={() => handleCheckboxChange(post.req_id)}
-                      checked={selectedPosts.includes(post.req_id)} 
+                      checked={selectedPosts.includes(post.req_id)}
                     />
                   </td>
                   <td>{indexOfFirstPost + index + 1}</td>
-                  <td>{post.product_nm}</td> 
+                  <td>{post.product_nm}</td>
                   <td>{post.product_cnt}</td>
-                  <td>{post.is_approved ? '승인됨' : post.is_rejected ? '거절됨' : '대기중'}</td>
+                  <td>
+                    {post.is_approved
+                      ? "승인됨"
+                      : post.is_rejected
+                      ? "거절됨"
+                      : "대기중"}
+                  </td>
                   <td>{post.req_dt}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
-          
+
           <div className="mt-3">
             <Button
-              className='success-button'
-              onClick={() => handleStatusChange('처리됨')}
+              className="success-button"
+              onClick={() => handleStatusChange("처리됨")}
               disabled={selectedPosts.length === 0}
-              style={{ marginRight: '10px' }}
+              style={{ marginRight: "10px" }}
             >
               수락
             </Button>
             <Button
-              className='reject-button'
-              onClick={() => handleStatusChange('거절됨')}
+              className="reject-button"
+              onClick={() => handleStatusChange("거절됨")}
               disabled={selectedPosts.length === 0}
             >
               거절
             </Button>
           </div>
-          
+
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -121,7 +125,6 @@ const Request = () => {
             handlePrevChunk={handlePrevChunk}
             handleNextChunk={handleNextChunk}
           />
-
         </div>
       </div>
     </div>
