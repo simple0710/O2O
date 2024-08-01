@@ -24,17 +24,17 @@ public interface RentMapper {
     @Mapping(source = "startDt", target = "rentDt")
     @Mapping(source = "dueDt", target = "dueDt")
     @Mapping(source = "returned", target = "ended")
-    @Mapping(source = "rentLogs", target = "products", qualifiedByName = "logsToproducts")
+    @Mapping(source = "rentLogs", target = "products", qualifiedByName = "logsToProducts")
     @Mapping(target="updateDt", ignore = true)
     RentResponseSingleDto rentToRentListResponseDto(Rent rent);
 
     @IterableMapping(qualifiedByName = "RENT")
     List<RentResponseSingleDto> rentsToRentListResponseDtos(List<Rent> rent);
 
-    @Named("logsToproducts")
-    default Map<Integer, RentResponseSingleDto.RentResponseProductDto> rentLogsToRentProductDtos(List<RentLog> rentLogs) {
+    @Named("logsToProducts")
+    default List<RentResponseSingleDto.RentResponseProductDto> rentLogsToRentProductDtos(List<RentLog> rentLogs) {
         Map<Integer, RentResponseSingleDto.RentResponseProductDto> map = new HashMap<>();
-        if(rentLogs == null) return map;
+        if(rentLogs == null) return map.values().stream().toList();
         for(RentLog rl : rentLogs){
             Product product = rl.getProduct();
             Locker locker = rl.getLocker();
@@ -63,7 +63,7 @@ public interface RentMapper {
             rpd.getStatus().get(RentCalculation._borrow).setProductCnt(RentCalculation.getProductRent(rpd.getStatus()));
         }
 
-        return map;
+        return map.values().stream().toList();
     }
 
 }

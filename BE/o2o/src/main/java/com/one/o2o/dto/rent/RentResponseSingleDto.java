@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -18,7 +19,7 @@ public class RentResponseSingleDto {
     private LocalDateTime updateDt;
     @JsonProperty("is_ended")
     private boolean isEnded;
-    private Map<Integer, RentResponseProductDto> products;
+    private List<RentResponseProductDto> products;
 
 
     @Data
