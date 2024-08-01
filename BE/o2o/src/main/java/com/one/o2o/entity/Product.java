@@ -1,6 +1,7 @@
 package com.one.o2o.entity;
 
 
+import com.one.o2o.dto.products.ProductsDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
