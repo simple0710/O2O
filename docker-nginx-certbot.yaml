@@ -1,7 +1,7 @@
 
 services:
   nginx:
-    image: nginx-image  # Nginx 이미지 이름 변경1
+    image: nginx:latest  # 공식 Nginx 이미지를 사용  
     ports:
       - "80:80"
       - "443:443"
