@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Pagination } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
+import Pagination from './Pagination'; 
 import '../../style/UserList.css';
+import '../../style/Table.css';  
+import '../../style/Title.css';  
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 const UserList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +15,6 @@ const UserList = () => {
 
   const [overdueUsers, setOverdueUsers] = useState([]);
   useEffect(() => {
-    // JSON 파일을 로드
     axios.get('/overdue_userlist.json')
       .then(response => {
         const rents = response.data.data.rents;
@@ -45,7 +46,6 @@ const UserList = () => {
   };
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
   const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
   const handleNextChunk = () => setCurrentPage(Math.min(currentPage + 5, totalPages));
 
@@ -60,13 +60,15 @@ const UserList = () => {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <h3>연체 이용자 리스트 관리</h3>
-          <Table>
+          <div className='title'>
+            <h3>연체 이용자 관리</h3>
+          </div>
+          <Table className='custom-table'>
             <thead>
               <tr>
                 <th>No.</th>
                 <th>사용자명</th>
-                <th>물품 명</th>
+                <th>물품명</th>
                 <th>연체 물품 수량</th>
                 <th>연체기간</th>
                 <th>예정반납일</th>
@@ -85,35 +87,14 @@ const UserList = () => {
               ))}
             </tbody>
           </Table>
-          <div className="pagination-container">
-          <Pagination className='justify-content-center'>
-            <Pagination.First onClick={() => handlePageChange(1)} />
-            <Pagination.Prev onClick={handlePrevChunk} />
-            <Pagination.Item onClick={() => handlePageChange(1)}>{1}</Pagination.Item>
-            {currentPage > 3 && <Pagination.Ellipsis />}
-            {Array.from({ length: totalPages }, (_, index) => index + 1)
-              .slice(Math.max(currentPage - 3, 1), Math.min(currentPage + 2, totalPages - 1))
-              .map(pageNumber => (
-                <Pagination.Item
-                  key={pageNumber}
-                  active={pageNumber === currentPage}
-                  onClick={() => handlePageChange(pageNumber)}
-                >
-                  {pageNumber}
-                </Pagination.Item>
-              ))}
-            {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
-            {totalPages > 1 && (
-              <Pagination.Item onClick={() => handlePageChange(totalPages)}>
-                {totalPages}
-              </Pagination.Item>
-            )}
-            <Pagination.Next onClick={handleNextChunk} />
-            <Pagination.Last onClick={() => handlePageChange(totalPages)} />
-          </Pagination>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+            handlePrevChunk={handlePrevChunk}
+            handleNextChunk={handleNextChunk}
+          />
         </div>
-        </div>
-        
       </div>
     </div>
   );

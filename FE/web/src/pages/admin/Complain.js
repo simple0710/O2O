@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Pagination, Button, Form } from 'react-bootstrap';
+import { Table, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import '../../style/Complain.css';
+import '../../style/Title.css';  
+import Pagination from './Pagination'; 
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -59,14 +61,15 @@ const Request = () => {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <h3>파손 분실 신고 내역</h3>
-
-          <Table>
+        <div className='title'>
+          <h3>파손 분실 신고 관리</h3>
+        </div>
+          <Table className='custom-table'>
             <thead>
               <tr>
                 <th></th>
                 <th>No.</th>
-                <th>물품 명</th>
+                <th>물품명</th>
                 <th>수량</th>
                 <th>처리 상태</th>
                 <th>신고 날짜</th>
@@ -103,33 +106,13 @@ const Request = () => {
             </Button>
           </div>
 
-          <div className="pagination-container">
-            <Pagination className='justify-content-center'>
-              <Pagination.First onClick={() => handlePageChange(1)} />
-              <Pagination.Prev onClick={handlePrevChunk} />
-              <Pagination.Item onClick={() => handlePageChange(1)}>{1}</Pagination.Item>
-              {currentPage > 3 && <Pagination.Ellipsis />}
-              {Array.from({ length: totalPages }, (_, index) => index + 1)
-                .slice(Math.max(currentPage - 3, 1), Math.min(currentPage + 2, totalPages - 1))
-                .map(pageNumber => (
-                  <Pagination.Item
-                    key={pageNumber}
-                    active={pageNumber === currentPage}
-                    onClick={() => handlePageChange(pageNumber)}
-                  >
-                    {pageNumber}
-                  </Pagination.Item>
-                ))}
-              {currentPage < totalPages - 2 && <Pagination.Ellipsis />}
-              {totalPages > 1 && (
-                <Pagination.Item onClick={() => handlePageChange(totalPages)}>
-                  {totalPages}
-                </Pagination.Item>
-              )}
-              <Pagination.Next onClick={handleNextChunk} />
-              <Pagination.Last onClick={() => handlePageChange(totalPages)} />
-            </Pagination>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+            handlePrevChunk={handlePrevChunk}
+            handleNextChunk={handleNextChunk}
+          />
 
           
         </div>

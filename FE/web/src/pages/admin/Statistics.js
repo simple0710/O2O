@@ -7,6 +7,7 @@ import axios from 'axios';
 import Rent from './Rent';
 import Usage from './Usage';
 import '../../style/Statistics.css';
+import '../../style/Title.css';  
 
 
 const Statistics = () => {
@@ -72,7 +73,9 @@ const Statistics = () => {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-            <h3>물건 사용빈도 통계</h3>
+          <div className='title'>
+            <h3>비품 사용 통계</h3>
+          </div>
             <div className="chart-container">
               <Bar data={chartData} options={options} />
           </div>
