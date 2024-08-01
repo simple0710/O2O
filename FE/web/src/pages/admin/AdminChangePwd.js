@@ -42,7 +42,7 @@ function ChangePwd() {
                     id="inputNewPassword2"
                     placeholder="새 비밀번호를 다시 입력해주세요."
                 />
-                <Button variant="dark" 
+                <Button
                   className="pwd-button" 
                   onClick={handlePasswordChange}
                 >

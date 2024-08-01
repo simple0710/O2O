@@ -16,7 +16,7 @@ const SidebarLink = styled(Link)`
   padding: 10px;
   margin-bottom: 5px;
   text-decoration: none;
-  color: ${props => (props.isActive ? 'white' : 'grey')};
+  color: ${props => (props.isActive ? 'white' : 'black')};
   background-color: ${props => (props.isActive ? 'black' : 'transparent')};
   border-radius: 4px;
   font-weight: ${props => (props.isActive ? 'bold' : 'normal')};
