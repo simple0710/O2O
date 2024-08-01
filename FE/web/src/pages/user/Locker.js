@@ -40,14 +40,13 @@ const Locker = () => {
         }));
         setLockerOptions(options);
 
-        if (lockerBodyId) {
-          const selectedBody = data.find(
-            (body) => body.locker_body_id.toString() === lockerBodyId
-          );
-          if (selectedBody) {
-            setSelectedLockerBody(selectedBody);
-            fetchLockerDetails(selectedBody.locker_body_id);
-          }
+        const initialSelectedBody = lockerBodyId 
+          ? data.find(body => body.locker_body_id.toString() === lockerBodyId) 
+          : data[0]; // 첫 번째 사물함 선택
+
+        if (initialSelectedBody) {
+          setSelectedLockerBody(initialSelectedBody);
+          fetchLockerDetails(initialSelectedBody.locker_body_id);
         }
       })
       .catch((error) => console.error("Failed to load locker data:", error));
@@ -86,12 +85,10 @@ const Locker = () => {
 
     const { row, column } = selectedLockerBody;
 
-    // Create 2D array to represent the table structure
     const table = Array.from({ length: row }, () =>
       Array.from({ length: column }).fill(null)
     );
 
-    // Populate the table with data based on locker_row and locker_column
     additionalLockersData.forEach((locker) => {
       if (locker.body_id === selectedLockerBody.locker_body_id) {
         const { locker_row, locker_column, product_nm, total_cnt, product_cnt } = locker;
@@ -164,7 +161,6 @@ const Locker = () => {
       } else {
         const itemDetails = { name: modalContent, quantity };
 
-        // Update cart
         if (existingItemIndex >= 0) {
           const updatedCart = cart.map((item, index) =>
             index === existingItemIndex
@@ -176,7 +172,6 @@ const Locker = () => {
           setCart((prevCart) => [...prevCart, itemDetails]);
         }
 
-        // Update locker data with new quantities
         const updatedLockersData = additionalLockersData.map((item) => {
           if (item.product_nm === selectedItem.product_nm) {
             return {
@@ -209,10 +204,7 @@ const Locker = () => {
 
   return (
     <div className="outer-box">
-      <h3>사물함 정보 조회</h3>
-      <br />
-      <select onChange={handleLockerChange} className="locker-select">
-        <option value="">사물함을 선택하세요</option>
+      <select onChange={handleLockerChange} className="locker-select" value={selectedLockerBody ? selectedLockerBody.locker_body_name : ''}>
         {lockerOptions.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
@@ -221,7 +213,7 @@ const Locker = () => {
       </select>
 
       {selectedLockerBody && (
-        <div className="table-container"> {/* 테이블을 감싸는 div 추가 */}
+        <div> 
           {renderTable()}
         </div>
       )}

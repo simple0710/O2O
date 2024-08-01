@@ -67,24 +67,4 @@ align-items: center;
 margin-top: 150px;
 }
 
- /* .logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} 
-
-.zoom-in-logo {
-  animation: zoomIn 3s forwards;
-} 
-
-@keyframes zoomIn {
-  from {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-} */
 
