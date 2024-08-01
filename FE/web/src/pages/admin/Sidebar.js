@@ -37,7 +37,8 @@ const Sidebar = () => {
   };
 
   return (
-    <SidebarContainer>
+    <SidebarContainer className='side-bar'>
+      <div className='admin-side-bar'>
       <SidebarLink
         to="/admin/request"
         isActive={activeLink === '/admin/request'}
@@ -66,6 +67,7 @@ const Sidebar = () => {
       >
         연체 이용자 리스트
       </SidebarLink>
+      </div>
     </SidebarContainer>
   );
 };

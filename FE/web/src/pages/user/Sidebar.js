@@ -1,5 +1,3 @@
-// 생략된 부분
-
 import React, { useContext, useState, useEffect } from 'react';
 import { FaInfoCircle, FaInbox, FaShoppingCart } from 'react-icons/fa';
 import { MdOutlineImportExport } from 'react-icons/md';
