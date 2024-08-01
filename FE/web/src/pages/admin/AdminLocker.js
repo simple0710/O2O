@@ -94,11 +94,13 @@ const LockerInfo = () => {
 
     const { row, column } = selectedLockerBody;
 
+    // Create a table structure with empty cells
     const table = Array.from({ length: row }, () => Array.from({ length: column }).fill(null));
 
+    // Populate the table with locker details
     lockerDetails.forEach(locker => {
       const { locker_row, locker_column, product_nm, total_cnt, product_cnt } = locker;
-      if (locker_row && locker_column) {
+      if (locker_row && locker_column && locker_row <= row && locker_column <= column) {
         table[locker_row - 1][locker_column - 1] = { product_nm, total_cnt, product_cnt };
       }
     });
@@ -117,8 +119,8 @@ const LockerInfo = () => {
                     </div>
                   ) : (
                     <div className="rounded-content">
-                      <div>none</div>
-                      <div>0/0</div>
+                      <div>djq</div>
+                      <div>(0/0)</div>
                     </div>
                   )}
                 </td>

@@ -23,7 +23,8 @@ const Findpwd = () => {
                     id="inputEmail"
                     placeholder="Enter your email"
                 />
-                <Button variant="dark" 
+                <Button
+                style={{backgroundColor:'rgb(17, 116, 203)'}}
                  className="login-button"
                  onClick={()=>alert('이메일이 전송되었습니다.')}
                  >

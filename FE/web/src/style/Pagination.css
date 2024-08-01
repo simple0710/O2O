@@ -15,7 +15,7 @@
   border: 1px solid white;
   padding: 0.5rem 0.75rem;
   text-decoration: none;
-  cursor: pointer; /* Ensure cursor is pointer */
+  cursor: pointer; 
 }
 
 .pagination-container .pagination .page-item.active .page-link {

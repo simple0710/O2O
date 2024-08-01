@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Dropdown, Button } from 'react-bootstrap';
-import '../../style/AdminMainpage.css'; 
-import '../../style/AdminLocker.css'; 
+// import '../../style/AdminMainpage.css'; 
+// import '../../style/AdminLocker.css'; 
+import '../../style/MainPageApp.css'; 
 import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Modals from "./Modals";
@@ -52,7 +53,7 @@ const UserNav = () => {
         <div className="text-center">
           {" "}
           {/* 중앙 정렬을 위한 div 추가 */}
-          <Button variant="danger" onClick={handleShow}>
+          <Button className='request-button' style={{ backgroundColor: 'black', color: 'white' }} onClick={handleShow}>
             요청
           </Button>
         </div>

@@ -300,10 +300,17 @@ const Cart = () => {
                             )}
                         </div>
                         <div className="cart-buttons">
-                            <Button variant="primary" onClick={handleReservation} className="cart-button cart-button-primary mb-2">
+                            <Button 
+                            onClick={handleReservation} 
+                            className="cart-button cart-button-primary mb-2"
+                            style={{backgroundColor:'black', color:'white'}}
+                            >
                                 예약하기
                             </Button>
-                            <Button variant="danger" onClick={handleCancel} className="cart-button cart-button-danger">
+                            <Button 
+                            onClick={handleCancel} 
+                            className="cart-button cart-button-danger"
+                            >
                                 취소
                             </Button>
                         </div>

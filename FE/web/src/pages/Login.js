@@ -41,7 +41,7 @@ const Login = () => {
                 /> */}
                     Log In
                 </Button><br></br>
-                <Button variant="dark" className="login-button" onClick={handleFindPwdClick}>비밀번호 찾기</Button>
+                <Button className="login-button" onClick={handleFindPwdClick}>비밀번호 찾기</Button>
             </div>
         </div>
     );

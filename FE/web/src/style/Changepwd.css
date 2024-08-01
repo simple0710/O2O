@@ -1,20 +1,20 @@
-/* Center the content with margin-left and margin-top */
+
 .content {
     margin-left: 150px;
-    margin-top: 50px;
+    margin-top: 50px; 
 }
 
-/* Make sure the form container has full width and centers its content */
+
 .pwd-form {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the form elements horizontally */
+    align-items: center; 
     margin-top: 20px;
-    width: 100%; /* Adjusted to 100% for responsive design */
-    max-width: 500px; /* Set a max-width to keep the form reasonable */
+    width: 100%;
+    max-width: 400px;
 }
 
-/* Style the form labels */
+
 .pwd-form .form-label {
     text-align: left;
     width: 100%;
@@ -23,25 +23,26 @@
     margin-bottom: 5px;
 }
 
-/* Style the form controls */
+
 .pwd-form .form-control {
     margin-bottom: 15px;
     border: 2px solid black;
-    width: 100%; /* Full width relative to the form container */
-    max-width: 500px; /* Optional: Limit max width for better appearance */
+    width: 100%; 
+    max-width: 500px; 
 }
 
-/* Placeholder styling */
 .pwd-form .form-control::placeholder {
     color: #999;
 }
 
-/* Center the button and style it */
+
 .pwd-button {
-    width: 100%; /* Full width relative to the form container */
-    max-width: 300px; /* Optional: Limit max width of the button */
+    width: 100%;
+    max-width: 400px;
     margin-top: 30px;
     margin-bottom: 10px;
     font-size: medium;
-    align-self: center; /* Center align the button */
+    align-self: center;
+    background-color: black;
+    color: white;
 }
