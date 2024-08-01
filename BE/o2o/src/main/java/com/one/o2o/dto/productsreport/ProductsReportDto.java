@@ -29,8 +29,6 @@ public class ProductsReportDto {
     private String rptImg;
     private Boolean isProcessed;
     private Integer statusId;
-    private Integer col;
-    private Integer row;
 
     @PrePersist
     public void perPersist() {
