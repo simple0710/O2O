@@ -6,4 +6,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/test")
 public class TestController {
 
+    @GetMapping()
+    public String testPage(){
+        return "Hello world";
+    }
 }
