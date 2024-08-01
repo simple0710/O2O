@@ -27,7 +27,6 @@ public class ProductsReportDto {
     private String userNm;
     private Integer productCnt;
     private String rptContent;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     private LocalDateTime rptDt;
     private String rptImg;
     private Boolean isProcessed;

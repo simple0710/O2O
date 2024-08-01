@@ -39,7 +39,6 @@ public class ProductsRequest {
     @Column(name = "REQ_CONTENT")
     private String reqContent;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     @Column(name = "REQ_DT")
     private LocalDateTime reqDt;
 
@@ -67,19 +66,7 @@ public class ProductsRequest {
     @PrePersist
     public void perPersist() {
         if (this.reqDt == null) {
-            // 현재 날짜와 시간을 가져옵니다.
-            LocalDateTime now = LocalDateTime.now();
-
-            // 초를 포함한 포맷을 정의합니다.
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd.HH:mm:ss");
-
-            // LocalDateTime 객체를 문자열로 포맷합니다.
-            String formattedDate = now.format(formatter);
-
-            // 문자열을 LocalDateTime으로 변환합니다.
-            LocalDateTime parsedDate = LocalDateTime.parse(formattedDate, formatter);
-            // 변환된 LocalDateTime을 필드에 설정합니다.
-            this.reqDt = parsedDate;
+            this.reqDt = LocalDateTime.now();
         }
         if (this.isApproved == null) {
             this.isApproved = false;

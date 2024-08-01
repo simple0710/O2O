@@ -17,6 +17,4 @@ public class ProductsDto {
     private String productImg;
     private String productDet;
     private Integer userId;
-
-    // 생성자는 @Builder 어노테이션으로 자동 생성되므로 명시적으로 작성할 필요는 없습니다.
 }

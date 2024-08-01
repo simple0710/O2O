@@ -17,9 +17,7 @@ public class OverdueDto {
     private Integer userId;
     private String userNm;
     private Integer rentId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     private LocalDateTime rentDt;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     private LocalDateTime dueDt;
     private Boolean isLate;
     private List<ProductsOverdueDto> products;

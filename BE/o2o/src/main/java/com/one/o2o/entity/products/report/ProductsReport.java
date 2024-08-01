@@ -39,7 +39,6 @@ public class ProductsReport {
     @Column
     private String rptContent;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     @Column
     private LocalDateTime rptDt;
 
