@@ -1,9 +1,13 @@
 FROM openjdk:11
 
 # 작업 디렉토리 설정
-WORKDIR ./
+WORKDIR = /app
 
-CMD ["ls", "-al"]
+COPY . .
+
+RUN ls -al
+
+RUN pwd
 
 # Gradle 빌드
 #RUN chmod +x ./gradlew && ./gradlew clean build
