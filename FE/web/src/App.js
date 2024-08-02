@@ -10,6 +10,7 @@ import Request from './pages/admin/Request';
 import Statistics from './pages/admin/Statistics';
 import UserList from './pages/admin/UserList';
 import AdminChangePwd from './pages/admin/AdminChangePwd';
+import AddItem from './pages/admin/AddItem';
 import AddUser from './pages/admin/AddUser';
 import { CartProvider } from './pages/user/CartContext';
 import './App.css';
@@ -32,6 +33,7 @@ function App() {
           <Route path='/admin/userlist' element={<UserList />} />
           <Route path='/admin/changepwd' element={<AdminChangePwd />} />
           <Route path='/admin/adduser' element={<AddUser />} />
+          <Route path='/admin/additem' element={<AddItem />} />
         </Routes>
         </CartProvider>
         
