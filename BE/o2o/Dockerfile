@@ -15,7 +15,8 @@ RUN pwd
 RUN chmod +x ./gradlew && ./gradlew clean build
 RUN ls -al ./build/libs/
 ARG JAR_FILE=./build/libs/*.jar
-
+ENV JAR_FILE=${JAR_FILE}
 COPY ${JAR_FILE} ./app.jar
+
 #ENV TZ=Asia/Seoul
 ENTRYPOINT ["java", "-jar", "./app.jar"]
