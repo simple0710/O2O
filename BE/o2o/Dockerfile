@@ -7,7 +7,7 @@ COPY . .
 
 
 RUN ls -al
-RUN rm DockerfileT
+
 RUN pwd
 # Gradle 빌드 함!
 #RUN rm -rf .gradle
@@ -16,6 +16,7 @@ RUN chmod +x ./gradlew && ./gradlew clean build
 RUN ls -al ./build/libs/
 
 #ARG JAR_FILE=o2o-0.0.1-SNAPSHOT.jar
+RUN chmod 755 ./build/libs/o2o-0.0.1-SNAPSHOT.jar
 COPY ./build/libs/o2o-0.0.1-SNAPSHOT.jar ./app.jar
 
 #ENV TZ=Asia/Seoul
