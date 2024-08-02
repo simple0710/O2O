@@ -4,6 +4,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 COPY . .
+RUN rm -rf ../build/libs/
 RUN ls -al ./build/libs/
 RUN ls -al
 
