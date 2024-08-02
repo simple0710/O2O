@@ -20,7 +20,7 @@ const AdminNav = () => {
             admin 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to="/admin/changepwd">프로필 수정</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/admin/profile">프로필 수정</Dropdown.Item>
             <Dropdown.Item as={Link} to="/">로그아웃</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

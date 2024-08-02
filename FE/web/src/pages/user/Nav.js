@@ -67,7 +67,7 @@ const UserNav = () => {
             홍길동 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to="/changepwd">
+            <Dropdown.Item as={Link} to="/profile">
               프로필 수정
             </Dropdown.Item>
             <Dropdown.Item as={Link} to="/">

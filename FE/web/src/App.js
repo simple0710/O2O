@@ -12,6 +12,8 @@ import UserList from './pages/admin/UserList';
 import AdminChangePwd from './pages/admin/AdminChangePwd';
 import AddItem from './pages/admin/AddItem';
 import AddUser from './pages/admin/AddUser';
+import AdminProfile from './pages/admin/Profile';
+import UserProfile from './pages/user/Profile';
 import { CartProvider } from './pages/user/CartContext';
 import './App.css';
 
@@ -26,6 +28,7 @@ function App() {
           <Route path='/findpwd' element={<Findpwd />} />
           <Route path='/mainpage' element={<MainPage />} />
           <Route path='/changepwd' element={<ChangePwd />} />
+          <Route path='/profile' element={<UserProfile />} />
           <Route path='/admin' element={<AdminMainpage />} />
           <Route path='/admin/complain' element={<Complain />} />
           <Route path='/admin/request' element={<Request />} />
@@ -34,6 +37,7 @@ function App() {
           <Route path='/admin/changepwd' element={<AdminChangePwd />} />
           <Route path='/admin/adduser' element={<AddUser />} />
           <Route path='/admin/additem' element={<AddItem />} />
+          <Route path='/admin/profile' element={<AdminProfile />} />
         </Routes>
         </CartProvider>
         
