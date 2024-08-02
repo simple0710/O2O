@@ -7,7 +7,7 @@ COPY . .
 
 
 RUN ls -al
-
+RUN rm DockerfileT
 RUN pwd
 # Gradle 빌드 함!
 #RUN rm -rf .gradle
