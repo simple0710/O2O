@@ -8,7 +8,7 @@ COPY . .
 RUN ls -al
 
 RUN pwd
-# Gradle 빌드
+# Gradle 빌드 함!
 RUN rm -rf .gradle
 
 RUN chmod +x ./gradlew && ./gradlew clean build
