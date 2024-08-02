@@ -10,4 +10,9 @@ public class TestController {
     public String testPage(){
         return "Hello world";
     }
+
+    @GetMapping("/2")
+    public String testPage2(){
+        return "Hello world 2";
+    }
 }
