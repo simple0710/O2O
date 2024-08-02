@@ -17,14 +17,21 @@ import com.one.o2o.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +49,8 @@ interface ProductsManageInterface {
 public class ProductsManageService implements ProductsManageInterface {
 
     @Value("${file.upload.dir}")
-    private String uploadDir;
+    private String uploadProductsDir;
+    
     private final ProductsManageRepository productsManageRepository;
     private final ProductsOverdueRepository productsOverdueRepository;
     private final UserRepository userRepository;
@@ -53,7 +61,7 @@ public class ProductsManageService implements ProductsManageInterface {
         try {
             if (!file.isEmpty()) {
                 String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();;
-                Path uploadPath = Paths.get(uploadDir + "/products/" + fileName);
+                Path uploadPath = Paths.get(uploadProductsDir + "/products/" + fileName);
 
                 // 디렉토리가 존재하지 않으면 생성
                 if (!Files.exists(uploadPath)) {
@@ -68,6 +76,26 @@ public class ProductsManageService implements ProductsManageInterface {
         }
         return new Response(HttpStatus.OK.value(), "물품 등록 완료");
     }
+
+    @GetMapping("/products/{filename:.+}")
+    public ResponseEntity<Resource> getProductImage(@PathVariable String filename) {
+        try {
+            Path file = Paths.get(uploadProductsDir + "/products/" + filename);
+            Resource resource = new UrlResource(file.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG) // 이미지 유형에 맞게 조정
+                        .body(resource);
+            } else {
+                throw new RuntimeException("이미지를 읽을 수 없습니다.");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("이미지를 읽는 데 실패했습니다.", e);
+        }
+    }
+
+
 
     @Override
     public Response findAllOverdueList(int pageNumber, int pageSize) {
