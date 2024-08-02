@@ -5,21 +5,18 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.one.o2o.entity.products.report.ProductsReport;
 import jakarta.persistence.PrePersist;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProductsReportDto {
     private Integer rptId;
     private Integer productId;
+    private String productNm;
     private Integer bodyId;
     private Integer lockerId;
     //    private String lockerBody;
@@ -31,25 +28,6 @@ public class ProductsReportDto {
     private String rptImg;
     private Boolean isProcessed;
     private Integer statusId;
-    private Integer col;
-    private Integer row;
-
-    public ProductsReportDto(ProductsReport productsReport) {
-        this.rptId = productsReport.getRptId();
-        this.productId = productsReport.getProduct().getProductId();
-        this.lockerId = productsReport.getLocker().getLockerId();
-        this.bodyId = productsReport.getLocker().getBody().getLockerBodyId();
-        this.col = productsReport.getLocker().getLockerColumn();
-        this.row = productsReport.getLocker().getLockerRow();
-        this.lockerLoc = productsReport.getLocker().getBody().getLockerBodyName();
-        this.userNm = productsReport.getUser().getUserNm();
-        this.productCnt = productsReport.getProductCnt();
-        this.rptContent = productsReport.getRptContent();
-        this.rptDt = productsReport.getRptDt();
-        this.rptImg = productsReport.getRptImg();
-        this.isProcessed = productsReport.getIsProcessed();
-        this.statusId = productsReport.getProductStatus().getStatusId();
-    }
 
     @PrePersist
     public void perPersist() {
