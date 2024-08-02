@@ -31,14 +31,6 @@ const Login = () => {
                     placeholder="Enter your password"
                 />
                 <Button variant="dark" className="login-button" style={{marginTop:'10px'}}>
-                {/* <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                    style={{ marginRight: '8px' }}
-                /> */}
                     Log In
                 </Button><br></br>
                 <Button className="login-button" onClick={handleFindPwdClick}>비밀번호 찾기</Button>
