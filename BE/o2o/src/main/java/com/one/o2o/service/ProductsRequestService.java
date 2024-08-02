@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 interface ProductsRequestServiceInterface {
-    Response findAll(int pageNumber, int pageSize);
+    Response findAllProductsRequest(int pageNumber, int pageSize);
     Response save(UsersRequestDto urd);
     ProductsRequest findById(long id);
     Response updateProcess(RequestProcessDto requestProcessDto);
@@ -34,14 +34,16 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
     private final ProductsRequestRepository productsRequestRepository;
 
     // 요청 비품 목록 조회
-    public Response findAll(int pageNumber, int pageSize) {
+    public Response findAllProductsRequest(int pageNumber, int pageSize) {
         try {
             Response response = new Response(200, "요청 비품 목록 관리 페이지 이동 성공");
             Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
             Page<ProductsRequest> requestPage = productsRequestRepository.findAll(pageable);
             Map<String, Object> map = new HashMap<>();
             map.put("reqs", requestPage.stream()
-                    .map(ProductsRequestDto::new)
+                    .map(ProductsRequest -> {
+                        return new ProductsRequestDto
+                    })
                     .collect(Collectors.toList()));
             map.put("pages", PageInfoDto.builder()
                     .curPg(requestPage.getNumber() + 1)

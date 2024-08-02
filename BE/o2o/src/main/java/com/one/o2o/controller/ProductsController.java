@@ -34,22 +34,38 @@ public class ProductsController {
         return new ResponseEntity<>(productsManageService.saveProduct(productsDto, file), HttpStatus.OK);
     }
 
-    // 요청 물품 목록 가져오기
+    /**
+     * 요청 물품 리스트를 가져옵니다. 페이지네이션 기능을 제공합니다.
+     *
+     * @param pageNumber 현재 페이지 번호, default = 1
+     * @param pageSize 한 페이지 당 보여줄 요청 수, default = 10
+     * @return ResponseEntity(요청 물품 리스트, HTTP 상태 코드(200))
+     */
     @GetMapping("/request")
-    public ResponseEntity<?> findAll(
+    public ResponseEntity<?> findAllProductsRequest(
             @RequestParam(name = "pg_no", defaultValue = "1") int pageNumber,
             @RequestParam(name = "per_page", defaultValue = "10") int pageSize) {
-        return new ResponseEntity<>(productsRequestService.findAll(pageNumber, pageSize), HttpStatus.OK);
+        return new ResponseEntity<>(productsRequestService.findAllProductsRequest(pageNumber, pageSize), HttpStatus.OK);
     }
 
-    // 물품 요청
+    /**
+     * 사용자의 물품 요청을 등록합니다.
+     *
+     * @param usersRequestDto 사용자의 물품 요청 정보를 담고 있는 DTO
+     * @return ResponseEntity(HTTP 상태 코드(200))
+     */
     @PostMapping("/request")
-    public ResponseEntity<?> userRequest(@RequestBody UsersRequestDto usersRequestDto) {
+    public ResponseEntity<?> registUserProductsRequest(@RequestBody UsersRequestDto usersRequestDto) {
         return new ResponseEntity<>(productsRequestService.save(usersRequestDto), HttpStatus.OK);
     }
 
+    /**
+     *
+     * @param requestProcessDto 유저의 물품 요청 처리 정보를 담고 있는 DTO
+     * @return ResponseEntity(HTTP 상태 코드(200))
+     */
     @PutMapping("/request/process")
-    public ResponseEntity<?> updateRequest(@RequestBody RequestProcessDto requestProcessDto) {
+    public ResponseEntity<?> updateUserProductsRequest(@RequestBody RequestProcessDto requestProcessDto) {
         return new ResponseEntity<>(productsRequestService.updateProcess(requestProcessDto), HttpStatus.OK);
     }
 
