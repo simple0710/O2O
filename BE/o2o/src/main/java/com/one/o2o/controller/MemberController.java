@@ -57,7 +57,7 @@ public class MemberController {
     }
 
 
-    @PostMapping("/login")
+    @PostMapping({"/login", "/login/"})
     public JwtToken signIn(@RequestBody SignInDto signInDto) {
         String user_lgid = signInDto.getUser_lgid();
         String user_pw = signInDto.getUser_pw();
