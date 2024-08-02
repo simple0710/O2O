@@ -19,10 +19,10 @@ RUN ls -al ./build/libs/
 #ARG JAR_FILE=o2o-0.0.1-SNAPSHOT.jar
 
 ARG JAR_FILE=o2o-0.0.1-SNAPSHOT.jar
-RUN mv ./build/libs/${JAR_FILE} ./build/libs/app
+RUN mv ./build/libs/${JAR_FILE} ./build/libs/app.jar
 RUN ls -al ./build/libs/
 
-COPY ./build/libs/app ./app.jar
+COPY ./build/libs/app.jar ./app.jar
 
 #ENV TZ=Asia/Seoul
 ENTRYPOINT ["java", "-jar", "./app.jar"]
