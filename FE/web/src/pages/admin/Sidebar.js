@@ -67,6 +67,13 @@ const Sidebar = () => {
       >
         연체 이용자 리스트
       </SidebarLink>
+      <SidebarLink
+        to="/admin/adduser"
+        isActive={activeLink === '/admin/adduser'}
+        onClick={() => handleLinkClick('/admin/adduser')}
+      >
+        이용자등록
+      </SidebarLink>
       </div>
     </SidebarContainer>
   );
