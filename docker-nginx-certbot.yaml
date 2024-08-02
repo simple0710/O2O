@@ -8,17 +8,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    depends_on:
-      - certbot
-
-  certbot:
-    build:  # Certbot을 위한 Dockerfile을 빌드
-      context: ./certbot/
-      dockerfile: Dockerfile  # Certbot을 위한 Dockerfile의 경로
-    image: my-certbot  # 빌드한 Certbot 이미지 이름
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+      - /etc/letsencrypt/:/etc/letsencrypt/
+      - /var/lib/letsencrypt:./var/lib/letsencrypt
+   
