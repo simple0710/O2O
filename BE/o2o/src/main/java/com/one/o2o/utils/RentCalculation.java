@@ -48,7 +48,7 @@ public class RentCalculation {
 
 
     public static Map<Integer, Integer> getProductRentFromEntity(List<RentLog> logs)
-    {
+    { // 현재 대여된 수량 파악
         Map<Integer, Integer> map = new HashMap<>();
         for(RentLog rl : logs){
             int pid = rl.getNewProductId();

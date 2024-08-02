@@ -149,7 +149,7 @@ public class RentServiceImpl implements RentService {
     public boolean createReturn(int userId, ReturnRequestDto returnRequestDto) {
         Optional<Rent> findRent = rentRepository.findById(returnRequestDto.getRentId());
         // 1. 유효성 확인
-        // 1) 대여 유효성
+        // 1) 반납 유효성
         Rent rent = findRent.orElseThrow(RentException.RentNotFoundException::new);
         if(rent.isReturned()) return true;
         Map<Integer, Integer> map = RentCalculation.getProductRentFromEntity(rent.getRentLogs());
@@ -158,7 +158,7 @@ public class RentServiceImpl implements RentService {
             // 2) 물품 유효성
             // 빌려갔던 물품이 맞는지
             if(!map.containsKey(product.getProductId())) throw new RentException.InvalidReturnException();
-            // 대여할 수량이 남아있는지
+            // 반납할 수량이 남아있는지
             if(map.get(product.getProductId()) < product.getProductCnt()) throw new RentException.InvalidReturnException();
 
             // 2. 반납 실행
@@ -173,11 +173,14 @@ public class RentServiceImpl implements RentService {
             rentLogRepository.save(rentLog);
             // 2) 사물함 복원
             lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._return));
+            // 3) Map 확인
+            map.put(product.getProductId(), map.get(product.getProductId()) - product.getProductCnt());
         }
         // 3. 대여 변경
         // 1) 모든 반납이 완료되었으면, 완료로 설정한다.
         if(map.values().stream().reduce(0, Integer::sum) == 0){
             rent.updateReturned(true);
+            rent.setEndDt(LocalDateTime.now());
         }
         return true;
     }
