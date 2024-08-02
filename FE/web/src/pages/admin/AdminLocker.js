@@ -19,9 +19,10 @@ const LockerInfo = () => {
     const queryParams = new URLSearchParams(location.search);
     const lockerBodyId = queryParams.get('locker_body_id');
 
-    axios.get('/lockers/names')
+    axios.get('./locker.json')
       .then(response => {
-        const data = response.data.data;
+        // const data = response.data.data;
+        const data = response.data
         console.log('Fetched lockers data:', data);
         setLockersData(data);
 

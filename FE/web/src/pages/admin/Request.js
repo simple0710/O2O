@@ -12,12 +12,13 @@ const Request = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const postsPerPage = 10;
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (page) => {
       try {
-        const response = await axios.get("/products/request");
+        const response = await axios.get("/products/request?pg_no=${page}&per_page=${postsPerPage}");
         const data = response.data;
         console.log(data);
         setPosts(data.data.reqs);
