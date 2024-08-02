@@ -22,7 +22,7 @@ ARG JAR_FILE=o2o-0.0.1-SNAPSHOT.jar
 RUN mv ./build/libs/${JAR_FILE} ./build/libs/app.jar
 RUN ls -al ./build/libs/
 
-COPY ./build/libs/app.jar ./app.jar
+RUN cp ./build/libs/app.jar ./app.jar
 
 #ENV TZ=Asia/Seoul
 ENTRYPOINT ["java", "-jar", "./app.jar"]
