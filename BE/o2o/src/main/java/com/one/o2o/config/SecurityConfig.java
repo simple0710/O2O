@@ -37,6 +37,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests(auth -> auth
+                        // 정적 리소스 처리 - 1
                         .requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/static/**", "/public/**").permitAll()
                         // 해당 API에 대해서는 모든 요청을 허가
