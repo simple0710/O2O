@@ -1,57 +1,74 @@
 .navbar-custom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-  }
-  
-  .navbar-left {
-    display: flex;
-    align-items: center;
-  }
-  
-  .navbar-left .nav-link {
-    font-weight: bold;
-    color: black;
-  }
-  
-  .navbar-left .nav-link .highlight {
-    color: blue;
-  }
-  
-  .custom-dropdown-toggle {
-    display: flex;
-    align-items: center;
-  }
-  
-  .content-container {
-    display: flex;
-  }
-  
-  .side-bar {
-    width: 220px; 
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .side-bar-item {
-    margin-bottom: 30px; 
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-  }
-  
-  .side-bar-item:hover {
-    color: blue; 
-  }
-  
-  .content {
-    flex-grow: 1;
-    padding: 20px;
-  }
-  
-  .locker {
-    height: 70%;
-    overflow: auto;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-left .nav-link {
+  font-weight: bold;
+  color: black;
+}
+
+.navbar-left .nav-link .highlight {
+  color: blue;
+}
+
+.custom-dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.content-container {
+  display: flex;
+}
+
+.side-bar {
+  width: 220px;
+  /* padding: 20px; */
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.side-bar-item:hover {
+  color: blue;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.locker {
+  height: 70%;
+  overflow: auto;
+}
+
+/* 스크롤바 전체 스타일링 */
+.locker::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+  height: 10px; /* 스크롤바의 높이 (가로 스크롤바일 경우) */
+}
+
+/* 스크롤바의 트랙 스타일링 */
+.locker::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 트랙 배경색 */
+  border-radius: 10px; /* 트랙의 모서리 둥글게 */
+}
+
+/* 스크롤바의 핸들(thumb) 스타일링 */
+.locker::-webkit-scrollbar-thumb {
+  background: #888; /* 핸들의 배경색 */
+  border-radius: 10px; /* 핸들의 모서리 둥글게 */
+}
+
+/* 스크롤바의 핸들(thumb) 호버 스타일링 */
+.locker::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 핸들 호버 시 배경색 */
+}

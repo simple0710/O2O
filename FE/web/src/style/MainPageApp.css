@@ -33,13 +33,13 @@
 
 .content-container {
   display: flex;
-  height: calc(100vh - 60px);
 }
 
 .side-bar {
   display: sticky;
-  margin-left: 30px;
-  margin-top: 50px;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   flex-shrink: 0;
 }
 
@@ -66,9 +66,8 @@
   padding: 10px;
   width: 100%;
   height: 100%;
-  border: 3px solid #000;
   border-radius: 20px;
-  background-color: #d6f5ff;
+  /* background-color: #d6f5ff; */
 }
 
 .responsive {
@@ -79,3 +78,4 @@
   border: solid 1px black;
   background-color: skyblue;
 }
+

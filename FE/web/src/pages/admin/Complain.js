@@ -1,67 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, Table, Pagination } from 'react-bootstrap';
-import Sidebar from './Sidebar';
-import AdminNav from './AdminNav';
-import '../../style/Complain.css';
+import React, { useState, useEffect } from "react";
+import { Table, Button, Form } from "react-bootstrap";
+import axios from "axios";
+import Sidebar from "./Sidebar";
+import AdminNav from "./AdminNav";
+import "../../style/Complain.css";
+import "../../style/Title.css";
+import Pagination from "./Pagination";
 
 const Request = () => {
-  const [showModal, setShowModal] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [formData, setFormData] = useState({
-    itemName: '',
-    reason: '',
-    itemLink: '',
-    itemCount: ''
-  });
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
   const postsPerPage = 10;
 
-  const handleShow = () => setShowModal(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/products/report");
+        console.log(response.data.data.rpts);
+        const data = response.data.data.rpts;
+        setPosts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const handleClose = () => {
-    setFormData({
-      itemName: '',
-      reason: '',
-      itemLink: '',
-      itemCount: ''
-    });
-    setShowModal(false);
-  };
+    fetchData();
+  }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = () => {
-    const { itemName, itemCount } = formData;
-    if (itemName.trim() && itemCount.trim() && parseInt(itemCount, 10) >= 1) {
-      const newPost = {
-        ...formData,
-        id: Date.now(),  // 고유 ID 생성
-        requestDate: new Date().toISOString().split('T')[0],
-        status: '미처리'
-      };
-      setPosts([...posts, newPost]);
-      setFormData({
-        itemName: '',
-        reason: '',
-        itemLink: '',
-        itemCount: ''
-      });
-      handleClose();
-    }
-  };
-
-  const handleStatusChange = (status) => {
+  const handleStatusChange = async (status) => {
     const updatedPosts = posts.map((post) =>
-      selectedPosts.includes(post.id) ? { ...post, status } : post
+      selectedPosts.includes(post.rpt_id)
+        ? { ...post, is_processed: status === "처리완료" }
+        : post
     );
     setPosts(updatedPosts);
+
+    // POST 요청을 보낼 데이터 생성
+    const postData = selectedPosts.map((id) => ({
+      rpt_id: id,
+      is_processed: status === "처리완료",
+    }));
+
+    try {
+      await axios.post("/products/report/update", postData);
+      console.log("Status updated successfully");
+    } catch (error) {
+      console.log("Error updating status", error);
+    }
+
     setSelectedPosts([]);
   };
 
@@ -75,19 +62,16 @@ const Request = () => {
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
+  // 미처리 항목을 위로 오도록 정렬
+  const sortedPosts = [...posts].sort((a, b) => a.is_processed - b.is_processed);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
-  // useEffect를 사용하여 처리완료 상태 변경 시 자동 삭제 타이머 설정
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setPosts((prevPosts) => prevPosts.filter((post) => post.status !== '처리완료'));
-    }, 259200000); //3일
-
-    return () => clearTimeout(timer);
-  }, [posts]);
+  const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
+  const handleNextChunk = () =>
+    setCurrentPage(Math.min(currentPage + 5, totalPages));
 
   return (
     <div>
@@ -95,18 +79,15 @@ const Request = () => {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <h3>파손 분실 신고 내역
-            <Button variant="primary" onClick={handleShow} style={{ width: '20%', marginLeft: '10px' }}>
-              신고하기
-            </Button>
-          </h3>
-
-          <Table striped bordered hover className="mt-4">
+          <div className="title">
+            <h3>파손 분실 신고 관리</h3>
+          </div>
+          <Table className="custom-table">
             <thead>
               <tr>
                 <th></th>
                 <th>No.</th>
-                <th>물품 명</th>
+                <th>물품명</th>
                 <th>수량</th>
                 <th>처리 상태</th>
                 <th>신고 날짜</th>
@@ -114,86 +95,44 @@ const Request = () => {
             </thead>
             <tbody>
               {currentPosts.map((post, index) => (
-                <tr key={post.id}>
+                <tr key={post.rpt_id}>
                   <td>
-                    <Form.Check
-                      type="checkbox"
-                      onChange={() => handleCheckboxChange(post.id)}
-                      checked={selectedPosts.includes(post.id)}
-                    />
+                    {!post.is_processed && (
+                      <Form.Check
+                        type="checkbox"
+                        onChange={() => handleCheckboxChange(post.rpt_id)}
+                        checked={selectedPosts.includes(post.rpt_id)}
+                      />
+                    )}
                   </td>
                   <td>{indexOfFirstPost + index + 1}</td>
-                  <td>{post.itemName}</td>
-                  <td>{post.itemCount}</td>
-                  <td>{post.status}</td>
-                  <td>{post.requestDate}</td>
+                  <td>{post.product_id}</td>
+                  <td>{post.product_cnt}</td>
+                  <td>{post.is_processed ? "처리완료" : "미처리"}</td>
+                  <td>{post.rpt_dt}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
 
-          <Pagination>
-            {[...Array(totalPages)].map((_, pageIndex) => (
-              <Pagination.Item
-                key={pageIndex + 1}
-                active={pageIndex + 1 === currentPage}
-                onClick={() => handlePageChange(pageIndex + 1)}
-              >
-                {pageIndex + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
-
           <div className="mt-3">
             <Button
-              className='check-button'
-              onClick={() => handleStatusChange('처리완료')}
+              className="check-button"
+              onClick={() => handleStatusChange("처리완료")}
               disabled={selectedPosts.length === 0}
-              style={{ marginRight: '10px' }}
+              style={{ marginRight: "10px" }}
             >
               처리완료
             </Button>
           </div>
 
-          <Modal show={showModal} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>새 물품 신청</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group controlId="formItemName">
-                  <Form.Label>물품 명</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="itemName"
-                    value={formData.itemName}
-                    onChange={handleInputChange}
-                    placeholder="물품 명을 입력하세요"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formItemCount">
-                  <Form.Label>수량</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="itemCount"
-                    value={formData.itemCount}
-                    onChange={handleInputChange}
-                    placeholder="수량을 입력하세요"
-                    min="1"
-                  />
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                닫기
-              </Button>
-              <Button variant="primary" onClick={handleSubmit}>
-                제출
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+            handlePrevChunk={handlePrevChunk}
+            handleNextChunk={handleNextChunk}
+          />
         </div>
       </div>
     </div>

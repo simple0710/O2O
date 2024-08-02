@@ -1,0 +1,29 @@
+.chart-container {
+  margin: auto;
+  height: 400px;
+  width: 80%;
+}
+
+.out-chart {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.in-chart {
+  flex: 1;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}

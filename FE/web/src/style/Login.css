@@ -43,5 +43,7 @@
     width: 300px; 
     margin-bottom: 10px;
     font-size: medium;
+    background-color: rgb(17, 116, 203);
+    color: white;
   }
 
