@@ -54,9 +54,9 @@ public class SecurityConfig {
     }
 
 
-    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().mvcMatchers("/favicon.ico");
-        web.ignoring().requestMatchers(String.valueOf(PathRequest.toStaticResources().atCommonLocations()));
-    }
+//    public void configure(WebSecurity web) throws Exception {
+////        web.ignoring().mvcMatchers("/favicon.ico");
+//        web.ignoring().requestMatchers(String.valueOf(PathRequest.toStaticResources().atCommonLocations()));
+//    }
 
 }
