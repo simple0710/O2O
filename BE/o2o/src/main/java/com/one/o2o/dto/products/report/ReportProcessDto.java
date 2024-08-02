@@ -1,4 +1,4 @@
-package com.one.o2o.dto.productsreport;
+package com.one.o2o.dto.products.report;
 
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

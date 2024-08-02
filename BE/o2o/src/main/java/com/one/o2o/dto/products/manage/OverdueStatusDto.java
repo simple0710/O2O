@@ -1,15 +1,15 @@
-package com.one.o2o.dto.reserve;
+package com.one.o2o.dto.products.manage;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
+import lombok.Getter;
 
 @Data
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ReserveRequestDto {
-    private Integer lockerBodyId;
-    private String reserveTime;
-    private List<ReserveRequestProductDto> reserves;
+public class OverdueStatusDto {
+    private String statusNm;
+    private Integer productCnt;
 }

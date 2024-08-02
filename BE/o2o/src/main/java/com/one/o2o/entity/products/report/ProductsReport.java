@@ -1,14 +1,13 @@
-package com.one.o2o.entity.productsreport;
+package com.one.o2o.entity.products.report;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.one.o2o.dto.productsreport.UsersReportDto;
+import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -40,7 +39,6 @@ public class ProductsReport {
     @Column
     private String rptContent;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     @Column
     private LocalDateTime rptDt;
 

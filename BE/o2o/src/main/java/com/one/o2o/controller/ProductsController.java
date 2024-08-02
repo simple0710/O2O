@@ -1,23 +1,38 @@
 package com.one.o2o.controller;
 
-import com.one.o2o.dto.productsreport.ReportProcessDto;
-import com.one.o2o.dto.productsreport.UsersReportDto;
-import com.one.o2o.dto.productsrequest.RequestProcessDto;
-import com.one.o2o.dto.productsrequest.UsersRequestDto;
+import com.one.o2o.dto.products.ProductsDto;
+import com.one.o2o.dto.products.report.ReportProcessDto;
+import com.one.o2o.dto.products.report.UsersReportDto;
+import com.one.o2o.dto.products.request.RequestProcessDto;
+import com.one.o2o.dto.products.request.UsersRequestDto;
+import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
+@Slf4j
 public class ProductsController {
 
+    private final ProductsManageService productsManageService;
     private final ProductsRequestService productsRequestService;
     private final ProductsReportService productsReportService;
+    // 물품 등록
+    @PostMapping("/regist")
+    public ResponseEntity<?> registProduct(
+            @RequestPart("productsDto") ProductsDto productsDto,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+        return new ResponseEntity<>(productsManageService.saveProduct(productsDto, file), HttpStatus.OK);
+    }
 
     // 요청 물품 목록 가져오기
     @GetMapping("/request")
@@ -56,4 +71,14 @@ public class ProductsController {
     private ResponseEntity<?> processProductsReport(@RequestBody ReportProcessDto reportProcessDto) {
         return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
     }
+
+    @GetMapping("/overdue")
+    private ResponseEntity<?> findAllOverdue(
+            @RequestParam(name = "pg_no", defaultValue = "1") int pageNumber,
+            @RequestParam(name = "per_page", defaultValue = "10") int pageSize) {
+        log.info("pageNumber : " + pageNumber);
+        log.info("pageSize = " + pageSize);
+        return new ResponseEntity<>(productsManageService.findAllOverdueList(pageNumber, pageSize), HttpStatus.OK);
+    }
+
 }
