@@ -24,7 +24,7 @@ function AddUser() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form Data Submitted:', formData);
+        console.log(formData);
     };
 
     return (
@@ -33,10 +33,10 @@ function AddUser() {
         <div className="content-container">
             <Sidebar />
             <div className="content">
-                <h2 className="mb-4">이용자 등록</h2>
+                <h2>이용자 등록</h2>
                 <div className='user-form'>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="email" className="form-label">로그인아이디(이메일형식):</label>
                         <input
                             type="email"
@@ -48,7 +48,7 @@ function AddUser() {
                             required
                         />
                     </div>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="password" className="form-label">비밀번호:</label>
                         <input
                             type="password"
@@ -60,7 +60,7 @@ function AddUser() {
                             required
                         />
                     </div>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="username" className="form-label">사용자명:</label>
                         <input
                             type="text"
@@ -72,7 +72,7 @@ function AddUser() {
                             required
                         />
                     </div>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="employeeId" className="form-label">직원번호:</label>
                         <input
                             type="text"
@@ -84,7 +84,7 @@ function AddUser() {
                             required
                         />
                     </div>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="imageLink" className="form-label">이미지링크:</label>
                         <input
                             type="text"
@@ -96,7 +96,7 @@ function AddUser() {
                             required
                         />
                     </div>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="phoneNumber" className="form-label">전화번호:</label>
                         <input
                             type="tel"
