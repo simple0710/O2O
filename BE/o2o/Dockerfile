@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN ls -al ./build/libs/
+
 RUN ls -al
 
 RUN pwd
@@ -13,7 +13,7 @@ RUN pwd
 #RUN rm -rf .gradle
 
 RUN chmod +x ./gradlew && ./gradlew clean build
-
+RUN ls -al ./build/libs/
 ARG JAR_FILE=./build/libs/o2o-0.0.1-SNAPSHOT.jar
 
 COPY ${JAR_FILE} ./app.jar
