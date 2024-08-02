@@ -8,8 +8,8 @@ import axios from 'axios';
 
 const Login = () => {
     const [formData, setFormData] = useState({
-        userLgid: '',
-        userPw: '',
+        user_lgid: '',
+        user_pw: '',
     });
 
     const [loading, setLoading] = useState(false);
@@ -31,12 +31,19 @@ const Login = () => {
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/login', formData);
+            const response = await axios.post('/users/login/', formData, {
+                headers: {
+                    "Content-Type": "application/json "
+                }
+            });
+
             console.log('Login successful:', response.data);
-            navigate('/dashboard'); // 로그인 성공 시 리디렉션
+            navigate('/mainpage'); 
         } catch (err) {
+            
             console.error('Login error:', err);
-            setError('Invalid credentials');
+            console.log(err)
+            setError('로그인실패');
         } finally {
             setLoading(false);
         }
@@ -57,9 +64,9 @@ const Login = () => {
                         <Form.Label>ID</Form.Label>
                         <Form.Control
                             type="text"
-                            name="userLgid"
+                            name="user_lgid"
                             placeholder="Enter your id"
-                            value={formData.userLgid}
+                            value={formData.user_lgid}
                             onChange={handleChange}
                         />
                     </Form.Group>
@@ -67,9 +74,9 @@ const Login = () => {
                         <Form.Label>PASSWORD</Form.Label>
                         <Form.Control
                             type="password"
-                            name="userPw"
+                            name="user_pw"
                             placeholder="Enter your password"
-                            value={formData.userPw}
+                            value={formData.user_pw}
                             onChange={handleChange}
                         />
                     </Form.Group>
