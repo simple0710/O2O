@@ -4,7 +4,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 COPY . .
-
+RUN ls -al ./build/libs/
 RUN ls -al
 
 RUN pwd
@@ -14,7 +14,7 @@ RUN rm -rf .gradle
 RUN chmod +x ./gradlew && ./gradlew clean build
 
 ARG JAR_FILE=./build/libs/o2o-0.0.1-SNAPSHOT.jar
-ARG CACHEBUST=1
+
 COPY ${JAR_FILE} ./app.jar
 ENV TZ=Asia/Seoul
 ENTRYPOINT ["java", "-jar", "./app.jar"]
