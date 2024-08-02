@@ -33,6 +33,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/favicon.ico").permitAll()
                         // 해당 API에 대해서는 모든 요청을 허가
                         .requestMatchers("/users/login","/users/regist","**","*","**/**","*/*").permitAll()
                         // USER 권한이 있어야 요청할 수 있음
