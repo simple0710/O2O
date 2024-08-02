@@ -68,7 +68,7 @@ function AddItem() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">등록</button>
+                <button type="submit" className="add-btn">등록</button>
             </form>
             </div>
           </div>

@@ -3,6 +3,7 @@ import '../../style/AdminMainpage.css';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
+import '../../style/AddUser.css';
 
 function AddUser() {
     const [formData, setFormData] = useState({
@@ -46,6 +47,7 @@ function AddUser() {
                             value={formData.email}
                             onChange={handleChange}
                             required
+                            placeholder='이메일 형식으로 입력해주세요.'
                         />
                     </div>
                     <div>
@@ -58,6 +60,7 @@ function AddUser() {
                             value={formData.password}
                             onChange={handleChange}
                             required
+                            placeholder='특수문자를 포함해서 입력해주세요.'
                         />
                     </div>
                     <div>
@@ -70,6 +73,7 @@ function AddUser() {
                             value={formData.username}
                             onChange={handleChange}
                             required
+                            placeholder='성함을 입력해주세요.'
                         />
                     </div>
                     <div>
@@ -82,6 +86,7 @@ function AddUser() {
                             value={formData.employeeId}
                             onChange={handleChange}
                             required
+                            placeholder='직원번호를 입력해주세요.'
                         />
                     </div>
                     <div>
@@ -94,6 +99,7 @@ function AddUser() {
                             value={formData.imageLink}
                             onChange={handleChange}
                             required
+                            placeholder='사원증 사진을 넣어 주세요.'
                         />
                     </div>
                     <div>
@@ -106,6 +112,7 @@ function AddUser() {
                             value={formData.phoneNumber}
                             onChange={handleChange}
                             required
+                            placeholder='전화번호를 입력해주세요.'
                         />
                     </div>
                     <button type="submit" className="add-btn">등록</button>
