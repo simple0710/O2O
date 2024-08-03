@@ -1,21 +1,21 @@
 .custom-table {
-    border-collapse: collapse;
-  }
-  
-  .custom-table th, .custom-table td {
-    border-left: none;
-    border-right: none;
-  }
-  
-  .custom-table th, .custom-table td {
-    border-bottom: 1px solid black;
-  }
-  
-  .custom-table thead {
-    border-top: 3px solid black; 
-    border-bottom: 3px solid black;
-  }
+  border-collapse: collapse;
+}
 
-  .custom-table tbody {
-    border-bottom: 3px solid black; 
-  }
+.custom-table th, .custom-table td {
+  border-left: none;
+  border-right: none;
+}
+
+.custom-table th, .custom-table td {
+  border-bottom: 1px solid black;
+}
+
+.custom-table thead {
+  border-top: 3px solid black; 
+  border-bottom: 3px solid black;
+}
+
+.custom-table tbody {
+  border-bottom: 3px solid black; 
+}
