@@ -3,6 +3,7 @@ package com.one.o2o.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@ComponentScan
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -35,9 +37,11 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests(auth -> auth
+                        // 정적 리소스 처리 - 1
                         .requestMatchers("/favicon.ico").permitAll()
+                        .requestMatchers("/static/**", "/public/**").permitAll()
                         // 해당 API에 대해서는 모든 요청을 허가
-                        .requestMatchers("/users/login","/users/regist","**","*","**/**","*/*").permitAll()
+                        .requestMatchers("/users/login","/users/login/","/users/regist","**","*","**/**","*/*").permitAll()
                         // USER 권한이 있어야 요청할 수 있음
                         .requestMatchers("/users/testte").hasRole("USER")
                         // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
