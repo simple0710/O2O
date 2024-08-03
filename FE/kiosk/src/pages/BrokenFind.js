@@ -11,6 +11,11 @@ import { getCurrentProducts } from '../api/brokenfind.js';
 //   { id: 4, name: '카메라', icon: '📷' },
 // ];
 
+
+
+// 임시 유저 아이디
+const userId = 4;
+
 function BrokenFind() {
   const navigate = useNavigate();
   // const [quantities, setQuantities] = useState(items.reduce((acc, item) => {
@@ -21,19 +26,22 @@ function BrokenFind() {
   const [items, setItems]  = useState([]);
 
   const increaseQuantity = (ind, type) => {
+    console.log("hi " , ind);
     // setQuantities(prev => ({ ...prev, [id]: { ...prev[id], [type]: prev[id][type] + 1 } }));
     setItems(prevItems => 
       prevItems.map((item, index) => 
-        index === ind ? { ...item, [type]: item[type] + 1 } : item
+        // 임시로 min으로 막아두긴 했는데 broken+missing이 cnt 넘지 않게 해야댐 
+        ind === index ? { ...item, [type]: Math.min(item[type] + 1, item.cnt)} : item
       )
     );
+    console.log(items);
   };
 
   const decreaseQuantity = (ind, type) => {
     // setQuantities(prev => ({ ...prev, [id]: { ...prev[id], [type]: prev[id][type] > 0 ? prev[id][type] - 1 : 0 } }));
     setItems(prevItems => 
       prevItems.map((item, index) => 
-        index === id ? { ...item, [type]: item[type] > 0 ? item[type] - 1 : 0 } : item
+        ind === index ? { ...item, [type]: Math.max(item[type] - 1, 0)} : item
       )
     );
   };
@@ -44,22 +52,25 @@ function BrokenFind() {
   }, [])
 
   const reportItems = () => {
-    const reportedItems = items.map(item => ({
-      id: item.id,
-      name: item.name,
-      icon: item.icon,
-      broken: item.broken,
-      missing: item.missing
-    })).filter(item => item.broken > 0 || item.missing > 0);
+    console.log(items);
+    console.log(items);
+    // 분실 목록
+    // filter -> map 순서 (그런데 지금 구조 수정하지 않아도 될 듯)
+    const missingItems = items
+      .filter(item => item.missing > 0);
+    const brokenItems = items
+      .filter(item => item.broken > 0);
 
-    console.log("신고된 아이템:", reportedItems);
+    const reportedItems = [...missingItems, ...brokenItems];
+    console.log("신고된 아이템:", reportedItems, missingItems, brokenItems);
     // console.log(reportedItems[0].name)
+    // post 후 이동 
     navigate('/registerbroken', { state: { reportedItems } });
   };
 
   // ------------- API 연결
   const getBrokenValues = async () => {
-    const data = await getCurrentProducts(4, 1, 10);
+    const data = await getCurrentProducts(userId, 1, 10);
     console.log("data ", data);
     if(data != null){
       const productsData = [];
@@ -76,6 +87,7 @@ function BrokenFind() {
               broken: 0, 
               missing: 0,
               icon: "🕶",
+              locker_id: product.locker_id, // BE 수정 예정 
             })
           }
       }
@@ -89,8 +101,8 @@ function BrokenFind() {
     <div className="cart-container">
       <h2>대여물품조회</h2>
       <div className="items">
-        {items.map((item, ind) => ( // ind 사용하여 product 구분 
-          <div key={ind} className="item">
+        {items.map((item, ind) => ( // ind 사용하여 product 구분 (product_id가 고유하지 않을 수도 있음)
+          <div key={ind} className="item"> 
             <div className="item-header">
               <span className="item-icon">{item.icon}</span>
               <span className="item-name">{item.name}</span>
