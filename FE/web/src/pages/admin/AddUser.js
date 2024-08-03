@@ -8,12 +8,12 @@ import axios from "axios";
 
 const Signup = () => {
     const [formData, setFormData] = useState({
-      userLgid: '',
-      userPw: '',
-      userNm: '',
-      empCd: '',
-      userImg: '',
-      userTel: '',
+      user_lgid: '',
+      user_pw: '',
+      user_mm: '',
+      emp_cd: '',
+      user_img: '',
+      user_tel: '',
     });
   
     const handleChange = (e) => {
@@ -51,7 +51,7 @@ const Signup = () => {
             type="text"
             id="userLgid"
             name="userLgid"
-            value={formData.userLgid}
+            value={formData.user_lgid}
             onChange={handleChange}
           />
         </div>
@@ -61,7 +61,7 @@ const Signup = () => {
             type="password"
             id="userPw"
             name="userPw"
-            value={formData.userPw}
+            value={formData.user_pw}
             onChange={handleChange}
           />
         </div>
@@ -71,7 +71,7 @@ const Signup = () => {
             type="text"
             id="empCd"
             name="empCd"
-            value={formData.empCd}
+            value={formData.emp_cd}
             onChange={handleChange}
           />
         </div>
@@ -81,7 +81,7 @@ const Signup = () => {
             type="text"
             id="userImg"
             name="userImg"
-            value={formData.userImg}
+            value={formData.user_img}
             onChange={handleChange}
           />
         </div>
@@ -91,7 +91,7 @@ const Signup = () => {
             type="text"
             id="userTel"
             name="userTel"
-            value={formData.userTel}
+            value={formData.user_tel}
             onChange={handleChange}
           />
         </div>

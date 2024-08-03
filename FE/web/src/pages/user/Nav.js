@@ -70,7 +70,7 @@ const UserNav = () => {
             <Dropdown.Item as={Link} to="/changepwd">
               프로필 수정
             </Dropdown.Item>
-            <Dropdown.Item as={Link} to="/">
+            <Dropdown.Item as={Link} to="/logout">
               로그아웃
             </Dropdown.Item>
           </Dropdown.Menu>

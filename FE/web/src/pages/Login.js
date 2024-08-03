@@ -31,7 +31,7 @@ const Login = () => {
         setError(null);
 
         try {
-            const response = await axios.post('/users/login/', formData, {
+            const response = await axios.post('/users/login', formData, {
                 headers: {
                     "Content-Type": "application/json "
                 }
@@ -43,7 +43,7 @@ const Login = () => {
             
             console.error('Login error:', err);
             console.log(err)
-            setError('로그인실패');
+            alert('존재하지 않는 아이디 or 비밀번호 입니다.')
         } finally {
             setLoading(false);
         }

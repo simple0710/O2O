@@ -21,7 +21,7 @@ const AdminNav = () => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item as={Link} to="/admin/changepwd">프로필 수정</Dropdown.Item>
-            <Dropdown.Item as={Link} to="/">로그아웃</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/logout">로그아웃</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </nav>
