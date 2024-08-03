@@ -12,22 +12,22 @@ const Request = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
   const postsPerPage = 10;
 
+  const fetchData = async (pageNumber) => {
+    try {
+      const response = await axios.get(`/products/request?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+      const data = response.data;
+      console.log(data);
+      setPosts(data.data.reqs);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async (page) => {
-      try {
-        const response = await axios.get("/products/request?pg_no=${page}&per_page=${postsPerPage}");
-        const data = response.data;
-        console.log(data);
-        setPosts(data.data.reqs);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+    fetchData(currentPage);
+  }, [currentPage]);
 
   const handleStatusChange = (status) => {
     const updatedPosts = posts.map((post) =>
@@ -55,6 +55,7 @@ const Request = () => {
   const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
   const handleNextChunk = () =>
     setCurrentPage(Math.min(currentPage + 5, totalPages));
+
   return (
     <div>
       <AdminNav />
@@ -79,11 +80,13 @@ const Request = () => {
               {currentPosts.map((post, index) => (
                 <tr key={post.req_id}>
                   <td>
-                    <Form.Check
-                      type="checkbox"
-                      onChange={() => handleCheckboxChange(post.req_id)}
-                      checked={selectedPosts.includes(post.req_id)}
-                    />
+                    {post.is_approved ? <div style={{ width: "16px" }}></div> : (
+                      <Form.Check
+                        type="checkbox"
+                        onChange={() => handleCheckboxChange(post.req_id)}
+                        checked={selectedPosts.includes(post.req_id)}
+                      />
+                    )}
                   </td>
                   <td>{indexOfFirstPost + index + 1}</td>
                   <td>{post.product_nm}</td>

@@ -15,7 +15,7 @@ const UserList = () => {
 
   const [overdueUsers, setOverdueUsers] = useState([]);
   useEffect(() => {
-    axios.get('/overdue_userlist.json')
+    axios.get('/products/overdue?pg_no=${pageNumber}&per_page=${postsPerPage}')
       .then(response => {
         const rents = response.data.data.rents;
         const overdueItems = rents.filter(rent => rent.is_late)
