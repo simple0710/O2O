@@ -20,14 +20,22 @@ function BrokenFind() {
 
   const [items, setItems]  = useState([]);
 
-  const increaseQuantity = (id, type) => {
+  const increaseQuantity = (ind, type) => {
     // setQuantities(prev => ({ ...prev, [id]: { ...prev[id], [type]: prev[id][type] + 1 } }));
-    setItems(prev => ({ ...prev, ind: { ...prev[id], [type]: prev[id][type] + 1 } }));
+    setItems(prevItems => 
+      prevItems.map((item, index) => 
+        index === ind ? { ...item, [type]: item[type] + 1 } : item
+      )
+    );
   };
 
-  const decreaseQuantity = (id, type) => {
+  const decreaseQuantity = (ind, type) => {
     // setQuantities(prev => ({ ...prev, [id]: { ...prev[id], [type]: prev[id][type] > 0 ? prev[id][type] - 1 : 0 } }));
-    setItems(prev => ({ ...prev, ind: { ...prev[id], [type]: prev[id][type] > 0 ? prev[id][type] - 1 : 0 } }));
+    setItems(prevItems => 
+      prevItems.map((item, index) => 
+        index === id ? { ...item, [type]: item[type] > 0 ? item[type] - 1 : 0 } : item
+      )
+    );
   };
 
   // 의존성을 빈 배열로 주면 페이지 로딩될 때 최초 1회만 실행 
