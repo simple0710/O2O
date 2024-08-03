@@ -53,12 +53,28 @@ const Request = () => {
     fetchData();
   }, []);
 
-  const handleStatusChange = (status) => {
+  const handleStatusChange = async (status) => {
     const updatedPosts = posts.map((post) =>
       selectedPosts.includes(post.req_id) ? { ...post, status } : post
     );
     setPosts(updatedPosts);
     setSelectedPosts([]);
+    
+    try {
+      await axios.put('/products/request/process', {
+        req_status: status,
+        requests: selectedPosts.map((req_id) => ({ req_id }))
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+
+
   };
 
   const handleCheckboxChange = (id) => {
