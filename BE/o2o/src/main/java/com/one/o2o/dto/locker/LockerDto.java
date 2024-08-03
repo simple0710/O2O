@@ -14,9 +14,9 @@ public class LockerDto {
     private int productId;
     private String productNm;
     private int bodyId;
+    private String productImg;
     private int lockerColumn;
     private int lockerRow;
-    @JsonProperty("is_usable")
     private boolean isUsable;
     private int productCnt;
     private int totalCnt;
