@@ -65,7 +65,7 @@ function App() {
   return (
     <Router>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to="/">My App</Link>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
@@ -122,7 +122,7 @@ function App() {
               </li>
             </ul>
           </div>
-        </nav>
+        </nav> */}
 
         <Routes>
           <Route path="/" element={<Frame />} />
