@@ -1,99 +1,100 @@
-.frame-container {
+.locker-frame-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh; /* Viewport height */
+  width: 100%;
   text-align: center; 
+  background-color: #f0f0f0; /* 배경색 추가 */
 }
 
-
-.locker-container {
-  width: 375px;
-  height: 812px;
+.locker-container1 {
+  width: 100%;
+  /* max-width: 600px; 최대 너비 설정 */
+  height: 100%;
   position: relative;
   background: white;
-  /* box-shadow: 0px 8px 0px #0093ED; */
-  border-radius: 40px;
+  border-radius: 20px; /* 둥근 모서리 */
   overflow: hidden;
-  /* border: 2px #0093ED solid; */
   margin: 0 auto;
   text-align: center;
-  padding-top: 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 */
 }
 
-.back-button {
+.locker-back-button {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 2%;
+  left: 2%;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #0093ED;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .locker-header {
-  width: 311px;
-  height: 55px;
+  width: 100%;
   position: absolute;
-  top: 100px;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   color: black;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  line-height: 28.80px;
-  word-wrap: break-word;
+  line-height: 1.2;
   margin-bottom: 10px;
 }
 
-.locker {
-  width: 66px;
-  height: 110px;
+.locker-select-container {
   position: absolute;
-  border-radius: 8px;
-  border: 2px #0093ED solid;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 30px;
+  width: 80%;
 }
 
-.locker.empty {
-  background: #7DD8FF;
+.locker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* 최소 100px, 최대 균등 분배 */
+  gap: 10px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto; /* 내용이 많을 경우 스크롤 */
 }
 
-.locker.occupied {
-  background: #0093ED;
-}
-
-.locker.highlight {
-  background: #7DD8FF;
-}
-
-.locker-lock {
-  width: 48px;
-  height: 48px;
-  position: absolute;
-}
-
-.locker-lock-inner {
-  width: 33.94px;
-  height: 33.94px;
-  position: absolute;
-  border: 4px #1E1E1E solid;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.label {
-  width: 101px;
-  height: 20px;
-  position: absolute;
+.locker-box {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px #0093ED solid;
+  background-color: #f0f8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
   text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
-.date {
-  width: 41px;
-  height: 26px;
-  position: absolute;
-  text-align: center;
+.locker-box.highlight {
+  background: #ff6666; /* 대여된 물품이 있는 사물함 강조 색상 */
+  border-color: #cc0000; /* 강조된 사물함 테두리 색상 */
+}
+
+.locker-box.empty {
+  background: #7DD8FF; /* 빈 사물함 색상 */
+}
+
+.locker-box.occupied {
+  background: #0093ED; /* 사용 중인 사물함 색상 */
 }

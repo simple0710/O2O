@@ -1,21 +1,21 @@
 .item-controls {
   display: flex; /* 아이템 컨트롤을 플렉스 박스로 만듭니다. */
   align-items: center; /* 아이템들을 수직으로 중앙 정렬합니다. */
-  justify-content: center; /* 아이템들을 수평으로 중앙 정렬합니다. */
-  min-width: 100px; /* 최소 너비를 100px로 설정하여 레이아웃이 일정하게 유지되도록 합니다. */
+  justify-content: space-between; /* 아이템들을 수평으로 균등하게 분배합니다. */
+  min-width: 10%; /* 최소 너비를 10%로 설정하여 반응형으로 만듭니다. */
+  gap: 0.2rem; /* 아이템 간의 여백을 설정합니다. 기존의 1/3로 줄임. */
 }
 
 .item-controls button {
   background-color: skyblue; /* 버튼의 배경색을 하늘색으로 설정합니다. */
   border: none; /* 버튼의 기본 테두리를 제거합니다. */
   border-radius: 4px; /* 버튼의 모서리를 둥글게 만듭니다. */
-  padding: 0.1px 10px; /* 버튼의 안쪽 여백을 설정하여 크기를 줄입니다. */
-  font-size: 0.8rem; /* 버튼의 글자 크기를 줄입니다. */
+  padding: 0.2rem 0.5rem; /* 버튼의 안쪽 여백을 rem 단위로 설정하여 크기를 조절합니다. */
+  font-size: 0.8rem; /* 버튼의 글자 크기를 설정합니다. */
   color: #fff; /* 버튼 글자의 색상을 흰색으로 설정합니다. */
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 요소임을 나타냅니다. */
   transition: background-color 0.3s ease; /* 배경색이 0.3초 동안 부드럽게 변경되도록 합니다. */
-  margin: 0 2px; /* 버튼과 수량 사이에 여백을 추가합니다. */
-  width: 30px; /* 버튼의 너비를 고정하여 일관성을 유지합니다. */
+  width: auto; /* 버튼의 너비를 내용에 맞게 자동으로 조정합니다. */
   text-align: center; /* 버튼 안의 텍스트를 중앙 정렬합니다. */
 }
 
@@ -24,13 +24,45 @@
 }
 
 .item-controls span {
-  min-width: 30px; /* 수량을 표시하는 요소의 최소 너비를 20px로 설정합니다. */
+  min-width: 2rem; /* 수량을 표시하는 요소의 최소 너비를 2rem로 설정합니다. */
   text-align: center; /* 수량 텍스트를 중앙 정렬합니다. */
 }
 
 .item-name {
-  margin-right: 16px;
+  margin-right: 0.5rem; /* 기존의 1/3로 줄임. */
+  flex-grow: 1; /* 이름 요소가 가능한 최대 공간을 차지하도록 설정합니다. */
 }
+
 .badge {
-  color : black
+  color: black;
+}
+
+.product-list {
+  width: 90%;
+  max-width: 700px;
+  height: auto;
+  margin: 0 auto; /* 가운데 정렬을 위해 margin을 auto로 설정 */
+  padding: 0 1rem; /* 양쪽에 여백을 주어 콘텐츠가 좌우 끝에 붙지 않도록 설정 */
+  box-sizing: border-box; /* padding을 포함한 전체 크기 계산 */
+}
+
+.frame-container-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Viewport height */
+  text-align: center; 
+  padding: 1rem; /* 컨테이너의 안쪽 여백을 설정 */
+  box-sizing: border-box; /* padding을 포함한 전체 크기 계산 */
+}
+
+.cart-items {
+  width: 100%;
+}
+
+.cart-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* 아이템과 수량 조절 컨트롤 사이에 공간을 유지 */
 }

@@ -37,17 +37,27 @@ function Cart() {
   };
 
   return (
-    <div className='frame-container'>
-      <div>
+    <div className='frame-container-cart'>
+      <div className='product-list'>
         <header className="text-center mb-4">
           <h1>물품 리스트</h1>
+          <button 
+            className="btn btn-secondary btn-sm" 
+            style={{ position: 'absolute', left: '10%', top: '10%' }}
+            onClick={() => navigate('/')}
+          >
+            메인 페이지
+          </button>
         </header>
         <div className="item-list mb-4">
           {items.map(item => (
-            <div key={item.id} className="item card mb-4">
-              <div className="card-body d-flex align-items-center">
+            <div key={item.id} className="cart-items item card mb-4">
+              <div className="cart-item card-body d-flex align-items-center">
+                {/* 물품 아이콘 */}
                 <div className="item-icon mr-3">{item.icon}</div>
+                {/* 물품 이름 */}
                 <div className="item-name flex-grow-1">{item.name}</div>
+                {/* 수량 변경 */}
                 <div className="item-controls d-flex align-items-center">
                   <button className="btn btn-primary btn-sm" onClick={() => decreaseQuantity(item.id)}>-</button>
                   <span>{quantities[item.id]}</span>
