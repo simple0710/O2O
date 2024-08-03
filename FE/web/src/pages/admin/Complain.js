@@ -11,31 +11,40 @@ const Request = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
-  const [hasMoreData, setHasMoreData] = useState(true);
   const postsPerPage = 10;
 
-  const fetchData = async (pageNumber) => {
-    try {
-      const response = await axios.get(`/products/report?pg_no=${pageNumber}&per_page=${postsPerPage}`);
-      const data = response.data;
-      console.log("Fetched data:", data);
+  const fetchData = async () => {
+    let pageNumber = 1;
+    let allPosts = [];
+    let hasMoreData = true;
 
-      if (data.data.rpts.length > 0) {
-        setPosts((prevPosts) => [...prevPosts, ...data.data.rpts]);
-        setHasMoreData(data.data.rpts.length === postsPerPage); // Check if more data exists
-      } else {
-        setHasMoreData(false); // No more data
+    while (hasMoreData) {
+      try {
+        const response = await axios.get(`/products/report?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+        const data = response.data;
+        const fetchedPosts = data.data.rpts;
+
+        if (fetchedPosts.length === 0) {
+          hasMoreData = false;
+        } else {
+          allPosts = [...allPosts, ...fetchedPosts];
+          pageNumber += 1;
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        hasMoreData = false;
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
     }
+
+    // Sort posts to show unprocessed items first
+    allPosts.sort((a, b) => a.is_processed - b.is_processed);
+
+    setPosts(allPosts);
   };
 
   useEffect(() => {
-    if (hasMoreData) {
-      fetchData(currentPage);
-    }
-  }, [currentPage, hasMoreData]);
+    fetchData();
+  }, []);
 
   useEffect(() => {
     console.log("Current posts:", posts);
@@ -78,25 +87,16 @@ const Request = () => {
     );
   };
 
-  // Sort posts to show unprocessed items first
-  const sortedPosts = [...posts].sort((a, b) => a.is_processed - b.is_processed);
-
   // Compute pagination
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   // Compute total pages for pagination
-  const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
+  const totalPages = Math.ceil(posts.length / postsPerPage);
 
   // Handle page change
-  const handlePageChange = (page) => {
-    if (page > currentPage && hasMoreData) {
-      setCurrentPage(page);
-    } else {
-      setCurrentPage(page);
-    }
-  };
+  const handlePageChange = (page) => setCurrentPage(page);
 
   return (
     <div>
