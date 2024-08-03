@@ -1,5 +1,5 @@
 .check-button {
-    background-color: #87cdea; 
+    background-color: black; 
     color: white; 
     border: none;
     padding: 10px 20px; 
@@ -9,13 +9,13 @@
   
 
   .check-button:disabled {
-    background-color: #87cdea;
+    background-color: black;
     color: white;
     cursor: not-allowed;
   }
   
 
   .check-button:hover {
-    background-color: #87cdea;
+    background-color: black;
     color: white; 
   }

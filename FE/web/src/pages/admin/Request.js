@@ -1,66 +1,36 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form, Table, Pagination } from 'react-bootstrap';
-import Sidebar from './Sidebar';
-import AdminNav from './AdminNav';
-import '../../style/Request.css'; 
+import React, { useState, useEffect } from "react";
+import { Button, Form, Table } from "react-bootstrap";
+import Sidebar from "./Sidebar";
+import AdminNav from "./AdminNav";
+import "../../style/Request.css";
+import "../../style/Table.css";
+import "../../style/Title.css";
+import axios from "axios";
+import Pagination from "./Pagination";
 
 const Request = () => {
-  const [showModal, setShowModal] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [formData, setFormData] = useState({
-    itemName: '',
-    reason: '',
-    itemLink: '',
-    itemCount: ''
-  });
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
   const postsPerPage = 10;
 
-  const handleShow = () => setShowModal(true);
-
-  const handleClose = () => {
-    setFormData({
-      itemName: '',
-      reason: '',
-      itemLink: '',
-      itemCount: ''
-    });
-    setShowModal(false);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = () => {
-    const { itemName, itemCount } = formData;
-    if (itemName.trim() && itemCount.trim() && parseInt(itemCount, 10) >= 1) {
-      const newPost = {
-        ...formData,
-        id: Date.now(),  // 고유 ID 생성
-        requestDate: new Date().toISOString().split('T')[0],
-        status: '미처리'
-      };
-      setPosts([...posts, newPost]);
-      setFormData({
-        itemName: '',
-        reason: '',
-        itemLink: '',
-        itemCount: ''
-      });
-      handleClose();
-    }
-  };
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/products/request");
+        const data = response.data;
+        console.log(data);
+        setPosts(data.data.reqs);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleStatusChange = (status) => {
     const updatedPosts = posts.map((post) =>
-      selectedPosts.includes(post.id) ? { ...post, status } : post
+      selectedPosts.includes(post.req_id) ? { ...post, status } : post
     );
     setPosts(updatedPosts);
     setSelectedPosts([]);
@@ -81,24 +51,24 @@ const Request = () => {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
+  const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
+  const handleNextChunk = () =>
+    setCurrentPage(Math.min(currentPage + 5, totalPages));
   return (
     <div>
       <AdminNav />
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <h3>물건 요청 리스트
-            <Button variant="primary" onClick={handleShow} style={{ width: '20%', marginLeft: '10px' }}>
-              새 물품 신청
-            </Button>
-          </h3>
-
-          <Table striped bordered hover className="mt-4">
-            <thead>
+          <div className="title">
+            <h3>물건 요청 관리</h3>
+          </div>
+          <Table className="custom-table">
+            <thead className="custom-header">
               <tr>
                 <th></th>
                 <th>No.</th>
-                <th>물품 명</th>
+                <th>물품명</th>
                 <th>물품 개수</th>
                 <th>처리 상태</th>
                 <th>신청 날짜</th>
@@ -106,117 +76,55 @@ const Request = () => {
             </thead>
             <tbody>
               {currentPosts.map((post, index) => (
-                <tr key={post.id}>
+                <tr key={post.req_id}>
                   <td>
                     <Form.Check
                       type="checkbox"
-                      onChange={() => handleCheckboxChange(post.id)}
-                      checked={selectedPosts.includes(post.id)}
+                      onChange={() => handleCheckboxChange(post.req_id)}
+                      checked={selectedPosts.includes(post.req_id)}
                     />
                   </td>
                   <td>{indexOfFirstPost + index + 1}</td>
-                  <td>{post.itemName}</td>
-                  <td>{post.itemCount}</td>
-                  <td>{post.status}</td>
-                  <td>{post.requestDate}</td>
+                  <td>{post.product_nm}</td>
+                  <td>{post.product_cnt}</td>
+                  <td>
+                    {post.is_approved
+                      ? "승인됨"
+                      : post.is_rejected
+                      ? "거절됨"
+                      : "대기중"}
+                  </td>
+                  <td>{post.req_dt}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
 
-          
-          <Pagination>
-            {[...Array(totalPages)].map((_, pageIndex) => (
-              <Pagination.Item
-                key={pageIndex + 1}
-                active={pageIndex + 1 === currentPage}
-                onClick={() => handlePageChange(pageIndex + 1)}
-              >
-                {pageIndex + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
-
           <div className="mt-3">
             <Button
-              className='success-button'
-              onClick={() => handleStatusChange('처리됨')}
+              className="success-button"
+              onClick={() => handleStatusChange("처리됨")}
               disabled={selectedPosts.length === 0}
-              style={{ marginRight: '10px' }}
+              style={{ marginRight: "10px" }}
             >
               수락
             </Button>
             <Button
-              className='reject-button'
-              onClick={() => handleStatusChange('거절됨')}
+              className="reject-button"
+              onClick={() => handleStatusChange("거절됨")}
               disabled={selectedPosts.length === 0}
             >
               거절
             </Button>
           </div>
 
-          <Modal show={showModal} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>새 물품 신청</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group controlId="formItemName">
-                  <Form.Label>물품 명</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="itemName"
-                    value={formData.itemName}
-                    onChange={handleInputChange}
-                    placeholder="물품 명을 입력하세요"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formReason">
-                  <Form.Label>신청 사유</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    name="reason"
-                    value={formData.reason}
-                    onChange={handleInputChange}
-                    placeholder="신청 사유를 입력하세요"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formItemLink">
-                  <Form.Label>물품 링크</Form.Label>
-                  <Form.Control
-                    type="url"
-                    name="itemLink"
-                    value={formData.itemLink}
-                    onChange={handleInputChange}
-                    placeholder="물품 링크를 입력하세요"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formItemCount">
-                  <Form.Label>물품 개수</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="itemCount"
-                    value={formData.itemCount}
-                    onChange={handleInputChange}
-                    placeholder="물품 개수를 입력하세요"
-                    min="1"
-                  />
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                닫기
-              </Button>
-              <Button variant="primary" onClick={handleSubmit}>
-                제출
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+            handlePrevChunk={handlePrevChunk}
+            handleNextChunk={handleNextChunk}
+          />
         </div>
       </div>
     </div>

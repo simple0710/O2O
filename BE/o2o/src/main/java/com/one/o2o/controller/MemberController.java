@@ -57,7 +57,7 @@ public class MemberController {
     }
 
 
-    @PostMapping("/login")
+    @PostMapping({"/login", "/login/"})
     public JwtToken signIn(@RequestBody SignInDto signInDto) {
         String user_lgid = signInDto.getUser_lgid();
         String user_pw = signInDto.getUser_pw();
@@ -65,7 +65,7 @@ public class MemberController {
         log.info("request username = {}, password = {}", user_lgid, user_pw);
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
 
-        //ResponseCookie respnosecookie
+        //ResponseCookigit  respnosecookie
         // 유효기간 설정!
         //쿠키로 ㅁ보낼테니 쿠키로 받아!
         return jwtToken;

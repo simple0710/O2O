@@ -1,10 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Button, Dropdown, Form } from 'react-bootstrap';
-import '../style/MainPageApp.css'; 
+import '../../style/MainPageApp.css'; 
 import { Link, useNavigate } from 'react-router-dom';
-import '../style/Changepwd.css'; 
-import Profile from '../images/profile.png';
+import '../../style/Changepwd.css'; 
+import Sidebar from './Sidebar';
+import AdminNav from './AdminNav';
 
 function ChangePwd() {
   const navigate = useNavigate();
@@ -17,49 +18,9 @@ function ChangePwd() {
 
   return (
     <div>
-      <nav className="navbar-custom">
-        <Nav className="navbar-left">
-          <Nav.Link href="/mainpage">O<span className="highlight">2</span>O</Nav.Link>
-        </Nav>
-        {/* <Dropdown>
-          <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
-          <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
-            홍길동 님
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item as={Link} to="/profile">프로필정보</Dropdown.Item>
-            <Dropdown.Item as={Link} to="/login">로그아웃</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown> */}
-      </nav>
-
+        <AdminNav/>
       <div className="content-container">
-          <div className="side-bar">
-            <div>
-              미반납 물품
-              <ul>
-                <li>가위</li>
-                <li>풀</li>
-              </ul>
-            </div>
-            <hr></hr>
-            <div>
-              예약 물품
-              <ul>
-                <li>가위</li>
-                <li>풀</li>
-              </ul>
-            </div>
-            <hr></hr>
-            <div>
-              최근 대여 물품
-              <ul>
-                <li>가위</li>
-                <li>풀</li>
-              </ul>
-            </div>
-            <hr></hr>
-          </div>
+            <Sidebar/>
           <div className="content">
             <h1>비밀 번호 변경</h1>
             <div className="pwd-form">
@@ -81,7 +42,7 @@ function ChangePwd() {
                     id="inputNewPassword2"
                     placeholder="새 비밀번호를 다시 입력해주세요."
                 />
-                <Button variant="dark" 
+                <Button
                   className="pwd-button" 
                   onClick={handlePasswordChange}
                 >

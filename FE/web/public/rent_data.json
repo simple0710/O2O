@@ -1,0 +1,40 @@
+{
+    "products": [
+      {
+        "product_id": 1,
+        "product_nm": "가위",
+        "rent_count": 10
+      },
+      {
+        "product_id": 2,
+        "product_nm": "줄자",
+        "rent_count": 15
+      },
+      {
+        "product_id": 3,
+        "product_nm": "연필",
+        "rent_count": 8
+      },
+      {
+        "product_id": 4,
+        "product_nm": "지우개",
+        "rent_count": 12
+      },
+      {
+        "product_id": 5,
+        "product_nm": "공책",
+        "rent_count": 20
+      },
+      {
+        "product_id": 6,
+        "product_nm": "자",
+        "rent_count": 25
+      },
+      {
+        "product_id": 7,
+        "product_nm": "펜",
+        "rent_count": 18
+      }
+    ]
+  }
+  

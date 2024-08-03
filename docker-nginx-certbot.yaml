@@ -1,0 +1,13 @@
+services:
+  nginx:
+    build:  # 빌드 섹션을 추가하여 Dockerfile로부터 이미지를 빌드
+      context: .
+      dockerfile: Dockerfile
+    image: nginx-image  # 빌드한 이미지 이름
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+   
