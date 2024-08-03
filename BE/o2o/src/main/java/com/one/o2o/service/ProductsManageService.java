@@ -39,8 +39,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 interface ProductsManageInterface {
-    Response saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException;
+    Response saveProduct(ProductsDto productsDto) throws IOException;
     Response findAllOverdueList(int pageNumber, int pageSize);
+    Response getProductImage(String filename);
 }
 
 @Service
@@ -57,42 +58,42 @@ public class ProductsManageService implements ProductsManageInterface {
     private final StatusRepository statusRepository;
 
     @Override
-    public Response saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException {
-        try {
-            if (!file.isEmpty()) {
-                String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();;
-                Path uploadPath = Paths.get(uploadProductsDir + "/products/" + fileName);
-
-                // 디렉토리가 존재하지 않으면 생성
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-                Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
-                productsDto.setProductImg(fileName);
-            }
-            productsManageRepository.save(new Product(productsDto));
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-        return new Response(HttpStatus.OK.value(), "물품 등록 완료");
+    public Response saveProduct(ProductsDto productsDto) throws IOException {
+        return new Response(
+                200,
+                "성공적으로 저장되었습니다.",
+                productsManageRepository.save(new Product(productsDto)).getProductId()
+        );
     }
 
-    @GetMapping("/products/{filename:.+}")
-    public ResponseEntity<Resource> getProductImage(@PathVariable String filename) {
+    public Response getProductImage(String filename) {
+        Response response = new Response();
         try {
             Path file = Paths.get(uploadProductsDir + "/products/" + filename);
             Resource resource = new UrlResource(file.toUri());
 
-            if (resource.exists() || resource.isReadable()) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.IMAGE_JPEG) // 이미지 유형에 맞게 조정
-                        .body(resource);
+            if (resource.exists() && resource.isReadable()) {
+                // MIME 타입을 추측하거나 설정
+                String contentType = "image/jpeg"; // 기본값으로 설정, 필요에 따라 변경
+
+                byte[] imageBytes = resource.getInputStream().readAllBytes();
+                response.setData(imageBytes);
+
+                response.setStatus(HttpStatus.OK.value());
+//                response.setContentType(contentType);
+                response.setMessage("이미지가 성공적으로 로드되었습니다.");
             } else {
-                throw new RuntimeException("이미지를 읽을 수 없습니다.");
+                response.setStatus(HttpStatus.NOT_FOUND.value());
+                response.setMessage("이미지를 찾을 수 없습니다.");
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("이미지를 읽는 데 실패했습니다.", e);
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("이미지를 읽는 데 실패했습니다.");
+        } catch (IOException e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("이미지를 읽는 데 실패했습니다.");
         }
+        return response;
     }
 
 
