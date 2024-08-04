@@ -22,4 +22,5 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Integer>{
     //user_lgid
     //findB
     Optional<MemberEntity> findByUserLgid(String user_lgid);
+
 }

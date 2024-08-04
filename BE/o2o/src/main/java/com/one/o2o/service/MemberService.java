@@ -41,6 +41,12 @@ public class MemberService {
     }
 
     @Transactional
+    public MemberEntity searchprofile_with_lgid(String user_id){
+
+        return memberRepository.findByUserLgid(user_id).get();
+    }
+
+    @Transactional
     public MemberEntity updateprofile(int user_id, MemberEntity memberEntity) throws Throwable {
 
         MemberEntity user_entity=  memberRepository.findById(user_id).orElseThrow(new Supplier<Throwable>() {
