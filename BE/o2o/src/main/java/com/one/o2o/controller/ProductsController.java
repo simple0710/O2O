@@ -111,7 +111,8 @@ public class ProductsController {
     }
 
     @PutMapping("/request/process")
-    public ResponseEntity<?> updateRequest(@RequestBody RequestProcessDto requestProcessDto) {
+    public ResponseEntity<?> updateRequest(@RequestBody List<RequestProcessDto> requestProcessDto) {
+        log.info("requestProcessDto = " + requestProcessDto);
         return new ResponseEntity<>(productsRequestService.updateProcess(requestProcessDto), HttpStatus.OK);
     }
 
