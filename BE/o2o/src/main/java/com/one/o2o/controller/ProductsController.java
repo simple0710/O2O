@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -44,19 +45,25 @@ public class ProductsController {
     @PostMapping("/regist")
     public ResponseEntity<?> registProduct(
             @RequestPart("productsDto") ProductsDto productsDto,
-            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+            @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
+        log.info("files : " + files);
+        // 상품 등록
         Integer productId = (Integer) productsManageService.saveProduct(productsDto).getData();
         Integer fileId = null;
 
-        if (file != null && !file.isEmpty()) {
-            fileId = (Integer) fileService.saveFile(file, productsDto.getUserId()).getData();
-            // 파일 저장 이벤트를 비동기적으로 처리
-            ProductSavedEvent event = ProductSavedEvent.builder()
-                    .fileId(fileId)
-                    .productId(productId)
-                    .build();
-            productSavedEventListener.handleProductSavedEvent(event);
+        if (files != null && !files.isEmpty()) {
+            for (MultipartFile file : files) {
+                if (!file.isEmpty()) {
+                    fileId = (Integer) fileService.saveFile(file, productsDto.getUserId()).getData();
+                    ProductSavedEvent event = ProductSavedEvent.builder()
+                            .fileId(fileId)
+                            .productId(productId)
+                            .build();
+                    productSavedEventListener.handleProductSavedEvent(event);
+                }
+            }
         }
+
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품 등록 완료"), HttpStatus.OK);
     }
 
@@ -130,5 +137,4 @@ public class ProductsController {
         log.info("pageSize = " + pageSize);
         return new ResponseEntity<>(productsManageService.findAllOverdueList(pageNumber, pageSize), HttpStatus.OK);
     }
-
 }
