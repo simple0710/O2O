@@ -16,7 +16,9 @@ const ChangeLocker = () => {
   return (
     <div className='frame-container'>
     <div className="locker-container">
-      <button className="btn btn-primary btn-sm mr-2 back-button" onClick={back}>뒤로가기</button>
+    <button className="btn-main" onClick={() => navigate('/')}>
+          메인 페이지
+        </button>
       <div className="locker-header">
         수량을 변경할 사물함을<br /> 선택해주세요 <br /> <br />
       </div>

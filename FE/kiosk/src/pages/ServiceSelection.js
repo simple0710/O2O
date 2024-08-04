@@ -19,8 +19,11 @@ const ServiceSelection = () => {
   
   return (
     <div className='frame-container'>
+      <button className="btn-main" onClick={() => navigate('/')}>
+          메인 페이지
+      </button>
       <Container className="service-container">
-      <Typography variant="h6" component="h2" className="title" gutterBottom>
+      <Typography variant="h5" component="h2" className="title" gutterBottom>
         원하는 서비스를 선택해주세요
       </Typography>
       <Row className="justify-content-center">

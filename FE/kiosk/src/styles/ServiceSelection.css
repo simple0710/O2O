@@ -30,16 +30,18 @@
 }
 
 .service-button {
-  width: 160px;
-  height: 120px;
+  width: 450px;
+  height: 400px;
   background-color: #E0F7FA;
   color: black;
-  font-size: 16px;
+  font-size: 24px;
   font-weight: bold;
   border-radius: 10px;
   border: none; /* Ensure no border */
+  margin-top: 20px;
 }
 
 .service-button:hover {
   background-color: #B2EBF2;
 }
+

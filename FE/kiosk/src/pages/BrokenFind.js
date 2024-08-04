@@ -41,6 +41,9 @@ function BrokenFind() {
 
   return (
     <div className='frame-container'>
+      <button className="btn-main" onClick={() => navigate('/')}>
+          메인 페이지
+      </button>
     <div className="cart-container">
       <h2>대여물품조회</h2>
       <div className="items">
