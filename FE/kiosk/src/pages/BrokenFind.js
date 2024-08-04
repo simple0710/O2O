@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BrokenFind.css';
-<<<<<<< Updated upstream
-=======
 import { getCurrentProducts } from '../api/brokenfind.js';
 import IncreaseDecreaseButton from '../components/common/IncreaseDecreaseButton.js'
->>>>>>> Stashed changes
 
 const items = [
   { id: 1, name: '가위', icon: '✂️' },
@@ -58,11 +55,9 @@ function BrokenFind() {
             <div className="item-controls">
             <div className="control">
               <span className="preserve-horizontal-text">파손</span>
-<<<<<<< Updated upstream
-              <button className="btn btn-sm mx-1" onClick={() => decreaseQuantity(item.id, 'broken')}>-</button>
+              {/* <button className="btn btn-sm mx-1" onClick={() => decreaseQuantity(item.id, 'broken')}>-</button>
               <span className="mx-1">{quantities[item.id].broken}</span>
-              <button className="btn btn-sm mx-1" onClick={() => increaseQuantity(item.id, 'broken')}>+</button>
-=======
+              <button className="btn btn-sm mx-1" onClick={() => increaseQuantity(item.id, 'broken')}>+</button> */}
               <IncreaseDecreaseButton 
                   increaseQuantity={increaseQuantity}
                   decreaseQuantity={decreaseQuantity}
@@ -70,7 +65,6 @@ function BrokenFind() {
                   index={ind}
                   type='broken'
               />
->>>>>>> Stashed changes
             </div>
             <div className="control">
               <span className="preserve-horizontal-text">분실</span>
