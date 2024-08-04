@@ -17,14 +17,21 @@ import com.one.o2o.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,8 +39,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 interface ProductsManageInterface {
-    Response saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException;
+    Response saveProduct(ProductsDto productsDto) throws IOException;
     Response findAllOverdueList(int pageNumber, int pageSize);
+    Response getProductImage(String filename);
 }
 
 @Service
@@ -42,32 +50,53 @@ interface ProductsManageInterface {
 public class ProductsManageService implements ProductsManageInterface {
 
     @Value("${file.upload.dir}")
-    private String uploadDir;
+    private String uploadProductsDir;
+
     private final ProductsManageRepository productsManageRepository;
     private final ProductsOverdueRepository productsOverdueRepository;
     private final UserRepository userRepository;
     private final StatusRepository statusRepository;
 
     @Override
-    public Response saveProduct(ProductsDto productsDto, MultipartFile file) throws IOException {
-        try {
-            if (!file.isEmpty()) {
-                String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();;
-                Path uploadPath = Paths.get(uploadDir + "/products/" + fileName);
-
-                // 디렉토리가 존재하지 않으면 생성
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-                Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
-                productsDto.setProductImg(fileName);
-            }
-            productsManageRepository.save(new Product(productsDto));
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-        return new Response(HttpStatus.OK.value(), "물품 등록 완료");
+    public Response saveProduct(ProductsDto productsDto) throws IOException {
+        return new Response(
+                200,
+                "성공적으로 저장되었습니다.",
+                productsManageRepository.save(new Product(productsDto)).getProductId()
+        );
     }
+
+    public Response getProductImage(String filename) {
+        Response response = new Response();
+        try {
+            Path file = Paths.get(uploadProductsDir + "/products/" + filename);
+            Resource resource = new UrlResource(file.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                // MIME 타입을 추측하거나 설정
+                String contentType = "image/jpeg"; // 기본값으로 설정, 필요에 따라 변경
+
+                byte[] imageBytes = resource.getInputStream().readAllBytes();
+                response.setData(imageBytes);
+
+                response.setStatus(HttpStatus.OK.value());
+//                response.setContentType(contentType);
+                response.setMessage("이미지가 성공적으로 로드되었습니다.");
+            } else {
+                response.setStatus(HttpStatus.NOT_FOUND.value());
+                response.setMessage("이미지를 찾을 수 없습니다.");
+            }
+        } catch (MalformedURLException e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("이미지를 읽는 데 실패했습니다.");
+        } catch (IOException e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("이미지를 읽는 데 실패했습니다.");
+        }
+        return response;
+    }
+
+
 
     @Override
     public Response findAllOverdueList(int pageNumber, int pageSize) {
