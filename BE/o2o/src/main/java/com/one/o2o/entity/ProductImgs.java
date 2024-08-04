@@ -1,5 +1,6 @@
 package com.one.o2o.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.one.o2o.utils.ProductImgsId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,18 +8,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
 @Entity
 @Table(name = "product_imgs")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(ProductImgsId.class) // 복합 키 클래스 지정
+@Builder
 public class ProductImgs {
-    @Id
-    @Column
-    private Integer productId;
-    @Id
-    @Column
-    private Integer fileId;
+
+    @EmbeddedId
+    private ProductImgsId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("productId")
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("fileId")
+    @JoinColumn(name = "file_id", insertable = false, updatable = false)
+    private File file;
 }

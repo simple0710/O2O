@@ -1,31 +1,23 @@
 package com.one.o2o.utils;
 
+import jakarta.persistence.Embeddable;
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class ProductImgsId implements Serializable {
-    private Integer fileId;
+
     private Integer productId;
+    private Integer fileId;
 
-    // 기본 생성자
-    public ProductImgsId() {}
-
-    public ProductImgsId(Integer fileId, Integer productId) {
-        this.fileId = fileId;
+    public ProductImgsId(Integer productId, Integer fileId) {
         this.productId = productId;
-    }
-
-    // equals와 hashCode 메서드 구현
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductImgsId that = (ProductImgsId) o;
-        return Objects.equals(fileId, that.fileId) && Objects.equals(productId, that.productId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(fileId, productId);
+        this.fileId = fileId;
     }
 }
