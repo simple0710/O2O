@@ -56,13 +56,9 @@ function BrokenFind() {
     console.log(items);
     // 분실 목록
     // filter -> map 순서 (그런데 지금 구조 수정하지 않아도 될 듯)
-    const missingItems = items
-      .filter(item => item.missing > 0);
-    const brokenItems = items
-      .filter(item => item.broken > 0);
-
-    const reportedItems = [...missingItems, ...brokenItems];
-    console.log("신고된 아이템:", reportedItems, missingItems, brokenItems);
+    const reportedItems = items
+    .filter(item => item.missing > 0 || item.broken > 0 );
+    console.log("신고된 아이템:", reportedItems);
     // console.log(reportedItems[0].name)
     // post 후 이동 
     navigate('/registerbroken', { state: { reportedItems } });
