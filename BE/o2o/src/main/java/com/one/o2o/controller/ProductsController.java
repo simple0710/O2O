@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -64,11 +66,28 @@ public class ProductsController {
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품 등록 완료"), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{filename:.+}")
-    public ResponseEntity<?> getProductImage(@PathVariable String filename) {
-        log.info(filename);
-//        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/{filename:.+}")
+    public ResponseEntity<?> getProductImage(@PathVariable String filename) throws IOException {
+        log.info("finename : " + filename);
+//        return new ResponseEntity<>(1, HttpStatus.OK);
         return new ResponseEntity<>(productsManageService.getProductImage(filename), HttpStatus.OK);
+    }
+
+    // 이미지 가져오기
+    @GetMapping("/images/{fileName:.+}")
+    public ResponseEntity<byte[]> getImage(@PathVariable String fileName) throws IOException {
+        // 이미지 파일 경로
+        Path imagePath = Paths.get("src/main/resources/uploads/products/" + fileName);
+
+        // 파일 읽기
+        byte[] imageBytes = Files.readAllBytes(imagePath);
+
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(org.springframework.http.MediaType.IMAGE_PNG);
+
+        // 이미지 반환
+        return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
     }
 
     // 요청 물품 목록 가져오기

@@ -51,7 +51,7 @@ public class ProductsManageService implements ProductsManageInterface {
 
     @Value("${file.upload.dir}")
     private String uploadProductsDir;
-    
+
     private final ProductsManageRepository productsManageRepository;
     private final ProductsOverdueRepository productsOverdueRepository;
     private final UserRepository userRepository;
