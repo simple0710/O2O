@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Modals from "./Modals";
 import Swal from "sweetalert2";
+import {Logout} from '../Logout';  
 
 const UserNav = () => {
     const [show, setShow] = useState(false);
@@ -25,6 +26,10 @@ const UserNav = () => {
         }
     };
 
+    const handleLogout = async () => {
+        await Logout();    
+    };
+
     useEffect(() => {
         if (modalCloseConfirmed) {
             Swal.fire({
@@ -36,14 +41,6 @@ const UserNav = () => {
             setModalCloseConfirmed(false);
         }
     }, [modalCloseConfirmed]);
-
-    // useEffect(() => {
-        
-    //     const storedUserName = localStorage.getItem('user_nm');
-    //     if (storedUserName) {
-    //         setUserName(storedUserName);
-    //     }
-    // }, []);
 
     return (
         <div>
@@ -63,13 +60,13 @@ const UserNav = () => {
                 <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
                         <img src={Profile} alt="프로필사진" style={{ width: "40px" }} />
-                        {/* {userName} 님 */}
+                        홍길동 님
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item as={Link} to="/changepwd">
                             프로필 수정
                         </Dropdown.Item>
-                        <Dropdown.Item as={Link} to="/">
+                        <Dropdown.Item onClick={handleLogout}>
                             로그아웃
                         </Dropdown.Item>
                     </Dropdown.Menu>

@@ -5,6 +5,7 @@ import { Form, Button, Spinner } from 'react-bootstrap';
 import '../style/Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance'
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -31,16 +32,13 @@ const Login = () => {
         setError(null);
 
         try {
-            const response = await axios.post('/users/login', formData); 
+            const response = await axiosInstance.post('/users/login', formData); 
             
-            //유저정보 받아오기
-            // const user = response.data
-            // const userName = user.name;
+            const accessToken = response.data.accessToken;
+            localStorage.setItem('accessToken', accessToken);
 
             console.log('로그인 성공:', response.data);
-            
-            
-            // localStorage.setItem(userName);
+            console.log(accessToken)
             
             navigate('/mainpage'); 
         } catch (err) {
