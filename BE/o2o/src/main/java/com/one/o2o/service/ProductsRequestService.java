@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ interface ProductsRequestServiceInterface {
     Response findAll(int pageNumber, int pageSize);
     Response save(UsersRequestDto urd);
     ProductsRequest findById(long id);
-    Response updateProcess(RequestProcessDto requestProcessDto);
+    Response updateProcess(List<RequestProcessDto> requestProcessDtoList);
 }
 
 @Service
@@ -71,28 +72,24 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
                 .orElseThrow(ArticleNotFoundException::new);
     }
 
-    // 물품 요청 처리
+    /**
+     * 관리자로부터 물품 요청 승인 및 거부 사항을 갱신합니다.
+     *
+     * @param requestProcessDtoList     각 게시글에 대한 처리 정보를 담은 리스트
+     * @return 처리 결과 (200, "메세지")
+     */
     @Transactional
-    public Response updateProcess(RequestProcessDto requestProcessDto) {
-        try {
-            ProductsRequest productsRequest = productsRequestRepository.findById(requestProcessDto.getReqId())
+    public Response updateProcess(List<RequestProcessDto> requestProcessDtoList) {
+        for (RequestProcessDto request : requestProcessDtoList) {
+            ProductsRequest productsRequest = productsRequestRepository.findById(request.getReqId())
                     .orElseThrow(ArticleNotFoundException::new);
-            String reqStatus = requestProcessDto.getReqStatus();
-            switch (reqStatus) {
-                case "approved":
-                    productsRequest.setIsApproved(true);
-                    productsRequest.setIsRejected(false);
-                    productsRequest.setRejectCmt(null);
-                    break;
-                case "rejected":
-                    productsRequest.setIsApproved(false);
-                    productsRequest.setIsRejected(true);
-                    productsRequest.setRejectCmt(requestProcessDto.getRejectCmt());
-                    break;
-            }
-            return new Response(200, "message");
-        } catch (Exception e) {
-            throw new InvalidInputValueException();
+            String reqStatus = request.getReqStatus();
+
+            Boolean approvedFlag = reqStatus.equals("approved");
+            productsRequest.setIsApproved(approvedFlag);
+            productsRequest.setIsRejected(!approvedFlag);
+            productsRequest.setRejectCmt(approvedFlag ? request.getRejectCmt() : null);
         }
+        return new Response(200, "물품 요청 처리 완료");
     }
 }
