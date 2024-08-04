@@ -45,7 +45,8 @@ h2 {
 .item-header {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  vertical-align:middle;
+  /* margin-bottom: 10px; */
 }
 
 .item-icon {
@@ -57,6 +58,8 @@ h2 {
   font-size: 18px;
   flex-grow: 1;
   white-space: nowrap; /* Prevents text from wrapping */
+  /* margin 제거 */
+  margin: 0;
 }
 
 .item-controls {
@@ -107,6 +110,14 @@ button:disabled {
 /* Ensure text remains horizontal */
 .preserve-horizontal-text {
   white-space: nowrap; /* Prevents text from wrapping */
+}
+
+
+
+.small-font {
+  font-size: 10px;
+  color: gray;
+  margin: 0;
 }
 
 @media (max-width: 768px) {

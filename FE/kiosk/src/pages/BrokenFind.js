@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BrokenFind.css';
 import { getCurrentProducts } from '../api/brokenfind.js';
 import IncreaseDecreaseButton from '../components/common/IncreaseDecreaseButton.js'
+import { formatDateSimple } from '../util/dateUtil.js'
 
 // const items = [
 //   { id: 1, name: '가위', icon: '✂️' },
@@ -102,7 +103,10 @@ function BrokenFind() {
           <div key={ind} className="item"> 
             <div className="item-header">
               <span className="item-icon">{item.icon}</span>
-              <span className="item-name">{item.name}</span>
+              <span>
+              <p className="item-name">{item.name}</p>
+              <p className="item-date small-font">{formatDateSimple(item.date)} 대여</p>
+              </span>
             </div>
             <div className="item-controls">
             <div className="control">
