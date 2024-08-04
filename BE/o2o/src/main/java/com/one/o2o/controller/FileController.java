@@ -17,6 +17,8 @@ public class FileController {
 
     private static final String IMAGE_PATH = "src/main/resources/uploads/products/";
 
+
+
     @GetMapping("/images")
     public ResponseEntity<Resource> getImage(@RequestParam String filename) {
         try {
