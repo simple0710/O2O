@@ -101,10 +101,10 @@ function Sidebar() {
           <FaInfoCircle size={22} />
           <span style={{ marginLeft: '15px' }}>물품 요청</span>
         </div>
-        <div className="menu-item">
+        {/* <div className="menu-item">
           <FaShoppingCart size={22} />
           <span style={{ marginLeft: '15px' }}><Cart/></span>
-        </div>
+        </div> */}
       </div>
 
       <Modals show={show} handleClose={handleClose} />
