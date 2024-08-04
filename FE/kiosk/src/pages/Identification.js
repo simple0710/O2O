@@ -34,7 +34,7 @@ function Identification() {
      // 10초 후에 각 조건에 따라 다른 경로로 이동
      const timer = setTimeout(() => {
       if (service === '대여') {
-        navigate('/cart', { state: { service } });
+        navigate('/cart2', { state: { service } });
       } else if (service === '반납') {
         navigate('/returnstatus', { state: { service } });
       } else if (service === '관리자') {

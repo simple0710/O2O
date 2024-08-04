@@ -51,7 +51,7 @@ const Locker = () => {
     if (location.state && location.state.borrowedItems) {
       // 선택된 층의 대여한 물품만 강조
       const filteredItems = location.state.borrowedItems.filter(
-        item => item.locker_body_id === selectedLocker?.value
+        item => item.body_id === selectedLocker?.value
       );
       setHighlightedLockers(filteredItems);
       console.log('Filtered borrowed items for the selected locker:', filteredItems);
@@ -73,51 +73,54 @@ const Locker = () => {
   };
 
   // 특정 사물함에 물품이 있는지 확인하는 함수
-  const isProductInLocker = (column, row) => {
-    return products.some(product => product.locker_column === column && product.locker_row === row);
-  };
-
-  // 대여한 물품이 있는 사물함인지 확인하는 함수
-  const isLockerHighlighted = (column, row) => {
-    return highlightedLockers.some(item => item.locker_column === column && item.locker_row === row);
+  const getProductInLocker = (column, row) => {
+    return products.find(product => product.locker_column === column && product.locker_row === row);
   };
 
   return (
-    <div className='locker-frame-container'>
-      <div className="locker-container1">
-        <button className="btn btn-primary btn-sm locker-back-button" onClick={back}>뒤로가기</button>
-        <div className="locker-header">
+
+    <>
+      {/* 메이페이지 버튼 */}
+      <button className="btn-main" onClick={back}>메인 페이지</button>
+
+      <div className='locker-frame'>
+        <div className="locker-container1">
+        <div className="locker-title">
           표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
         </div>
-        <div>
+        <div className='locker-dropdown'>
           <Select 
             options={options} 
             value={selectedLocker}
             onChange={handleChange}
-            placeholder="층을 선택하세요"
+            placeholder="사물함을 선택하세요"
           />
         </div>
         <div className='locker-grid'>
-          {products.length > 0 ? (
-            products.map((product, index) => (
-              <div 
-                key={index} 
-                className={`locker-box locker ${isLockerHighlighted(product.locker_column, product.locker_row) ? 'highlight' : ''}`} 
-                style={{
-                  top: `${(product.locker_row - 1) * 20}%`, 
-                  left: `${(product.locker_column - 1) * 25}%`,
-                  backgroundColor: isLockerHighlighted(product.locker_column, product.locker_row) ? 'red' : ''
-                }}
-              >
-                {product.product_nm}
+          {selectedLocker && lockersData.length > 0 && 
+            Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).row }).map((_, rowIndex) =>
+              <div key={`row-${rowIndex}`} className='locker-row'>
+                {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
+                  const product = getProductInLocker(colIndex + 1, rowIndex + 1);
+                  const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
+                  return (
+                    <div 
+                      key={`col-${colIndex}`} 
+                      className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
+                    >
+                      {product ? product.product_nm : ''}
+                    </div>
+                  );
+                })}
               </div>
-            ))
-          ) : (
-            <p>대여 가능한 물품이 없습니다</p>
-          )}
+            )
+          }
+        </div>
         </div>
       </div>
-    </div>
+    
+    </>
+    
   );
 };
 

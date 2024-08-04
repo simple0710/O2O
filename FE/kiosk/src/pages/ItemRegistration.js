@@ -22,6 +22,9 @@ const ItemRegistration = () => {
 
   return (
     <div className="frame-container">
+      <button className="btn-main" onClick={() => navigate('/')}>
+          메인 페이지
+        </button>
       <Box className="container1">
         
         <Typography variant="h5" component="h2" gutterBottom>
@@ -48,9 +51,7 @@ const ItemRegistration = () => {
           등록
         </Button>
         <br/>
-        <button onClick={back}>
-            뒤로가기
-        </button>
+        
       </Box>
     </div>
   );
