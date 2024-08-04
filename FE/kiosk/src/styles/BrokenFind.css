@@ -35,11 +35,17 @@ h2 {
   margin-bottom: 20px;
 }
 
+.rent {
+  margin-bottom: 15px;
+}
+
 .item {
   padding: 10px;
-  margin-bottom: 15px;
   border-radius: 10px;
+  margin-bottom: 5px !important;
   background-color: #F0F8FF;
+  display: flex;
+  justify-content: space-between;
 }
 
 .item-header {
@@ -47,6 +53,7 @@ h2 {
   align-items: center;
   vertical-align:middle;
   /* margin-bottom: 10px; */
+  margin-right: 15px;
 }
 
 .item-icon {
@@ -63,14 +70,15 @@ h2 {
 }
 
 .item-controls {
-  display: flex;
-  justify-content: space-around;
+  /* display: flex;
+  justify-content: center; */
 }
 
 .control {
   display: flex;
   align-items: center;
   font-size: 16px;
+  flex-direction: column;
 }
 
 .control span {
@@ -78,13 +86,23 @@ h2 {
   white-space: nowrap; /* Prevents text from wrapping */
 }
 
+div.control-button {
+  /* 수량 조절 버튼 */
+  display: flex;
+  flex-direction: row;
+  vertical-align: bottom;
+  align-items: center;
+  justify-content: center;
+}
+
 button {
   background-color: #0093ED;
   color: #fff;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 5px;
   cursor: pointer;
   border-radius: 5px;
+  
 }
 
 button:disabled {
@@ -112,12 +130,31 @@ button:disabled {
   white-space: nowrap; /* Prevents text from wrapping */
 }
 
-
-
-.small-font {
-  font-size: 10px;
+.extreme-small-font {
+  /* 엄청 작은 글씨 */
+  font-size: 12px;
   color: gray;
   margin: 0;
+}
+
+.small-font {
+  /* 작은 글씨 */
+  font-size: 14px;
+  color: gray;
+  margin: 0;
+  text-align: left;
+}
+
+p.p-small-number.imp {
+  display: inline-block;
+  /* width: 20px; */
+  margin: 0;
+  padding: 0;
+  min-width: none;
+  align-self: center;
+  text-align: center;
+  width: 15px;
+  height: 24px;
 }
 
 @media (max-width: 768px) {

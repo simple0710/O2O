@@ -11,19 +11,14 @@ export function formatDate(date){
 }
 
 export function formatDateSimple(date){
+    // 8.4 16:30
     let newDate = new Date(date);
     if(isNaN(newDate)) return date;
     // 8.4 16:30
+    const month = newDate.getMonth() + 1; // 월은 0부터 시작하므로 +1 필요
+    const day = newDate.getDate();
+    const hours = newDate.getHours();
+    const minutes = newDate.getMinutes().toString().padStart(2, '0'); // 2자리로 맞춤
 
-    const formattedDate = newDate.toLocaleDateString('ko-KR', {
-        month: 'numeric',
-        day: 'numeric'
-    }); // "8.4"
-
-    const formattedTime = newDate.toLocaleTimeString('ko-KR', {
-        hour: '2-digit',
-        minute: '2-digit'
-    }); // "16:30"
-
-    return `${formattedDate} ${formattedTime}`; 
+    return `${month}.${day} ${hours}:${minutes}`;
 }

@@ -16,7 +16,7 @@ import { formatDateSimple } from '../util/dateUtil.js'
 
 
 // 임시 유저 아이디
-const userId = 4;
+const userId = 7;
 
 function BrokenFind() {
   const navigate = useNavigate();
@@ -25,31 +25,44 @@ function BrokenFind() {
   //   return acc;
   // }, {}));
 
-  const [items, setItems]  = useState([]);
+  const [items, setItems] = useState([[]]);
 
-  const increaseQuantity = (ind, type) => {
-    console.log("hi " , ind);
+  const increaseQuantity = (rentIndex, productIndex, type) => {
     // setQuantities(prev => ({ ...prev, [id]: { ...prev[id], [type]: prev[id][type] + 1 } }));
-    setItems(prevItems => 
-      prevItems.map((item, index) => 
-        // 임시로 min으로 막아두긴 했는데 broken+missing이 cnt 넘지 않게 해야댐 
-        ind === index ? { ...item, [type]: Math.min(item[type] + 1, item.cnt)} : item
+    // console.log(items[rentIndex][productIndex]);
+    setItems(prevItems =>
+      prevItems.map((rent, rInd) =>
+        rInd === rentIndex
+          ? rent.map((item, pInd) =>
+            pInd === productIndex
+              ? { ...item, [type]: 
+                    (item.cnt - (item.broken + item.missing)) == 0?
+                       item[type]: item[type] + 1 }
+              : item
+          )
+          : rent
       )
     );
-    console.log(items);
+    // console.log(items[rentIndex][productIndex]);
   };
 
-  const decreaseQuantity = (ind, type) => {
+  const decreaseQuantity = (rentIndex, productIndex, type) => {
     // setQuantities(prev => ({ ...prev, [id]: { ...prev[id], [type]: prev[id][type] > 0 ? prev[id][type] - 1 : 0 } }));
-    setItems(prevItems => 
-      prevItems.map((item, index) => 
-        ind === index ? { ...item, [type]: Math.max(item[type] - 1, 0)} : item
+    setItems(prevItems =>
+      prevItems.map((rent, rInd) =>
+        rInd === rentIndex
+          ? rent.map((item, pInd) =>
+            pInd === productIndex
+              ? { ...item, [type]: Math.max(item[type] - 1, 0) }
+              : item
+          )
+          : rent
       )
     );
   };
 
   // 의존성을 빈 배열로 주면 페이지 로딩될 때 최초 1회만 실행 
-  useEffect(()=> {
+  useEffect(() => {
     getBrokenValues();
   }, [])
 
@@ -57,9 +70,15 @@ function BrokenFind() {
     console.log(items);
     console.log(items);
     // 분실 목록
-    // filter -> map 순서 (그런데 지금 구조 수정하지 않아도 될 듯)
-    const reportedItems = items
-    .filter(item => item.missing > 0 || item.broken > 0 );
+    // filter -> map 순서 
+    const reportedItems = [];
+    items.map(rent => 
+      rent.map(item => {
+        if(item.missing > 0 || item.broken > 0){
+          reportedItems.push(item);
+        }
+      })
+    );
     console.log("신고된 아이템:", reportedItems);
     // console.log(reportedItems[0].name)
     // post 후 이동 
@@ -68,72 +87,86 @@ function BrokenFind() {
 
   // ------------- API 연결
   const getBrokenValues = async () => {
-    const data = await getCurrentProducts(userId, 1, 10);
+    const data = await getCurrentProducts(userId, 1, 5);
     console.log("data ", data);
-    if(data != null){
-      const productsData = [];
-      console.log("data.rents "+data.rents)
-      for(let rent of data.rents) {
+    if (data != null) {
+      const rentsData = [];
+      console.log("data.rents " + data.rents)
+      for (let rent of data.rents) {
         console.log("Rent" + rent);
-          for(let product of rent.products){
-            if(product.status[1].product_cnt == 0) continue;
-            productsData.push({
-              id: product.product_id,
-              name: product.product_name,
-              cnt: product.status[1].product_cnt,
-              date: rent.rent_dt,
-              broken: 0, 
-              missing: 0,
-              icon: "🕶",
-              locker_id: product.locker_id, // BE 수정 예정 
-            })
-          }
+        const productsData = [];
+        for (let product of rent.products) {
+          if (product.status[1].product_cnt == 0) continue;
+          productsData.push({
+            id: product.product_id,
+            name: product.product_name,
+            cnt: product.status[1].product_cnt,
+            date: rent.rent_dt,
+            broken: 0,
+            missing: 0,
+            icon: "🕶",
+            locker_id: product.locker_id,
+          })
+        }
+        rentsData.push(productsData);
       }
-      console.log(productsData);
-      setItems(productsData);
+      console.log(rentsData);
+      setItems(rentsData);
     }
   }
 
   return (
     <div className='frame-container'>
-    <div className="cart-container">
-      <h2>대여물품조회</h2>
-      <div className="items">
-        {items.map((item, ind) => ( // ind 사용하여 product 구분 (product_id가 고유하지 않을 수도 있음)
-          <div key={ind} className="item"> 
-            <div className="item-header">
-              <span className="item-icon">{item.icon}</span>
-              <span>
-              <p className="item-name">{item.name}</p>
-              <p className="item-date small-font">{formatDateSimple(item.date)} 대여</p>
-              </span>
-            </div>
-            <div className="item-controls">
-            <div className="control">
-              <span className="preserve-horizontal-text">파손</span>
-              {/* <button className="btn btn-sm mx-1" onClick={() => decreaseQuantity(item.id, 'broken')}>-</button>
+      <div className="cart-container">
+        <h2>대여물품조회</h2>
+        <div className="items">
+          {items.map((rent, rInd) => (
+            <div key={rInd} className="rent">
+              <div>
+                <p className="item-date small-font">대여 일시: {formatDateSimple(rent[0]?.date)}</p>
+              </div>
+              {rent.map((item, pInd) => ( // `rent` 배열을 `map`으로 순회
+                <div key={rInd + "." + pInd} className="item">
+                  <div className="item-header">
+                    <span className="item-icon">{item.icon}</span>
+                    <span>
+                      <p className="item-name">{item.name}</p>
+                    </span>
+                  </div>
+                  <div className="item-controls">
+                    <div className="control">
+                      <span className="preserve-horizontal-text extreme-small-font">파손</span>
+                      {/* <button className="btn btn-sm mx-1" onClick={() => decreaseQuantity(item.id, 'broken')}>-</button>
               <span className="mx-1">{quantities[item.id].broken}</span>
               <button className="btn btn-sm mx-1" onClick={() => increaseQuantity(item.id, 'broken')}>+</button> */}
-              <IncreaseDecreaseButton 
-                  increaseQuantity={increaseQuantity}
-                  decreaseQuantity={decreaseQuantity}
-                  count={item.broken}
-                  index={ind}
-                  type='broken'
-              />
-            </div>
-            <div className="control">
-              <span className="preserve-horizontal-text">분실</span>
-              <button className="btn btn-sm mx-1" onClick={() => decreaseQuantity(ind, 'missing')}>-</button>
-              <span className="mx-1">{item.missing}</span>
-              <button className="btn btn-sm mx-1" onClick={() => increaseQuantity(ind, 'missing')}>+</button>
-            </div>
-            </div>
-          </div>
-        ))}
+                      <IncreaseDecreaseButton
+                        increaseQuantity={increaseQuantity}
+                        decreaseQuantity={decreaseQuantity}
+                        count={item.broken}
+                        rIndex={rInd}
+                        pIndex={pInd}
+                        type='broken'
+                      />
+                    </div>
+                    <div className="control">
+                      <span className="preserve-horizontal-text extreme-small-font">분실</span>
+                      <IncreaseDecreaseButton
+                        increaseQuantity={increaseQuantity}
+                        decreaseQuantity={decreaseQuantity}
+                        count={item.missing}
+                        rIndex={rInd}
+                        pIndex={pInd}
+                        type='missing'
+                      />
+                    </div>
+                  </div>
+                </div>
+                 ))}
+              </div>
+            ))}
+        </div>
+        <button className="report-button" onClick={reportItems}>신고하기</button>
       </div>
-      <button className="report-button" onClick={reportItems}>신고하기</button>
-    </div>
     </div>
   );
 }
