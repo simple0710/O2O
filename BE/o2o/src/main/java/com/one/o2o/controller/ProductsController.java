@@ -131,7 +131,7 @@ public class ProductsController {
     }
 
     @PutMapping("/report/process")
-    private ResponseEntity<?> processProductsReport(@RequestBody ReportProcessDto reportProcessDto) {
+    private ResponseEntity<?> processProductsReport(@RequestBody List<ReportProcessDto> reportProcessDto) {
         return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
     }
 
