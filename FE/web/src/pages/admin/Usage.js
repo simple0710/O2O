@@ -15,7 +15,7 @@ const UsageStatistics = () => {
         // 데이터를 사용률로 정렬 (내림차순)
         products.sort((a, b) => b.retention_rate - a.retention_rate);
 
-        setData(products.slice(0, 5));
+        setData(products);
       })
       .catch((error) => console.error("Failed to load data:", error))
       .finally(() => setIsLoading(false));
