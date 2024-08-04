@@ -12,8 +12,11 @@ import UserList from './pages/admin/UserList';
 import AdminChangePwd from './pages/admin/AdminChangePwd';
 import AddItem from './pages/admin/AddItem';
 import AddUser from './pages/admin/AddUser';
+import RequestItem from './pages/user/RequestItem';
 import { CartProvider } from './pages/user/CartContext';
 import './App.css';
+import BorrowList from './pages/user/BorrowList';
+import NotRefund from './pages/user/NotRefund';
 
 
 
@@ -34,6 +37,9 @@ function App() {
           <Route path='/admin/changepwd' element={<AdminChangePwd />} />
           <Route path='/admin/adduser' element={<AddUser />} />
           <Route path='/admin/additem' element={<AddItem />} />
+          <Route path='/request/article' element={<RequestItem/>}/>
+          <Route path='/item/borrow' element={<BorrowList/>}/>
+          <Route path='/item/notrefund' element={<NotRefund/>}/>
         </Routes>
         </CartProvider>
         
