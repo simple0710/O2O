@@ -56,5 +56,5 @@
     "@tanstack/eslint-plugin-query": "^5.51.15"
   },
   "proxy": "http://i11d101.p.ssafy.io:8000",
-  "homepage": "http://i11d101.p.ssafy.io/frontend2"
+  "homepage": "/frontend2"
 }
