@@ -1,10 +1,14 @@
 package com.one.o2o.controller;
 
+import com.one.o2o.dto.common.Response;
+import com.one.o2o.dto.locker.LockerDto;
 import com.one.o2o.dto.products.ProductsDto;
+import com.one.o2o.dto.products.ProductsResponseDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
+import com.one.o2o.service.ProductsCommonService;
 import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -26,6 +31,7 @@ public class ProductsController {
     private final ProductsManageService productsManageService;
     private final ProductsRequestService productsRequestService;
     private final ProductsReportService productsReportService;
+    private final ProductsCommonService productsCommonService;
     // 물품 등록
     @PostMapping("/regist")
     public ResponseEntity<?> registProduct(
@@ -79,6 +85,12 @@ public class ProductsController {
         log.info("pageNumber : " + pageNumber);
         log.info("pageSize = " + pageSize);
         return new ResponseEntity<>(productsManageService.findAllOverdueList(pageNumber, pageSize), HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Response> readProductList(){
+        List<ProductsResponseDto> list = productsCommonService.readAllProduct();
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품 목록 조회", list), HttpStatus.OK);
     }
 
 }
