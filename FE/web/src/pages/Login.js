@@ -35,10 +35,10 @@ const Login = () => {
             
             const accessToken = response.data.accessToken;
             // 사용자 ID 추출(수정필요)
-            const userId = response.data.data[0].user[0].user_id; 
+            // const userId = response.data.data[0].user[0].user_id; 
             localStorage.setItem('accessToken', accessToken);
             // 사용자 ID 저장(수정필요)
-            localStorage.setItem('userId', userId); 
+            // localStorage.setItem('userId', userId); 
 
             console.log('로그인 성공:', response.data);
             console.log(accessToken);
