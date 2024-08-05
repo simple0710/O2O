@@ -9,6 +9,7 @@ import Rent from "./Rent";
 import Usage from "./Usage";
 import "../../style/Statistics.css";
 import "../../style/Title.css";
+import axiosInstance from '../../utils/axiosInstance'
 
 // 스케일 등록
 Chart.register(CategoryScale);
@@ -18,7 +19,7 @@ const Statistics = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get("/usage/analysis/usage-rate")
       .then((response) => {
         console.log(response.data.data);

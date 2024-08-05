@@ -7,6 +7,7 @@ import "../../style/Table.css";
 import "../../style/Title.css";
 import axios from "axios";
 import Pagination from "./Pagination";
+import axiosInstance from '../../utils/axiosInstance'
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -21,7 +22,7 @@ const Request = () => {
 
     while (hasMoreData) {
       try {
-        const response = await axios.get(`/products/request?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+        const response = await axiosInstance.get(`/products/request?pg_no=${pageNumber}&per_page=${postsPerPage}`);
         const data = response.data;
         const fetchedPosts = data.data.reqs;
 
@@ -66,7 +67,7 @@ const Request = () => {
     }));
 
     try {
-      await axios.put('/products/request/process', postData, {
+      await axiosInstance.put('/products/request/process', postData, {
         headers: {
           "Content-Type": "application/json"
         }

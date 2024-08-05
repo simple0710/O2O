@@ -6,6 +6,7 @@ import AdminNav from "./AdminNav";
 import "../../style/Complain.css";
 import "../../style/Title.css";
 import Pagination from "./Pagination";
+import axiosInstance from '../../utils/axiosInstance'
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -20,7 +21,7 @@ const Request = () => {
 
     while (hasMoreData) {
       try {
-        const response = await axios.get(`/products/report?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+        const response = await axiosInstance.get(`/products/report?pg_no=${pageNumber}&per_page=${postsPerPage}`);
         const data = response.data;
         const fetchedPosts = data.data.rpts;
 
@@ -66,7 +67,7 @@ const Request = () => {
     console.log("Sending data:", postData);
 
     try {
-      await axios.put("/products/report/process", postData, {
+      await axiosInstance.put("/products/report/process", postData, {
         headers: {
           "Content-Type": "application/json"
         }

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../style/Statistics.css";
 // import "../../style/RentStatistics.css"
+import axiosInstance from '../../utils/axiosInstance'
 
 const RentStatistics = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get("/usage/analysis/rent-count") // 좌측 하단 데이터 경로
       .then((response) => {
         console.log(response.data.data);
