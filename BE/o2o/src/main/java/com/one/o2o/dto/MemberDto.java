@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MemberDto {
-    private String userId;
+    private Integer userId;
     private String userLgid;
     private String userPw;
     private String  userNm;
