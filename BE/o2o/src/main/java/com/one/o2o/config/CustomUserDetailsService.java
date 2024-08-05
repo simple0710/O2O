@@ -1,6 +1,6 @@
 package com.one.o2o.config;
 
-import com.one.o2o.dto.MemberDto;
+import com.one.o2o.dto.User.MemberDto;
 import com.one.o2o.entity.MemberEntity;
 import com.one.o2o.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,20 +30,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails createUserDetails(MemberEntity member) {
 
         // MemberEntity를 MemberDto로 변환
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUser_lgid(member.getUserLgid());
-        memberDto.setUser_pw(member.getUser_pw());
-        memberDto.setUser_nm(member.getUser_nm());
-        memberDto.setEmp_cd(member.getEmp_cd());
-        memberDto.setUser_img(member.getUser_img());
-        memberDto.set_admin(member.is_admin());
-        memberDto.setUser_tel(member.getUser_tel());
-        memberDto.set_active(member.is_active());
-
+        MemberDto memberDto = MemberDto.builder()
+                .userLgid(member.getUserLgid())
+                .userPw(member.getUserPw())
+                .userNm(member.getUserNm())
+                .empCd(member.getEmpCd())
+                .userImg(member.getUserImg())
+                .isAdmin(member.getIsAdmin())
+                .userTel(member.getUserTel())
+                .isActive(member.getIsActive())
+                .build();
         return User.builder()
-                .username(member.getUser_nm()  )
-                .password(member.getUser_pw())
-                .roles(member.is_admin() ? "ADMIN" : "USER") // 권한 설정
+                .username(member.getUserNm())
+                .password(member.getUserPw())
+                .roles(member.getIsAdmin() ? "ADMIN" : "USER") // 권한 설정
                 .build();
     }
 
