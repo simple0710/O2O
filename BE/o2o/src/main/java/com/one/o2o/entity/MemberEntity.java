@@ -1,6 +1,6 @@
 package com.one.o2o.entity;
 
-import com.one.o2o.dto.MemberDto;
+import com.one.o2o.dto.User.MemberDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -40,7 +40,7 @@ public class MemberEntity {
 
     @ColumnDefault("true")
     @Column(columnDefinition = "TINYINT(1)")
-    private boolean isActive;
+    private Boolean isActive;
 
     // DTO를 Entity로 변환하는 메서드
     public static MemberEntity toEntity(MemberDto dto) {
@@ -52,7 +52,7 @@ public class MemberEntity {
         entity.setUserImg(dto.getUserImg());
         entity.setIsAdmin(dto.getIsAdmin());
         entity.setUserTel(dto.getUserTel());
-        entity.setActive(dto.getIsActive());
+        entity.setIsActive(dto.getIsActive());
         return entity;
     }
 }

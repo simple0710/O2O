@@ -1,4 +1,4 @@
-package com.one.o2o.dto;
+package com.one.o2o.dto.User;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
