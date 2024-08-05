@@ -64,7 +64,10 @@ public class MemberController {
         JwtToken jwtToken = memberService.signIn(user_lgid, user_pw);
         log.info("request username = {}, password = {}", user_lgid, user_pw);
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
+        MemberEntity memberentity = memberService.searchprofile_with_lgid(user_lgid);
 
+
+        //MemberDto dto =
         //ResponseCookigit  respnosecookie
         // 유효기간 설정!
         //쿠키로 ㅁ보낼테니 쿠키로 받아!

@@ -41,9 +41,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         memberDto.set_active(member.is_active());
 
         return User.builder()
-                .username(memberDto.getUser_nm()  )
-                .password(memberDto.getUser_pw())
-                .roles(memberDto.is_admin() ? "ADMIN" : "USER") // 권한 설정
+                .username(member.getUser_nm()  )
+                .password(member.getUser_pw())
+                .roles(member.is_admin() ? "ADMIN" : "USER") // 권한 설정
                 .build();
     }
 
