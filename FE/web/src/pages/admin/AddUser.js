@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import axios from 'axios';
 import '../../style/AddUser.css';
+import axiosInstance from '../../utils/axiosInstance'
 
 
 function AddUser() {
@@ -28,7 +29,7 @@ function AddUser() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/users/regist', formData);
+            const response = await axiosInstance.post('/users/regist', formData);
             console.log(response.data);
             alert('회원가입 성공');
         } catch (err) {
