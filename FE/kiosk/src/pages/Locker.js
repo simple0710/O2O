@@ -12,9 +12,6 @@ const Locker = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const borrowfinish = () => {
-    navigate('/BorrowFinish')
-}
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
@@ -42,24 +39,22 @@ const Locker = () => {
           const data = response.data.data;
           setProducts(data);
           console.log('Product data:', data);
+
+          // 대여한 물품 정보로부터 강조할 사물함 설정
+          if (location.state && location.state.borrowedItems) {
+            const borrowedItems = location.state.borrowedItems;
+            const highlighted = borrowedItems
+              .filter(item => item.body_id === selectedLocker.value)
+              .map(item => ({ locker_column: item.column, locker_row: item.row }));
+            setHighlightedLockers(highlighted);
+            console.log('Highlighted lockers:', highlighted);
+          }
         })
         .catch(error => {
           console.error('Error fetching products data:', error);
         });
     }
-  }, [selectedLocker]);
-
-  useEffect(() => {
-    // BorrowFinish에서 전달받은 대여한 물품 정보
-    if (location.state && location.state.borrowedItems) {
-      // 선택된 층의 대여한 물품만 강조
-      const filteredItems = location.state.borrowedItems.filter(
-        item => item.body_id === selectedLocker?.value
-      );
-      setHighlightedLockers(filteredItems);
-      console.log('Filtered borrowed items for the selected locker:', filteredItems);
-    }
-  }, [location.state, selectedLocker]);
+  }, [selectedLocker, location.state]);
 
   useEffect(() => {
     // 페이지 접근 시 사물함 열기 요청
@@ -71,7 +66,6 @@ const Locker = () => {
         console.error('Error opening the locker:', error);
       });
   }, []);
-  
 
   const options = lockersData.map(lockerData => ({
     value: lockerData.locker_body_id,
@@ -85,6 +79,10 @@ const Locker = () => {
 
   const back = () => {
     navigate('/');
+  };
+
+  const borrowfinish = () => {
+    navigate('/BorrowFinish');
   };
 
   // 특정 사물함에 물품이 있는지 확인하는 함수

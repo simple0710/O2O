@@ -1,31 +1,49 @@
-.frame-container {
+/* 공통 스타일 */
+.frame-container,
+.locker-frame {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Viewport height */
-  text-align: center; 
+  min-height: 100vh; /* Viewport height */
+  text-align: center;
+  background-color: #fff; /* 배경색 추가 */
+  box-sizing: border-box;
 }
 
+.btn-main {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #0093ED;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 10; /* 버튼을 최상단으로 */
+}
 
+.button1 {
+  margin-top: 14%;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #0093ED;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ChangeLocker 스타일 */
 .locker-container {
   width: 375px;
   height: 812px;
   position: relative;
   background: white;
-  /* box-shadow: 0px 8px 0px #0093ED; */
   border-radius: 40px;
   overflow: hidden;
-  /* border: 2px #0093ED solid; */
   margin: 0 auto;
   text-align: center;
-  padding-top: 0px;
-}
-
-.back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
 }
 
 .locker-header {
@@ -41,7 +59,6 @@
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   line-height: 28.80px;
-  word-wrap: break-word;
 }
 
 .locker {
@@ -66,32 +83,107 @@
   background: #7DD8FF;
 }
 
-.locker-lock {
-  width: 48px;
-  height: 48px;
-  position: absolute;
+/* Locker 스타일 */
+.locker-container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 70vh;
+  box-sizing: border-box;
+  padding-top: 20px;
 }
 
-.locker-lock-inner {
-  width: 33.94px;
-  height: 33.94px;
-  position: absolute;
-  border: 4px #1E1E1E solid;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.locker-back {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #0093ED;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
-.label {
-  width: 101px;
-  height: 20px;
-  position: absolute;
+.locker-title {
+  width: 100%;
   text-align: center;
+  color: black;
+  font-size: 24px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 20px 0;
 }
 
-.date {
-  width: 41px;
-  height: 26px;
-  position: absolute;
+.locker-select-container,
+.locker-dropdown {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 20px auto;
+}
+
+.locker-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.locker-row {
+  display: flex;
+  justify-content: center;
+}
+
+.locker-box {
+  width: 150px;
+  height: 220px;
+  margin: 5px;
+  border-radius: 8px;
+  border: 2px #0093ED solid;
+  background-color: #f0f8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
   text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.locker-highlight {
+  background: #FF6666;
+  border-color: #CC0000;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .locker-container1 {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .locker-box {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .locker-box {
+    width: 60px;
+    height: 60px;
+    font-size: 0.8rem;
+  }
+
+  .locker-select-container,
+  .locker-dropdown {
+    max-width: 100%;
+  }
+
+  .locker-title {
+    font-size: 20px;
+  }
 }
