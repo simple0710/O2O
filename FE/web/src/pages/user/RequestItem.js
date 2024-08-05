@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Sidebar from "./Sidebar";
 import Nav from './Nav';
 import '../../style/RequestItme.css'
+import Swal from "sweetalert2";
 import {postRequest} from '../../api/userpost'
 
 const RequestItem = () => {
@@ -29,6 +30,23 @@ const RequestItem = () => {
         try{
             await postRequest(formData);
             console.log("Success")
+
+
+            // 데이터 전송 후 input form 초기화
+            setFormData({
+                user_id: 7,
+                itemname: '',
+                requestreason: '',
+                itemlink: '',
+                itemcnt: ''
+            });
+
+            Swal.fire({
+                title: "요청이 접수되었습니다.",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "확인",
+              });
         } catch(e){
             console.error(e)
         }
