@@ -1,17 +1,15 @@
 package com.one.o2o.controller;
 
 import com.one.o2o.config.JwtToken;
-import com.one.o2o.config.SecurityConfig;
-import com.one.o2o.dto.MemberDto;
+import com.one.o2o.dto.User.MemberDto;
 import com.one.o2o.dto.SignInDto;
+import com.one.o2o.dto.User.MemberLoginDto;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.entity.MemberEntity;
-import com.one.o2o.entity.User;
 import com.one.o2o.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -99,10 +97,17 @@ public class MemberController {
         log.info("request username = {}, password = {}", userLgid, userPw);
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
 
-        MemberEntity memberentity = memberService.searchprofile_with_lgid(userLgid);
+        MemberEntity memberEntity = memberService.searchprofile_with_lgid(userLgid);
 
-        HashMap<String, User> map = new HashMap<>();
-        MemberDto dto = MemberDto.builder().build();
+        HashMap<String, MemberLoginDto> map = new HashMap<>();
+        map.put("user", MemberLoginDto.builder()
+                .userLgid(memberEntity.getUserLgid())
+                .userNm(memberEntity.getUserNm())
+                .isAdmin(memberEntity.getIsAdmin())
+                .userId(memberEntity.getUserId())
+                .build()
+        );
+        response.setData(map);
         //ResponseCookigit  respnosecookie
         // 유효기간 설정!
         //쿠키로 ㅁ보낼테니 쿠키로 받아!
