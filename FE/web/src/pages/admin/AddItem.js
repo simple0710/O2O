@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import '../../style/AddItem.css'; 
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
-import { Button, Form } from "react-bootstrap";
-import axios from 'axios'
+// import { Button, Form } from "react-bootstrap";
+// import axios from 'axios'
 import axiosInstance from '../../utils/axiosInstance'
 
 function AddItem() {
     const [itemData, setItemData] = useState({
         itemName: '',
         itemDescription: '',
-        itemImage: ''
+        itemImage: null
     });
 
     const handleChange = (e) => {
@@ -24,14 +24,18 @@ function AddItem() {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        const payload = {
-            product_nm: itemData.itemName,
-            product_det : itemData.itemDescription,
-            user_id: 5
+        const formData = new FormData();
+        formData.append('product_nm', itemData.itemName);
+        formData.append('product_det', itemData.itemDescription);
+        formData.append('user_id', 23);
+
+
+        if (itemData.itemImage) {
+            formData.append('product_img', itemData.itemImage); // 파일 입력 필드명은 서버 요구 사항에 맞게 수정
         }
 
         try {
-            const response = await axiosInstance.post('/products/regist', payload ,{
+            const response = await axiosInstance.post('/products/regist', formData ,{
                 headers :{
                     'Content-Type' : 'application/json '
                 }
@@ -83,7 +87,7 @@ function AddItem() {
                         name="itemImage"
                         value={itemData.itemImage}
                         onChange={handleChange}
-                        required
+                        // required
                     />
                 </div>
                 <button type="submit" className="add-btn">등록</button>
