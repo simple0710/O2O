@@ -4,8 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import '../style/Login.css';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import axiosInstance from '../utils/axiosInstance'
+import axiosInstance from '../utils/axiosInstance';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -32,15 +31,19 @@ const Login = () => {
         setError(null);
 
         try {
-            const response = await axiosInstance.post('/users/login', formData); 
+            const response = await axiosInstance.post('/users/login', formData);
             
             const accessToken = response.data.accessToken;
+            // 사용자 ID 추출(수정필요)
+            const userId = response.data.data[0].user[0].user_id; 
             localStorage.setItem('accessToken', accessToken);
+            // 사용자 ID 저장(수정필요)
+            localStorage.setItem('userId', userId); 
 
             console.log('로그인 성공:', response.data);
-            console.log(accessToken)
+            console.log(accessToken);
             
-            navigate('/mainpage'); 
+            navigate('/mainpage');
         } catch (err) {
             console.error(err);
             alert('존재하지 않는 아이디 or 비밀번호 입니다.');
@@ -93,4 +96,3 @@ const Login = () => {
 }
 
 export default Login;
-
