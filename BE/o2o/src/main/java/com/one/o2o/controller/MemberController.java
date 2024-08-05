@@ -68,11 +68,18 @@ public class MemberController {
         return new ResponseEntity<>(memberService.searchprofile(userId) , HttpStatus.OK) ;
     }
 
+    /**
+     * 서버에게 MemberEntity를 주면 그 user-id (PK 값 1, 2, 3)에 따라 해당 사용자의 프로필 정보 변경
+     * 일단은 비밀번호랑 전화번호 정도만 바꿀수 있도록 했는데 더 추가하면되긴함!!
+     *
+     * @param userId
+     * @param memberEntity
+     * @return ResponseEntity
+     * @throws Throwable
+     */
     @PostMapping("/profile/{user-id}/edit")
-    public ResponseEntity<?> registmember(@PathVariable("user-id") int user_id, @RequestBody MemberEntity memberEntity) throws Throwable {
-        // 서버에게 MemberEntity를 주면 그 user-id (PK 값 1, 2, 3)에 따라 해당 사용자의 프로필 정보 변경!!
-        // 일단은 비밀번호랑 전화번호 정도만 바꿀수 있도록 했는데 더 추가하면되긴함!!
-        return new ResponseEntity<>(memberService.updateprofile(user_id, memberEntity) , HttpStatus.OK) ;
+    public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberEntity memberEntity) throws Throwable {
+        return new ResponseEntity<>(memberService.updateprofile(userId, memberEntity) , HttpStatus.OK) ;
     }
 
 
