@@ -12,6 +12,9 @@ const Locker = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const borrowfinish = () => {
+    navigate('/BorrowFinish')
+}
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
@@ -58,6 +61,18 @@ const Locker = () => {
     }
   }, [location.state, selectedLocker]);
 
+  useEffect(() => {
+    // 페이지 접근 시 사물함 열기 요청
+    axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error opening the locker:', error);
+      });
+  }, []);
+  
+
   const options = lockersData.map(lockerData => ({
     value: lockerData.locker_body_id,
     label: lockerData.locker_body_name
@@ -78,49 +93,48 @@ const Locker = () => {
   };
 
   return (
-
     <>
-      {/* 메이페이지 버튼 */}
+      {/* 메인 페이지 버튼 */}
       <button className="btn-main" onClick={back}>메인 페이지</button>
 
       <div className='locker-frame'>
         <div className="locker-container1">
-        <div className="locker-title">
-          표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
-        </div>
-        <div className='locker-dropdown'>
-          <Select 
-            options={options} 
-            value={selectedLocker}
-            onChange={handleChange}
-            placeholder="사물함을 선택하세요"
-          />
-        </div>
-        <div className='locker-grid'>
-          {selectedLocker && lockersData.length > 0 && 
-            Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).row }).map((_, rowIndex) =>
-              <div key={`row-${rowIndex}`} className='locker-row'>
-                {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
-                  const product = getProductInLocker(colIndex + 1, rowIndex + 1);
-                  const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
-                  return (
-                    <div 
-                      key={`col-${colIndex}`} 
-                      className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
-                    >
-                      {product ? product.product_nm : ''}
-                    </div>
-                  );
-                })}
-              </div>
-            )
-          }
-        </div>
+          <div className="locker-title">
+            표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
+          </div>
+          <div className='locker-dropdown'>
+            <Select 
+              options={options} 
+              value={selectedLocker}
+              onChange={handleChange}
+              placeholder="사물함을 선택하세요"
+            />
+          </div>
+          <div className='locker-grid'>
+            {selectedLocker && lockersData.length > 0 && 
+              Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).row }).map((_, rowIndex) =>
+                <div key={`row-${rowIndex}`} className='locker-row'>
+                  {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
+                    const product = getProductInLocker(colIndex + 1, rowIndex + 1);
+                    const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
+                    return (
+                      <div 
+                        key={`col-${colIndex}`} 
+                        className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
+                      >
+                        {product ? product.product_nm : ''}
+                      </div>
+                    );
+                  })}
+                </div>
+              )
+            }
+          </div>
+          <button className='button1' onClick={borrowfinish}>확인</button>
         </div>
       </div>
-    
+      
     </>
-    
   );
 };
 
