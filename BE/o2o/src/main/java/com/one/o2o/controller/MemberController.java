@@ -83,16 +83,23 @@ public class MemberController {
     }
 
 
+    /**
+     * 로그인을 수행하는 코드
+     *
+     * @param signInDto userLgId, UserPw를 담은 DTO
+     * @return response
+     */
     @PostMapping({"/login", "/login/"})
     public Response signIn(@RequestBody SignInDto signInDto) {
         Response response = new Response(HttpStatus.OK.value(), "로그인에 성공했습니다.");
-        String user_lgid = signInDto.getUser_lgid();
-        String user_pw = signInDto.getUser_pw();
-        JwtToken jwtToken = memberService.signIn(user_lgid, user_pw);
-        log.info("request username = {}, password = {}", user_lgid, user_pw);
+        log.info("signInDto : " + signInDto);
+        String userLgid = signInDto.getUserLgid();
+        String userPw = signInDto.getUserPw();
+        JwtToken jwtToken = memberService.signIn(userLgid, userPw);
+        log.info("request username = {}, password = {}", userLgid, userPw);
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
 
-        MemberEntity memberentity = memberService.searchprofile_with_lgid(user_lgid);
+        MemberEntity memberentity = memberService.searchprofile_with_lgid(userLgid);
 
         HashMap<String, User> map = new HashMap<>();
         MemberDto dto = MemberDto.builder().build();
