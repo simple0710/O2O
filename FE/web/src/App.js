@@ -13,8 +13,11 @@ import AdminChangePwd from './pages/admin/AdminChangePwd';
 import AddItem from './pages/admin/AddItem';
 import AddUser from './pages/admin/AddUser';
 import {Logout} from './pages/Logout';
+import RequestItem from './pages/user/RequestItem';
 import { CartProvider } from './pages/user/CartContext';
 import './App.css';
+import BorrowList from './pages/user/BorrowList';
+import NotRefund from './pages/user/NotRefund';
 
 const isAuthenticated = () => {
     return !!localStorage.getItem('accessToken');
@@ -82,6 +85,24 @@ function App() {
                 <Route path='/admin/additem' element={
                     <ProtectedRoute>
                         <AddItem />
+                    </ProtectedRoute>
+                } />
+
+                 <Route path='/request/article' element={
+                    <ProtectedRoute>
+                        <RequestItem />
+                    </ProtectedRoute>
+                } />
+
+                 <Route path='/item/borrow' element={
+                    <ProtectedRoute>
+                        <BorrowList />
+                    </ProtectedRoute>
+                } />
+
+                 <Route path='/item/notrefund' element={
+                    <ProtectedRoute>
+                        <NotRefund />
                     </ProtectedRoute>
                 } />
                 

@@ -13,20 +13,42 @@ const Request = () => {
   const [selectedPosts, setSelectedPosts] = useState([]);
   const postsPerPage = 10;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/products/report");
-        console.log(response.data.data.rpts);
-        const data = response.data.data.rpts;
-        setPosts(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const fetchData = async () => {
+    let pageNumber = 1;
+    let allPosts = [];
+    let hasMoreData = true;
 
+    while (hasMoreData) {
+      try {
+        const response = await axios.get(`/products/report?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+        const data = response.data;
+        const fetchedPosts = data.data.rpts;
+
+        if (fetchedPosts.length === 0) {
+          hasMoreData = false;
+        } else {
+          allPosts = [...allPosts, ...fetchedPosts];
+          pageNumber += 1;
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        hasMoreData = false;
+      }
+    }
+
+    // Sort posts to show unprocessed items first
+    allPosts.sort((a, b) => a.is_processed - b.is_processed);
+
+    setPosts(allPosts);
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log("Current posts:", posts);
+  }, [posts]);
 
   const handleStatusChange = async (status) => {
     const updatedPosts = posts.map((post) =>
@@ -36,17 +58,26 @@ const Request = () => {
     );
     setPosts(updatedPosts);
 
-    // POST 요청을 보낼 데이터 생성
     const postData = selectedPosts.map((id) => ({
       rpt_id: id,
       is_processed: status === "처리완료",
     }));
 
+    console.log("Sending data:", postData);
+
     try {
-      await axios.post("/products/report/update", postData);
+      await axios.put("/products/report/process", postData, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
       console.log("Status updated successfully");
+
+      // Re-sort posts to show unprocessed items first
+      updatedPosts.sort((a, b) => a.is_processed - b.is_processed);
+      setPosts([...updatedPosts]);
     } catch (error) {
-      console.log("Error updating status", error);
+      console.error("Error updating status:", error);
     }
 
     setSelectedPosts([]);
@@ -60,18 +91,16 @@ const Request = () => {
     );
   };
 
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  // 미처리 항목을 위로 오도록 정렬
-  const sortedPosts = [...posts].sort((a, b) => a.is_processed - b.is_processed);
+  // Compute pagination
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Compute total pages for pagination
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
-  const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
-  const handleNextChunk = () =>
-    setCurrentPage(Math.min(currentPage + 5, totalPages));
+  // Handle page change
+  const handlePageChange = (page) => setCurrentPage(page);
 
   return (
     <div>
@@ -88,16 +117,18 @@ const Request = () => {
                 <th></th>
                 <th>No.</th>
                 <th>물품명</th>
+                <th>신고 사유</th>
                 <th>수량</th>
                 <th>처리 상태</th>
                 <th>신고 날짜</th>
+                <th>신고자</th>
               </tr>
             </thead>
             <tbody>
               {currentPosts.map((post, index) => (
                 <tr key={post.rpt_id}>
                   <td>
-                    {!post.is_processed && (
+                    {post.is_processed ? <div style={{ width: "16px" }}></div> : (
                       <Form.Check
                         type="checkbox"
                         onChange={() => handleCheckboxChange(post.rpt_id)}
@@ -106,10 +137,12 @@ const Request = () => {
                     )}
                   </td>
                   <td>{indexOfFirstPost + index + 1}</td>
-                  <td>{post.product_id}</td>
+                  <td>{post.product_nm}</td>
+                  <td>{post.rpt_content}</td>
                   <td>{post.product_cnt}</td>
                   <td>{post.is_processed ? "처리완료" : "미처리"}</td>
                   <td>{post.rpt_dt}</td>
+                  <td>{post.user_nm}</td>
                 </tr>
               ))}
             </tbody>
@@ -130,8 +163,6 @@ const Request = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             handlePageChange={handlePageChange}
-            handlePrevChunk={handlePrevChunk}
-            handleNextChunk={handleNextChunk}
           />
         </div>
       </div>

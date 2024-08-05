@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../style/Statistics.css";
+// import "../../style/RentStatistics.css"
 
 const RentStatistics = () => {
   const [data, setData] = useState(null);
@@ -12,10 +13,11 @@ const RentStatistics = () => {
       .then((response) => {
         console.log(response.data.data);
         const products = response.data.data.products;
+        console.log(products)
         // 데이터를 대여 횟수로 정렬 (내림차순)
         products.sort((a, b) => b.rent_cnt - a.rent_cnt);
 
-        setData(products.slice(0, 5));
+        setData(products);
       })
       .catch((error) => console.error("Failed to load data:", error))
       .finally(() => setIsLoading(false));

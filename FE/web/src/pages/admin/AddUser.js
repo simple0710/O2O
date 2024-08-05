@@ -4,6 +4,8 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import axios from 'axios';
+import '../../style/AddUser.css';
+
 
 function AddUser() {
     const [formData, setFormData] = useState({
@@ -89,6 +91,7 @@ function AddUser() {
                             </Button>
                         </Form>
                     </div>
+
                 </div>
             </div>
         </div>

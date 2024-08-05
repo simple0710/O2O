@@ -1,43 +1,81 @@
 .cart-container {
-  padding: 10px 0;
-  font-size: 14px; /* 폰트 크기를 줄여 사이드바에 맞춤 */
-}
-
-.cart-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #212529;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 900px;
 }
 
 .cart-content {
+  flex-grow: 0; /* 컨테이너가 늘어나지 않도록 설정 */
+  flex-shrink: 0; /* 컨테이너가 줄어들지 않도록 설정 */
   display: flex;
   flex-direction: column;
 }
 
 .cart-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 150px; /* 최대 높이를 설정하여 스크롤 가능하도록 함 */
-  overflow-y: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 10px;
+  width: 750px;
 }
 
 .cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f8f9fa;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  padding: 8px;
-  margin-bottom: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  background-color: #bbdefb;
+  border: 1px solid #90caf9;
+  width: 150px;
+  height: 100px;
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 
-.cart-item:hover {
-  background-color: #e9ecef;
+/* 스크롤바 설정*/
+.cart-items::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* 스크롤바 막대 설정*/
+.cart-items::-webkit-scrollbar-thumb {
+  background-color: blue;
+  /* 스크롤바 둥글게 설정    */
+  border-radius: 10px;
+  border: 0.5px solid blue;
+}
+
+/* 스크롤바 뒷 배경 설정*/
+.cart-items::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.reser-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-height: 400px;
+  padding-right: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.reser-item {
+  background-color: #bbdefb;
+  border: 1px solid #90caf9;
+  width: 150px;
+  height: 100px;
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.cart-item span {
+  display: block;
+  cursor: pointer;
 }
 
 .remove-button {
@@ -46,38 +84,75 @@
   color: #f44336;
   font-weight: bold;
   cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 .cart-buttons {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 10px;
+  width: 100px; /* 버튼 영역의 고정된 너비 설정 */
 }
 
 .cart-button {
-  padding: 10px 0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  text-align: center;
-  color: white;
+  transition: all 0.2s ease-in-out;
+}
+
+.cart-button:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cart-button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
 }
 
 .cart-button-primary {
-  background-color: #007bff;
+  background-color: #42a5f5;
+  color: white;
 }
 
 .cart-button-primary:hover {
-  background-color: #0056b3;
+  background-color: #3391f2;
 }
 
 .cart-button-danger {
   background-color: #ef5350;
+  color: white;
 }
 
 .cart-button-danger:hover {
   background-color: #e53935;
+}
+
+.modal-footer .btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-footer .btn-primary {
+  background-color: #42a5f5;
+  color: white;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #3391f2;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #e1e1e1;
 }
