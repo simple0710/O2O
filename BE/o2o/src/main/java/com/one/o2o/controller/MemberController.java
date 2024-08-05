@@ -30,6 +30,7 @@ public class MemberController {
 
     /**
      * 회원 등록하는 코드
+     *
      * @param memberDto
      * @return ResponseEntity 성공 : true, 실패 : false
      */
@@ -54,10 +55,17 @@ public class MemberController {
     }
 
 
+    /**
+     * 사용자 프로필 정보를 가져오는 코드
+     * 서버에게 user-id (PK 값 1, 2, 3) 이런식의 값을 주면 사용자 프로필 정보를 get 해줌!
+     *
+     * @param userId
+     * @return ResponsEntity
+     */
     @GetMapping("/profile/{user-id}")
-    public ResponseEntity<?> registmember(@PathVariable("user-id") int user_id){
+    public ResponseEntity<?> getMemberDetail(@PathVariable("user-id") int userId){
         // 서버에게 user-id (PK 값 1, 2, 3) 이런식의 값을 주면 사용자 프로필 정보를 get 해줌!
-        return new ResponseEntity<>(memberService.searchprofile(user_id) , HttpStatus.OK) ;
+        return new ResponseEntity<>(memberService.searchprofile(userId) , HttpStatus.OK) ;
     }
 
     @PostMapping("/profile/{user-id}/edit")
