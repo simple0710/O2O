@@ -9,59 +9,52 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Table(name="user")
 public class MemberEntity {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer user_id;
+    private Integer userId;
 
     @Column(name="user_lgid")
     private String userLgid;
 
     @Column(name="user_pw")
-    private String user_pw;
+    private String userPw;
 
     @Column(name="user_nm")
-    private String  user_nm;
+    private String  userNm;
 
     @Column(name="emp_cd")
-    private String emp_cd;
+    private String empCd;
 
     @Column(name="user_img")
-    private String user_img;
+    private String userImg;
 
     @ColumnDefault("false")
     @Column(columnDefinition = "TINYINT(1)")
-    private boolean is_admin;
+    private Boolean isAdmin;
 
     @Column(name="user_tel")
-    private String user_tel;
+    private String userTel;
 
     @ColumnDefault("true")
     @Column(columnDefinition = "TINYINT(1)")
-    private boolean is_active;
+    private boolean isActive;
 
     // DTO를 Entity로 변환하는 메서드
     public static MemberEntity toEntity(MemberDto dto) {
         MemberEntity entity = new MemberEntity();
-        entity.setUserLgid(dto.getUser_lgid());
-        entity.setUser_pw(dto.getUser_pw());
-        entity.setUser_nm(dto.getUser_nm());
-        entity.setEmp_cd(dto.getEmp_cd());
-        entity.setUser_img(dto.getUser_img());
-        entity.set_admin(dto.is_admin());
-        entity.setUser_tel(dto.getUser_tel());
-        entity.set_active(dto.is_active());
+        entity.setUserLgid(dto.getUserLgid());
+        entity.setUserPw(dto.getUserPw());
+        entity.setUserNm(dto.getUserNm());
+        entity.setEmpCd(dto.getEmpCd());
+        entity.setUserImg(dto.getUserImg());
+        entity.setIsAdmin(dto.getIsAdmin());
+        entity.setUserTel(dto.getUserTel());
+        entity.setActive(dto.getIsActive());
         return entity;
     }
-
-
-
 }
 
 
