@@ -133,7 +133,6 @@ public class ProductsManageService implements ProductsManageInterface {
                         .lockerBody(rentLog.getLocker().getBody().getLockerBodyName())
                         .lockerLoc(rentLog.getLocker().getLockerRow() + "단 " + rentLog.getLocker().getLockerRow() + "연")
                         .productCnt(rentCnt)
-                        .status(status)
                         .build()
                 );
             }
