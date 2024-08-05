@@ -14,6 +14,8 @@ import AddItem from './pages/admin/AddItem';
 import AddUser from './pages/admin/AddUser';
 import {Logout} from './pages/Logout';
 import RequestItem from './pages/user/RequestItem';
+import AdminProfile from './pages/admin/Profile';
+import UserProfile from './pages/user/Profile';
 import { CartProvider } from './pages/user/CartContext';
 import './App.css';
 import BorrowList from './pages/user/BorrowList';
@@ -103,6 +105,18 @@ function App() {
                  <Route path='/item/notrefund' element={
                     <ProtectedRoute>
                         <NotRefund />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/profile' element={
+                    <ProtectedRoute>
+                        <UserProfile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/admin/profile' element={
+                    <ProtectedRoute>
+                        <AdminProfile />
                     </ProtectedRoute>
                 } />
                 

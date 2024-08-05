@@ -63,8 +63,11 @@ const UserNav = () => {
                         홍길동 님
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item as={Link} to="/changepwd">
+                        <Dropdown.Item as={Link} to="/profile">
                             프로필 수정
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/changepwd">
+                            비밀번호 수정
                         </Dropdown.Item>
                         <Dropdown.Item onClick={handleLogout}>
                             로그아웃
@@ -73,7 +76,10 @@ const UserNav = () => {
                 </Dropdown>
             </nav>
         </div>
+
     );
+
+
 };
 
 export default UserNav;
