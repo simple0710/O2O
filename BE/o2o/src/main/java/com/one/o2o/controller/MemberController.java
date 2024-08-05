@@ -7,8 +7,10 @@ import com.one.o2o.dto.User.MemberLoginDto;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.entity.MemberEntity;
 import com.one.o2o.service.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,7 +35,7 @@ public class MemberController {
      * @return ResponseEntity 성공 : true, 실패 : false
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> registMember(@RequestBody MemberDto memberDto){
+    public ResponseEntity<?> registMember(@RequestBody MemberDto memberDto, HttpServletResponse response){
         log.info("memberDto : " + memberDto);
         memberDto.setIsActive(true);
         memberDto.setIsAdmin(false);
@@ -49,6 +51,7 @@ public class MemberController {
         log.info("후~~~");
         log.info("memberEntity : " + memberEntity);
         // 회원가입이 성공하면 return true 실패하면 false 값을 준다!
+
         return new ResponseEntity<>(memberService.registmember(memberEntity), HttpStatus.OK) ;
     }
 
@@ -88,7 +91,7 @@ public class MemberController {
      * @return response
      */
     @PostMapping({"/login", "/login/"})
-    public Response signIn(@RequestBody SignInDto signInDto) {
+    public ResponseEntity<?> signIn(@RequestBody SignInDto signInDto) {
         Response response = new Response(HttpStatus.OK.value(), "로그인에 성공했습니다.");
         log.info("signInDto : " + signInDto);
         String userLgid = signInDto.getUserLgid();
@@ -108,10 +111,14 @@ public class MemberController {
                 .build()
         );
         response.setData(map);
+        Boolean IsTrue = memberService.registmember(memberEntity);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("access", jwtToken.getAccessToken());
+        headers.add("refresh", jwtToken.getRefreshToken());
         //ResponseCookigit  respnosecookie
         // 유효기간 설정!
         //쿠키로 ㅁ보낼테니 쿠키로 받아!
-        return response;
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
     @PostMapping("/testte")
