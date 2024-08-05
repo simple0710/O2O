@@ -30,15 +30,18 @@ export async function postRequest(params){
 
 
 
-export async function deleteReservation(){
-    try{
-        const response = await axiosInstance.delete('/reserve',  {
+export async function deleteReservation(reserveId) {
+    try {
+        const response = await axiosInstance.delete(`/reserve`, {
+            params: {
+                reserveId: reserveId
+            },
             headers: {
-                "Content-Type" : "application/json"
+                "Content-Type": "application/json"
             }
         });
-        console.log('Delete successfully')
-    } catch(e){
-        console.error(e)
+        console.log('Delete successfully', response.data);
+    } catch (e) {
+        console.error('Error deleting reservation:', e);
     }
 }
