@@ -2,12 +2,10 @@ package com.one.o2o.service;
 
 import com.one.o2o.config.JwtToken;
 import com.one.o2o.config.JwtTokenProvider;
-import com.one.o2o.dto.MemberDto;
 import com.one.o2o.entity.MemberEntity;
 import com.one.o2o.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -55,8 +53,8 @@ public class MemberService {
                 return new IllegalArgumentException("수정에 실패하였습니다!");
             }
         });
-        user_entity.setUser_pw(memberEntity.getUser_pw());
-        user_entity.setUser_tel(memberEntity.getUser_tel());
+        user_entity.setUserPw(memberEntity.getUserPw());
+        user_entity.setUserTel(memberEntity.getUserTel());
 
 
 
