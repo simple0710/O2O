@@ -14,3 +14,19 @@ export async function getReservation(pgNo, perPage, userId){
         console.error(e);
     }
 }
+
+
+export async function getRent(pgNO, perPage, userId){
+    try{
+        const params = {pg_no: pgNO, per_page: perPage, userId:userId}
+        const response = await axiosInstance.get(`/rent/current`, {params}, {
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        });
+        const data = await response.data.data.rents;
+        return data;
+    } catch(e){
+        console.error(e)
+    }
+}
