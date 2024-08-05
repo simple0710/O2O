@@ -6,6 +6,7 @@ import '../style/Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance'
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -36,6 +37,9 @@ const Login = () => {
             
             const accessToken = response.data.accessToken;
             localStorage.setItem('accessToken', accessToken);
+            //디코딩
+            // const decodedToken = jwtDecode(accessToken);
+            // console.log(decodedToken);
 
             console.log('로그인 성공:', response.data);
             console.log(accessToken)

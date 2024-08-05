@@ -18,6 +18,9 @@ import { CartProvider } from './pages/user/CartContext';
 import './App.css';
 import BorrowList from './pages/user/BorrowList';
 import NotRefund from './pages/user/NotRefund';
+import AdminProfile from './pages/admin/Profile';
+import UserProfile from './pages/user/Profile';
+
 
 const isAuthenticated = () => {
     return !!localStorage.getItem('accessToken');
@@ -103,6 +106,18 @@ function App() {
                  <Route path='/item/notrefund' element={
                     <ProtectedRoute>
                         <NotRefund />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/admin/profile' element={
+                    <ProtectedRoute>
+                        <AdminProfile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path='/profile' element={
+                    <ProtectedRoute>
+                        <UserProfile />
                     </ProtectedRoute>
                 } />
                 
