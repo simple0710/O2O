@@ -1,28 +1,23 @@
 package com.one.o2o.dto;
 
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Data;
 
-import org.hibernate.annotations.ColumnDefault;
-
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MemberDto {
-
+    private String userId;
     private String userLgid;
     private String userPw;
     private String  userNm;
     private String empCd;
     private String userImg;
-
-    @ColumnDefault("false")
     private Boolean isAdmin;
     private String userTel;
-    @ColumnDefault("true")
     private Boolean isActive;
-
-
 }
 
 
