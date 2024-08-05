@@ -4,7 +4,9 @@ import com.one.o2o.config.JwtToken;
 import com.one.o2o.config.SecurityConfig;
 import com.one.o2o.dto.MemberDto;
 import com.one.o2o.dto.SignInDto;
+import com.one.o2o.dto.common.Response;
 import com.one.o2o.entity.MemberEntity;
+import com.one.o2o.entity.User;
 import com.one.o2o.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -23,23 +27,30 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder; // PasswordEncoder 주입
+
+    /**
+     * 회원 등록하는 코드
+     * @param memberDto
+     * @return ResponseEntity 성공 : true, 실패 : false
+     */
     @PostMapping("/regist")
-    // 회원가입하는 코드
-    public ResponseEntity<?> registmember(@RequestBody MemberDto memberDto){
+    public ResponseEntity<?> registMember(@RequestBody MemberDto memberDto){
+        log.info("memberDto : " + memberDto);
+        memberDto.setIsActive(true);
+        memberDto.setIsAdmin(false);
         MemberEntity memberEntity = MemberEntity.toEntity(memberDto);
         // 여기 Entity에서 Dto를 통해서 만드는걸로!
-        System.out.println("전~~~");
-        System.out.println(memberEntity);
+        log.info("전~~~");
+        log.info("memberEntity : " + memberEntity);
 
         // 비밀번호 인코딩
-        String encodedPassword = passwordEncoder.encode(memberEntity.getUser_pw());
-
-        memberEntity.setUser_pw(encodedPassword); // 인코딩된 비밀번호 설정
-        System.out.println("후~~~");
-        System.out.println(memberEntity);
+        String encodedPassword = passwordEncoder.encode(memberEntity.getUserPw());
+        log.info("encodedPassword : " + encodedPassword);
+        memberEntity.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
+        log.info("후~~~");
+        log.info("memberEntity : " + memberEntity);
         // 회원가입이 성공하면 return true 실패하면 false 값을 준다!
         return new ResponseEntity<>(memberService.registmember(memberEntity), HttpStatus.OK) ;
-        //     return null;
     }
 
 
@@ -58,30 +69,30 @@ public class MemberController {
 
 
     @PostMapping({"/login", "/login/"})
-    public JwtToken signIn(@RequestBody SignInDto signInDto) {
+    public Response signIn(@RequestBody SignInDto signInDto) {
+        Response response = new Response(HttpStatus.OK.value(), "로그인에 성공했습니다.");
         String user_lgid = signInDto.getUser_lgid();
         String user_pw = signInDto.getUser_pw();
         JwtToken jwtToken = memberService.signIn(user_lgid, user_pw);
         log.info("request username = {}, password = {}", user_lgid, user_pw);
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
+
         MemberEntity memberentity = memberService.searchprofile_with_lgid(user_lgid);
 
-
-        //MemberDto dto =
+        HashMap<String, User> map = new HashMap<>();
+        MemberDto dto = MemberDto.builder().build();
         //ResponseCookigit  respnosecookie
         // 유효기간 설정!
         //쿠키로 ㅁ보낼테니 쿠키로 받아!
-        return jwtToken;
+        return response;
     }
 
     @PostMapping("/testte")
-        public String test(Authentication authentication){
-        authentication.getAuthorities();
+    public String test(Authentication authentication){
+    authentication.getAuthorities();
 
-        System.out.println(authentication.getAuthorities());
-        System.out.println(authentication.getPrincipal().toString());
-        return "TYTY";
-        }
-
-
+    System.out.println(authentication.getAuthorities());
+    System.out.println(authentication.getPrincipal().toString());
+    return "TYTY";
+    }
 }
