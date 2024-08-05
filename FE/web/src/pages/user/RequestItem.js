@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 import Sidebar from "./Sidebar";
 import Nav from './Nav';
 import '../../style/RequestItme.css'
+import {postRequest} from '../../api/userpost'
 
 const RequestItem = () => {
 
     const [formData, setFormData] = useState({
+        user_id: 7,
         itemname: '',
         requestreason : '',
         itemlink : '',
@@ -20,11 +22,19 @@ const RequestItem = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
+
+        try{
+            await postRequest(formData);
+            console.log("Success")
+        } catch(e){
+            console.error(e)
+        }
     };
 
+  
 
 
     return (
@@ -44,6 +54,7 @@ const RequestItem = () => {
                                     id='itemname'
                                     name='itemname'
                                     value={formData.itemname}
+                                    onChange={handleChange}
                                     required
                                     placeholder='요청 물품명을 적어주세요.'
                                 />
@@ -56,6 +67,7 @@ const RequestItem = () => {
                                     id='requestreason'
                                     name='requestreason'
                                     value={formData.requestreason}
+                                    onChange={handleChange}
                                     required
                                     placeholder='물품 신청 사유를 적어주세요.'
                                 />
@@ -68,6 +80,7 @@ const RequestItem = () => {
                                     id='itemlink'
                                     name='itemlink'
                                     value={formData.itemlink}
+                                    onChange={handleChange}
                                     required
                                     placeholder='물품 링크를 입력해주세요.'
                                 />
@@ -80,6 +93,7 @@ const RequestItem = () => {
                                     id='itemcnt'
                                     name='itemcnt'
                                     value={formData.itemcnt}
+                                    onChange={handleChange}
                                     required
                                     placeholder='물품 개수를 입력해주세요. (숫자만 입력해주세요)'
                                 />
