@@ -5,9 +5,15 @@ import '../../style/AdminMainpage.css';
 import '../../style/AdminLocker.css'; 
 import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
+import {Logout} from '../Logout'; 
 
 
 const AdminNav = () => {
+
+  const handleLogout = async () => {
+    await Logout();    
+  };
+
   return (
     <div>
       <nav className="navbar-custom">
@@ -21,7 +27,7 @@ const AdminNav = () => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item as={Link} to="/admin/changepwd">프로필 수정</Dropdown.Item>
-            <Dropdown.Item as={Link} to="/">로그아웃</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </nav>
