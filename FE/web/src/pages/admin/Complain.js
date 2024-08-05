@@ -72,6 +72,10 @@ const Request = () => {
         }
       });
       console.log("Status updated successfully");
+
+      // Re-sort posts to show unprocessed items first
+      updatedPosts.sort((a, b) => a.is_processed - b.is_processed);
+      setPosts([...updatedPosts]);
     } catch (error) {
       console.error("Error updating status:", error);
     }
