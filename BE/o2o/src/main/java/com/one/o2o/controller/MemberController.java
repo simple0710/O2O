@@ -66,6 +66,7 @@ public class MemberController {
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
         MemberEntity memberentity = memberService.searchprofile_with_lgid(user_lgid);
 
+
         //MemberDto dto =
         //ResponseCookigit  respnosecookie
         // 유효기간 설정!
