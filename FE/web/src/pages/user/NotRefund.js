@@ -13,7 +13,7 @@ const NotRefund = () => {
                 <Sidebar/>
                 <div className='content'>
                 <div className='title'>
-            <h3>대여 내역 조회</h3>
+            <h3>미반납 물품 조회</h3>
           </div>
           <Table className='custom-table'>
             <thead>

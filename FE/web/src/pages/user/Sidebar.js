@@ -132,9 +132,9 @@ function Sidebar() {
         물품 요청
       </SidebarLink>
       <SidebarLink
-        to="/item/borrow"
-        isActive={activeLink === '/item/borrow'}
-        onClick={() => handleLinkClick('/item/borrow')}
+        to="/item/reservation"
+        isActive={activeLink === '/item/reservation'}
+        onClick={() => handleLinkClick('/item/reservation')}
       >
         예약 현황 조회
       </SidebarLink>

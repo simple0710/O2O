@@ -27,3 +27,18 @@ export async function postRequest(params){
         console.error(e)
     }
 }
+
+
+
+export async function deleteReservation(){
+    try{
+        const response = await axiosInstance.delete('/reserve',  {
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        });
+        console.log('Delete successfully')
+    } catch(e){
+        console.error(e)
+    }
+}

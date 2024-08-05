@@ -16,7 +16,7 @@ import {Logout} from './pages/Logout';
 import RequestItem from './pages/user/RequestItem';
 import { CartProvider } from './pages/user/CartContext';
 import './App.css';
-import BorrowList from './pages/user/BorrowList';
+import ReservationList from './pages/user/ReservationList';
 import NotRefund from './pages/user/NotRefund';
 
 const isAuthenticated = () => {
@@ -94,9 +94,9 @@ function App() {
                     </ProtectedRoute>
                 } />
 
-                 <Route path='/item/borrow' element={
+                 <Route path='/item/reservation' element={
                     <ProtectedRoute>
-                        <BorrowList />
+                        <ReservationList />
                     </ProtectedRoute>
                 } />
 
