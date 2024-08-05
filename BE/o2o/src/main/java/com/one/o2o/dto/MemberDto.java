@@ -1,24 +1,26 @@
 package com.one.o2o.dto;
 
 import jakarta.persistence.Entity;
+import lombok.Builder;
 import lombok.Data;
 
 import org.hibernate.annotations.ColumnDefault;
 
 @Data
+@Builder
 public class MemberDto {
 
-    private String user_lgid;
-    private String user_pw;
-    private String  user_nm;
-    private String emp_cd;
-    private String user_img;
+    private String userLgid;
+    private String userPw;
+    private String  userNm;
+    private String empCd;
+    private String userImg;
 
     @ColumnDefault("false")
-    private boolean is_admin;
-    private String user_tel;
+    private Boolean isAdmin;
+    private String userTel;
     @ColumnDefault("true")
-    private boolean is_active;
+    private Boolean isActive;
 
 
 }
