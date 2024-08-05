@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SignInDto {
-    private String user_lgid;
-    private String user_pw;
+    private String userLgid;
+    private String userPw;
 }
