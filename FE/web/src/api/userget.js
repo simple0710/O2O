@@ -45,3 +45,14 @@ export async function getRecent(pgNo, perPage, userId){
         console.error(e)
     }
 }
+
+export async function getProfile(userId) {
+  try {
+    const response = await axiosInstance.get(`/users/profile/${userId}`);
+    console.log(response)
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    throw e; 
+  }
+}
