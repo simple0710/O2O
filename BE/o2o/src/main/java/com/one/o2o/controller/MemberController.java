@@ -86,9 +86,10 @@ public class MemberController {
      * @return ResponseEntity
      * @throws Throwable
      */
-    @PostMapping("/profile/{user-id}/edit")
-    public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberEntity memberEntity) throws Throwable {
-        return new ResponseEntity<>(memberService.updateprofile(userId, memberEntity) , HttpStatus.OK) ;
+    @PutMapping("/profile/{user-id}/edit")
+    public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberDto memberDto) throws Throwable {
+        log.info("memberEntity = {}", memberDto);
+        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto), HttpStatus.OK) ;
     }
 
 

@@ -2,6 +2,7 @@ package com.one.o2o.service;
 
 import com.one.o2o.config.JwtToken;
 import com.one.o2o.config.JwtTokenProvider;
+import com.one.o2o.dto.User.MemberDto;
 import com.one.o2o.entity.MemberEntity;
 import com.one.o2o.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -49,7 +50,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberEntity updateprofile(int user_id, MemberEntity memberEntity) throws Throwable {
+    public MemberEntity updateprofile(int user_id, MemberDto memberEntity) throws Throwable {
 
         MemberEntity user_entity=  memberRepository.findById(user_id).orElseThrow(new Supplier<Throwable>() {
             @Override
