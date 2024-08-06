@@ -8,6 +8,7 @@ import '../../style/Sidebar.css';
 import { CartContext } from './CartContext';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
+import { getRecent } from '../../api/userget';
 
 // Define styled components outside of the functional component
 const SidebarContainer = styled.div`
@@ -93,11 +94,6 @@ function Sidebar() {
       setModalCloseConfirmed(false);
     }
   }, [modalCloseConfirmed]);
-
-  const notRefund = [
-    { name: "가위", quantity: 4 },
-    { name: "풀", quantity: 5 },
-  ];
 
   const recent = [
     { name: "가위", quantity: 4 },

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance'
 
 export async function getReservation(pgNo, perPage, userId){
@@ -27,6 +28,20 @@ export async function getRent(pgNO, perPage, userId){
         const data = await response.data.data.rents;
         return data;
     } catch(e){
+        console.error(e)
+    }
+}
+
+
+export async function getRecent(pgNo, perPage, userId){
+    try{
+        const params = {pg_no: pgNo, per_page: perPage, userId:userId}
+        const response = await axiosInstance.get(`/rent/history`, {params}, {
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        });
+    } catch (e) {
         console.error(e)
     }
 }
