@@ -10,26 +10,22 @@ import { useLocation } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
 
 const Locker = () => {
-  // 상태 관리
   const [show, setShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [quantity, setQuantity] = useState(0);
   const { cart, setCart } = useContext(CartContext);
   const [lockersData, setLockersData] = useState([]);
   const [selectedLockerBody, setSelectedLockerBody] = useState(null);
-  const [additionalLockersData, setAdditionalLockersData] = useState([]); // 추가된 상태
+  const [additionalLockersData, setAdditionalLockersData] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    // 사물함 데이터를 가져오는 함수
     const fetchLockerData = async () => {
       try {
         const response = await axios.get("/lockers/names");
         const data = response.data.data;
         setLockersData(data);
-        
-        // URL 파라미터에서 선택된 사물함 정보 가져오기
         const queryParams = new URLSearchParams(window.location.search);
         const lockerBodyId = queryParams.get('locker_body_id');
         const initialSelectedBody = lockerBodyId 
@@ -53,6 +49,7 @@ const Locker = () => {
     try {
       const response = await axios.get(`/lockers?locker_body_id=${bodyId}`);
       setAdditionalLockersData(response.data.data);
+      console.log(response.data.data)
     } catch (error) {
       console.error("Failed to load locker details:", error);
     } finally {
@@ -113,11 +110,56 @@ const Locker = () => {
     setShow(true);
   };
 
+  // const handleAddToCart = () => {
+  //   if (quantity > 0 && selectedItem) {
+  //     const existingItem = cart.find(item => item.name === selectedItem.product_nm);
+  //     const totalQuantity = (existingItem ? existingItem.quantity : 0) + quantity;
+
+  //     if (totalQuantity > selectedItem.product_cnt) {
+  //       Swal.fire({
+  //         title: "재고가 부족합니다.",
+  //         text: "장바구니에 물품이 있는지 확인해주세요.",
+  //         icon: "warning",
+  //         confirmButtonColor: "#3085d6",
+  //         confirmButtonText: "확인",
+  //       });
+  //       setShow(false);
+  //     } else {
+        
+  //       const updatedCart = existingItem
+  //         ? cart.map(item => item.name === selectedItem.product_nm 
+  //             ? { ...item, quantity: totalQuantity,
+  //                location: { lockerBody: selectedLockerBody.locker_body_name, row: selectedItem.locker_row, column: selectedItem.locker_column,  locker_body_id: selectedLockerBody.locker_body_id  }, 
+  //               product_id: selectedItem.product_id,
+  //               locker_id: additionalLockersData.locker_id } 
+  //             : item
+  //           )
+  //         : [...cart, { 
+  //             name: selectedItem.product_nm, 
+  //             quantity, 
+  //             location: { lockerBody: selectedLockerBody.locker_body_name, row: selectedItem.locker_row, column: selectedItem.locker_column, locker_body_id: selectedLockerBody.locker_body_id },
+  //             product_id: selectedItem.product_id,
+  //             locker_id: additionalLockersData.locker_id
+  //           }];
+
+  //       setCart(updatedCart);
+  //       setAdditionalLockersData(prevData =>
+  //         prevData.map(item => item.product_nm === selectedItem.product_nm
+  //           ? { ...item, product_cnt: item.product_cnt - quantity }
+  //           : item
+  //         )
+  //       );
+  //       setShow(false);
+  //     }
+  //   }
+  // };
+
+
   const handleAddToCart = () => {
     if (quantity > 0 && selectedItem) {
       const existingItem = cart.find(item => item.name === selectedItem.product_nm);
       const totalQuantity = (existingItem ? existingItem.quantity : 0) + quantity;
-
+  
       if (totalQuantity > selectedItem.product_cnt) {
         Swal.fire({
           title: "재고가 부족합니다.",
@@ -128,10 +170,37 @@ const Locker = () => {
         });
         setShow(false);
       } else {
+        const locker = additionalLockersData.find(locker => locker.product_id === selectedItem.product_id);
+        
         const updatedCart = existingItem
-          ? cart.map(item => item.name === selectedItem.product_nm ? { ...item, quantity: totalQuantity } : item)
-          : [...cart, { name: selectedItem.product_nm, quantity }];
-
+          ? cart.map(item => item.name === selectedItem.product_nm 
+              ? { 
+                  ...item, 
+                  quantity: totalQuantity,
+                  location: { 
+                    lockerBody: selectedLockerBody.locker_body_name, 
+                    row: selectedItem.locker_row, 
+                    column: selectedItem.locker_column,  
+                    locker_body_id: selectedLockerBody.locker_body_id  
+                  }, 
+                  product_id: selectedItem.product_id,
+                  locker_id: locker ? locker.locker_id : null // Updated line
+                } 
+              : item
+            )
+          : [...cart, { 
+              name: selectedItem.product_nm, 
+              quantity, 
+              location: { 
+                lockerBody: selectedLockerBody.locker_body_name, 
+                row: selectedItem.locker_row, 
+                column: selectedItem.locker_column, 
+                locker_body_id: selectedLockerBody.locker_body_id 
+              },
+              product_id: selectedItem.product_id,
+              locker_id: locker ? locker.locker_id : null // Updated line
+            }];
+  
         setCart(updatedCart);
         setAdditionalLockersData(prevData =>
           prevData.map(item => item.product_nm === selectedItem.product_nm
@@ -143,7 +212,7 @@ const Locker = () => {
       }
     }
   };
-
+  
   const handleIncrease = () => {
     if (quantity < selectedItem.product_cnt) setQuantity(quantity + 1);
   };

@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { CartContext } from "./CartContext"; // Update the path to CartContext accordingly
+import { postReservation } from "../../api/userpost"; // Update the path to userpost accordingly
 import "../../style/Cart.css"; // Update the path to the CSS file
 
 const Cart = () => {
-  const { cart, setCart, reservations, setReservations } =
-    useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
   const [show, setShow] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
@@ -17,25 +17,6 @@ const Cart = () => {
   const [alertMessage, setAlertMessage] = useState("");
 
   const cartItemsRef = useRef(null); // Ref for the cart-items element
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setReservations(
-        (prevReservations) =>
-          prevReservations
-            .map((reservation) => {
-              const remainingTime = Math.max(
-                0,
-                new Date(reservation.date) - new Date()
-              );
-              return { ...reservation, remainingTime };
-            })
-            .filter((reservation) => reservation.remainingTime > 0) // Filter out expired reservations
-      );
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [setReservations]);
 
   useEffect(() => {
     if (showAlert) {
@@ -50,11 +31,10 @@ const Cart = () => {
   useEffect(() => {
     const handleScroll = (event) => {
       if (cartItemsRef.current) {
-        // Move scroll left for upward scroll, right for downward scroll
         if (event.deltaY !== 0) {
           const scrollAmount = event.deltaY;
-          cartItemsRef.current.scrollLeft -= scrollAmount; // Negative for upward scroll, positive for downward scroll
-          event.preventDefault(); // Prevent the default scrolling behavior
+          cartItemsRef.current.scrollLeft -= scrollAmount;
+          event.preventDefault();
         }
       }
     };
@@ -75,36 +55,67 @@ const Cart = () => {
     setShowReservation(true);
   };
 
-  const handleConfirmReservation = () => {
+  const handleConfirmReservation = async () => {
     if (reservationDate === "") {
       setAlertMessage("예약 날짜를 설정하세요.");
       setShowAlert(true);
       return;
     }
-    const newReservation = {
-      date: reservationDate,
-      items: cart,
-      remainingTime: new Date(reservationDate) - new Date(),
-    };
-    setReservations([...reservations, newReservation]);
-    setCart([]); // Clear the cart
-    setShowReservation(false);
 
-    Swal.fire({
-      title: "요청이 접수되었습니다.",
-      icon: "success",
-      confirmButtonColor: "#3085d6",
-      confirmButtonText: "확인",
-    });
+    const locker_body_id = cart[0]?.location?.locker_body_id;
+
+    if (!locker_body_id) {
+      setAlertMessage("사물함 ID를 찾을 수 없습니다.");
+      setShowAlert(true);
+      return;
+    }
+
+    const reserves = cart.map((item) => ({
+      locker_id: item.locker_id,
+      product_id: item.product_id,
+      product_cnt: item.quantity,
+    }));
+
+    const date = new Date(reservationDate);
+
+    // 날짜와 시간 형식화
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+
+    const reservationData = {
+      locker_body_id,
+      reserves,
+      reserve_time: formattedDate,
+    };
+
+    console.log("Sending reservation data:", reservationData);
+
+    try {
+      await postReservation(reservationData);
+      setCart([]); // Clear the cart
+      setShowReservation(false);
+
+      console.log("Reservation successful");
+
+      Swal.fire({
+        title: "요청이 접수되었습니다.",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "확인",
+      });
+    } catch (error) {
+      console.error("Reservation failed:", error);
+      setAlertMessage("예약 요청에 실패했습니다.");
+      setShowAlert(true);
+    }
   };
 
   const handleCancel = () => {
-    setCart([]); // Clear the cart
+    setCart([]);
   };
 
   const handleShow = (item) => {
     setSelectedItem(item);
-    setQuantity(item.quantity); // Set quantity to current quantity
+    setQuantity(item.quantity);
     setModalContent(item.name);
     setShow(true);
   };
