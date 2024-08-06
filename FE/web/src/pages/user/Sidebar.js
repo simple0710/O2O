@@ -1,14 +1,12 @@
+
 import React, { useContext, useState, useEffect } from 'react';
-import { FaInfoCircle, FaInbox, FaShoppingCart } from 'react-icons/fa';
-import { MdOutlineImportExport } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
-import Cart from './Cart';
-import Modals from './Modals';
-import '../../style/Sidebar.css';
-import { CartContext } from './CartContext';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import { getRecent } from '../../api/userget';
+import { CartContext } from './CartContext';
+import Modals from './Modals';
+import '../../style/Sidebar.css';
 
 // Define styled components outside of the functional component
 const SidebarContainer = styled.div`
@@ -64,11 +62,28 @@ const AddButton = styled.button`
 `;
 
 function Sidebar() {
-  const { reservations } = useContext(CartContext);
+  const { reservations, addToCart, cart } = useContext(CartContext);
   const [activeDocumentSubmenu, setActiveDocumentSubmenu] = useState(null);
   const [show, setShow] = useState(false);
   const [modalCloseConfirmed, setModalCloseConfirmed] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [recentRent, setRecentRent] = useState([]);
+
+  useEffect(() => {
+    const fetchRecent = async () => {
+      try {
+        const data = await getRecent(1, 10, 4);  // 4는 유저 아이디 변수로 변환 예정
+        setRecentRent(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchRecent();
+  }, []);
+
+  useEffect(() => {
+    console.log('최근 대여 내역: ', recentRent);
+  }, [recentRent]);
 
   const handleShow = () => {
     setShow(true);
@@ -95,11 +110,6 @@ function Sidebar() {
     }
   }, [modalCloseConfirmed]);
 
-  const recent = [
-    { name: "가위", quantity: 4 },
-    { name: "잉크", quantity: 5 }
-  ];
-
   const toggleDocumentSubmenu = (submenu) => {
     setActiveDocumentSubmenu(submenu === activeDocumentSubmenu ? null : submenu);
   };
@@ -118,6 +128,40 @@ function Sidebar() {
 
 
 
+  const handleAddToCart = (productName, productCnt, lockerBodyId, lockerId, productId) => {
+    const item = {
+      product_name: productName,
+      locker_body_id: lockerBodyId,
+      product_cnt: productCnt,
+      locker_id: lockerId,
+      product_id: productId
+    };
+    console.log('Adding to Cart: ', item)
+    addToCart(item);
+  };
+  
+
+ 
+  const listItems = recentRent.reduce((acc, item) => {
+    item.products.forEach(product => {
+      if (acc.count < 5) {
+        acc.items.push(
+          <li key={`${item.id}-${product.product_id}`}>
+            {product.product_name} - {product.product_cnt}개
+            <AddButton onClick={() => handleAddToCart(product.product_name, product.product_cnt, product.locker_body_id, product.locker_id, product.product_id)}>
+              추가
+            </AddButton>
+          </li>
+        );
+        acc.count++;
+      }
+    });
+    return acc;
+  }, { items: [], count: 0 }).items;
+  
+
+  
+
   return (
     <SidebarContainer className="side-bar">
       <SidebarLink
@@ -134,7 +178,6 @@ function Sidebar() {
       >
         예약 현황 조회
       </SidebarLink>
-
       <SidebarLink
         to="/item/notrefund"
         isActive={activeLink === '/item/notrefund'}
@@ -142,7 +185,6 @@ function Sidebar() {
       >
         미반납 물품 조회
       </SidebarLink>
-
       <SidebarLink
         as="div"
         isActive={activeLink === '/item/recent'}  // Ensure this link is styled as active
@@ -155,12 +197,7 @@ function Sidebar() {
 
       <AlertBox show={showAlert}>
         <ul>
-          {recent.map((item, index) => (
-            <li key={index}>
-              {item.name} - {item.quantity}개
-              <AddButton>추가</AddButton>
-            </li>
-          ))}
+          {listItems}
         </ul>
       </AlertBox>
     </SidebarContainer>
@@ -168,3 +205,7 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+
+
+
