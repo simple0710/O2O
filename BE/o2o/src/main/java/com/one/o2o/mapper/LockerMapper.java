@@ -30,6 +30,7 @@ public interface LockerMapper {
     @Mapping(source="product.productId", target="productId")
     @Mapping(source="product.productNm", target="productNm")
     @Mapping(source = "product.productImgs", target = "productImgs", qualifiedByName = "productImgsToDto")
+    @Mapping(source = "product.productImg", target = "productImg")
     LockerDto lockerToLockerDto(Locker locker);
 
     @IterableMapping(qualifiedByName = "LOCKER")
