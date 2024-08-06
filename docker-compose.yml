@@ -23,7 +23,7 @@ services:
     image: tem  # 이미지 이름 설정
     container_name: my_container  # 컨테이너 이름 설정
     ports:
-      - "8000:8080"  # 스프링 부트 포트
+      - "8000:8000"  # 스프링 부트 포트
 
   nginx:
     image: nginx:alpine
