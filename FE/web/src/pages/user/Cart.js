@@ -130,6 +130,11 @@ const Cart = () => {
     setShow(false);
   };
 
+  useEffect(() => {
+    console.log('Cart contents:', cart);
+  }, [cart]);
+
+
   const handleRemoveItem = (index) => {
     setCart(cart.filter((_, i) => i !== index));
   };
