@@ -15,7 +15,9 @@ package com.one.o2o.config;
   * @author : lee
   * @fileName : RedisConfig
   * @since : 3/29/24
-  */@Configuration
+  */
+/*
+ @Configuration
  public class RedisConfig {
 
      @Value("${spring.data.redis.host}")
@@ -27,11 +29,13 @@ package com.one.o2o.config;
      @Value("${spring.data.redis.password}")
      private String password;
 
-     /**
+     */
+/**
       * Redis 와의 연결을 위한 'Connection'을 생성합니다.
       *
       * @return
-      */
+      *//*
+
      @Bean
      public RedisConnectionFactory redisConnectionFactory() {
          RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(host, port);
@@ -39,12 +43,14 @@ package com.one.o2o.config;
          return new LettuceConnectionFactory(redisConfig);
      }
 
-     /**
+     */
+/**
       * Redis 데이터 처리를 위한 템플릿을 구성합니다.
       * 해당 구성된 RedisTemplate을 통해서 데이터 통신으로 처리되는 대한 직렬화를 수행합니다.
       *
       * @return
-      */
+      *//*
+
      @Bean
      public RedisTemplate<String, Object> redisTemplate() {
          RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
@@ -66,3 +72,4 @@ package com.one.o2o.config;
          return redisTemplate;
      }
  }
+*/
