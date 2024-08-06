@@ -19,13 +19,13 @@ package com.one.o2o.config;
  @Configuration
  public class RedisConfig {
 
-     @Value("127.0.0.1")
+     @Value("${spring.data.redis.host}")
      private String host;
 
-     @Value("6379")
+     @Value("${spring.data.redis.port}")
      private int port;
 
-     @Value("chanD101")
+     @Value("${spring.data.redis.password}")
      private String password;
 
      /**
