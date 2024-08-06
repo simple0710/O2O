@@ -1,0 +1,16 @@
+
+
+# 가져올 이미지를 정의
+FROM node:10 AS builder
+# 경로 설정하기
+WORKDIR /app
+# package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
+COPY package.json package-lock.json ./
+# 명령어 실행 (의존성 설치)
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html/web
