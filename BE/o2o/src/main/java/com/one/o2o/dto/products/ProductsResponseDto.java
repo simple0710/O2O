@@ -1,14 +1,14 @@
-package com.one.o2o.dto;
+package com.one.o2o.dto.products;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SignInDto {
-    private String userLgid;
-    private String userPw;
+public class ProductsResponseDto {
+    private int productId;
+    private String productNm;
+    private String productImg;
+    private String productDet;
 }

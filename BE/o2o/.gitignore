@@ -21,6 +21,7 @@ src/main/resources/uploads/
 
 ### IntelliJ IDEA ###
 application-aws.properties
+application-redis.properties
 
 .idea
 *.iws

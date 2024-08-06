@@ -1,14 +1,17 @@
-package com.one.o2o.dto;
+package com.one.o2o.dto.User;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SignInDto {
+public class MemberLoginDto {
+    private Integer userId;
     private String userLgid;
-    private String userPw;
+    private String  userNm;
+    private String userImg;
+    private Boolean isAdmin;
 }
