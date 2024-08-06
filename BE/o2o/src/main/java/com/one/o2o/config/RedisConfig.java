@@ -36,7 +36,8 @@ package com.one.o2o.config;
      @Bean
      public RedisConnectionFactory redisConnectionFactory() {
          RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(host, port);
-         redisConfig.setPassword(password);
+         // 비밀번호는 일단 보류!!
+         //redisConfig.setPassword(password);
          return new LettuceConnectionFactory(redisConfig);
      }
 

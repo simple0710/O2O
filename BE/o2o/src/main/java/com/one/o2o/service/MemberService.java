@@ -40,6 +40,8 @@ public class MemberService {
         return memberRepository.findById(user_id).get();
     }
 
+
+
     @Transactional
     public MemberEntity searchprofile_with_lgid(String user_id){
 
@@ -81,5 +83,30 @@ public class MemberService {
         JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
         log.info("jwtToken : " +  jwtToken);
         return jwtToken;
+    }
+
+
+    public JwtToken refreshAccessToken(String userId, String refreshToken) {
+
+
+        // 2. 사용자 정보 조회
+        MemberEntity memberEntity = memberRepository.findById(Integer.valueOf(userId)).orElse(null);
+        System.out.println("~~~~~~~~~~~~~~~");
+        System.out.println(memberEntity);
+        System.out.println("~~~~~~~~~~~~~~~");
+        if (memberEntity == null) {
+            return null; // 사용자 정보가 존재하지 않음
+        }
+
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberEntity.getUserLgid(), memberEntity.getUserPw());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+
+
+
+        return jwtToken; // 새로운 JWT 토큰 반환
+
     }
 }
