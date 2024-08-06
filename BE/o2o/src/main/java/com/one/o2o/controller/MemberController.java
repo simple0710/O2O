@@ -82,13 +82,14 @@ public class MemberController {
      * 일단은 비밀번호랑 전화번호 정도만 바꿀수 있도록 했는데 더 추가하면되긴함!!
      *
      * @param userId
-     * @param memberEntity
+     * @param memberDto
      * @return ResponseEntity
      * @throws Throwable
      */
-    @PostMapping("/profile/{user-id}/edit")
-    public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberEntity memberEntity) throws Throwable {
-        return new ResponseEntity<>(memberService.updateprofile(userId, memberEntity) , HttpStatus.OK) ;
+    @PutMapping("/profile/{user-id}/edit")
+    public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberDto memberDto) throws Throwable {
+        log.info("memberEntity = {}", memberDto);
+        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto), HttpStatus.OK) ;
     }
 
 
