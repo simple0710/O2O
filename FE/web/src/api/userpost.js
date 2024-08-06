@@ -45,3 +45,12 @@ export async function deleteReservation(reserveId) {
         console.error('Error deleting reservation:', e);
     }
 }
+
+export async function updateProfile(userId, profileData) {
+    try {
+      const response = await axiosInstance.put(`/users/profile/${userId}/edit`, profileData);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };

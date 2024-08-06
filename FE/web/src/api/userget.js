@@ -49,7 +49,7 @@ export async function getRecent(pgNo, perPage, userId){
 export async function getProfile(userId) {
   try {
     const response = await axiosInstance.get(`/users/profile/${userId}`);
-    console.log(response)
+    // console.log(response)
     return response.data;
   } catch (e) {
     console.error(e);

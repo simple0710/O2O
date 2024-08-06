@@ -1,0 +1,68 @@
+/* 수정 폼 스타일 */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .edit-form label {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .edit-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .edit-form button.save {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .edit-form button.cancel {
+    background-color: #f44336;
+    color: white;
+    margin-left: 10px;
+  }
+  
+  /* 프로필 정보 스타일 */
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  
+  .profile-info p {
+    font-size: 18px;
+  }
+  
+  .profile-info img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  /* 수정 버튼 스타일 */
+  .edit-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2196F3;
+    color: white;
+    cursor: pointer;
+  }
