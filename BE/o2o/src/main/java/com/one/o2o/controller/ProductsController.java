@@ -4,6 +4,8 @@ import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.locker.LockerDto;
 import com.one.o2o.dto.ProductSavedEvent;
 import com.one.o2o.dto.common.Response;
+import com.one.o2o.dto.ProductSavedEvent;
+import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.ProductsResponseDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
@@ -11,6 +13,8 @@ import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
 import com.one.o2o.service.ProductsCommonService;
+import com.one.o2o.event.ProductSavedEventListener;
+import com.one.o2o.service.FileService;
 import com.one.o2o.event.ProductSavedEventListener;
 import com.one.o2o.service.FileService;
 import com.one.o2o.service.ProductsManageService;
@@ -33,6 +37,11 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
