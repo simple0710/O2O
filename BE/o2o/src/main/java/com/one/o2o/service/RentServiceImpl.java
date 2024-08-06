@@ -2,7 +2,6 @@ package com.one.o2o.service;
 
 import com.one.o2o.dto.rent.*;
 import com.one.o2o.entity.*;
-import com.one.o2o.exception.locker.LockerException;
 import com.one.o2o.exception.rent.RentException;
 import com.one.o2o.mapper.RentMapper;
 import com.one.o2o.repository.LockerRepository;
@@ -35,7 +34,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public RentResponseDto readRentByUserId(int userId, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
-        Page<Rent> listPage = rentRepository.findAllByUserId(userId, pageable);
+        Page<Rent> listPage = rentRepository.findAllByUserIdOrderByStartDtDesc(userId, pageable);
         List<Rent> rentList = listPage.getContent();
         System.out.println("rentList = " + rentList);
         RentResponseDto res = new RentResponseDto();
