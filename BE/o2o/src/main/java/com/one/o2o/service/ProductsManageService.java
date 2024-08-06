@@ -2,6 +2,7 @@ package com.one.o2o.service;
 
 import com.one.o2o.dto.common.PageInfoDto;
 import com.one.o2o.dto.common.Response;
+import com.one.o2o.dto.locker.LockerUpdateDto;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.manage.OverdueDto;
 import com.one.o2o.dto.products.manage.ProductsOverdueDto;
@@ -25,7 +26,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +45,8 @@ interface ProductsManageInterface {
     Response saveProduct(ProductsDto productsDto) throws IOException;
     Response findAllOverdueList(int pageNumber, int pageSize);
     Response getProductImage(String filename);
+    // 키오스크에서 물품 등록
+    Integer saveProductFromKiosk(LockerUpdateDto lockerUpdateDto, Integer userId);
 }
 
 @Service
@@ -159,5 +164,14 @@ public class ProductsManageService implements ProductsManageInterface {
         );
         response.setData(map);
         return response;
+    }
+
+    @Override
+    @Transactional
+    public Integer saveProductFromKiosk(LockerUpdateDto lockerUpdateDto, Integer userId){
+        Product product = new Product();
+        product.setProductNm(lockerUpdateDto.getProductNm());
+        product.setUserId(userId);
+        return productsManageRepository.save(product).getProductId();
     }
 }
