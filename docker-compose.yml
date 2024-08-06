@@ -1,24 +1,33 @@
+version: '3.8'
+
 services:
   kisok:
     build:
       context: ./FE/kisok
+    image: react_container  # 이미지 이름 설정
+    container_name: react_container  # 컨테이너 이름 설정
     ports:
       - "3000:80"  # kiosk React 앱 포트
 
   web:
     build:
       context: ./FE/web
+    image: react_container_web  # 이미지 이름 설정
+    container_name: react_container_web  # 컨테이너 이름 설정
     ports:
       - "3001:80"  # web React 앱 포트
 
   spring-boot-app:
     build:
       context: ./BE/spring-boot-app
+    image: tem  # 이미지 이름 설정
+    container_name: my_container  # 컨테이너 이름 설정
     ports:
       - "8000:8080"  # 스프링 부트 포트
 
   nginx:
     image: nginx:alpine
+    container_name: nginx_container  # 컨테이너 이름 설정
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf  # Nginx 설정 파일 마운트
     ports:
