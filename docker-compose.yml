@@ -1,0 +1,29 @@
+services:
+  kisok:
+    build:
+      context: ./FE/kisok
+    ports:
+      - "3000:80"  # kiosk React 앱 포트
+
+  web:
+    build:
+      context: ./FE/web
+    ports:
+      - "3001:80"  # web React 앱 포트
+
+  spring-boot-app:
+    build:
+      context: ./BE/spring-boot-app
+    ports:
+      - "8000:8080"  # 스프링 부트 포트
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf  # Nginx 설정 파일 마운트
+    ports:
+      - "80:80"
+    depends_on:
+      - kisok
+      - web
+      - spring-boot-app
