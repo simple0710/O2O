@@ -15,7 +15,8 @@ package com.one.o2o.config;
   * @author : lee
   * @fileName : RedisConfig
   * @since : 3/29/24
-  */@Configuration
+  */
+ @Configuration
  public class RedisConfig {
 
      @Value("${spring.data.redis.host}")
