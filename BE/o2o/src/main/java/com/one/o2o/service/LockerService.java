@@ -17,6 +17,8 @@ public interface LockerService {
     public LockerDto updateLockerProductCount(LockerUpdateDto lockerUpdateDto);
     // 현재 수량 변경
     public boolean updateLockerProductCountAvailable(int lockerId, int productId, int productCnt);
-    // 사물함에 비품 등록
+    // 사물함에 기존 물품 등록
     public boolean updateLockerNewProduct(LockerUpdateDto lockerUpdateDto);
+    // 사물함에 신규 물품 등록 = 물품 등록 + 사물함 등록
+    public boolean updateLockerNewProductWithRegister(LockerUpdateDto lockerUpdateDto, Integer userId);
 }

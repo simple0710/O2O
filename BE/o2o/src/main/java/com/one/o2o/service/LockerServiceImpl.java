@@ -22,7 +22,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class LockerServiceImpl implements LockerService{
-
+    private final ProductsManageService productsManageService;
     private final LockerBodyRepository lockerBodyRepository;
     private final LockerRepository lockerRepository;
     private final LockerMapper lockerMapper;
@@ -80,4 +80,12 @@ public class LockerServiceImpl implements LockerService{
     }
 
 
+    @Override
+    @Transactional
+    public boolean updateLockerNewProductWithRegister(LockerUpdateDto lockerUpdateDto, Integer userId){
+        int productId = productsManageService.saveProductFromKiosk(lockerUpdateDto, userId);
+        lockerUpdateDto.setProductId(productId);
+        boolean flag = updateLockerNewProduct(lockerUpdateDto);
+        return true;
+    }
 }

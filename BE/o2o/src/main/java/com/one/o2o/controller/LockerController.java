@@ -6,6 +6,7 @@ import com.one.o2o.dto.common.Response;
 import com.one.o2o.entity.LockerBody;
 import com.one.o2o.mapper.LockerMapper;
 import com.one.o2o.service.LockerService;
+import com.one.o2o.service.ProductsManageService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class LockerController {
     private final LockerService lockerService;
+    private final ProductsManageService productsManageService;
 
 
     @GetMapping()
@@ -41,9 +43,17 @@ public class LockerController {
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "사물함 상태 변경 완료", lockerDto), HttpStatus.OK);
     }
 
-    @PutMapping("/registerProduct")
+    @PutMapping("/register")
     public ResponseEntity<Response> registerProduct(@RequestBody LockerUpdateDto lockerUpdateDto){
         boolean flag = lockerService.updateLockerNewProduct(lockerUpdateDto);
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품이 등록되었습니다", null), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/registerNew")
+    public ResponseEntity<Response> registerNewProduct(@RequestBody LockerUpdateDto lockerUpdateDto){
+        int userId = 1;
+        boolean flag = lockerService.updateLockerNewProductWithRegister(lockerUpdateDto, userId);
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품이 등록되었습니다", null), HttpStatus.OK);
     }
 
@@ -53,6 +63,8 @@ public class LockerController {
         List<LockerBody> list = lockerService.readLockerBodyList();
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "사물함 본체 목록 조회", list), HttpStatus.OK);
     }
+
+
 
 
 }
