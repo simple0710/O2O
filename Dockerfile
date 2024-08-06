@@ -1,7 +1,7 @@
 
 FROM nginx
 
-COPY ./build /usr/share/nginx/html  # 빌드된 파일을 Nginx의 HTML 디렉토리에 복사
+#COPY ./build /usr/share/nginx/html  # 빌드된 파일을 Nginx의 HTML 디렉토리에 복사
 
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
