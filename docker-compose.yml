@@ -19,7 +19,7 @@ services:
 
   spring-boot-app:
     build:
-      context: ./BE/spring-boot-app
+      context: ./BE/o2o 
     image: tem  # 이미지 이름 설정
     container_name: my_container  # 컨테이너 이름 설정
     ports:
