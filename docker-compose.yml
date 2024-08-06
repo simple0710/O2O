@@ -3,7 +3,7 @@
 services:
   kisok:
     build:
-      context: ./FE/kisok
+      context: ./FE/kiosk
     image: react_container  # 이미지 이름 설정
     container_name: react_container  # 컨테이너 이름 설정
     ports:
