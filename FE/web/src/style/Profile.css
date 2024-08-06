@@ -1,68 +1,58 @@
-/* 수정 폼 스타일 */
-.edit-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
+
+.profile-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+  height: 50%;
+  width: 50%;
+}
+
+
+
+.profile-field {
+  margin-bottom: 20px;
+}
+
+
+.profile-field button {
+  display: block;
+  margin: 10px auto;
+}
+
+
+.profile-field img {
+  width: 100px; 
+  height: 100px; 
   
-  .edit-form label {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .edit-form input {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .edit-form button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .edit-form button.save {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .edit-form button.cancel {
-    background-color: #f44336;
-    color: white;
-    margin-left: 10px;
-  }
-  
-  /* 프로필 정보 스타일 */
-  .profile-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
-  
-  
-  .profile-info p {
-    font-size: 18px;
-  }
-  
-  .profile-info img {
-    max-width: 150px;
-    height: auto;
-    border-radius: 4px;
-  }
-  
-  /* 수정 버튼 스타일 */
-  .edit-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #2196F3;
-    color: white;
-    cursor: pointer;
-  }
+}
+
+/* 테이블 스타일 수정 */
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profile-table td {
+  padding: 10px;
+  border: none;
+}
+
+.profile-table input {
+  font-size: 14px;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc; 
+}
+
+.profile-table button {
+  margin-left: 10px;
+}
+
+.edit-button, .cancel-button {
+  margin-left: 10px;
+}

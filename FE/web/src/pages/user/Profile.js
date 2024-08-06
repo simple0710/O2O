@@ -13,7 +13,7 @@ function Profile() {
     user_img: "",
   });
 
-  const [editMode, setEditMode] = useState(false);
+  const [editField, setEditField] = useState(null);
   const [formData, setFormData] = useState({ ...profileData });
 
   useEffect(() => {
@@ -31,18 +31,19 @@ function Profile() {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value,
     });
   };
 
-  const handleSave = async () => {
+  const handleSave = async (field) => {
     try {
-      await updateProfile(7, formData); 
-      setProfileData(formData);
-      setEditMode(false);
+      const updatedData = { ...profileData, [field]: formData[field] };
+      await updateProfile(7, updatedData);
+      setProfileData(updatedData);
+      setEditField(null);
     } catch (err) {
       console.error(err);
     }
@@ -55,53 +56,67 @@ function Profile() {
         <Sidebar />
         <div className="content">
           <h2>프로필</h2>
-          {editMode ? (
-            <div className="edit-form">
-              <label>
-                사용자명:
-                <input
-                  type="text"
-                  name="user_nm"
-                  value={formData.user_nm}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <br />
-              <label>
-                전화번호:
-                <input
-                  type="text"
-                  name="user_tel"
-                  value={formData.user_tel}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <br />
-              <label>
-                프로필 이미지:
-                <input
-                  type="text"
-                  name="user_img"
-                  value={formData.user_img}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <br />
-              <button onClick={handleSave}>저장</button>
-              <button onClick={() => setEditMode(false)}>취소</button>
+          <div className="profile-card">
+            <div className="profile-field">
+              <img src={profileData.user_img || Image} alt="프로필 이미지" />
+              {editField === 'user_img' ? (
+                <div>
+                  <input
+                    type="text"
+                    name="user_img"
+                    value={formData.user_img}
+                    onChange={handleInputChange}
+                  />
+                  <button onClick={() => handleSave('user_img')}>저장</button>
+                  <button 
+                    className="cancel-button"
+                    onClick={() => setEditField(null)}
+                  >취소</button>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => setEditField('user_img')}>수정</button>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="profile-info">
-              <p><img src={Image} alt="프로필 이미지" /></p>
-              <p>사용자명: {profileData.user_nm}</p>
-              {/* <p>직원 번호: {profileData.emp_cd}</p> */}
-              <p>전화번호: {profileData.user_tel}</p>
-              {/* <p>관리자 여부: {profileData._admin ? '예' : '아니오'}</p> */}
-              {/* <p>프로필 이미지: <img src={profileData.user_img} alt="프로필 이미지" /></p> */}
-              
-              <button className="edit-button" onClick={() => setEditMode(true)}>수정</button>
-            </div>
-          )}
+            <table className="profile-table">
+              <tbody>
+                <tr>
+                  <td>이름</td>
+                  <td>
+                    <span>
+                      {profileData.user_nm}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>전화번호</td>
+                  <td>
+                    {editField === 'user_tel' ? (
+                      <div>
+                        <input
+                          type="text"
+                          name="user_tel"
+                          value={formData.user_tel}
+                          onChange={handleInputChange}
+                        />
+                        <button onClick={() => handleSave('user_tel')}>저장</button>
+                        <button 
+                          className="cancel-button"
+                          onClick={() => setEditField(null)}
+                        >취소</button>
+                      </div>
+                    ) : (
+                      <div>
+                        <span>{profileData.user_tel}</span>
+                        <button onClick={() => setEditField('user_tel')}>수정</button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
