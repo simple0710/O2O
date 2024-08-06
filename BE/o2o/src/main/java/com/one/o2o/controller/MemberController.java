@@ -91,7 +91,7 @@ public class MemberController {
      * @return response
      */
     @PostMapping({"/login", "/login/"})
-    public ResponseEntity<?> signIn(@RequestBody SignInDto signInDto) {
+    public ResponseEntity<?> loginS(@RequestBody SignInDto signInDto) {
         Response response = new Response(HttpStatus.OK.value(), "로그인에 성공했습니다.");
         log.info("signInDto : " + signInDto);
         String userLgid = signInDto.getUserLgid();
@@ -121,7 +121,7 @@ public class MemberController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-    @PostMapping("/testte")
+    @PostMapping("/test")
     public String test(Authentication authentication){
     authentication.getAuthorities();
 
