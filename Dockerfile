@@ -1,7 +1,7 @@
 
 FROM nginx
 
-COPY /usr/src/app/build /usr/share/nginx/html
+#COPY /usr/src/app/build /usr/share/nginx/html
 
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
