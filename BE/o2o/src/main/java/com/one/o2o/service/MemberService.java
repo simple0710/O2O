@@ -36,9 +36,20 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberEntity searchprofile(int user_id){
+    public MemberDto searchprofile(int user_id){
+        MemberEntity memberEntity = memberRepository.findById(user_id).get();
+        log.info("memberEntity : {}", memberEntity);
 
-        return memberRepository.findById(user_id).get();
+        return MemberDto.builder()
+                .userId(memberEntity.getUserId())
+                .userLgid(memberEntity.getUserLgid())
+                .userPw(memberEntity.getUserPw())
+                .userNm(memberEntity.getUserNm())
+                .userImg(memberEntity.getUserImg())
+                .isAdmin(memberEntity.getIsAdmin())
+                .userTel(memberEntity.getUserTel())
+                .isActive(memberEntity.getIsActive())
+                .build();
     }
 
 

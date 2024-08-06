@@ -82,7 +82,7 @@ public class MemberController {
      * 일단은 비밀번호랑 전화번호 정도만 바꿀수 있도록 했는데 더 추가하면되긴함!!
      *
      * @param userId
-     * @param memberEntity
+     * @param memberDto
      * @return ResponseEntity
      * @throws Throwable
      */
