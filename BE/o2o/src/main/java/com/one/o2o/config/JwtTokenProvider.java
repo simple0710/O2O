@@ -19,7 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import javax.crypto.spec.SecretKeySpec;
+
 import java.security.Key;
 
 
@@ -31,7 +31,11 @@ import java.security.Key;
 public class JwtTokenProvider {
     private final Key key;
 
-    // application.properties에서 secret 값 가져와서 key에 저장!
+    /**
+     * application.properties에서 secret 값 가져와서 key에 저장!
+     *
+     * @param secretKey 비밀키
+     */
     public JwtTokenProvider(@Value("${jwt.secret.key}") String secretKey){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -43,7 +47,8 @@ public class JwtTokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
+        log.info("authentication : " + authentication);
+        log.info("authorities : " + authorities);
 
         long now = (new Date()).getTime();
 
@@ -124,6 +129,4 @@ public class JwtTokenProvider {
             return e.getClaims();
         }
     }
-
-
 }

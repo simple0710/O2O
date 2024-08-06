@@ -7,6 +7,7 @@ import com.one.o2o.dto.products.report.ProductsReportDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.products.report.ProductsReport;
+import com.one.o2o.entity.products.request.ProductsRequest;
 import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.ProductsReportRepository;
 import jakarta.transaction.Transactional;
@@ -17,13 +18,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 interface ProductsReportServiceInterface {
     Response findAll(int pageNumber, int pageSize);
     Response save(UsersReportDto userReportDto);
-    Response updateProcess(ReportProcessDto reportProcessDto);
+    Response updateProcess(List<ReportProcessDto> reportProcessDto);
 }
 
 @Service
@@ -88,11 +90,13 @@ public class ProductsReportService implements ProductsReportServiceInterface {
 
     @Override
     @Transactional
-    public Response updateProcess(ReportProcessDto reportProcessDto) {
+    public Response updateProcess(List<ReportProcessDto> reportProcessDtoList) {
         Response response = new Response(200, "이상 처리 완료");
-        ProductsReport productsReport = productsReportRepository.findById(reportProcessDto.getRptId())
-                .orElseThrow(ArticleNotFoundException::new);
-        productsReport.setIsProcessed(reportProcessDto.getIsProcessed());
+        for (ReportProcessDto report : reportProcessDtoList) {
+            ProductsReport productsReport = productsReportRepository.findById(report.getRptId())
+                    .orElseThrow(ArticleNotFoundException::new);
+            productsReport.setIsProcessed(report.getIsProcessed());
+        }
         return response;
     }
 }

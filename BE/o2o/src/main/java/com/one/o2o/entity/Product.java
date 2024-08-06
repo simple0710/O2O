@@ -3,19 +3,22 @@ package com.one.o2o.entity;
 
 import com.one.o2o.dto.products.ProductsDto;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
     private String productNm;
     private String productImg;
@@ -24,6 +27,9 @@ public class Product {
     private LocalDateTime registDt;
     private int userId;
 
+//    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<ProductImgs> productImgs;
     public Product(ProductsDto productsDto) {
         this.productNm = productsDto.getProductNm();
         this.productImg = productsDto.getProductImg();
