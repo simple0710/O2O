@@ -46,6 +46,8 @@ public interface RentMapper {
                 rentResponseProductDto.setLockerBody(locker.getBody().getLockerBodyName());
                 rentResponseProductDto.setLockerLoc(locker.getLockerRow()+"단 "+locker.getLockerColumn()+"연");
                 rentResponseProductDto.setProductCnt(rl.getLogCnt());
+                rentResponseProductDto.setLockerId(locker.getLockerId());
+                rentResponseProductDto.setLockerBodyId(locker.getNewBodyId());
                 map.put(product.getProductId(), rentResponseProductDto);
             }
             if(rentResponseProductDto.getStatus() == null) rentResponseProductDto.setStatus(new HashMap<>());

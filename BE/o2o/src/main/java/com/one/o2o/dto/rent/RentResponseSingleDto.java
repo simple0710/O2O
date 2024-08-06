@@ -29,6 +29,8 @@ public class RentResponseSingleDto {
         private String productName;
         private String lockerBody;
         private String lockerLoc;
+        private Integer lockerId;
+        private Integer lockerBodyId;
         private int productCnt;
         private Map<Integer, StatusDto> status;
 
