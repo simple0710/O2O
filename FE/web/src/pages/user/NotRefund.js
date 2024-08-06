@@ -11,6 +11,7 @@ const NotRefund = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMoreData, setHasMoreData] = useState(true);
+    const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
     const fetchCurrentRent = useCallback(async (page) => {
         setIsLoading(true);
@@ -21,9 +22,13 @@ const NotRefund = () => {
             
             if (data.length === 0) {
                 setHasMoreData(false);
+                setInitialLoadComplete(true);
             } else {
                 setCurrentRent(prevRents => [...prevRents, ...data]);
-                setPageNumber(prevPage => prevPage + 1);
+                if (data.length < 10) {
+                    setHasMoreData(false);
+                    setInitialLoadComplete(true);
+                }
             }
         } catch (e) {
             console.error('Error fetching rents:', e);
@@ -34,9 +39,11 @@ const NotRefund = () => {
 
     useEffect(() => {
         if (hasMoreData) {
-            fetchCurrentRent(pageNumber);
+            fetchCurrentRent(Math.ceil(currentRent.length / 10) + 1);
+        } else if (!initialLoadComplete) {
+            setInitialLoadComplete(true);
         }
-    }, [fetchCurrentRent, pageNumber, hasMoreData]);
+    }, [hasMoreData, fetchCurrentRent, currentRent.length, initialLoadComplete]);
 
     // 제품 번호 카운터
     const getProductNumber = (index) => {
@@ -51,10 +58,18 @@ const NotRefund = () => {
         return data.slice(start, end);
     };
 
+    // 모든 제품과 관련된 렌트 정보 플랫 매핑
+    const allProductsWithRentInfo = currentRent.flatMap(rent => 
+        rent.products.map(product => ({
+            ...product,
+            due_dt: rent.due_dt,
+            rent_dt: rent.rent_dt
+        }))
+    );
+
     // 현재 페이지에 해당하는 데이터
     const itemsPerPage = 10;
-    const allProducts = currentRent.flatMap(rent => rent.products);
-    const paginatedRent = paginateData(allProducts, pageNumber, itemsPerPage);
+    const paginatedRent = paginateData(allProductsWithRentInfo, pageNumber, itemsPerPage);
 
     return (
         <div>
@@ -94,7 +109,7 @@ const NotRefund = () => {
 
                     <Pagination
                         currentPage={pageNumber}
-                        totalPages={Math.ceil(allProducts.length / itemsPerPage)}
+                        totalPages={Math.ceil(allProductsWithRentInfo.length / itemsPerPage)}
                         handlePageChange={page => setPageNumber(page)}
                     />
                 </div>
