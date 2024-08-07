@@ -69,7 +69,7 @@ public class JwtTokenProvider {
         String refreshToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
-                .setExpiration(new Date(now + 86400000))
+                .setExpiration(new Date(now + 900000000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
