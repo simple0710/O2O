@@ -2,16 +2,26 @@ package com.one.o2o.service;
 
 import com.one.o2o.config.JwtToken;
 import com.one.o2o.config.JwtTokenProvider;
+import com.one.o2o.dto.User.MemberDto;
 import com.one.o2o.entity.MemberEntity;
 import com.one.o2o.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 @Service
@@ -19,19 +29,55 @@ import java.util.function.Supplier;
 @Slf4j
 public class MemberService {
 
+    @Value("${upload.path.emp}")
+    private String uploadPath;
+
     private final MemberRepository memberRepository;
 
     @Transactional
-    public boolean registmember(MemberEntity memberEntity) {
+    public boolean registMember(MemberDto memberDto, MultipartFile file) {
+        try {
+            // 파일 저장 처리
+            if (file != null && !file.isEmpty()) {
+                Path directoryPath = Paths.get(uploadPath);
 
-        // 아이디 중복 확인!
-        if(memberRepository.existsByUserLgid(memberEntity.getUserLgid()) >0){
+                if (Files.notExists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                }
 
+                String newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+
+                Path path = Paths.get(uploadPath + newFileName);
+
+                Files.write(path, file.getBytes());
+
+                memberDto.setUserImg(newFileName);
+            }
+
+            // 회원 정보 저장 처리
+            if (!saveMember(memberDto)) {
+                // 회원 저장 실패 시 롤백
+                throw new RuntimeException("회원 저장에 실패했습니다.");
+            }
+
+            return true;
+        } catch (IOException e) {
+            // 파일 저장 실패 시 예외 처리
+            throw new RuntimeException("파일 저장에 실패했습니다.", e);
+        }
+    }
+
+    private boolean saveMember(MemberDto memberDto) {
+        // 아이디 중복 확인
+        if (memberRepository.existsByUserLgid(memberDto.getUserLgid()) > 0) {
             return false;
         }
+
+        memberDto.setIsActive(true);
+        memberDto.setIsAdmin(false);
+        MemberEntity memberEntity = MemberEntity.toEntity(memberDto);
         memberRepository.save(memberEntity);
         return true;
-
     }
 
     @Transactional

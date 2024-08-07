@@ -30,7 +30,7 @@ public interface FileService {
 @Slf4j
 class FileServiceImpl implements FileService {
 
-    @Value("${upload.path.product}")
+    @Value("${upload.path.products}")
     private String uploadPath;
 
     private final FileRepository fileRepository;
