@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"  # kiosk React 앱 포트
     networks:
-      -my_network #나만의 network 설정! 
+      - my_network #나만의 network 설정! 
 
   web:
     build:
@@ -19,7 +19,7 @@ services:
     ports:
       - "3001:3001"  # web React 앱 포트
     networks:
-      -my_network #나만의 network 설정! 
+      - my_network #나만의 network 설정! 
 
   spring-boot-app:
     build:
@@ -29,7 +29,7 @@ services:
     ports:
       - "8000:8000"  # 스프링 부트 포트
     networks:
-      -my_network #나만의 network 설정! 
+      - my_network #나만의 network 설정! 
   nginx:
     build:
       context: ./nginx  # Dockerfile이 위치한 경로
@@ -42,7 +42,7 @@ services:
       - web
       - spring-boot-app
     networks:
-      -my_network #나만의 network 설정! 
+      - my_network #나만의 network 설정! 
 
 networks:
   my_network: #네트워크 정의!@
