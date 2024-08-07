@@ -69,6 +69,7 @@ public class MemberService {
                 return new IllegalArgumentException("수정에 실패하였습니다!");
             }
         });
+        user_entity.setUserNm(memberEntity.getUserNm());
         user_entity.setUserPw(memberEntity.getUserPw());
         user_entity.setUserTel(memberEntity.getUserTel());
 
