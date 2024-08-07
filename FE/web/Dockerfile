@@ -17,4 +17,6 @@ FROM nginx:alpine
 EXPOSE 80
 # 필요에 따라 Node.js 애플리케이션의 포트를 노출
 EXPOSE 3001
+
+CMD ["ls","-al"]
 COPY --from=builder /app/build /usr/share/nginx/html/web
