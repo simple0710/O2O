@@ -1,4 +1,5 @@
 
+
 # 가져올 이미지를 정의
 FROM node:20 AS builder
 # 경로 설정하기
@@ -12,4 +13,4 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html/kisok
+COPY --from=builder /app/build /usr/share/nginx/html/web
