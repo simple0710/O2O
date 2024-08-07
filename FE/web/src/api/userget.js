@@ -41,6 +41,8 @@ export async function getRecent(pgNo, perPage, userId){
                 "Content-Type" : "application/json"
             }
         });
+        const data = await response.data.data.rents;  
+        return data;
     } catch (e) {
         console.error(e)
     }
