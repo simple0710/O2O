@@ -6,6 +6,7 @@ import AdminNav from "./AdminNav";
 import "../../style/Complain.css";
 import "../../style/Title.css";
 import Pagination from "./Pagination";
+import axiosInstance from '../../utils/axiosInstance'
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -13,21 +14,42 @@ const Request = () => {
   const [selectedPosts, setSelectedPosts] = useState([]);
   const postsPerPage = 10;
 
-  const fetchData = async (pageNumber) => {
-    try {
-      const response = await axios.get(`/products/report?pg_no=${pageNumber}&per_page=${postsPerPage}`);
-      const data = response.data;
-      console.log(data); // 전체 데이터 로그
-      console.log(data.data.rpts); // rpts 배열 로그
-      setPosts(data.data.rpts);
-    } catch (error) {
-      console.log(error);
+  const fetchData = async () => {
+    let pageNumber = 1;
+    let allPosts = [];
+    let hasMoreData = true;
+
+    while (hasMoreData) {
+      try {
+        const response = await axiosInstance.get(`/products/report?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+        const data = response.data;
+        const fetchedPosts = data.data.rpts;
+
+        if (fetchedPosts.length === 0) {
+          hasMoreData = false;
+        } else {
+          allPosts = [...allPosts, ...fetchedPosts];
+          pageNumber += 1;
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        hasMoreData = false;
+      }
     }
+
+    // Sort posts to show unprocessed items first
+    allPosts.sort((a, b) => a.is_processed - b.is_processed);
+
+    setPosts(allPosts);
   };
 
   useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage]);
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("Current posts:", posts);
+  }, [posts]);
 
   const handleStatusChange = async (status) => {
     const updatedPosts = posts.map((post) =>
@@ -43,18 +65,20 @@ const Request = () => {
     }));
 
     console.log("Sending data:", postData);
-    console.log("Type of sending data:", typeof postData);
 
     try {
-      await axios.put("/products/report/process", postData[0], {
+      await axiosInstance.put("/products/report/process", postData, {
         headers: {
-          "Content-Type" : "application/json"
+          "Content-Type": "application/json"
         }
       });
       console.log("Status updated successfully");
+
+      // Re-sort posts to show unprocessed items first
+      updatedPosts.sort((a, b) => a.is_processed - b.is_processed);
+      setPosts([...updatedPosts]);
     } catch (error) {
-      console.log("Error updating status", error);
-      console.log("Error response:", error.response);
+      console.error("Error updating status:", error);
     }
 
     setSelectedPosts([]);
@@ -68,20 +92,16 @@ const Request = () => {
     );
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    fetchData(pageNumber);
-  };
-
-  const sortedPosts = [...posts].sort((a, b) => a.is_processed - b.is_processed);
+  // Compute pagination
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Compute total pages for pagination
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
-  const handlePrevChunk = () => setCurrentPage(Math.max(currentPage - 5, 1));
-  const handleNextChunk = () =>
-    setCurrentPage(Math.min(currentPage + 5, totalPages));
+  // Handle page change
+  const handlePageChange = (page) => setCurrentPage(page);
 
   return (
     <div>
@@ -98,8 +118,8 @@ const Request = () => {
                 <th></th>
                 <th>No.</th>
                 <th>물품명</th>
-                <th>수량</th>
                 <th>신고 사유</th>
+                <th>수량</th>
                 <th>처리 상태</th>
                 <th>신고 날짜</th>
                 <th>신고자</th>
@@ -109,7 +129,7 @@ const Request = () => {
               {currentPosts.map((post, index) => (
                 <tr key={post.rpt_id}>
                   <td>
-                    {!post.is_processed && (
+                    {post.is_processed ? <div style={{ width: "16px" }}></div> : (
                       <Form.Check
                         type="checkbox"
                         onChange={() => handleCheckboxChange(post.rpt_id)}
@@ -144,8 +164,6 @@ const Request = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             handlePageChange={handlePageChange}
-            handlePrevChunk={handlePrevChunk}
-            handleNextChunk={handleNextChunk}
           />
         </div>
       </div>

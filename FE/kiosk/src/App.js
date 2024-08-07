@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate, BrowserRoute
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Cart from './pages/Cart'; // 장바구니 컴포넌트
+import Cart2 from './pages/Cart2' // 새로운 카트
 import Locker from './pages/Locker'; // 사물함 컴포넌트
 import ChooseLocker from './pages/ChooseLocker';
 import ItemRegistration from './pages/ItemRegistration';
@@ -65,7 +66,7 @@ function App() {
   return (
     <Router>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to="/">My App</Link>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
@@ -122,13 +123,14 @@ function App() {
               </li>
             </ul>
           </div>
-        </nav>
+        </nav> */}
 
         <Routes>
           <Route path="/" element={<Frame />} />
           <Route path="/identification" element={<Identification />} />
           <Route path="/borrowfinish" element={<BorrowFinish />} />
           <Route path="/cart" element={<Cart />} /> {/* 기본 경로로 Cart 컴포넌트를 렌더링합니다. */}
+          <Route path="/cart2" element={<Cart2 />} /> {/* 기본 경로로 Cart 컴포넌트를 렌더링합니다. */}
           <Route path="/locker" element={<Locker />} /> {/* /locker 경로로 Locker 컴포넌트를 렌더링합니다. */}
           <Route path="/chooselocker" element={<ChooseLocker />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}
           <Route path="/itemregistration" element={<ItemRegistration />} /> {/* /chooselocker 경로로 ChooseLocker 컴포넌트를 렌더링합니다. */}

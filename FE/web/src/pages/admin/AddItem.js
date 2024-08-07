@@ -2,26 +2,48 @@ import React, {useState} from 'react';
 import '../../style/AddItem.css'; 
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
-import { Button, Form } from "react-bootstrap";
+// import { Button, Form } from "react-bootstrap";
+// import axios from 'axios'
+import axiosInstance from '../../utils/axiosInstance'
 
 function AddItem() {
     const [itemData, setItemData] = useState({
         itemName: '',
         itemDescription: '',
-        itemImage: ''
+        itemImage: null
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, files } = e.target;
         setItemData({
             ...itemData,
-            [name]: value
+            [name]: type === 'file' ? files[0] : value
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log('Item Data Submitted:', itemData);
+
+        const formData = new FormData();
+        formData.append('product_nm', itemData.itemName);
+        formData.append('product_det', itemData.itemDescription);
+        formData.append('user_id', 23);
+
+
+        if (itemData.itemImage) {
+            formData.append('product_img', itemData.itemImage); // 파일 입력 필드명은 서버 요구 사항에 맞게 수정
+        }
+
+        try {
+            const response = await axiosInstance.post('/products/regist', formData ,{
+                headers :{
+                    'Content-Type' : 'application/json '
+                }
+            });
+        console.log('Server Response: ', response.data);
+        } catch(error){
+            console.log('Error submitting data: ', error);
+        }
     };
 
   return (
@@ -65,10 +87,10 @@ function AddItem() {
                         name="itemImage"
                         value={itemData.itemImage}
                         onChange={handleChange}
-                        required
+                        // required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">등록</button>
+                <button type="submit" className="add-btn">등록</button>
             </form>
             </div>
           </div>
@@ -79,3 +101,11 @@ function AddItem() {
 }
 
 export default AddItem;
+
+
+
+
+
+
+
+
