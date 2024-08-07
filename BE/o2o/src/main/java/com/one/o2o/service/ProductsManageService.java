@@ -63,6 +63,7 @@ public class ProductsManageService implements ProductsManageInterface {
     private final StatusRepository statusRepository;
 
     @Override
+    @Transactional
     public Response saveProduct(ProductsDto productsDto) throws IOException {
         return new Response(
                 200,

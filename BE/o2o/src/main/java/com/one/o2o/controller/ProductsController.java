@@ -20,7 +20,9 @@ import com.one.o2o.service.FileService;
 import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -55,29 +58,25 @@ public class ProductsController {
     private final ProductsReportService productsReportService;
     private final ProductSavedEventListener productSavedEventListener;
     private final ProductsCommonService productsCommonService;
-    // 물품 등록
+
+    /**
+     *
+     * @param productsDto 물품의 정보를 담은 Dto
+     * @param files 파일 이미지 업로드
+     * @return ResponseEntity 200, 등록 완료 메세지
+     * @throws IOException
+     */
     @PostMapping("/regist")
+    @Transactional
     public ResponseEntity<?> registProduct(
-            @RequestPart("productsDto") ProductsDto productsDto,
+            @RequestPart("products") ProductsDto productsDto,
             @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
         log.info("files : " + files);
         // 상품 등록
         Integer productId = (Integer) productsManageService.saveProduct(productsDto).getData();
-        Integer fileId = null;
-
         if (files != null && !files.isEmpty()) {
-            for (MultipartFile file : files) {
-                if (!file.isEmpty()) {
-                    fileId = (Integer) fileService.saveFile(file, productsDto.getUserId()).getData();
-                    ProductSavedEvent event = ProductSavedEvent.builder()
-                            .fileId(fileId)
-                            .productId(productId)
-                            .build();
-                    productSavedEventListener.handleProductSavedEvent(event);
-                }
-            }
+            fileService.saveFile(files, productsDto.getUserId(), productId);
         }
-
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품 등록 완료"), HttpStatus.OK);
     }
 
