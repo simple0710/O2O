@@ -1,14 +1,11 @@
 package com.one.o2o.controller;
 
 import com.one.o2o.dto.common.Response;
-import com.one.o2o.dto.rent.RentResponseDto;
 import com.one.o2o.dto.reserve.ReserveRequestDto;
 import com.one.o2o.dto.reserve.ReserveResponseDto;
-import com.one.o2o.service.RentService;
 import com.one.o2o.service.ReserveService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +18,7 @@ public class ReserveController {
 
     @PostMapping()
     public ResponseEntity<Response> createReserve(@RequestBody ReserveRequestDto reserveRequestDto){
-        int reserveId = reserveService.createReserve(4, reserveRequestDto);
+        int reserveId = reserveService.createReserve(reserveRequestDto);
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "예약이 완료되었습니다.", reserveId), HttpStatus.OK);
     }
 
