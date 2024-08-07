@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -43,24 +44,23 @@ public class MemberController {
      * @return ResponseEntity 성공 : true, 실패 : false
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> registMember(@RequestBody MemberDto memberDto, HttpServletResponse response){
-        log.info("memberDto : " + memberDto);
-        memberDto.setIsActive(true);
-        memberDto.setIsAdmin(false);
-        MemberEntity memberEntity = MemberEntity.toEntity(memberDto);
+    public ResponseEntity<?> registMember(
+            @RequestPart("members") MemberDto memberDto,
+            @RequestParam("file") MultipartFile file){
         // 여기 Entity에서 Dto를 통해서 만드는걸로!
         log.info("전~~~");
-        log.info("memberEntity : " + memberEntity);
+        log.info("memberDto : " + memberDto);
 
         // 비밀번호 인코딩
-        String encodedPassword = passwordEncoder.encode(memberEntity.getUserPw());
+        String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
         log.info("encodedPassword : " + encodedPassword);
-        memberEntity.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
-        log.info("후~~~");
-        log.info("memberEntity : " + memberEntity);
-        // 회원가입이 성공하면 return true 실패하면 false 값을 준다!
 
-        return new ResponseEntity<>(memberService.registmember(memberEntity), HttpStatus.OK) ;
+        memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
+        log.info("후~~~");
+        log.info("memberEntity : " + memberDto);
+
+        // 회원가입이 성공하면 return true 실패하면 false 값을 준다!
+        return new ResponseEntity<>(memberService.registMember(memberDto, file), HttpStatus.OK) ;
     }
 
 
@@ -74,7 +74,6 @@ public class MemberController {
     @GetMapping("/profile/{user-id}")
     public ResponseEntity<?> getMemberDetail(@PathVariable("user-id") int userId){
         // 서버에게 user-id (PK 값 1, 2, 3) 이런식의 값을 주면 사용자 프로필 정보를 get 해줌!
-        System.out.println(userId);
         return new ResponseEntity<>(memberService.searchprofile(userId) , HttpStatus.OK) ;
     }
 
@@ -123,6 +122,12 @@ public class MemberController {
 
         MemberEntity memberEntity = memberService.searchprofile_with_lgid(userLgid);
 
+        // Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("access", jwtToken.getAccessToken());
+        headers.add("refresh", jwtToken.getRefreshToken());
+
+        // Body
         HashMap<String, MemberLoginDto> map = new HashMap<>();
         map.put("user", MemberLoginDto.builder()
                 .userLgid(memberEntity.getUserLgid())
@@ -133,9 +138,6 @@ public class MemberController {
         );
         response.setData(map);
         Boolean IsTrue = memberService.registmember(memberEntity);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("access", jwtToken.getAccessToken());
-        headers.add("refresh", jwtToken.getRefreshToken());
         int result = 0;
 
         result = redisService.setValues(String.valueOf(memberEntity.getUserId()),  jwtToken.getRefreshToken(), Duration.ofSeconds(10000000));
