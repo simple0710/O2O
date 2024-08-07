@@ -36,6 +36,8 @@ public class MemberService {
 
     @Transactional
     public boolean registMember(MemberDto memberDto, MultipartFile file) {
+        String newFileName = null;
+
         try {
             // 파일 저장 처리
             if (file != null && !file.isEmpty()) {
@@ -45,10 +47,8 @@ public class MemberService {
                     Files.createDirectories(directoryPath);
                 }
 
-                String newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-
+                newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
                 Path path = Paths.get(uploadPath + newFileName);
-
                 Files.write(path, file.getBytes());
 
                 memberDto.setUserImg(newFileName);
@@ -56,13 +56,30 @@ public class MemberService {
 
             // 회원 정보 저장 처리
             if (!saveMember(memberDto)) {
-                // 회원 저장 실패 시 롤백
+                // 회원 저장 실패 시 파일 삭제
+                if (newFileName != null) {
+                    Path filePath = Paths.get(uploadPath + newFileName);
+                    try {
+                        Files.delete(filePath);
+                    } catch (IOException e) {
+                        throw new RuntimeException("파일 삭제에 실패했습니다.", e);
+                    }
+                }
                 throw new RuntimeException("회원 저장에 실패했습니다.");
             }
 
             return true;
         } catch (IOException e) {
             // 파일 저장 실패 시 예외 처리
+            if (newFileName != null) {
+                // 파일 삭제 시도
+                Path filePath = Paths.get(uploadPath + newFileName);
+                try {
+                    Files.delete(filePath);
+                } catch (IOException deleteException) {
+                    throw new RuntimeException("파일 삭제에 실패했습니다.", deleteException);
+                }
+            }
             throw new RuntimeException("파일 저장에 실패했습니다.", e);
         }
     }
