@@ -74,6 +74,7 @@ public class MemberController {
     @GetMapping("/profile/{user-id}")
     public ResponseEntity<?> getMemberDetail(@PathVariable("user-id") int userId){
         // 서버에게 user-id (PK 값 1, 2, 3) 이런식의 값을 주면 사용자 프로필 정보를 get 해줌!
+        System.out.println(userId);
         return new ResponseEntity<>(memberService.searchprofile(userId) , HttpStatus.OK) ;
     }
 
@@ -89,6 +90,17 @@ public class MemberController {
     @PutMapping("/profile/{user-id}/edit")
     public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberDto memberDto) throws Throwable {
         log.info("memberEntity = {}", memberDto);
+
+
+
+        System.out.println(userId);
+
+
+        // 비밀번호 인코딩
+        String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
+
+        memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
+        System.out.println(memberDto);
         return new ResponseEntity<>(memberService.updateprofile(userId, memberDto), HttpStatus.OK) ;
     }
 
