@@ -1,23 +1,44 @@
 import React, { useState } from 'react';
 import { Button, TextField, IconButton, Typography, Box } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/ItemRegistration.css';
+import {postRegisterItem} from '../api/kioskpost.js';
 
 const ItemRegistration = () => {
   const [quantity, setQuantity] = useState(0);
+  const [productName, setProductName] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {product} = location.state || {};
+
+  console.log('물품등록: ', product)
 
   const handleIncrease = () => setQuantity(quantity + 1);
   const handleDecrease = () => setQuantity(quantity > 0 ? quantity - 1 : 0);
 
-  const navigate = useNavigate();
 
   const back = () => {
     navigate('/ServiceSelection');
   };
 
-  const registerfinish = () => {
-    navigate('/RegisterFinish');
+  const registerfinish = async() => {
+    const registerData = {
+      locker_id : product?.locker_id,
+      product_nm : productName,
+      user_id: product?.user_id || 4,
+      product_cnt : quantity,
+      total_count: quantity
+    };
+
+    try {
+      await postRegisterItem(registerData);
+      console.log('물품이 성공적으로 등록되었습니다.' , registerData)
+      navigate('/RegisterFinish');
+    } catch (e) {
+      console.error('물품 등록에 실패하였습니다.', e);
+    }
+   
   };
 
   return (
@@ -35,7 +56,10 @@ const ItemRegistration = () => {
             📷
           </span>
         </Box>
-        <TextField label="이름" variant="outlined" size="small" className="input" />
+        <TextField label="이름" variant="outlined" size="small" className="input" 
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
+        />
         <Box className="quantity-controls">
           <IconButton onClick={handleDecrease}>
             <Remove />

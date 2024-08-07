@@ -1,0 +1,1 @@
+export const lockerBodyId = 1;
