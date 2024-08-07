@@ -13,4 +13,8 @@ public class DateUtil {
             return null;
         }
     }
+
+    public static LocalDateTime plusNMinutes(LocalDateTime now, int N){
+        return now.plusMinutes(N);
+    }
 }

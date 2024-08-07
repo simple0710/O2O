@@ -34,8 +34,15 @@ public class Reserve {
     @Column(insertable = false, updatable = false)
     private List<ReserveDet> reserveDetList;
 
-    public void updateIsEndedToTrue(LocalDateTime endDt){
-        System.out.println("updateIsEndedToTrue");
+    // 예약이 취소되었을 때
+    public void updateReserveToCanceled(LocalDateTime endDt){
+        this.isEnded = true;
+        this.endDt = endDt;
+        this.isCanceled = true;
+    }
+
+    // 예약이 종료되었을 때(만료)
+    public void updateReserveToEnded(LocalDateTime endDt){
         this.isEnded = true;
         this.endDt = endDt;
     }
