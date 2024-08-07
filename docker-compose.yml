@@ -26,6 +26,8 @@ services:
       - "8000:8000"  # 스프링 부트 포트
 
   nginx:
+    build:
+      context: ./nginx  # Dockerfile이 위치한 경로
     image: nginx
     container_name: nginx_container  # 컨테이너 이름 설정
     ports:
