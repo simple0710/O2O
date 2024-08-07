@@ -28,3 +28,15 @@ export async function postProductsBrokenAndMissing(params){
         return null;
     }
 }
+
+export async function putReturnItem(){
+    try {
+        const response = await axiosInstance.put(`/rent`);
+        console.log(response)
+        // return response
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+

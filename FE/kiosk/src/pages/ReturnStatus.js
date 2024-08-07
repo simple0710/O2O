@@ -5,6 +5,7 @@ import Camera from '../components/returnstatus/Camera';
 import Button from '../components/returnstatus/Button';
 import '../styles/returnstatus/returnstatus.css';
 import { useNavigate } from 'react-router-dom';
+import New from '../components/returnstatus/New';
 
 
 
@@ -18,10 +19,11 @@ function ReturnStatus(){
 		<Instruction/>
 	
 		<Camera/>
+		
+		<New />
+		{/* <ItemList/>
 	
-		<ItemList/>
-	
-		<Button/>
+		<Button/> */}
 		</div>	
     )
 }
