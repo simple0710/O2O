@@ -30,8 +30,9 @@ public class User {
     private String empCd;
     @Column(name = "user_img")
     private String userImg;
-    @Column(name = "is_admin")
+//    @Column(name = "is_admin")
     private boolean isAdmin;
+    private boolean isActive;
     @Column(name = "user_tel")
     private String userTel;
 
