@@ -5,11 +5,14 @@ FROM node:20 AS builder
 # 경로 설정하기
 WORKDIR /app
 # package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
+RUN ls -al
 COPY package.json package-lock.json ./
 # 명령어 실행 (의존성 설치)
+RUN ls -al
 RUN npm install
-
+RUN ls -al
 COPY . .
+RUN ls -al
 RUN npm run build
 
 FROM nginx:alpine
@@ -17,6 +20,5 @@ FROM nginx:alpine
 EXPOSE 80
 # 필요에 따라 Node.js 애플리케이션의 포트를 노출
 EXPOSE 3001
-
-CMD ["ls","-al"]
+RUN ls -al
 COPY --from=builder /app/build /usr/share/nginx/html/web
