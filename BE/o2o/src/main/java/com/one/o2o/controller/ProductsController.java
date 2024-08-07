@@ -1,11 +1,6 @@
 package com.one.o2o.controller;
 
 import com.one.o2o.dto.common.Response;
-import com.one.o2o.dto.locker.LockerDto;
-import com.one.o2o.dto.ProductSavedEvent;
-import com.one.o2o.dto.common.Response;
-import com.one.o2o.dto.ProductSavedEvent;
-import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.ProductsResponseDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
@@ -13,38 +8,23 @@ import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
 import com.one.o2o.service.ProductsCommonService;
-import com.one.o2o.event.ProductSavedEventListener;
-import com.one.o2o.service.FileService;
-import com.one.o2o.event.ProductSavedEventListener;
-import com.one.o2o.service.FileService;
 import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -52,11 +32,9 @@ import java.util.List;
 @Slf4j
 public class ProductsController {
 
-    private final FileService fileService;
     private final ProductsManageService productsManageService;
     private final ProductsRequestService productsRequestService;
     private final ProductsReportService productsReportService;
-    private final ProductSavedEventListener productSavedEventListener;
     private final ProductsCommonService productsCommonService;
 
     /**
@@ -73,10 +51,7 @@ public class ProductsController {
             @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
         log.info("files : " + files);
         // 상품 등록
-        Integer productId = (Integer) productsManageService.saveProduct(productsDto).getData();
-        if (files != null && !files.isEmpty()) {
-            fileService.saveFile(files, productsDto.getUserId(), productId);
-        }
+        productsManageService.saveProduct(files, productsDto);
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품 등록 완료"), HttpStatus.OK);
     }
 
