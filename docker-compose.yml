@@ -7,7 +7,7 @@ services:
     image: react_container  # 이미지 이름 설정
     container_name: react_container  # 컨테이너 이름 설정
     ports:
-      - "172.19.0.2:3000:80"  # kiosk React 앱 포트
+      - "3000:80"  # kiosk React 앱 포트
     networks:
       - my_network #나만의 network 설정! 
 
@@ -17,7 +17,7 @@ services:
     image: react_container_web  # 이미지 이름 설정
     container_name: react_container_web  # 컨테이너 이름 설정
     ports:
-      - "172.19.0.3:3001:80"  # web React 앱 포트
+      - "3001:80"  # web React 앱 포트
     networks:
       - my_network #나만의 network 설정! 
 
@@ -27,7 +27,7 @@ services:
     image: tem  # 이미지 이름 설정
     container_name: my_container  # 컨테이너 이름 설정
     ports:
-      - "172.19.0.4:8000:80"  # 스프링 부트 포트
+      - "8000:80"  # 스프링 부트 포트
     networks:
       - my_network #나만의 network 설정! 
   nginx:
