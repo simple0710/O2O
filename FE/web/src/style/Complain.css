@@ -1,0 +1,21 @@
+.check-button {
+    background-color: black; 
+    color: white; 
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+  }
+  
+
+  .check-button:disabled {
+    background-color: black;
+    color: white;
+    cursor: not-allowed;
+  }
+  
+
+  .check-button:hover {
+    background-color: black;
+    color: white; 
+  }

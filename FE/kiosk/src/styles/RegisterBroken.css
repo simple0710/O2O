@@ -1,0 +1,62 @@
+/* RegisterBroken.css */
+
+.frame-container {
+  padding: 20px;
+  font-size: 18px; /* Increase font size for better readability */
+}
+
+.report-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Increase margin for better spacing */
+  font-size: 18px; /* Increase font size for better readability */
+}
+
+.icon {
+  font-size: 30px; /* Increase icon size */
+  margin-right: 15px; /* Increase spacing between icon and text */
+}
+
+.item-description {
+  font-size: 20px; /* Increase item description font size */
+  font-weight: bold;
+  margin-right: 20px; /* Increase spacing between description and status */
+}
+
+.item-status-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-status {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5%; /* Increase spacing between status items */
+  font-size: 16px; /* Increase font size for status */
+}
+
+.status-label {
+  font-size: 16px; /* Increase font size for status labels */
+  font-weight: normal;
+  margin-right: 10px; /* Increase spacing between label and count */
+}
+
+.item-count {
+  font-size: 16px; /* Increase font size for item count */
+  font-weight: bold;
+}
+
+.register-button-container {
+  margin-top: 30px; /* Increase margin for button positioning */
+}
+
+.register-button {
+  width: 100%;
+  font-size: 18px; /* Increase font size for button text */
+  padding: 10px; /* Increase button padding */
+}

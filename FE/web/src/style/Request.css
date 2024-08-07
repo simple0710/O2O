@@ -1,0 +1,48 @@
+
+.success-button {
+    background-color: black; 
+    color: white; 
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+  }
+  
+
+  .success-button:disabled {
+    background-color: black;
+    color: white;
+    cursor: not-allowed;
+  }
+  
+
+  .success-button:hover {
+    background-color: black;
+    color: white; 
+  }
+  
+  .reject-button {
+    background-color: black; 
+    color: white; 
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px; 
+    cursor: pointer;
+  }
+  
+
+  .reject-button:disabled {
+    background-color: black;
+    color: white; 
+    cursor: not-allowed; 
+  }
+  
+  
+  .reject-button:hover {
+    background-color: black;
+    color: white; 
+  }
+
+
+  
+  

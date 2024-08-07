@@ -1,0 +1,177 @@
+[
+    {
+      "locker_body_name": "1층 왼쪽",
+      "column": 4,
+      "row": 2,
+      "lockers": [
+        {
+          "locker_id": 1,
+          "locker_column": 1,
+          "locker_row": 1,
+          "is_usable": true,
+          "product_id": 1,
+          "product_nm": "가위",
+          "product_img": "https://example.com/scissors.jpg",
+          "total_cnt": 20,
+          "product_cnt": 10
+        },
+        {
+          "locker_id": 2,
+          "locker_column": 1,
+          "locker_row": 2,
+          "is_usable": false,
+          "product_id": 2,
+          "product_nm": "줄자",
+          "product_img": "https://example.com/tape_measure.jpg",
+          "total_cnt": 5,
+          "product_cnt": 2
+        }
+      ]
+    },
+    {
+      "locker_body_name": "1층 오른쪽",
+      "column": 4,
+      "row": 2,
+      "lockers": [
+        {
+          "locker_id": 5,
+          "locker_column": 4,
+          "locker_row": 1,
+          "is_usable": true,
+          "product_id": 5,
+          "product_nm": "공책",
+          "product_img": "https://example.com/notebook.jpg",
+          "total_cnt": 10,
+          "product_cnt": 7
+        },
+        {
+          "locker_id": 6,
+          "locker_column": 1,
+          "locker_row": 2,
+          "is_usable": false,
+          "product_id": 6,
+          "product_nm": "자",
+          "product_img": "https://example.com/ruler.jpg",
+          "total_cnt": 12,
+          "product_cnt": 4
+        }
+      ]
+    },
+    {
+      "locker_body_name": "2층 왼쪽",
+      "column": 4,
+      "row": 3,
+      "lockers": [
+        {
+          "locker_id": 9,
+          "locker_column": 1,
+          "locker_row": 1,
+          "is_usable": true,
+          "product_id": 9,
+          "product_nm": "파일",
+          "product_img": "https://example.com/file.jpg",
+          "total_cnt": 20,
+          "product_cnt": 10
+        },
+        {
+          "locker_id": 10,
+          "locker_column": 1,
+          "locker_row": 2,
+          "is_usable": false,
+          "product_id": 10,
+          "product_nm": "수첩",
+          "product_img": "https://example.com/notepad.jpg",
+          "total_cnt": 15,
+          "product_cnt": 8
+        }
+      ]
+    },
+    {
+      "locker_body_name": "2층 오른쪽",
+      "column": 4,
+      "row": 3,
+      "lockers": [
+        {
+          "locker_id": 14,
+          "locker_column": 1,
+          "locker_row": 1,
+          "is_usable": true,
+          "product_id": 14,
+          "product_nm": "파일 폴더",
+          "product_img": "https://example.com/file_folder.jpg",
+          "total_cnt": 20,
+          "product_cnt": 10
+        },
+        {
+          "locker_id": 15,
+          "locker_column": 1,
+          "locker_row": 2,
+          "is_usable": false,
+          "product_id": 15,
+          "product_nm": "테이프",
+          "product_img": "https://example.com/tape.jpg",
+          "total_cnt": 8,
+          "product_cnt": 2
+        }
+      ]
+    },
+    {
+      "locker_body_name": "3층 왼쪽",
+      "column": 5,
+      "row": 2,
+      "lockers": [
+        {
+          "locker_id": 19,
+          "locker_column": 1,
+          "locker_row": 1,
+          "is_usable": true,
+          "product_id": 19,
+          "product_nm": "스테이플러",
+          "product_img": "https://example.com/stapler.jpg",
+          "total_cnt": 25,
+          "product_cnt": 15
+        },
+        {
+          "locker_id": 20,
+          "locker_column": 1,
+          "locker_row": 2,
+          "is_usable": false,
+          "product_id": 20,
+          "product_nm": "클립",
+          "product_img": "https://example.com/clip.jpg",
+          "total_cnt": 100,
+          "product_cnt": 50
+        }
+      ]
+    },
+    {
+      "locker_body_name": "3층 오른쪽",
+      "column": 5,
+      "row": 2,
+      "lockers": [
+        {
+          "locker_id": 24,
+          "locker_column": 1,
+          "locker_row": 1,
+          "is_usable": true,
+          "product_id": 24,
+          "product_nm": "테이프",
+          "product_img": "https://example.com/tape.jpg",
+          "total_cnt": 10,
+          "product_cnt": 6
+        },
+        {
+          "locker_id": 25,
+          "locker_column": 1,
+          "locker_row": 2,
+          "is_usable": false,
+          "product_id": 25,
+          "product_nm": "고무밴드",
+          "product_img": "https://example.com/rubber_band.jpg",
+          "total_cnt": 50,
+          "product_cnt": 20
+        }
+      ]
+    }
+
+  ]

@@ -1,0 +1,24 @@
+.buttonGroup {
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    gap: 13px;
+}
+
+.button, .button1 {
+    background-color: #d6f5ff; /* 기본 배경색 */
+    border: none; /* 기본 테두리 제거 */
+    padding: 10px 20px; /* 버튼 안의 여백 */
+    font-size: 16px; /* 버튼 글자 크기 */
+    color: #000; /* 글자 색상 */
+    width: 145px;
+    cursor: pointer; /* 마우스 포인터 모양 */
+    border-radius: 4px; /* 버튼 모서리 둥글게 */
+}
+
+.button1 {
+    background-color: #0093ed; /* 버튼1의 배경색 */
+}

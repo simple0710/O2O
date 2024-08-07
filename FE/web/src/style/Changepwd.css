@@ -1,0 +1,48 @@
+
+.content {
+    margin-left: 150px;
+    margin-top: 50px; 
+}
+
+
+.pwd-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+
+.pwd-form .form-label {
+    text-align: left;
+    width: 100%;
+    color: black;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+
+.pwd-form .form-control {
+    margin-bottom: 15px;
+    border: 2px solid black;
+    width: 100%; 
+    max-width: 500px; 
+}
+
+.pwd-form .form-control::placeholder {
+    color: #999;
+}
+
+
+.pwd-button {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: medium;
+    align-self: center;
+    background-color: black;
+    color: white;
+}
