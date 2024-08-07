@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Nav, Button, Dropdown } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import "../../style/MainPageApp.css";
 import { Link } from "react-router-dom";
 import Profile from "../../images/profile.png";
@@ -10,7 +10,7 @@ import Cart from "./Cart";
 import Modals from "./Modals";
 import { ReservationProvider } from "./ReservationContext";
 import Swal from "sweetalert2";
-import UserNav from './Nav'
+import Nav from "./Nav";
 
 function MainPage() {
   const [show, setShow] = useState(false);
@@ -44,15 +44,15 @@ function MainPage() {
 
   return (
     <div>
-     <UserNav/>
+      <Nav />
       <div className="content-container">
         <Sidebar />
         <div className="content">
           <Locker />
 
-          {/* <div className="cart">
+          <div className="cart">
             <Cart />
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

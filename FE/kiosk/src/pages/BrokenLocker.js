@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/BrokenLocker.css';
+import axios from 'axios';
 
 const Locker = () => {
   const navigate = useNavigate();
@@ -13,10 +14,21 @@ const Locker = () => {
     navigate('/BrokenFinish')
   }
 
+  useEffect(() => {
+    // 페이지 접근 시 사물함 열기 요청
+    axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error opening the locker:', error);
+      });
+  }, []);
+
   return (
     <div className='frame-container'>
     <div className="locker-container">
-      <button className="btn btn-primary btn-sm mr-2 back-button" onClick={back}>뒤로가기</button>
+    <button className="btn-main" onClick={() => navigate('/')}>메인 페이지</button>
       <div className="locker-header">
         표시된 파손함에<br /> 파손 물품을 넣어주세요 <br /> <br />
       </div>

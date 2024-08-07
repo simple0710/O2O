@@ -1,14 +1,12 @@
-.user-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    margin-top: 20px;
-    width: 100%;
-    max-width: 400px;
+.user-form{
+    margin-top: 30px;
 }
 
 .add-btn {
     background-color: black;
-    color: black;
-    border-radius: 50%;
+    color: white;
+    border-radius: 5px;
+    margin-top: 50px;
+    width: 60px;
+    height: 35px;
 }

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../style/Statistics.css";
+import axiosInstance from '../../utils/axiosInstance'
 
 const UsageStatistics = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get("/usage/analysis/retention-rate") // 우측 하단 데이터 경로
       .then((response) => {
         console.log(response.data.data.products);
@@ -15,7 +16,7 @@ const UsageStatistics = () => {
         // 데이터를 사용률로 정렬 (내림차순)
         products.sort((a, b) => b.retention_rate - a.retention_rate);
 
-        setData(products.slice(0, 5));
+        setData(products);
       })
       .catch((error) => console.error("Failed to load data:", error))
       .finally(() => setIsLoading(false));

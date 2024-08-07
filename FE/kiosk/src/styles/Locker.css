@@ -1,99 +1,125 @@
-.frame-container {
+.locker-frame {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Viewport height */
-  text-align: center; 
-}
-
-
-.locker-container {
-  width: 375px;
-  height: 812px;
-  position: relative;
-  background: white;
-  /* box-shadow: 0px 8px 0px #0093ED; */
-  border-radius: 40px;
-  overflow: hidden;
-  /* border: 2px #0093ED solid; */
-  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh; /* Viewport height */
   text-align: center;
-  padding-top: 0px;
+  background-color: #fff; /* 배경색 추가 */
+  
+  box-sizing: border-box;
 }
 
-.back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+.locker-container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* 너비를 100%로 설정하여 화면에 맞춤 */
+  height: 70vh;
+  box-sizing: border-box;
+  
 }
 
-.locker-header {
-  width: 311px;
-  height: 55px;
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translateX(-50%);
+.locker-back {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #0093ED;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px; /* 버튼과 제목 사이 간격 추가 */
+}
+
+.locker-title {
+  width: 100%;
   text-align: center;
   color: black;
   font-size: 24px;
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  line-height: 28.80px;
-  word-wrap: break-word;
-  margin-bottom: 10px;
+  line-height: 1.2;
+  margin: 20px 0; /* 제목과 셀렉트 박스 사이 간격 추가 */
 }
 
-.locker {
-  width: 66px;
-  height: 110px;
-  position: absolute;
+.locker-select-container,
+.locker-dropdown {
+  width: 100%;
+  max-width: 300px; /* 드롭다운 최대 너비 설정 */
+  margin: 0 auto 20px auto; /* 가운데 정렬 및 아래 간격 추가 */
+}
+
+.locker-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.locker-row {
+  display: flex;
+  justify-content: center; /* 사물함 박스 중앙 정렬 */
+}
+
+.locker-box {
+  width: 150px; /* 사물함 박스의 너비 */
+  height: 220px; 
+  margin: 5px; /* 사물함 박스 간격 */
   border-radius: 8px;
   border: 2px #0093ED solid;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 30px;
-}
-
-.locker.empty {
-  background: #7DD8FF;
-}
-
-.locker.occupied {
-  background: #0093ED;
-}
-
-.locker.highlight {
-  background: #7DD8FF;
-}
-
-.locker-lock {
-  width: 48px;
-  height: 48px;
-  position: absolute;
-}
-
-.locker-lock-inner {
-  width: 33.94px;
-  height: 33.94px;
-  position: absolute;
-  border: 4px #1E1E1E solid;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.label {
-  width: 101px;
-  height: 20px;
-  position: absolute;
+  background-color: #f0f8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
   text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
-.date {
-  width: 41px;
-  height: 26px;
-  position: absolute;
-  text-align: center;
+.locker-highlight {
+  background: #FF6666; /* 대여된 물품이 있는 사물함 강조 색상 */
+  border-color: #CC0000; /* 강조된 사물함 테두리 색상 */
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 768px) {
+  .locker-container1 {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .locker-box {
+    width: 70px; /* 작은 화면에서 사물함 박스 크기 줄이기 */
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .locker-box {
+    width: 60px; /* 작은 화면에서 사물함 박스 크기 줄이기 */
+    height: 60px;
+    font-size: 0.8rem; /* 작은 화면에서 글자 크기 줄이기 */
+  }
+
+  .locker-select-container,
+  .locker-dropdown {
+    max-width: 100%; /* 작은 화면에서 드롭다운 최대 너비 설정 */
+  }
+
+  .locker-title {
+    font-size: 20px; /* 제목 크기 줄이기 */
+  }
+}
+.btn-main {
+  position: fixed;
+  top : 10%;
+  left : 10%
+}
+.button1 {
+  margin-top: 14%;
+  
 }
