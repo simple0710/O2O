@@ -90,12 +90,12 @@ public class ProductsController {
     }
 
     @PutMapping("/report/process")
-    private ResponseEntity<?> processProductsReport(@RequestBody List<ReportProcessDto> reportProcessDto) {
+    public ResponseEntity<?> processProductsReport(@RequestBody List<ReportProcessDto> reportProcessDto) {
         return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
     }
 
     @GetMapping("/overdue")
-    private ResponseEntity<?> findAllOverdue(
+    public ResponseEntity<?> findAllOverdue(
             @RequestParam(name = "pg_no", defaultValue = "1") int pageNumber,
             @RequestParam(name = "per_page", defaultValue = "10") int pageSize) {
         log.info("pageNumber : " + pageNumber);
