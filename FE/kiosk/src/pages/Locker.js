@@ -39,24 +39,33 @@ const Locker = () => {
           const data = response.data.data;
           setProducts(data);
           console.log('Product data:', data);
+
+          // 대여한 물품 정보로부터 강조할 사물함 설정
+          if (location.state && location.state.borrowedItems) {
+            const borrowedItems = location.state.borrowedItems;
+            const highlighted = borrowedItems
+              .filter(item => item.body_id === selectedLocker.value)
+              .map(item => ({ locker_column: item.column, locker_row: item.row }));
+            setHighlightedLockers(highlighted);
+            console.log('Highlighted lockers:', highlighted);
+          }
         })
         .catch(error => {
           console.error('Error fetching products data:', error);
         });
     }
-  }, [selectedLocker]);
+  }, [selectedLocker, location.state]);
 
   useEffect(() => {
-    // BorrowFinish에서 전달받은 대여한 물품 정보
-    if (location.state && location.state.borrowedItems) {
-      // 선택된 층의 대여한 물품만 강조
-      const filteredItems = location.state.borrowedItems.filter(
-        item => item.body_id === selectedLocker?.value
-      );
-      setHighlightedLockers(filteredItems);
-      console.log('Filtered borrowed items for the selected locker:', filteredItems);
-    }
-  }, [location.state, selectedLocker]);
+    // 페이지 접근 시 사물함 열기 요청
+    axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error opening the locker:', error);
+      });
+  }, []);
 
   const options = lockersData.map(lockerData => ({
     value: lockerData.locker_body_id,
@@ -72,55 +81,58 @@ const Locker = () => {
     navigate('/');
   };
 
+  const borrowfinish = () => {
+    navigate('/BorrowFinish');
+  };
+
   // 특정 사물함에 물품이 있는지 확인하는 함수
   const getProductInLocker = (column, row) => {
     return products.find(product => product.locker_column === column && product.locker_row === row);
   };
 
   return (
-
     <>
-      {/* 메이페이지 버튼 */}
+      {/* 메인 페이지 버튼 */}
       <button className="btn-main" onClick={back}>메인 페이지</button>
 
       <div className='locker-frame'>
         <div className="locker-container1">
-        <div className="locker-title">
-          표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
-        </div>
-        <div className='locker-dropdown'>
-          <Select 
-            options={options} 
-            value={selectedLocker}
-            onChange={handleChange}
-            placeholder="사물함을 선택하세요"
-          />
-        </div>
-        <div className='locker-grid'>
-          {selectedLocker && lockersData.length > 0 && 
-            Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).row }).map((_, rowIndex) =>
-              <div key={`row-${rowIndex}`} className='locker-row'>
-                {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
-                  const product = getProductInLocker(colIndex + 1, rowIndex + 1);
-                  const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
-                  return (
-                    <div 
-                      key={`col-${colIndex}`} 
-                      className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
-                    >
-                      {product ? product.product_nm : ''}
-                    </div>
-                  );
-                })}
-              </div>
-            )
-          }
-        </div>
+          <div className="locker-title">
+            표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
+          </div>
+          <div className='locker-dropdown'>
+            <Select 
+              options={options} 
+              value={selectedLocker}
+              onChange={handleChange}
+              placeholder="사물함을 선택하세요"
+            />
+          </div>
+          <div className='locker-grid'>
+            {selectedLocker && lockersData.length > 0 && 
+              Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).row }).map((_, rowIndex) =>
+                <div key={`row-${rowIndex}`} className='locker-row'>
+                  {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
+                    const product = getProductInLocker(colIndex + 1, rowIndex + 1);
+                    const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
+                    return (
+                      <div 
+                        key={`col-${colIndex}`} 
+                        className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
+                      >
+                        {product ? product.product_nm : ''}
+                      </div>
+                    );
+                  })}
+                </div>
+              )
+            }
+          </div>
+          <button className='button1' onClick={borrowfinish}>확인</button>
         </div>
       </div>
-    
+      
     </>
-    
   );
 };
 
