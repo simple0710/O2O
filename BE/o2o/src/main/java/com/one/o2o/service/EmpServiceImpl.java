@@ -20,7 +20,7 @@ public class EmpServiceImpl implements EmpService {
     public UserDto findUserByEmpCard(EmpCardRequestDto empCardRequestDto) {
         List<User> userList = userRepository.findAllByUserNm(empCardRequestDto.getName());
         // user 여러 명 나왔을 때 처리 필요
-        if(userList.size() == 0) return null;
+        if(userList.isEmpty()) return null;
         else {
             return userMapper.userToUserDto(userList.get(0));
         }

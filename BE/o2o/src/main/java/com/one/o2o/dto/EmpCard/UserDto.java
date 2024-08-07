@@ -8,9 +8,8 @@ import org.hibernate.annotations.ColumnDefault;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserDto {
-
+    private Integer userId;
     private String userLgid;
-    private String userPw;
     private String userNm;
     private String empCd;
     private String userImg;
