@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name="user")
 public class MemberEntity {
     @Id
@@ -44,16 +45,17 @@ public class MemberEntity {
 
     // DTO를 Entity로 변환하는 메서드
     public static MemberEntity toEntity(MemberDto dto) {
-        MemberEntity entity = new MemberEntity();
-        entity.setUserLgid(dto.getUserLgid());
-        entity.setUserPw(dto.getUserPw());
-        entity.setUserNm(dto.getUserNm());
-        entity.setEmpCd(dto.getEmpCd());
-        entity.setUserImg(dto.getUserImg());
-        entity.setIsAdmin(dto.getIsAdmin());
-        entity.setUserTel(dto.getUserTel());
-        entity.setIsActive(dto.getIsActive());
-        return entity;
+        return MemberEntity.builder()
+                .userId(dto.getUserId()) // DTO에 userId가 있다면
+                .userLgid(dto.getUserLgid())
+                .userPw(dto.getUserPw())
+                .userNm(dto.getUserNm())
+                .empCd(dto.getEmpCd())
+                .userImg(dto.getUserImg())
+                .isAdmin(dto.getIsAdmin())
+                .userTel(dto.getUserTel())
+                .isActive(dto.getIsActive())
+                .build();
     }
 }
 
