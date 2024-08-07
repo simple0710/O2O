@@ -11,12 +11,12 @@ public interface ReserveService {
     public ReserveResponseDto readReserveByUserAndLockerBody(int userId, int bodyId, int pageNumber, int pageSize);
 
     // 예약 등록
-    public Integer createReserve(int userId, ReserveRequestDto reserveRequestDto);
+    public Integer createReserve(ReserveRequestDto reserveRequestDto);
 
     // 예약 취소
     public boolean deleteReserve(Integer reserveId);
 
     public boolean deleteReserveTransaction(Integer reserveId);
 
-    public Integer createReserveTransaction(int userId, ReserveRequestDto reserveRequestDto);
+    public Integer createReserveTransaction(ReserveRequestDto reserveRequestDto);
 }

@@ -71,9 +71,9 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
-    public Integer createReserve(int userId, ReserveRequestDto reserveRequestDto) {
+    public Integer createReserve(ReserveRequestDto reserveRequestDto) {
         // 예약 트랜잭션
-        Integer reserveId = createReserveTransaction(userId, reserveRequestDto);
+        Integer reserveId = createReserveTransaction(reserveRequestDto);
 
         List<ReserveDet> dets = reserveDetRepository.findAllByReserveId(reserveId);
         System.out.println("dets = " + dets);
@@ -81,11 +81,11 @@ public class ReserveServiceImpl implements ReserveService {
     }
     @Override
     @Transactional
-    public Integer createReserveTransaction(int userId, ReserveRequestDto reserveRequestDto){
+    public Integer createReserveTransaction(ReserveRequestDto reserveRequestDto){
         // 1) 예약 생성
         Reserve reserve = new Reserve();
         // (1) 예약 정보 수정
-        reserve.setUserId(userId);
+        reserve.setUserId(reserveRequestDto.getUserId());
         reserve.setStartDt(LocalDateTime.now());
         reserve.setBodyId(reserveRequestDto.getLockerBodyId());
         // 문자열 시간으로 변환
@@ -99,10 +99,9 @@ public class ReserveServiceImpl implements ReserveService {
             // 2) 예약 가능 여부 확인 및 사물함 수량 차감
             lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._reserve));
 
-
             // 4) 예약 상세 추가
             ReserveDet reserveDet = ReserveDet.builder()
-                            .userId(userId)
+                            .userId(reserveRequestDto.getUserId())
                             .newProductId(product.getProductId())
                             .newLockerId(product.getLockerId())
                             .statusId(RentCalculation._reserve)

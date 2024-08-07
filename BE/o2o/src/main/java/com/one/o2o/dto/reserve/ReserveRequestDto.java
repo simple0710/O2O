@@ -10,6 +10,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReserveRequestDto {
     private Integer lockerBodyId;
+    private Integer userId;
     private String reserveTime;
     private List<ReserveRequestProductDto> reserves;
 }
