@@ -4,10 +4,7 @@ import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.usage.ProductRentCountDto;
 import com.one.o2o.dto.usage.ProductUsageRateDto;
 import com.one.o2o.dto.usage.ProductsRetentionRateDto;
-import com.one.o2o.entity.Product;
-import com.one.o2o.entity.RentLog;
 import com.one.o2o.repository.ProductsUsageRepository;
-import com.one.o2o.repository.RentLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,7 +26,7 @@ interface UsageServiceInterface {
 public class UsageService implements UsageServiceInterface {
 
     private final ProductsUsageRepository productsUsageRepository;
-    private final RentLogRepository rentLogRepository;
+
     @Override
     public Response findAllRetentionRate() {
         Response response = new Response(200, "보유율 조회 완료");

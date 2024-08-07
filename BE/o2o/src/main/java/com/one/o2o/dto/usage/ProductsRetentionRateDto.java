@@ -21,7 +21,6 @@ public class ProductsRetentionRateDto {
         this.productNm = productNm;
 //        this.productCnt = productCnt;
 //        this.totalCnt = totalCountSum;
-        this.retentionRate = productCnt * 100 / totalCountSum;
+        this.retentionRate = totalCountSum == 0 ? 100 : productCnt * 100 / totalCountSum;
     }
-
 }
