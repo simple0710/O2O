@@ -137,7 +137,7 @@ public class MemberController {
                 .build()
         );
         response.setData(map);
-        Boolean IsTrue = memberService.registmember(memberEntity);
+//        Boolean IsTrue = memberService.registMember(memberEntity);
         int result = 0;
 
         result = redisService.setValues(String.valueOf(memberEntity.getUserId()),  jwtToken.getRefreshToken(), Duration.ofSeconds(10000000));
