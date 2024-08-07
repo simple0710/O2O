@@ -46,7 +46,6 @@ interface ProductsManageInterface {
     Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException;
     Response saveProduct(List<MultipartFile> files, Integer productsId, Integer userId) throws Exception;
     Response findAllOverdueList(int pageNumber, int pageSize);
-    Response getProductImage(String filename);
     // 키오스크에서 물품 등록
     Integer saveProductFromKiosk(LockerUpdateDto lockerUpdateDto, Integer userId);
 }
@@ -58,9 +57,6 @@ public class ProductsManageService implements ProductsManageInterface {
 
     @Value("${upload.path.products}")
     private String uploadPath;
-
-    @Value("${file.upload.dir}")
-    private String uploadProductsDir;
 
     private final ProductsManageRepository productsManageRepository;
     private final ProductsOverdueRepository productsOverdueRepository;
@@ -125,40 +121,6 @@ public class ProductsManageService implements ProductsManageInterface {
         }
         return response;
     }
-
-
-
-    public Response getProductImage(String filename) {
-        Response response = new Response();
-        try {
-            Path file = Paths.get(uploadProductsDir + "/products/" + filename);
-            Resource resource = new UrlResource(file.toUri());
-
-            if (resource.exists() && resource.isReadable()) {
-                // MIME 타입을 추측하거나 설정
-                String contentType = "image/jpeg"; // 기본값으로 설정, 필요에 따라 변경
-
-                byte[] imageBytes = resource.getInputStream().readAllBytes();
-                response.setData(imageBytes);
-
-                response.setStatus(HttpStatus.OK.value());
-//                response.setContentType(contentType);
-                response.setMessage("이미지가 성공적으로 로드되었습니다.");
-            } else {
-                response.setStatus(HttpStatus.NOT_FOUND.value());
-                response.setMessage("이미지를 찾을 수 없습니다.");
-            }
-        } catch (MalformedURLException e) {
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setMessage("이미지를 읽는 데 실패했습니다.");
-        } catch (IOException e) {
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setMessage("이미지를 읽는 데 실패했습니다.");
-        }
-        return response;
-    }
-
-
 
     @Override
     public Response findAllOverdueList(int pageNumber, int pageSize) {

@@ -55,30 +55,6 @@ public class ProductsController {
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품 등록 완료"), HttpStatus.OK);
     }
 
-    @GetMapping("/{filename:.+}")
-    public ResponseEntity<?> getProductImage(@PathVariable String filename) throws IOException {
-        log.info("finename : " + filename);
-//        return new ResponseEntity<>(1, HttpStatus.OK);
-        return new ResponseEntity<>(productsManageService.getProductImage(filename), HttpStatus.OK);
-    }
-
-    // 이미지 가져오기
-    @GetMapping("/images/{fileName:.+}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String fileName) throws IOException {
-        // 이미지 파일 경로
-        Path imagePath = Paths.get("src/main/resources/uploads/products/" + fileName);
-
-        // 파일 읽기
-        byte[] imageBytes = Files.readAllBytes(imagePath);
-
-        // HTTP 헤더 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(org.springframework.http.MediaType.IMAGE_PNG);
-
-        // 이미지 반환
-        return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
-    }
-
     // 요청 물품 목록 가져오기
     @GetMapping("/request")
     public ResponseEntity<?> findAll(
@@ -132,5 +108,4 @@ public class ProductsController {
         List<ProductsResponseDto> list = productsCommonService.readAllProduct();
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "물품 목록 조회", list), HttpStatus.OK);
     }
-
 }
