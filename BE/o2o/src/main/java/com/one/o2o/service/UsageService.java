@@ -31,16 +31,20 @@ public class UsageService implements UsageServiceInterface {
     public Response findAllRetentionRate() {
         Response response = new Response(200, "보유율 조회 완료");
         List<Object[]> results = productsUsageRepository.findProductsRetentionRate();
-        List<ProductsRetentionRateDto> retentionRateList = new ArrayList<>();
-        for (Object[] result : results) {
-            Integer productId = ((Number) result[0]).intValue();
-            String productNm = ((String) result[1]);
-            Integer productCnt = ((Number) result[2]).intValue();
-            Integer totalCountSum = ((Number) result[3]).intValue();
-            ProductsRetentionRateDto dto = new ProductsRetentionRateDto(productId, productNm, productCnt, totalCountSum);
-            retentionRateList.add(dto);
-            log.info(dto.toString());
-        }
+        List<ProductsRetentionRateDto> retentionRateList = results
+                .stream()
+                .map(obj -> {
+                    Integer productId = ((Number) obj[0]).intValue();
+                    String productNm = ((String) obj[1]);
+                    Integer productCnt = ((Number) obj[2]).intValue();
+                    Integer totalCountSum = ((Number) obj[3]).intValue();
+                    return ProductsRetentionRateDto.builder()
+                            .productId(productId)
+                            .productNm(productNm)
+                            .retentionRate(totalCountSum == 0 ? 100 : productCnt * 100 / totalCountSum)
+                            .build();
+                })
+                .collect(Collectors.toList());
         Map<String, List<ProductsRetentionRateDto>> map = new HashMap<>();
         map.put("products", retentionRateList);
         response.setData(map);
