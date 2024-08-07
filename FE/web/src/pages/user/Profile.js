@@ -19,9 +19,11 @@ function Profile() {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const data = await getProfile(7);
+        const userId = localStorage.getItem('userId');
+        const data = await getProfile(userId);
         setProfileData(data);
         setFormData(data); 
+        
       } catch (err) {
         console.error(err);
       }
@@ -41,7 +43,8 @@ function Profile() {
   const handleSave = async (field) => {
     try {
       const updatedData = { ...profileData, [field]: formData[field] };
-      await updateProfile(7, updatedData);
+      const userId = localStorage.getItem('userId');
+      await updateProfile(userId, updatedData);
       setProfileData(updatedData);
       setEditField(null);
     } catch (err) {
@@ -85,7 +88,26 @@ function Profile() {
                   <td>이름</td>
                   <td>
                     <span>
-                      {profileData.user_nm}
+                      {editField === 'user_nm' ? (
+                        <div>
+                          <input
+                            type="text"
+                            name="user_nm"
+                            value={formData.user_nm}
+                            onChange={handleInputChange}
+                          />
+                          <button onClick={() => handleSave('user_nm')}>저장</button>
+                          <button 
+                            className="cancel-button"
+                            onClick={() => setEditField(null)}
+                          >취소</button>
+                        </div>
+                      ) : (
+                        <div>
+                          <span>{profileData.user_nm}</span>
+                          <button onClick={() => setEditField('user_nm')}>수정</button>
+                        </div>
+                      )}
                     </span>
                   </td>
                 </tr>

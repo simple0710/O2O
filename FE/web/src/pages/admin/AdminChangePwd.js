@@ -12,7 +12,7 @@ function ChangePwd() {
 
   const handlePasswordChange = () => {
       if (window.confirm('비밀번호가 변경되었습니다.')) {
-          navigate('/login'); 
+          navigate('/'); 
       }
   };
 
