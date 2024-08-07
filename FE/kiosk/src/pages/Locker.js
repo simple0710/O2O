@@ -201,16 +201,16 @@ const Locker = () => {
     }
   }, [selectedLocker, borrowedItems]);
 
-  useEffect(() => {
-    // 페이지 접근 시 사물함 열기 요청
-    axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Error opening the locker:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // 페이지 접근 시 사물함 열기 요청
+  //   axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
+  //     .then(response => {
+  //       console.log(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error opening the locker:', error);
+  //     });
+  // }, []);
 
   const back = () => {
     navigate('/');
