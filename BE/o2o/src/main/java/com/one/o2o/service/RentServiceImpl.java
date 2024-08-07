@@ -96,6 +96,8 @@ public class RentServiceImpl implements RentService {
             RentResponseSingleDto dto = rentMapper.rentToRentListResponseDto(rent);
             // 가장 마지막 기록을 updateDt으로 등록환다
             dto.setUpdateDt(rl.get(rl.size()-1).getLogDt());
+            // 대여가 0이면 제외한다
+            dto.setProducts(dto.getProducts().stream().filter(rpd -> rpd.getStatus().get(RentCalculation._borrow).getProductCnt() > 0).toList());
             rentDtoList.add(dto);
         }
         res.setRents(rentDtoList);
