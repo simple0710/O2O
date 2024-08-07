@@ -98,10 +98,23 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberEntity searchprofile(int user_id){
+    public MemberDto searchprofile(int user_id){
+        MemberEntity memberEntity = memberRepository.findById(user_id).get();
+        log.info("memberEntity : {}", memberEntity);
 
-        return memberRepository.findById(user_id).get();
+        return MemberDto.builder()
+                .userId(memberEntity.getUserId())
+                .userLgid(memberEntity.getUserLgid())
+                .userPw(memberEntity.getUserPw())
+                .userNm(memberEntity.getUserNm())
+                .userImg(memberEntity.getUserImg())
+                .isAdmin(memberEntity.getIsAdmin())
+                .userTel(memberEntity.getUserTel())
+                .isActive(memberEntity.getIsActive())
+                .build();
     }
+
+
 
     @Transactional
     public MemberEntity searchprofile_with_lgid(String user_id){
@@ -110,7 +123,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberEntity updateprofile(int user_id, MemberEntity memberEntity) throws Throwable {
+    public MemberEntity updateprofile(int user_id, MemberDto memberEntity) throws Throwable {
 
         MemberEntity user_entity=  memberRepository.findById(user_id).orElseThrow(new Supplier<Throwable>() {
             @Override
@@ -118,6 +131,7 @@ public class MemberService {
                 return new IllegalArgumentException("수정에 실패하였습니다!");
             }
         });
+        user_entity.setUserNm(memberEntity.getUserNm());
         user_entity.setUserPw(memberEntity.getUserPw());
         user_entity.setUserTel(memberEntity.getUserTel());
 
@@ -144,5 +158,30 @@ public class MemberService {
         JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
         log.info("jwtToken : " +  jwtToken);
         return jwtToken;
+    }
+
+
+    public JwtToken refreshAccessToken(String userId, String refreshToken) {
+
+
+        // 2. 사용자 정보 조회
+        MemberEntity memberEntity = memberRepository.findById(Integer.valueOf(userId)).orElse(null);
+        System.out.println("~~~~~~~~~~~~~~~");
+        System.out.println(memberEntity);
+        System.out.println("~~~~~~~~~~~~~~~");
+        if (memberEntity == null) {
+            return null; // 사용자 정보가 존재하지 않음
+        }
+
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberEntity.getUserLgid(), memberEntity.getUserPw());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+
+
+
+        return jwtToken; // 새로운 JWT 토큰 반환
+
     }
 }

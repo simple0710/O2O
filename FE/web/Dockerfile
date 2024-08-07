@@ -1,4 +1,5 @@
 
+
 # 가져올 이미지를 정의
 FROM node:20 AS builder
 # 경로 설정하기
@@ -11,6 +12,7 @@ RUN ls -al
 RUN npm install
 RUN ls -al
 COPY . .
+RUN ls -al
 RUN npm run build
 
 # /app/build의 내용 확인
@@ -20,11 +22,11 @@ FROM nginx:alpine
 # Nginx가 수신 대기할 포트 노출
 EXPOSE 80
 # 필요에 따라 Node.js 애플리케이션의 포트를 노출
-EXPOSE 3000
+EXPOSE 3001
 RUN ls -al
-RUN mkdir -p /usr/share/nginx/html/kiosk
+RUN mkdir -p /usr/share/nginx/html/web
+COPY --from=builder /app/build /usr/share/nginx/html/web
 
-COPY --from=builder /app/build /usr/share/nginx/html/kiosk
-RUN ls -al /usr/share/nginx/html/kiosk
+RUN ls -al /usr/share/nginx/html/web
 
 RUN ls -al /usr/share/nginx/html

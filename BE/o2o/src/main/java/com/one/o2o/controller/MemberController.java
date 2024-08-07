@@ -1,15 +1,18 @@
 package com.one.o2o.controller;
 
 import com.one.o2o.config.JwtToken;
+import com.one.o2o.config.JwtTokenProvider;
 import com.one.o2o.dto.User.MemberDto;
 import com.one.o2o.dto.SignInDto;
 import com.one.o2o.dto.User.MemberLoginDto;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.entity.MemberEntity;
 import com.one.o2o.service.MemberService;
+import com.one.o2o.service.RedisServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
 import java.util.HashMap;
 
 @RestController
@@ -28,6 +32,10 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder; // PasswordEncoder 주입
+    private final RedisServiceImpl redisService;
+    private final JwtTokenProvider jwtTokenProvider;
+
+
 
     /**
      * 회원 등록하는 코드
@@ -74,13 +82,25 @@ public class MemberController {
      * 일단은 비밀번호랑 전화번호 정도만 바꿀수 있도록 했는데 더 추가하면되긴함!!
      *
      * @param userId
-     * @param memberEntity
+     * @param memberDto
      * @return ResponseEntity
      * @throws Throwable
      */
-    @PostMapping("/profile/{user-id}/edit")
-    public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberEntity memberEntity) throws Throwable {
-        return new ResponseEntity<>(memberService.updateprofile(userId, memberEntity) , HttpStatus.OK) ;
+    @PutMapping("/profile/{user-id}/edit")
+    public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberDto memberDto) throws Throwable {
+        log.info("memberEntity = {}", memberDto);
+
+
+
+        System.out.println(userId);
+
+
+        // 비밀번호 인코딩
+        String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
+
+        memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
+        System.out.println(memberDto);
+        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto), HttpStatus.OK) ;
     }
 
 
@@ -117,10 +137,63 @@ public class MemberController {
                 .build()
         );
         response.setData(map);
+//        Boolean IsTrue = memberService.registMember(memberEntity);
+        int result = 0;
+
+        result = redisService.setValues(String.valueOf(memberEntity.getUserId()),  jwtToken.getRefreshToken(), Duration.ofSeconds(10000000));
+        System.out.println(String.valueOf(memberEntity.getUserId()));
+        System.out.println(jwtToken.getRefreshToken());
+        System.out.println("result : "+result);
+
         //ResponseCookigit  respnosecookie
         // 유효기간 설정!
         //쿠키로 ㅁ보낼테니 쿠키로 받아!
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/token/refresh")
+    public ResponseEntity<?> refreshAccessToken(Authentication authentication) {
+        log.info("authentication : " + authentication);
+        // 인증된 사용자 정보 가져오기
+        String userId = authentication.getName(); // 사용자 ID 가져오기
+        log.info("User ID : " + userId);
+
+        // Redis에서 refresh 토큰 조회
+        String refreshToken = redisService.getValue(userId);
+        System.out.println(refreshToken);
+        if (refreshToken == null) {
+
+            return new ResponseEntity<>(new Response(HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 refresh token입니다."), HttpStatus.UNAUTHORIZED);
+        }
+//
+//        // refresh 토큰을 사용하여 새로운 access 토큰 발급
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+        log.info("jwtToken : " +  jwtToken);
+        if (jwtToken == null) {
+            return new ResponseEntity<>(new Response(HttpStatus.UNAUTHORIZED.value(), "access token 재발급에 실패했습니다."), HttpStatus.UNAUTHORIZED);
+        }
+//
+//        // 새로운 access 토큰을 포함한 응답
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("access", jwtToken.getAccessToken());
+        headers.add("refresh", refreshToken);
+
+        //int result = redisService.setValues(userId,  jwtToken.getRefreshToken(), Duration.ofSeconds(10000000));
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "access token 재발급 성공"), headers, HttpStatus.OK);
+        //return null;
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(Authentication authentication) {
+        // 인증된 사용자 정보 가져오기
+        String userId = authentication.getName(); // 사용자 ID 가져오기
+        log.info("User ID for logout: " + userId);
+
+        // Redis에서 해당 사용자의 리프레시 토큰 삭제
+        redisService.deleteValue(userId);
+
+        // 로그아웃 성공 응답
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "로그아웃 성공"), HttpStatus.OK);
     }
 
     @PostMapping("/testte")

@@ -52,6 +52,7 @@ public class RedisServiceImpl implements RedisService {
             return 1; // 성공
         } catch (Exception e) {
             // 예외 처리
+            System.out.println(e.getMessage());
             return 0; // 실패
         }
     }
@@ -71,5 +72,7 @@ public class RedisServiceImpl implements RedisService {
             return 0; // 실패
         }
     }
+
+
 
 }
