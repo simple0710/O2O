@@ -13,4 +13,8 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
+# Nginx가 수신 대기할 포트 노출
+EXPOSE 80
+# 필요에 따라 Node.js 애플리케이션의 포트를 노출
+EXPOSE 3001
 COPY --from=builder /app/build /usr/share/nginx/html/web
