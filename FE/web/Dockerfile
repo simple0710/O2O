@@ -15,6 +15,9 @@ COPY . .
 RUN ls -al
 RUN npm run build
 
+# /app/build의 내용 확인
+RUN ls -al /app/build
+
 FROM nginx:alpine
 # Nginx가 수신 대기할 포트 노출
 EXPOSE 80
