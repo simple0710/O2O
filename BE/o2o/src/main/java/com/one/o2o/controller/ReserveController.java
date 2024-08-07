@@ -20,7 +20,7 @@ public class ReserveController {
     private final ReserveService reserveService;
 
     @PostMapping()
-    public ResponseEntity<Response> createReserve( @RequestBody ReserveRequestDto reserveRequestDto){
+    public ResponseEntity<Response> createReserve(@RequestBody ReserveRequestDto reserveRequestDto){
         int reserveId = reserveService.createReserve(4, reserveRequestDto);
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "예약이 완료되었습니다.", reserveId), HttpStatus.OK);
     }

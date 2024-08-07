@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @Table(name="USER")
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +23,18 @@ public class User {
 
     @Column(name = "USER_NM")
     private String userNm;
+
+    @Column(name="user_lgid")
+    private String userLgid;
+    @Column(name = "emp_cd")
+    private String empCd;
+    @Column(name = "user_img")
+    private String userImg;
+//    @Column(name = "is_admin")
+    private boolean isAdmin;
+    private boolean isActive;
+    @Column(name = "user_tel")
+    private String userTel;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

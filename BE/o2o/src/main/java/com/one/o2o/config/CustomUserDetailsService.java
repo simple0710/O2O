@@ -31,6 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // MemberEntity를 MemberDto로 변환
         MemberDto memberDto = MemberDto.builder()
+                .userId(member.getUserId())
                 .userLgid(member.getUserLgid())
                 .userPw(member.getUserPw())
                 .userNm(member.getUserNm())
@@ -41,7 +42,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .isActive(member.getIsActive())
                 .build();
         return User.builder()
-                .username(member.getUserNm())
+
+                .username(String.valueOf(member.getUserId()))
                 .password(member.getUserPw())
                 .roles(member.getIsAdmin() ? "ADMIN" : "USER") // 권한 설정
                 .build();
