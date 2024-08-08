@@ -75,7 +75,7 @@ public class EmpServiceImpl implements EmpService {
             }
 
             ProcessBuilder processBuilder = new ProcessBuilder("C:/Users/SSAFY/AppData/Local/Programs/Python/Python312/python.exe",
-                    "C:/Users/SSAFY/Desktop/test/imageCompare.py",
+                    "src/main/resources/script/imageCompare.py",
                     image1Path,
                     image2Path
             );
