@@ -24,33 +24,32 @@ function AddItem() {
         e.preventDefault();
 
         const formData = new FormData();
-        // formData.append('product_nm', itemData.itemName);
-        // formData.append('product_det', itemData.itemDescription);
-        // formData.append('user_id', 23);
-
         const productsDto = {
-            product_nm : itemData.itemName,
+            product_nm: itemData.itemName,
             product_det: itemData.itemDescription,
             user_id: 7
-        }
-
-        // formData.append('productsDto', JSON.stringify(productsDto));
-
+        };
 
         formData.append('products', new Blob([JSON.stringify(productsDto)], { type: 'application/json' }));
 
-     
         if (itemData.itemImage) {
             formData.append('files', itemData.itemImage);
         }
 
         try {
             const response = await axiosInstance.post('/products/regist', formData, {
-                headers : {
-                    "Content-Type": "multipart/form-data"
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
             });
             console.log('Server Response: ', response.data);
+
+            // 입력 필드 초기화
+            setItemData({
+                itemName: '',
+                itemDescription: '',
+                itemImage: null
+            });
         } catch (error) {
             console.log('Error submitting data: ', error);
         }

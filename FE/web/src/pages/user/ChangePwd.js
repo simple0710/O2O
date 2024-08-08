@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import Nav from './Nav'; 
 import Sidebar from './Sidebar';
+import { updateProfile } from '../../api/userpost'; 
 
 function ChangePwd() {
   const navigate = useNavigate();
-  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,8 +23,8 @@ function ChangePwd() {
       return;
     }
 
-    if (!currentPassword) {
-      setError('현재 비밀번호를 입력해 주세요.');
+    if (!newPassword) {
+      setError('새 비밀번호를 입력해 주세요.');
       return;
     }
 
@@ -33,22 +33,18 @@ function ChangePwd() {
     try {
       const userId = localStorage.getItem('userId');
       const profileData = {
-        current_pw: currentPassword,
         new_pw: newPassword,
       };
 
-      const response = await axios.post(`/users/update-password/${userId}`, profileData, {
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      });
+      // updateProfile 함수 호출
+      const response = await updateProfile(userId, profileData);
 
-      if (response.data && response.data.success) {
+      if (response && response.success) {
         alert('비밀번호가 성공적으로 변경되었습니다.');
         navigate('/'); 
       } else {
-        setError(response.data.message || '현재 비밀번호가 올바르지 않습니다.');
+        console.log(response)
+        setError(response || '비밀번호 변경에 실패했습니다.');
       }
     } catch (err) {
       console.error('Error occurred:', err);
@@ -66,15 +62,6 @@ function ChangePwd() {
         <div className="content">
           <h1>비밀번호 변경</h1>
           <div className="pwd-form">
-            <Form.Group controlId="inputPassword">
-              <Form.Label>현재 비밀번호 입력</Form.Label>
-              <Form.Control
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="현재 비밀번호를 입력해 주세요."
-              />
-            </Form.Group>
             <Form.Group controlId="inputNewPassword1">
               <Form.Label>새 비밀번호 입력</Form.Label>
               <Form.Control
