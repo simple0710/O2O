@@ -1,59 +1,109 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Button, Dropdown, Form } from 'react-bootstrap';
-import '../../style/MainPageApp.css'; 
-import { Link, useNavigate } from 'react-router-dom';
-import '../../style/Changepwd.css'; 
+import { Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
+import Nav from './Nav'; 
 import Sidebar from './Sidebar';
-import UserNav from './Nav'
-
 
 function ChangePwd() {
   const navigate = useNavigate();
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handlePasswordChange = () => {
-      if (window.confirm('비밀번호가 변경되었습니다.')) {
-          navigate('/login'); 
+  const handlePasswordChange = async () => {
+    setError('');
+
+    // 비밀번호 검증
+    if (newPassword !== confirmNewPassword) {
+      setError('새 비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    if (!currentPassword) {
+      setError('현재 비밀번호를 입력해 주세요.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const userId = localStorage.getItem('userId');
+      const profileData = {
+        current_pw: currentPassword,
+        new_pw: newPassword,
+      };
+
+      const response = await axios.post(`/users/update-password/${userId}`, profileData, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+
+      if (response.data && response.data.success) {
+        alert('비밀번호가 성공적으로 변경되었습니다.');
+        navigate('/'); 
+      } else {
+        setError(response.data.message || '현재 비밀번호가 올바르지 않습니다.');
       }
+    } catch (err) {
+      console.error('Error occurred:', err);
+      setError('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
-      <UserNav/>
+      <Nav />
       <div className="content-container">
-        <Sidebar/>
-          <div className="content">
-            <h1>비밀 번호 변경</h1>
-            <div className="pwd-form">
-                <Form.Label htmlFor="inputPassword">기존 비밀번호 입력</Form.Label>
-                <Form.Control
-                    type="password"
-                    id="inputPassword"
-                    placeholder="현재 비밀번호를 입력해 주세요."
-                />
-                <Form.Label htmlFor="inputNewPassword1">새 비밀번호 입력</Form.Label>
-                <Form.Control
-                    type="password"
-                    id="inputNewPassword1"
-                    placeholder="새 비밀번호를 입력해주세요."
-                />
-                <Form.Label htmlFor="inputNewPassword2">새 비밀번호 확인</Form.Label>
-                <Form.Control
-                    type="password"
-                    id="inputNewPassword2"
-                    placeholder="새 비밀번호를 다시 입력해주세요."
-                />
-                <Button
-                  className="pwd-button" 
-                  onClick={handlePasswordChange}
-                >
-                  비밀번호 수정
-                </Button>
-            </div>
-
+        <Sidebar />
+        <div className="content">
+          <h1>비밀번호 변경</h1>
+          <div className="pwd-form">
+            <Form.Group controlId="inputPassword">
+              <Form.Label>현재 비밀번호 입력</Form.Label>
+              <Form.Control
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="현재 비밀번호를 입력해 주세요."
+              />
+            </Form.Group>
+            <Form.Group controlId="inputNewPassword1">
+              <Form.Label>새 비밀번호 입력</Form.Label>
+              <Form.Control
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="새 비밀번호를 입력해 주세요."
+              />
+            </Form.Group>
+            <Form.Group controlId="inputNewPassword2">
+              <Form.Label>새 비밀번호 확인</Form.Label>
+              <Form.Control
+                type="password"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                placeholder="새 비밀번호를 다시 입력해 주세요."
+              />
+            </Form.Group>
+            {error && <p className="text-danger">{error}</p>}
+            <Button
+              className="pwd-button"
+              onClick={handlePasswordChange}
+              disabled={loading}
+            >
+              {loading ? '변경 중...' : '비밀번호 수정'}
+            </Button>
           </div>
+        </div>
       </div>
-    
     </div>
   );
 }

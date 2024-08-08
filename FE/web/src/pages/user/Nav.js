@@ -13,6 +13,11 @@ const UserNav = () => {
     const [modalCloseConfirmed, setModalCloseConfirmed] = useState(false);
     const [userName, setUserName] = useState('');
 
+    useEffect(()=>{
+        const storedUserName = localStorage.getItem('userName');
+        setUserName(storedUserName);
+    }, []);
+
     const handleShow = () => {
         setShow(true);
         document.body.style.overflow = "hidden"; // 모달 팝업시 배경 움직이지 않도록
@@ -25,10 +30,13 @@ const UserNav = () => {
             setModalCloseConfirmed(true);
         }
     };
+    
 
     const handleLogout = async () => {
         await Logout();    
     };
+
+    
 
     useEffect(() => {
         if (modalCloseConfirmed) {
@@ -60,7 +68,7 @@ const UserNav = () => {
                 <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
                         <img src={Profile} alt="프로필사진" style={{ width: "40px" }} />
-                        홍길동 님
+                        {userName} 님
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item as={Link} to="/profile">

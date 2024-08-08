@@ -13,7 +13,6 @@ const Login = () => {
     });
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
@@ -28,24 +27,41 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
+        
 
         try {
             const response = await axiosInstance.post('/users/login', formData);
             
-            const accessToken = response.data.accessToken;
-            // 사용자 ID 추출(수정필요)
-            // const userId = response.data.data[0].user[0].user_id; 
-            localStorage.setItem('accessToken', accessToken);
-            // 사용자 ID 저장(수정필요)
-            // localStorage.setItem('userId', userId); 
-
-            console.log('로그인 성공:', response.data);
-            console.log(accessToken);
+            const accessToken = response.headers.access;
             
-            navigate('/mainpage');
+            localStorage.setItem('accessToken', accessToken);
+
+            // // 사용자 ID 추출
+            // const userId = response.data.data.user.user_id
+            // // is_admin 추출
+            // const isAdmin = response.data.data.user.is_admin
+            // // 이름 추출
+            // const userName = response.data.data.user.user_nm
+
+            const { user_id: userId, is_admin: isAdmin, user_nm: userName } = response.data.data.user;
+
+            // 로컬스토리지에 저장
+            localStorage.setItem('userId', userId); 
+            localStorage.setItem('isAdmin', isAdmin); 
+            localStorage.setItem('userName', userName); 
+
+
+            console.log('로그인 성공:', response);
+            
+            
+            if (isAdmin) {
+                navigate('/admin')
+            } else {
+                navigate('/mainpage')
+            }
+            
         } catch (err) {
-            console.error(err);
+            console.log(err);
             alert('존재하지 않는 아이디 or 비밀번호 입니다.');
         } finally {
             setLoading(false);
@@ -83,7 +99,7 @@ const Login = () => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-                    {error && <p className="text-danger">{error}</p>}
+                    
                     <Button variant="dark" className="login-button" style={{ marginTop: '10px' }} type="submit" disabled={loading}>
                         {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Log In'}
                     </Button>

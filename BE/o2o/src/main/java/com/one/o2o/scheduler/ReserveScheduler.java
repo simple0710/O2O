@@ -39,7 +39,12 @@ public class ReserveScheduler {
                 int productCnt = det.getDetCnt();
                 int lockerId = det.getNewLockerId();
                 // 2) 사물함 복원
-                lockerService.updateLockerProductCountAvailable(lockerId, productCnt, productCnt* RentCalculation.getMul(RentCalculation._reserveCancel));
+                try {
+                    lockerService.updateLockerProductCountAvailable(lockerId, productCnt, productCnt * RentCalculation.getMul(RentCalculation._reserveCancel));
+                } catch (Exception e) {
+                    log.error("사물함 ["+lockerId+"] 업데이트 중 오류 발생: " + e.getMessage(), e);
+                    // 오류 발생 시, 해당 물품의 업데이트를 건너뛰고 다음으로 진행
+                }
             }
         }
         log.info("expiredReserveCheck: "+list.size()+"개의 reserve가 만료되었습니다.");
