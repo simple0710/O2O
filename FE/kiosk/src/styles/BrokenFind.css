@@ -126,6 +126,40 @@ button:disabled {
   white-space: nowrap; /* Prevents text from wrapping */
 }
 
+.extreme-small-font {
+  /* 엄청 작은 글씨 */
+  font-size: 12px;
+  color: gray;
+  margin: 0;
+}
+
+.small-font {
+  /* 작은 글씨 */
+  font-size: 14px;
+  color: gray;
+  margin: 0;
+  text-align: left;
+}
+
+p.p-small-number.imp {
+  display: inline-block;
+  /* width: 20px; */
+  margin: 0;
+  padding: 0;
+  min-width: none;
+  align-self: center;
+  text-align: center;
+  width: 15px;
+  height: 24px;
+}
+
+
+.selected-rent {
+  background-color: #FF6666 !important; /* 선택된 대여 기록에 적용할 배경색 */
+  border: 2px solid #CC0000 !important; /* 선택된 대여 기록에 적용할 테두리 색 */
+}
+
+
 @media (max-width: 768px) {
   .cart-container {
     max-width: 100%; /* 더 작은 화면에서는 너비를 100%로 설정 */

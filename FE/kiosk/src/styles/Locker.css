@@ -81,8 +81,8 @@
 }
 
 .locker-highlight {
-  background: #FF6666; /* 대여된 물품이 있는 사물함 강조 색상 */
-  border-color: #CC0000; /* 강조된 사물함 테두리 색상 */
+  background: #FF6666 !important; /* 대여된 물품이 있는 사물함 강조 색상 */
+  border-color: #CC0000 !important; /* 강조된 사물함 테두리 색상 */
 }
 
 /* 반응형 미디어 쿼리 */
