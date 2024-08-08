@@ -27,7 +27,7 @@ services:
     image: tem  # 이미지 이름 설정
     container_name: my_container  # 컨테이너 이름 설정
     ports:
-      - "8000:80"  # 스프링 부트 포트
+      - "8000:8000"  # 스프링 부트 포트
     networks:
       - my_network #나만의 network 설정! 
   nginx:
