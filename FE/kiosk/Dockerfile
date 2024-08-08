@@ -25,6 +25,6 @@ RUN ls -al
 
 
 COPY --from=builder /app/build /usr/share/nginx/html
-RUN ls -al /usr/share/nginx/html/kiosk
+#RUN ls -al /usr/share/nginx/html/kiosk
 
 RUN ls -al /usr/share/nginx/html
