@@ -24,8 +24,7 @@ FROM nginx:alpine
 # 필요에 따라 Node.js 애플리케이션의 포트를 노출
 #EXPOSE 3001
 RUN ls -al
-RUN mkdir -p /usr/share/nginx/html/web
-COPY --from=builder /app/build /usr/share/nginx/html/web
+COPY --from=builder /app/build /usr/share/nginx/html
 
 RUN ls -al /usr/share/nginx/html/web
 
