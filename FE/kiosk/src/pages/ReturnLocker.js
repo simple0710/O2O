@@ -2,19 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Locker.css';
+import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import {putReturn} from '../api/kioskpost.js';
 
 const ReturnLocker = () => {
   const [lockersData, setLockersData] = useState([]);
-  const [selectedLocker, setSelectedLocker] = useState(null);
   const [products, setProducts] = useState([]);
-  const [highlightedLockers, setHighlightedLockers] = useState([]);
+  const [highlightedProductIds, setHighlightedProductIds] = useState([]); // product_id로 하이라이트
+  const [lockerBodyId, setLockerBodyId] = useState(null);
+  const [selectedLocker, setSelectedLocker] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { returnData } = location.state || {};
 
-  const { borrowedItems } = location.state || {};
+  console.log('반납할 물건', returnData);
 
-  console.log('카트에 담은 물건', borrowedItems);
+  useEffect(() => {
+    saveLockerBodyIdFromLocal();
+
+    const locker_body_id = getLockerBodyIdFromLocal();
+    setLockerBodyId(locker_body_id);
+  }, []);
+
+  useEffect(() => {
+    console.log('Updated lockerBodyId:', lockerBodyId);
+  }, [lockerBodyId]);
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
@@ -25,8 +38,8 @@ const ReturnLocker = () => {
         console.log('Lockers data:', data);
 
         // borrowedItems의 body_id에 해당하는 사물함 설정
-        if (borrowedItems && borrowedItems.length > 0) {
-          const defaultLocker = data.find(locker => locker.locker_body_id === borrowedItems[0].body_id);
+        if (lockerBodyId) {
+          const defaultLocker = data.find(locker => locker.locker_body_id === lockerBodyId);
           if (defaultLocker) {
             setSelectedLocker({ value: defaultLocker.locker_body_id, label: defaultLocker.locker_body_name });
           }
@@ -35,58 +48,63 @@ const ReturnLocker = () => {
       .catch(error => {
         console.error('Error fetching lockers data:', error);
       });
-  }, [borrowedItems]);
+  }, [lockerBodyId]);
 
   useEffect(() => {
-    if (selectedLocker) {
-      axios.get(`/lockers?locker_body_id=${selectedLocker.value}`)
+    if (lockerBodyId) {
+      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
         .then(response => {
           const data = response.data.data;
           setProducts(data);
           console.log('Product data:', data);
 
-          // 대여한 물품 정보로부터 강조할 사물함 설정
-          if (borrowedItems) {
-            const highlighted = borrowedItems
-              .filter(item => item.body_id === selectedLocker.value)
-              .map(item => ({ locker_column: item.column, locker_row: item.row }));
-            setHighlightedLockers(highlighted);
-            console.log('Highlighted lockers:', highlighted);
+          if (returnData) {
+            // 하이라이트할 product_id 설정
+            const highlightedIds = returnData.products.map(item => item.product_id);
+            setHighlightedProductIds(highlightedIds);
+            console.log('Highlighted product IDs:', highlightedIds);
           }
         })
         .catch(error => {
           console.error('Error fetching products data:', error);
         });
     }
-  }, [selectedLocker, borrowedItems]);
-
-  // useEffect(() => {
-  //   // 페이지 접근 시 사물함 열기 요청
-  //   axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
-  //     .then(response => {
-  //       console.log(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error opening the locker:', error);
-  //     });
-  // }, []);
+  }, [lockerBodyId, returnData]);
 
   const back = () => {
     navigate('/');
   };
 
-  const borrowfinish = () => {
-    navigate('/BorrowFinish');
-  };
-
-  // 특정 사물함에 물품이 있는지 확인하는 함수
+  // 사물함에서 물품을 찾는 함수
   const getProductInLocker = (column, row) => {
     return products.find(product => product.locker_column === column && product.locker_row === row);
   };
 
+  // product_id로 하이라이트 여부 결정
+  const isHighlighted = (column, row) => {
+    const product = getProductInLocker(column, row);
+    console.log('Product:', product); // 제품 정보 콘솔에 출력
+    return product && highlightedProductIds.includes(product.product_id);
+  };
+
+  // 로커의 행과 열 수를 결정
+  const rows = Math.max(...products.map(product => product.locker_row), 0);
+  const columns = Math.max(...products.map(product => product.locker_column), 0);
+
+  const returnfinish = async () => {
+    try{
+      const response = await putReturn(returnData)
+      console.log('Return response', response);
+      navigate('/ReturnFinish');
+    } catch (e) {
+      console.error('Error :',e)
+    }
+  }
+
+
+
   return (
     <>
-      {/* 메인 페이지 버튼 */}
       <button className="btn-main" onClick={back}>메인 페이지</button>
 
       <div className='locker-frame'>
@@ -95,19 +113,18 @@ const ReturnLocker = () => {
             표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
           </div>
           <div className='locker-grid'>
-            {selectedLocker && lockersData.length > 0 && 
-              Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).row }).map((_, rowIndex) =>
+            {rows > 0 && columns > 0 &&
+              Array.from({ length: rows }).map((_, rowIndex) =>
                 <div key={`row-${rowIndex}`} className='locker-row'>
-                  {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
+                  {Array.from({ length: columns }).map((_, colIndex) => {
                     const product = getProductInLocker(colIndex + 1, rowIndex + 1);
-                    const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
-                    console.log(`Row: ${rowIndex + 1}, Column: ${colIndex + 1}, isHighlighted: ${isHighlighted}`);
+                    const highlight = isHighlighted(colIndex + 1, rowIndex + 1);
+                    console.log(`Row: ${rowIndex + 1}, Column: ${colIndex + 1}, isHighlighted: ${highlight}`);
                     return (
                       <div 
                         key={`col-${colIndex}`} 
-                        className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
+                        className={`locker-box ${highlight ? 'locker-highlight' : ''}`}
                       >
-                         {console.log(`Product: ${product ? product.product_nm : 'None'}, isHighlighted: ${isHighlighted}, Classes: locker-box ${isHighlighted ? 'locker-highlight' : ''}`)}
                         {product ? product.product_nm : ''}
                       </div>
                     );
@@ -116,7 +133,7 @@ const ReturnLocker = () => {
               )
             }
           </div>
-          <button className='button1' onClick={borrowfinish}>확인</button>
+          <button className='button1' onClick={returnfinish}>확인</button>
         </div>
       </div>
     </>
@@ -124,4 +141,3 @@ const ReturnLocker = () => {
 };
 
 export default ReturnLocker;
-

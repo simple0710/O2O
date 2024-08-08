@@ -16,3 +16,13 @@ export async function postRegisterItem(params){
     }
 }
 
+
+export async function putReturn(params) {
+    try{
+        const response = await axiosInstance.put(`/rent`, params)
+        console.log("Status updated successfully")
+    } catch (e) {
+        console.error(e)
+    }
+}
+
