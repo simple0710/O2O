@@ -36,7 +36,7 @@ function Identification() {
       if (service === '대여') {
         navigate('/cart2', { state: { service } });
       } else if (service === '반납') {
-        navigate('/returnstatus', { state: { service } });
+        navigate('/returnlist', { state: { service } });
       } else if (service === '관리자') {
         navigate('/serviceselection', { state: { service } });
       } else if (service === '신고') {
