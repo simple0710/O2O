@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import '../../style/AddItem.css';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
@@ -10,6 +10,9 @@ function AddItem() {
         itemDescription: '',
         itemImage: null
     });
+
+    // 이미지 파일 input의 ref 생성
+    const fileInputRef = useRef(null);
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
@@ -50,6 +53,11 @@ function AddItem() {
                 itemDescription: '',
                 itemImage: null
             });
+
+            // 이미지 파일 input 초기화
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';  // 이 부분에서 파일 input을 초기화
+            }
         } catch (error) {
             console.log('Error submitting data: ', error);
         }
@@ -95,6 +103,7 @@ function AddItem() {
                                     id="itemImage"
                                     name="itemImage"
                                     onChange={handleChange}
+                                    ref={fileInputRef}  // ref 연결
                                 />
                             </div>
                             <button type="submit" className="add-btn">등록</button>
