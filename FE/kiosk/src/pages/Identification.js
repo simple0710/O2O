@@ -55,7 +55,7 @@ function Identification() {
     if (service === '대여') {
       navigate('/cart2', { state: { service } });
     } else if (service === '반납') {
-      navigate('/returnstatus', { state: { service } });
+      navigate('/returnlist', { state: { service } });
     } else if (service === '관리자') {
       navigate('/serviceselection', { state: { service } });
     } else if (service === '신고') {
@@ -108,9 +108,9 @@ function Identification() {
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
       checkUser({
-        text: "어드민",
+        text: "한지민",
         score: 0.8,
-        isAdmin: true
+        isAdmin: false
       }); // 나중에 삭제!!!
     }
   }
@@ -123,7 +123,7 @@ function Identification() {
       setLoadingMsg("확인 중 …");
       const params = {
         // name: result.text
-        name: "어드민"
+        name: "한지민"
       };
       const response = await checkName(params);
       if(response != null && response.active){
