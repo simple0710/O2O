@@ -4,7 +4,7 @@ FROM node:20 AS builder
 # 경로 설정하기
 WORKDIR /app
 # package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
-RUN ls -al
+#RUN ls -al
 COPY package.json package-lock.json ./
 # 명령어 실행 (의존성 설치)
 RUN ls -al
@@ -27,5 +27,5 @@ RUN ls -al
 COPY --from=builder /app/build /usr/share/nginx/html
 #RUN ls -al /usr/share/nginx/html/kiosk
 
-RUN ls -al /usr/share/nginx/html
+#RUN ls -al /usr/share/nginx/html
 CMD ["nginx", "-g","daemon off;"]
