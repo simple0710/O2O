@@ -123,7 +123,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberEntity updateprofile(int user_id, MemberDto memberEntity) throws Throwable {
+    public MemberEntity updateprofile(int user_id, MemberDto memberEntity, boolean check) throws Throwable {
 
         MemberEntity user_entity=  memberRepository.findById(user_id).orElseThrow(new Supplier<Throwable>() {
             @Override
@@ -132,7 +132,9 @@ public class MemberService {
             }
         });
         user_entity.setUserNm(memberEntity.getUserNm());
-        user_entity.setUserPw(memberEntity.getUserPw());
+        if(check) {
+            user_entity.setUserPw(memberEntity.getUserPw());
+        }
         user_entity.setUserTel(memberEntity.getUserTel());
 
 

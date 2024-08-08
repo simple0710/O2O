@@ -53,6 +53,7 @@ public class MemberController {
 
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
+
         log.info("encodedPassword : " + encodedPassword);
 
         memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
@@ -97,10 +98,13 @@ public class MemberController {
 
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
-
+        boolean check = false;
+        if(memberDto.getUserPw().length()>0){
+            check=true;
+        }
         memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
         System.out.println(memberDto);
-        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto), HttpStatus.OK) ;
+        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto, check), HttpStatus.OK) ;
     }
 
 
