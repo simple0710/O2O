@@ -112,6 +112,7 @@ const ChangeLocker = () => {
   };
 
   return (
+<<<<<<< HEAD
     <>
       <button className="btn-main" onClick={() => navigate('/')}>메인 페이지</button>
 
@@ -155,6 +156,15 @@ const ChangeLocker = () => {
           </div>
           
         </div>
+=======
+    <div className='frame-container'>
+    <div className="locker-container">
+      <button className="btn-main" onClick={() => navigate('/')}>
+          HOME
+      </button>
+      <div className="locker-header">
+        빈 사물함을<br /> 선택 해주세요<br /> <br />
+>>>>>>> feat/88-empty
       </div>
     </>
   );

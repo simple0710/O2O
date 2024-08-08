@@ -87,7 +87,7 @@ const Locker = () => {
   return (
     <>
       {/* 메인 페이지 버튼 */}
-      <button className="btn-main" onClick={back}>메인 페이지</button>
+      <button className="btn-main" onClick={back}>HOME</button>
 
       <div className='locker-frame'>
         <div className="locker-container1">
@@ -105,7 +105,7 @@ const Locker = () => {
                     return (
                       <div 
                         key={`col-${colIndex}`} 
-                        className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
+                        className={`locker-box ${isHighlighted ? 'locker-highlight1' : ''}`}
                       >
                          {console.log(`Product: ${product ? product.product_nm : 'None'}, isHighlighted: ${isHighlighted}, Classes: locker-box ${isHighlighted ? 'locker-highlight' : ''}`)}
                         {product ? product.product_nm : ''}

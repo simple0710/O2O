@@ -48,7 +48,7 @@ function ReturnStatus(){
     return(
 		<div className='frame-container'>
 			<button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
+          HOME
       </button>
 		<Instruction reportedItems={reportedItems}/>
 	

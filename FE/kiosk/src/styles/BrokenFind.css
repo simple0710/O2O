@@ -166,3 +166,8 @@ p.p-small-number.imp {
     padding: 10px; /* 패딩을 줄여서 공간을 더 확보 */
   }
 }
+.btn-main {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+}
