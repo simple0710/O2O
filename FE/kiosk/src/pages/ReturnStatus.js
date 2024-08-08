@@ -18,7 +18,7 @@ function ReturnStatus(){
 		<Instruction/>
 	
 		<Camera/>
-	
+		
 		<ItemList/>
 	
 		<Button/>

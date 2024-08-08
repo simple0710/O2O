@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BrokenFind.css';
+import '../styles/common/Common.css';
 import { getCurrentProducts } from '../api/brokenfind.js';
 import IncreaseDecreaseButton from '../components/common/IncreaseDecreaseButton.js'
 import { formatDateSimple } from '../util/dateUtil.js'

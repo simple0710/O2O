@@ -69,10 +69,6 @@ h2 {
   margin: 0;
 }
 
-.item-controls {
-  /* display: flex;
-  justify-content: center; */
-}
 
 .control {
   display: flex;
@@ -128,33 +124,6 @@ button:disabled {
 /* Ensure text remains horizontal */
 .preserve-horizontal-text {
   white-space: nowrap; /* Prevents text from wrapping */
-}
-
-.extreme-small-font {
-  /* 엄청 작은 글씨 */
-  font-size: 12px;
-  color: gray;
-  margin: 0;
-}
-
-.small-font {
-  /* 작은 글씨 */
-  font-size: 14px;
-  color: gray;
-  margin: 0;
-  text-align: left;
-}
-
-p.p-small-number.imp {
-  display: inline-block;
-  /* width: 20px; */
-  margin: 0;
-  padding: 0;
-  min-width: none;
-  align-self: center;
-  text-align: center;
-  width: 15px;
-  height: 24px;
 }
 
 @media (max-width: 768px) {
