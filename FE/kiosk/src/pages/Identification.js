@@ -108,7 +108,7 @@ function Identification() {
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
       checkUser({
-        text: "한지민",
+        text: "최지은",
         score: 0.8,
         isAdmin: false
       }); // 나중에 삭제!!!
@@ -123,7 +123,7 @@ function Identification() {
       setLoadingMsg("확인 중 …");
       const params = {
         // name: result.text
-        name: "한지민"
+        name: "최지은"
       };
       const response = await checkName(params);
       if(response != null && response.active){
