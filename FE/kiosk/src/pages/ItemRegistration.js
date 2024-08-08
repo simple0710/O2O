@@ -23,8 +23,8 @@ const ItemRegistration = () => {
   return (
     <div className="frame-container">
       <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
-        </button>
+          HOME
+      </button>
       <Box className="container1">
         
         <Typography variant="h5" component="h2" gutterBottom>

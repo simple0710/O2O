@@ -69,7 +69,7 @@ const ChangeLocker = () => {
 
   return (
     <>
-      <button className="btn-main" onClick={() => navigate('/')}>메인 페이지</button>
+      <button className="btn-main" onClick={() => navigate('/')}>HOME</button>
 
       <div className='locker-frame'>
         <div className="locker-container1">
@@ -108,7 +108,7 @@ const ChangeLocker = () => {
               )
             }
           </div>
-          <button className='button1' onClick={() => navigate('/BorrowFinish')}>확인</button>
+          {/* <button className='button1' onClick={() => navigate('/BorrowFinish')}>확인</button> */}
         </div>
       </div>
     </>

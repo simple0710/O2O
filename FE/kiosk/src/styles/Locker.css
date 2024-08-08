@@ -80,7 +80,7 @@
   box-sizing: border-box;
 }
 
-.locker-highlight {
+.locker-highlight1 {
   background: #FF6666; /* 대여된 물품이 있는 사물함 강조 색상 */
   border-color: #CC0000; /* 강조된 사물함 테두리 색상 */
 }

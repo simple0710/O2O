@@ -10,8 +10,8 @@ function Button() {
     }
     return (
         <div className='buttonGroup'>
-            <button className='button'>다시 인식하기</button>
-            <button className='button1' onClick={returnfinish}>반납하기</button>
+            <button className='button-retry'>다시 인식하기</button>
+            <button className='button-return' onClick={returnfinish}>반납하기</button>
         </div>
     );
 }

@@ -6,3 +6,11 @@
     height: 100vh; /* Viewport height */
     text-align: center; 
   }
+.btn-main {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  padding: 10px 20px; /* 버튼 안의 여백 */
+  font-size: 16px; /* 버튼 글자 크기 */
+  color: #fff; /* 글자 색상 */
+}

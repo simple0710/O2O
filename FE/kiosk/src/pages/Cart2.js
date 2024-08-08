@@ -130,7 +130,7 @@ const Cart2 = () => {
       {/* 메인 페이지 이동 버튼 */}
       <div>
         <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
+          HOME
         </button>
       </div>
 

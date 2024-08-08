@@ -16,9 +16,9 @@ const Locker = () => {
   return (
     <div className='frame-container'>
     <div className="locker-container">
-    <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
-        </button>
+      <button className="btn-main" onClick={() => navigate('/')}>
+          HOME
+      </button>
       <div className="locker-header">
         빈 사물함을<br /> 선택 해주세요<br /> <br />
       </div>
