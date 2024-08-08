@@ -105,7 +105,7 @@ const Locker = () => {
                     return (
                       <div 
                         key={`col-${colIndex}`} 
-                        className={`locker-box ${isHighlighted ? 'locker-highlight1' : ''}`}
+                        className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
                       >
                          {console.log(`Product: ${product ? product.product_nm : 'None'}, isHighlighted: ${isHighlighted}, Classes: locker-box ${isHighlighted ? 'locker-highlight' : ''}`)}
                         {product ? product.product_nm : ''}
