@@ -5,8 +5,9 @@ import '../styles/BrokenFind.css';
 import { getCurrentProducts } from '../api/brokenfind.js';
 import { formatDateSimple } from '../util/dateUtil.js';
 
-// 임시 유저 아이디
-const userId = 7;
+import { getUserIdFromSession } from '../util/sessionUtils.js'
+
+const userId = getUserIdFromSession();
 
 function ReturnList() {
   const navigate = useNavigate();
@@ -119,8 +120,9 @@ export default ReturnList;
 // import { formatDateSimple } from '../util/dateUtil.js';
 // import IncreaseDecreaseButton from '../components/common/IncreaseDecreaseButton.js'
 
-// // 임시 유저 아이디
-// const userId = 7;
+// import { getUserIdFromSession } from '../util/sessionUtils.js'
+
+// const userId = getUserIdFromSession();
 
 // function BrokenFind() {
 //   const navigate = useNavigate();

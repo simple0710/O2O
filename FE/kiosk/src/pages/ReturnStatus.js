@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 function ReturnStatus(){
 	const navigate = useNavigate();
 	const location = useLocation();
-	const {reportedItems} = location.state || {};
+	const {reportedItems} = location.state || [];
 
 	useEffect(() => {
         console.log('반납 선택 물품 :', reportedItems);
