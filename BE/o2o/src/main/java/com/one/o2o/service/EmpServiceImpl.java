@@ -31,6 +31,12 @@ public class EmpServiceImpl implements EmpService {
     @Value("${upload.path.emp}")
     private String empPath;
 
+    @Value("${python.path")
+    private String pythonPath;
+
+    @Value("${python.path.script.image.compare}")
+    private String comparePath;
+
     @Override
     public UserDto findUserByEmpCard(MultipartFile image, EmpCardRequestDto empCardRequestDto) {
 
@@ -74,8 +80,8 @@ public class EmpServiceImpl implements EmpService {
                 return "0";
             }
 
-            ProcessBuilder processBuilder = new ProcessBuilder("C:/Users/SSAFY/AppData/Local/Programs/Python/Python312/python.exe",
-                    "src/main/resources/script/imageCompare.py",
+            ProcessBuilder processBuilder = new ProcessBuilder(pythonPath,
+                    comparePath,
                     image1Path,
                     image2Path
             );
