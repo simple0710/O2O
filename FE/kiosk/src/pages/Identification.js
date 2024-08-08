@@ -5,6 +5,7 @@ import '../styles/common/Common.css';
 import { Button } from 'bootstrap';
 import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
+import { saveObjectToSession } from '../util/sessionUtils.js'
 import Swal from 'sweetalert2';
 
 function Identification() {
@@ -120,7 +121,7 @@ function Identification() {
       };
       const response = await checkName(params);
       if(response != null && response.active){
-        sessionStorage.setItem("user", response);
+        saveObjectToSession("user", response);
         Swal.fire({
           title: '인증 성공',
           text: `${response.user_nm}님, 안녕하세요.`,
