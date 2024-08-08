@@ -6,6 +6,7 @@ import '../styles/common/Common.css';
 import { getCurrentProducts } from '../api/brokenfind.js';
 import IncreaseDecreaseButton from '../components/common/IncreaseDecreaseButton.js'
 import { formatDateSimple } from '../util/dateUtil.js'
+import { getUserIdFromSession } from '../util/sessionUtils.js'
 
 // const items = [
 //   { id: 1, name: '가위', icon: '✂️' },
@@ -17,7 +18,7 @@ import { formatDateSimple } from '../util/dateUtil.js'
 
 
 // 임시 유저 아이디
-const userId = 7;
+const userId = getUserIdFromSession();
 
 function BrokenFind() {
   const navigate = useNavigate();
