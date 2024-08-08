@@ -8,16 +8,6 @@ import IncreaseDecreaseButton from '../components/common/IncreaseDecreaseButton.
 import { formatDateSimple } from '../util/dateUtil.js'
 import { getUserIdFromSession } from '../util/sessionUtils.js'
 
-// const items = [
-//   { id: 1, name: '가위', icon: '✂️' },
-//   { id: 2, name: '잉크', icon: '🖋️' },
-//   { id: 3, name: '연필', icon: '✏️' },
-//   { id: 4, name: '카메라', icon: '📷' },
-// ];
-
-
-
-// 임시 유저 아이디
 const userId = getUserIdFromSession();
 
 function BrokenFind() {
