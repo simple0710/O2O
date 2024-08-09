@@ -62,7 +62,9 @@
   position: fixed;
   top: 5%;
   left: 5%;
+  padding: 5px 10px;
 }
+
 .locker-box {
   /* 기존 스타일 */
   width: 150px; /* 예시로 설정한 너비 */
@@ -84,4 +86,8 @@
   /* 줄 바꿈 설정 */
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+#btn-change {
+  background-color: #0093ED;
 }
