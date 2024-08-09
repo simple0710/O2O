@@ -9,11 +9,11 @@ public interface RentService {
     public RentResponseDto readRentByUserId(int userId, int pageNumber, int pageSize);
 
     // 대여 실행
-    public Integer createRent(int userId, RentRequestDto rentRequestDto);
+    public Integer createRent(RentRequestDto rentRequestDto);
 
     // 현재 진행 중인 대여 조회
     public RentResponseDto readOngoingRentByUserId(int userId, int pageNumber, int pageSize);
 
     // 반납 실행
-    public boolean createReturn(int userId, ReturnRequestDto returnRequestDto);
+    public boolean createReturn(ReturnRequestDto returnRequestDto);
 }
