@@ -11,7 +11,7 @@ public interface ProductsUsageRepository extends JpaRepository<Products, Integer
     // 보유율 조회
     @Query(value = "SELECT p.product_id, p.product_nm, SUM(l.product_cnt), SUM(l.total_cnt) " +
             "FROM locker AS l " +
-            "INNER JOIN products AS p ON l.product_id = p.product_id " +
+            "INNER JOIN product AS p ON l.product_id = p.product_id " +
             "GROUP BY p.product_id, p.product_nm",
             nativeQuery = true)
     List<Object[]> findProductsRetentionRate();
