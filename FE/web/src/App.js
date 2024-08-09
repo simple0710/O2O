@@ -35,6 +35,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 
+
 const PrivateRoute = ({ element }) => {
     const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
     return isAuthenticated ? element : <Navigate to="/" />;
@@ -53,6 +54,7 @@ const UserRoute = ({ element }) => {
 };
 
 function App() {
+
     return (
         <Router homepage='/web'>
         <CartProvider>

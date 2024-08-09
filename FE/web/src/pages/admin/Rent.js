@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "../../style/Statistics.css";
 // import "../../style/RentStatistics.css"
 import axiosInstance from '../../utils/axiosInstance'

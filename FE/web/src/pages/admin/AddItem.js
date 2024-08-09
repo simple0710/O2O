@@ -5,6 +5,7 @@ import AdminNav from './AdminNav';
 import axiosInstance from '../../utils/axiosInstance';
 
 function AddItem() {
+    const userId = localStorage.getItem('userId');
     const [itemData, setItemData] = useState({
         itemName: '',
         itemDescription: '',
@@ -30,7 +31,7 @@ function AddItem() {
         const productsDto = {
             product_nm: itemData.itemName,
             product_det: itemData.itemDescription,
-            user_id: 7
+            user_id: userId
         };
 
         formData.append('products', new Blob([JSON.stringify(productsDto)], { type: 'application/json' }));

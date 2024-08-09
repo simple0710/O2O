@@ -12,12 +12,13 @@ const NotRefund = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [hasMoreData, setHasMoreData] = useState(true);
     const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+    const userId = localStorage.getItem('user_id');
 
     const fetchCurrentRent = useCallback(async (page) => {
         setIsLoading(true);
         try {
             console.log(`Fetching page ${page}`);
-            const data = await getRent(page, 10, 4); // 4는 유저아이디, 나중에 변수로 바꿀 수 있음
+            const data = await getRent(page, 10, userId); // 4는 유저아이디, 나중에 변수로 바꿀 수 있음
             console.log(`Fetched data for page ${page}:`, data);
             
             if (data.length === 0) {
