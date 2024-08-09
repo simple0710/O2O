@@ -43,7 +43,7 @@ public class ProductsReport {
     @Column
     private String rptImg;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean isProcessed = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,15 +52,18 @@ public class ProductsReport {
 
     public ProductsReport(UsersReportDto userReportDto) {
         // 사용자 저장
-        this.user = new Users();
-        this.user.setUserId(userReportDto.getUserId());
+        this.user = Users.builder()
+                .userId(userReportDto.getUserId())
+                .build();
 
         // 물품 정보 저장
-        this.productStatus = new ProductStatus();
-        this.productStatus.setStatusId(userReportDto.getStatusId());
+        this.productStatus = ProductStatus.builder()
+                .statusId(userReportDto.getStatusId())
+                .build();
 
-        this.products = new Products();
-        this.products.setProductId(userReportDto.getProductId());
+        this.products = Products.builder()
+                .productId(userReportDto.getProductId())
+                .build();
         this.productCnt = userReportDto.getProductCnt();
         // 사물함 정보 저장
         this.locker = new Locker();
