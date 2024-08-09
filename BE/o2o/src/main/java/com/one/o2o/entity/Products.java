@@ -27,7 +27,7 @@ public class Products {
     private String productDet;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime registDt;
+    private LocalDateTime registDt = LocalDateTime.now();;
 
     @Column(nullable = false)
     private Integer userId;
@@ -40,12 +40,5 @@ public class Products {
         this.productImg = productsDto.getProductImg();
         this.productDet = productsDto.getProductDet();
         this.userId = productsDto.getUserId();
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        if (registDt == null) {
-            registDt = LocalDateTime.now();
-        }
     }
 }
