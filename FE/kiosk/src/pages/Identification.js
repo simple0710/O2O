@@ -6,6 +6,7 @@ import { Button } from 'bootstrap';
 import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
 import { saveObjectToSession } from '../util/sessionUtils.js'
+import { saveUserToLocal, getUserFromLocal } from '../util/localStorageUtil.js';
 import Swal from 'sweetalert2';
 
 function Identification() {
@@ -85,7 +86,7 @@ function Identification() {
       const data = await getData();
       const res = handleData(data);
       setLoading(false);
-      
+      // console.log(response.user_id)
     } 
   }
 
@@ -108,26 +109,61 @@ function Identification() {
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
       checkUser({
-        text: "한지민",
-        score: 0.8,
-        isAdmin: false
+        text: "테스트",
+        score: 0.8
       }); // 나중에 삭제!!!
     }
   }
 
   const checkUser = async (result) => {
+
+    const formData = new FormData();
+
     console.log(result);
     const msg = `'${result.text}'님이 맞습니까?`;
     if(window.confirm(msg)){
       setLoading(true);
       setLoadingMsg("확인 중 …");
       const params = {
-        // name: result.text
-        name: "한지민"
+        
+            // name: result.text
+            name: "테스트"
+        
+        
       };
-      const response = await checkName(params);
+      formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
+     
+      const response = await checkName(formData);
+      console.log("Service: ", service);
+      console.log('response: ', response)
+      console.log("Is Admin: ", response.admin);
+
+
       if(response != null && response.active){
-        saveObjectToSession("user", response);
+
+        if (service === '관리자' && !response.admin) {
+          Swal.fire({
+            icon: 'error',
+            title: '접근 권한',
+            text: "접근 권한이 없습니다.",
+            confirmButtonText: '확인',
+            timer: 3000, // 3초
+            timerProgressBar: true, 
+          }).then(() => {
+            navigate('/')
+          });
+          setLoading(false);
+          return;
+        }
+        // 로컬 스토리지에 사용자 정보 저장
+        saveUserToLocal(response);
+
+        // 로컬 스토리지에서 사용자 정보 가져와 콘솔에 출력
+        const user = getUserFromLocal();
+        console.log("로컬 스토리지에서 가져온 사용자 정보:", user);
+        console.log("user.user_id",user.user_id)
+
+        // saveObjectToSession("user", response);
         Swal.fire({
           title: '인증 성공',
           text: `${response.user_nm}님, 안녕하세요.`,
@@ -173,7 +209,6 @@ function Identification() {
 }
 
 export default Identification;
-
 
 
 

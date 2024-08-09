@@ -13,9 +13,15 @@ export async function getNameFromImage(){
 }
 
 
+
 export async function checkName(params){
     try {
-        const response = await axiosSpring.post(`/users/emp-check`, params); 
+        const response = await axiosSpring.post(`/kiosk/users/emp-check`, params, {
+            headers : {
+                "Content-Type": "multipart/form-data"
+
+            }
+        }); 
         // const response = {
         //     data: { 
         //         "status" : 200,
@@ -35,4 +41,5 @@ export async function checkName(params){
         return null;
     }
 }
+
 
