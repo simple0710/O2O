@@ -8,7 +8,6 @@ import IncreaseDecreaseButton from '../components/common/IncreaseDecreaseButton.
 import { formatDateSimple } from '../util/dateUtil.js'
 import { getUserIdFromSession } from '../util/sessionUtils.js'
 
-const userId = getUserIdFromSession();
 
 function BrokenFind() {
   const navigate = useNavigate();
@@ -18,6 +17,7 @@ function BrokenFind() {
   // }, {}));
 
   const [items, setItems] = useState([[]]);
+  const [userId, setUserId] = useState(null);
 
   const increaseQuantity = (rentIndex, productIndex, type) => {
     // setQuantities(prev => ({ ...prev, [id]: { ...prev[id], [type]: prev[id][type] + 1 } }));
@@ -53,10 +53,20 @@ function BrokenFind() {
     );
   };
 
-  // 의존성을 빈 배열로 주면 페이지 로딩될 때 최초 1회만 실행 
+  // 페이지가 처음 로딩될 때 userId 설정
   useEffect(() => {
-    getBrokenValues();
-  }, [])
+    const id = getUserIdFromSession();
+    if (id) {
+      setUserId(id);
+    }
+  }, []);
+
+  // userId가 설정된 후에 API 호출
+  useEffect(() => {
+    if (userId) {
+      getBrokenValues();
+    }
+  }, [userId])
 
   const reportItems = () => {
     console.log(items);
