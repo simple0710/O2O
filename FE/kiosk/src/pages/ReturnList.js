@@ -7,17 +7,28 @@ import { formatDateSimple } from '../util/dateUtil.js';
 
 import { getUserIdFromSession } from '../util/sessionUtils.js'
 
-const userId = getUserIdFromSession();
+// const userId = getUserIdFromSession();
 
 function ReturnList() {
   const navigate = useNavigate();
   const [items, setItems] = useState([[]]);
   const [selectedRentIndex, setSelectedRentIndex] = useState(null);
   const [selectedRent, setSelectedRent] = useState(null); // 선택된 rent 상태 추가
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    getBrokenValues();
+    const id = getUserIdFromSession();
+    if (id) {
+      setUserId(id);
+    }
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      getBrokenValues();
+    }
+  }, [userId])
+
 
   const reportItems = () => {
     if (selectedRent) {
