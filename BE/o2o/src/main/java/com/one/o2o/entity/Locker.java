@@ -12,7 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class Locker {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="locker_id", insertable = false, nullable = false, updatable = false)
+    @Column(name="locker_id", nullable = false, updatable = false)
     private int lockerId;
 
     @Column(name="body_id", nullable = false)
@@ -37,11 +37,11 @@ public class Locker {
     private Integer newProductId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="product_id")
+    @JoinColumn(name="product_id", insertable = false, updatable = false)
     private Products products;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="body_id", nullable = false)
+    @JoinColumn(name="body_id", insertable = false, updatable = false)
     private LockerBody body;
 
     public void updateTotalCnt(int cnt){
