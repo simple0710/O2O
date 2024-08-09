@@ -6,7 +6,7 @@ import { Button } from 'bootstrap';
 import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
 import { saveObjectToSession } from '../util/sessionUtils.js'
-import { base64ToFile } from "../util/fileUtil";
+import { base64ToFile, downloadFile } from "../util/fileUtil";
 import Swal from 'sweetalert2';
 
 function Identification() {
@@ -106,71 +106,100 @@ function Identification() {
         image: data.image,
       };
       setResult(res);
-      checkUser(res);
+      askUser(res);
     } else {
-      handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
-      checkUser({
-        text: "최지은",
-        score: 0.8
-      }); // 나중에 삭제!!!
+      handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.",
+        askUser({
+          text: "최지은",
+          score: 0.8
+        })
+      ); // 나중에 콜백함수 삭제!!!
+      
     }
+  }
+
+  const askUser = (result) => {
+    Swal.fire({
+      html: `<span style="color: blue;">${result.text}</span>님이 맞습니까?`, // result.text를 빨간색으로 설정
+      showCancelButton: true,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+      customClass: {
+        popup: 'custom-popup',
+        confirmButton: 'custom-confirm-button'
+    }
+    }).then((res) => {
+      if (res.isConfirmed) {
+        checkUser(result);
+      } 
+    });
   }
 
   const checkUser = async (result) => {
-
     const formData = new FormData();
-    const msg = `'${result.text}'님이 맞습니까?`;
-    if(window.confirm(msg)){
-      console.log("yes")
-      setLoading(true);
-      setLoadingMsg("확인 중 …");
+    console.log("yes")
+    setLoading(true);
+    setLoadingMsg("확인 중 …");
+    
+    const params = {
+      name: result.text
+      // name: "한지민"
+    };
+    formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
       
-      const params = {
-        name: result.text
-        // name: "한지민"
-      };
-      console.log("확인용 ", params, result.image)
-      formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
-        
-      const image = base64ToFile('image', result.image, 'card.jpg');
-      formData.append('image', image)
-      const response = await checkName(formData);
-      if(response != null && response.active){
+    const image = base64ToFile('image', result.image, 'card.jpg');
+    formData.append('image', image)
+    const response = await checkName(formData);
+    handleUser(response);
+  }
 
-        if (service === '관리자' && !response.admin) {
-          Swal.fire({
-            icon: 'error',
-            title: '접근 권한',
-            text: "접근 권한이 없습니다.",
-            confirmButtonText: '확인',
-            timer: 3000, // 3초
-            timerProgressBar: true, 
-          }).then(() => {
-            navigate('/')
-          });
-          setLoading(false);
-          return;
-        }
-
-        saveObjectToSession("user", response);
+  const handleUser = (response) => {
+    if(response != null && response.active){
+    
+      if (service === '관리자' && !response.admin) {
         Swal.fire({
-          title: '인증 성공',
-          text: `${response.user_nm}님, 안녕하세요.`,
-          // icon: 'info',
+          icon: 'error',
+          title: '접근 권한',
+          text: "접근 권한이 없습니다.",
+          confirmButtonText: '확인',
           timer: 3000, // 3초
           timerProgressBar: true, 
-      });
+        }).then(() => {
+          navigate('/')
+        });
         setLoading(false);
-        goRoute();
-      } else {
-        handleError("적합하지 않은 사용자입니다. 다시 촬영을 시도해주세요.")
+        return;
       }
 
+      saveObjectToSession("user", response);
+      Swal.fire({
+        title: '인증 성공',
+        text: `${response.user_nm}님, 안녕하세요.`,
+        // icon: 'info',
+        timer: 3000, // 3초
+        timerProgressBar: true, 
+      });
+      setLoading(false);
+      goRoute();
+    } else {
+      handleError("적합하지 않은 사용자입니다. 다시 촬영을 시도해주세요.");
+      setLoading(false);
     }
   }
 
-  const handleError = (msg) => {
-    window.alert(msg? msg:"오류가 발생했습니다. 다시 시도해주세요.");
+  const handleError = (msg, after) => {
+    console.log("handleError ", msg);
+    Swal.fire({
+      icon: 'error',
+      title: '오류',
+      text: msg ? msg : '오류가 발생했습니다. 다시 시도해주세요.',
+      confirmButtonText: '확인',
+      timer: 2000, // 3초
+    }).then(() => {
+      if(after){
+        after();
+      }
+    });
   }
 
   return (

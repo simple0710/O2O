@@ -1,6 +1,7 @@
 export function base64ToFile(dataType, base64String, fileName) {
  
      // Base64 문자열에서 데이터 타입과 실제 데이터 분리
+     if(!base64String) return null;
      const mime = dataType;
      const cleanBase64 = base64String.replace(/^data:[a-zA-Z]+\/[a-zA-Z]+;base64,/, ""); // data URL 형식 제거
  
@@ -20,4 +21,15 @@ export function base64ToFile(dataType, base64String, fileName) {
  
     
     return new File([u8arr], fileName, {type:mime});
+}
+
+export function downloadFile(file) {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = file.name; // 다운로드할 파일 이름 설정
+    document.body.appendChild(a);
+    a.click(); // 링크 클릭하여 다운로드 시작
+    document.body.removeChild(a); // 링크 제거
+    URL.revokeObjectURL(url); // 메모리 해제
 }
