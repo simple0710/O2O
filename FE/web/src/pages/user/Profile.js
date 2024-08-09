@@ -18,10 +18,12 @@ function Profile() {
   const [formData, setFormData] = useState({ ...profileData });
   const [passwordRequired, setPasswordRequired] = useState(false);
 
+  const userId = localStorage.getItem('userId');
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+        
         const data = await getProfile(userId);
         setProfileData(data);
         setFormData(data);
