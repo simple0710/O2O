@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Select from 'react-select';
 import '../styles/Locker.css';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 
@@ -9,11 +8,9 @@ const ChangeLocker = () => {
   const [lockersData, setLockersData] = useState([]);
   const [selectedLocker, setSelectedLocker] = useState(null);
   const [products, setProducts] = useState([]);
-  const [highlightedLockers, setHighlightedLockers] = useState([]);
   const [lockerBodyId, setLockerBodyId] = useState(null);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     saveLockerBodyIdFromLocal();
@@ -23,17 +20,11 @@ const ChangeLocker = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Updated lockerBodyId:', lockerBodyId);
-  }, [lockerBodyId]);
-
-  useEffect(() => {
     axios.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
-        console.log('Lockers data:', data);
 
-        // Set default locker
         if (lockerBodyId) {
           const defaultLocker = data.find(locker => locker.locker_body_id === lockerBodyId);
           if (defaultLocker) {
@@ -44,7 +35,7 @@ const ChangeLocker = () => {
       .catch(error => {
         console.error('Error fetching lockers data:', error);
       });
-  }, []);
+  }, [lockerBodyId]);
 
   useEffect(() => {
     if (lockerBodyId) {
@@ -52,7 +43,6 @@ const ChangeLocker = () => {
         .then(response => {
           const data = response.data.data;
           setProducts(data);
-          console.log('Product data:', data);
         })
         .catch(error => {
           console.error('Error fetching products data:', error);
@@ -60,7 +50,6 @@ const ChangeLocker = () => {
     }
   }, [lockerBodyId]);
 
-  // 로커의 행과 열 수를 결정
   const rows = Math.max(...products.map(product => product.locker_row), 0);
   const columns = Math.max(...products.map(product => product.locker_column), 0);
 
@@ -68,8 +57,18 @@ const ChangeLocker = () => {
     return products.find(product => product.locker_column === column && product.locker_row === row);
   };
 
+  // 오른쪽 하단 사물함의 좌표를 제외할 조건으로 설정합니다
+  const excludeRow = rows; // 맨 아래 행
+  const excludeColumn = columns; // 맨 오른쪽 열
+
+  const isHighlighted = (column, row) => {
+    const product = getProductInLocker(column, row);
+    const isExcluded = (column === excludeColumn && row === excludeRow);
+
+    return product && product.product_nm === null && !isExcluded;
+  };
+
   const handleLockerClick = (product) => {
-    console.log('Selected product:', product);
     navigate('/ItemRegistration', { state: { product } });
   };
 
@@ -80,7 +79,7 @@ const ChangeLocker = () => {
       <div className='locker-frame'>
         <div className="locker-container1">
           <div className="locker-title">
-          빈 사물함을<br /> 선택 해주세요<br /> <br />
+            빈 사물함을<br /> 선택 해주세요<br /> <br />
           </div>
           <div className='locker-grid'>
             {rows > 0 && columns > 0 &&
@@ -88,12 +87,11 @@ const ChangeLocker = () => {
                 <div key={`row-${rowIndex}`} className='locker-row'>
                   {Array.from({ length: columns }).map((_, colIndex) => {
                     const product = getProductInLocker(colIndex + 1, rowIndex + 1);
-                    // const highlight = isHighlighted(colIndex + 1, rowIndex + 1);
-                    // console.log(`Row: ${rowIndex + 1}, Column: ${colIndex + 1}, isHighlighted: ${highlight}`);
+                    const highlight = isHighlighted(colIndex + 1, rowIndex + 1);
                     return (
                       <div 
                         key={`col-${colIndex}`} 
-                        className='locker-box'
+                        className={`locker-box ${highlight ? 'locker-highlight' : ''}`}
                         onClick={() => product && handleLockerClick(product)}
                       >
                         {product ? product.product_nm : ''}
@@ -104,7 +102,6 @@ const ChangeLocker = () => {
               )
             }
           </div>
-         
         </div>
       </div>
     </>
