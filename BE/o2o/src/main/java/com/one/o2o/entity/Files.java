@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Table(name = "FILES")
 @NoArgsConstructor
 @AllArgsConstructor
-public class File {
+public class Files {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(nullable = false, updatable = false)
     private Integer id;
 
     @Column(nullable = false)
@@ -28,7 +28,7 @@ public class File {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }
 

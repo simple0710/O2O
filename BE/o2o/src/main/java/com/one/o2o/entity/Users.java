@@ -11,41 +11,40 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @Builder
 @Table(name="user")
-public class MemberEntity {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false, updatable = false)
     private Integer userId;
 
-    @Column(name="user_lgid")
+    @Column(name="user_lgid", nullable = false)
     private String userLgid;
 
-    @Column(name="user_pw")
+    @Column(name="user_pw", nullable = false)
     private String userPw;
 
-    @Column(name="user_nm")
+    @Column(name="user_nm", nullable = false)
     private String  userNm;
 
-    @Column(name="emp_cd")
+    @Column(name="emp_cd", nullable = false)
     private String empCd;
 
     @Column(name="user_img")
     private String userImg;
 
-    @ColumnDefault("false")
-    @Column(columnDefinition = "TINYINT(1)")
+    @Column(columnDefinition = "TINYINT(1)", nullable = false)
     private Boolean isAdmin;
 
-    @Column(name="user_tel")
+    @Column(name="user_tel", nullable = false)
     private String userTel;
 
     @ColumnDefault("true")
-    @Column(columnDefinition = "TINYINT(1)")
+    @Column(columnDefinition = "TINYINT(1)", nullable = false)
     private Boolean isActive;
 
     // DTO를 Entity로 변환하는 메서드
-    public static MemberEntity toEntity(MemberDto dto) {
-        return MemberEntity.builder()
+    public static Users toEntity(MemberDto dto) {
+        return Users.builder()
                 .userId(dto.getUserId()) // DTO에 userId가 있다면
                 .userLgid(dto.getUserLgid())
                 .userPw(dto.getUserPw())
