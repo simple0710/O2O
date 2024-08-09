@@ -6,10 +6,11 @@
     justify-content: center;
     padding: 24px;
     gap: 13px;
+    margin-top: 29px;
 }
 
-.button, .button1 {
-    background-color: #d6f5ff; /* 기본 배경색 */
+.button-return, .button-retry {
+    background-color: #0093ed; /* 기본 배경색 */
     border: none; /* 기본 테두리 제거 */
     padding: 10px 20px; /* 버튼 안의 여백 */
     font-size: 16px; /* 버튼 글자 크기 */

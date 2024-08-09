@@ -70,7 +70,7 @@ const QuantityChange = () => {
     <div className='frame-container'>
       <div>
         <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
+          HOME
         </button>
       </div>
       <Box className="container1">
@@ -100,7 +100,7 @@ const QuantityChange = () => {
           </IconButton>
         </Box>
 
-        <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={handleSave}>
+        <Button id="btn-change"className='btn-change' variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleSave}>
           수량 변경 저장
         </Button>
       </Box>

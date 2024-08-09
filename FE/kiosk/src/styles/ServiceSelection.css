@@ -44,4 +44,9 @@
 .service-button:hover {
   background-color: #B2EBF2;
 }
-
+.btn-main {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  
+}
