@@ -67,7 +67,7 @@ function Profile() {
           <h2>프로필</h2>
           <div className="profile-card">
             <div className="profile-image">
-              <img src={formData.user_img || Image} alt="프로필 이미지" />
+            <img src={formData.user_img || Image} alt="프로필 이미지" />
               {editMode && (
                 <input
                   type="text"
@@ -81,7 +81,7 @@ function Profile() {
               {editMode ? (
                 <div>
                   <p>
-                    <strong>이름:</strong>
+                    <strong>이름</strong>
                     <input
                       type="text"
                       name="user_nm"
@@ -90,7 +90,7 @@ function Profile() {
                     />
                   </p>
                   <p>
-                    <strong>전화번호:</strong>
+                    <strong>전화번호</strong>
                     <input
                       type="text"
                       name="user_tel"
@@ -99,7 +99,7 @@ function Profile() {
                     />
                   </p>
                   <p>
-                    <strong>비밀번호:</strong>
+                    <strong>비밀번호</strong>
                     <input
                       type="password"
                       name="user_pw"
@@ -112,9 +112,9 @@ function Profile() {
                 </div>
               ) : (
                 <div>
-                  <p><strong>이름:</strong> {profileData.user_nm}</p>
-                  <p><strong>전화번호:</strong> {profileData.user_tel}</p>
-                  <p><strong>비밀번호:</strong> ********</p>
+                  <p><strong>이름</strong> {profileData.user_nm}</p>
+                  <p><strong>전화번호</strong> {profileData.user_tel}</p>
+                  <p><strong>비밀번호</strong> ********</p>
                   <ButtonComponent onClick={handleEdit}>수정</ButtonComponent>
                 </div>
               )}

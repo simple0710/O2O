@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import '../../style/Sidebar.css';
 
 // Styled components 정의
 const SidebarContainer = styled.div`
