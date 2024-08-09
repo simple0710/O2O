@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "product")
 public class Products {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -29,11 +30,12 @@ public class Products {
     private LocalDateTime registDt;
 
     @Column(nullable = false)
-    private int userId;
+    private Integer userId;
 
 //    @JoinColumn(name = "product_id")
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<ProductImgs> productImgs;
+
     public Products(ProductsDto productsDto) {
         this.productNm = productsDto.getProductNm();
         this.productImg = productsDto.getProductImg();
