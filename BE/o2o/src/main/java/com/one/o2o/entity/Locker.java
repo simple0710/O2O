@@ -1,7 +1,6 @@
 package com.one.o2o.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
@@ -32,7 +31,7 @@ public class Locker {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="product_id", insertable = false, updatable = false)
-    public Product product;
+    public Products products;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="body_id", insertable = false, updatable = false)

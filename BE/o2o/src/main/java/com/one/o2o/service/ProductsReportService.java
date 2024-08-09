@@ -41,15 +41,15 @@ public class ProductsReportService implements ProductsReportServiceInterface {
         Map<String, Object> map = new HashMap<>();
         map.put("rpts", reportsPage.stream()
                         .map(productsReport -> {
-                            Product product = productsReport.getProduct();
+                            Products products = productsReport.getProducts();
                             Locker locker = productsReport.getLocker();
                             LockerBody lockerBody = locker.getBody();
                             Users user = productsReport.getUser();
                             ProductStatus status = productsReport.getProductStatus();
                             return ProductsReportDto.builder()
                                     .rptId(productsReport.getRptId())
-                                    .productId(product.getProductId())
-                                    .productNm(product.getProductNm())
+                                    .productId(products.getProductId())
+                                    .productNm(products.getProductNm())
                                     .bodyId(lockerBody.getLockerBodyId())
                                     .lockerId(locker.getLockerId())
                                     .lockerLoc(

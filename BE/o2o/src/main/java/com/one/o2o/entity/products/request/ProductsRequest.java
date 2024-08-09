@@ -40,7 +40,7 @@ public class ProductsRequest {
     @Column(name = "REQ_DT", nullable = false, updatable = false)
     private LocalDateTime reqDt = LocalDateTime.now();
 
-    @Column(name = "IS_APPROVED", nullable = false)
+    @Column(name = "IS_APPROVED", columnDefinition = "TINYINT(1)", nullable = false)
     private Boolean isApproved = false;
 
     @Column(name = "IS_REJECTED", columnDefinition = "TINYINT(1)", nullable = false)

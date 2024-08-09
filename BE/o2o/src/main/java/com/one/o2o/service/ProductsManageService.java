@@ -9,7 +9,7 @@ import com.one.o2o.dto.products.manage.OverdueDto;
 import com.one.o2o.dto.products.manage.ProductsOverdueDto;
 import com.one.o2o.dto.products.manage.OverdueStatusDto;
 import com.one.o2o.entity.Files;
-import com.one.o2o.entity.Product;
+import com.one.o2o.entity.Products;
 import com.one.o2o.entity.Rent;
 import com.one.o2o.entity.RentLog;
 import com.one.o2o.event.ProductSavedEventListener;
@@ -58,7 +58,7 @@ public class ProductsManageService implements ProductsManageInterface {
     @Transactional
     public Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException {
         if (files != null && !files.isEmpty()) {
-            Integer productsId = productsManageRepository.save(new Product(productsDto)).getProductId();
+            Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
             saveProduct(files, productsId, productsDto.getUserId());
         }
         return new Response(200, "성공적으로 저장되었습니다.");
@@ -129,7 +129,7 @@ public class ProductsManageService implements ProductsManageInterface {
             List<ProductsOverdueDto> products = new ArrayList<>();
             int rentCnt = 0;
             for (RentLog rentLog : rentLogs) {
-                Product nowProduct = rentLog.getProduct();
+                Products nowProducts = rentLog.getProducts();
                 log.info("status" + rentLog.getStatusId());
 
                 // 상태
@@ -142,8 +142,8 @@ public class ProductsManageService implements ProductsManageInterface {
                         .build()
                 );
                 products.add(ProductsOverdueDto.builder()
-                        .productId(nowProduct.getProductId())
-                        .productNm(nowProduct.getProductNm())
+                        .productId(nowProducts.getProductId())
+                        .productNm(nowProducts.getProductNm())
                         .lockerBody(rentLog.getLocker().getBody().getLockerBodyName())
                         .lockerLoc(rentLog.getLocker().getLockerRow() + "단 " + rentLog.getLocker().getLockerRow() + "연")
                         .productCnt(rentCnt)
@@ -178,9 +178,9 @@ public class ProductsManageService implements ProductsManageInterface {
     @Override
     @Transactional
     public Integer saveProductFromKiosk(LockerUpdateDto lockerUpdateDto, Integer userId){
-        Product product = new Product();
-        product.setProductNm(lockerUpdateDto.getProductNm());
-        product.setUserId(userId);
-        return productsManageRepository.save(product).getProductId();
+        Products products = new Products();
+        products.setProductNm(lockerUpdateDto.getProductNm());
+        products.setUserId(userId);
+        return productsManageRepository.save(products).getProductId();
     }
 }

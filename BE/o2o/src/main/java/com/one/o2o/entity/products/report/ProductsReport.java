@@ -30,7 +30,7 @@ public class ProductsReport {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
-    private Product product;
+    private Products products;
 
     @Column(columnDefinition = "SMALLINT")
     private Integer productCnt;
@@ -39,7 +39,7 @@ public class ProductsReport {
     private String rptContent;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime rptDt;
+    private LocalDateTime rptDt = Lo;
 
     @Column
     private String rptImg;
@@ -61,8 +61,8 @@ public class ProductsReport {
         this.productStatus = new ProductStatus();
         this.productStatus.setStatusId(userReportDto.getStatusId());
 
-        this.product = new Product();
-        this.product.setProductId(userReportDto.getProductId());
+        this.products = new Products();
+        this.products.setProductId(userReportDto.getProductId());
         this.productCnt = userReportDto.getProductCnt();
         // 사물함 정보 저장
         this.locker = new Locker();

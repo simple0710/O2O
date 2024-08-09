@@ -13,7 +13,6 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.security.auth.login.LoginException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +34,7 @@ public class LockerServiceImpl implements LockerService{
     @Override
     public List<LockerDto> readLockerByBodyId(int body_id) {
         List<Locker> list = lockerRepository.findByBody_LockerBodyId(body_id);
-        list.forEach(locker -> Hibernate.initialize(locker.getProduct()));
+        list.forEach(locker -> Hibernate.initialize(locker.getProducts()));
         return lockerMapper.lockersToLockerDtoList(list);
     }
     @Override

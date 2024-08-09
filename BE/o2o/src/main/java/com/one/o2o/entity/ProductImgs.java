@@ -21,7 +21,7 @@ public class ProductImgs {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("productId")
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
-    private Product product;
+    private Products products;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("fileId")

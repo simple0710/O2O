@@ -44,7 +44,7 @@ public class RentServiceImpl implements RentService {
             rl.sort(Comparator.comparing(RentLog::getLogDt));
             for (RentLog rentLog : rl) {
                 System.out.println("rentLog = " + rentLog);
-                rentLog.getProduct();
+                rentLog.getProducts();
                 rentLog.getLocker();
             }
             RentResponseSingleDto dto = rentMapper.rentToRentListResponseDto(rent);
@@ -90,7 +90,7 @@ public class RentServiceImpl implements RentService {
             rl.sort(Comparator.comparing(RentLog::getLogDt));
             for (RentLog rentLog : rl) {
                 System.out.println("rentLog = " + rentLog);
-                rentLog.getProduct();
+                rentLog.getProducts();
                 rentLog.getLocker();
             }
             RentResponseSingleDto dto = rentMapper.rentToRentListResponseDto(rent);

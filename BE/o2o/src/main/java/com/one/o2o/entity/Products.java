@@ -1,6 +1,5 @@
 package com.one.o2o.entity;
 
-
 import com.one.o2o.dto.products.ProductsDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Products {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int productId;
@@ -36,9 +35,9 @@ public class Product {
     private int userId;
 
 //    @JoinColumn(name = "product_id")
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<ProductImgs> productImgs;
-    public Product(ProductsDto productsDto) {
+    public Products(ProductsDto productsDto) {
         this.productNm = productsDto.getProductNm();
         this.productImg = productsDto.getProductImg();
         this.productDet = productsDto.getProductDet();
