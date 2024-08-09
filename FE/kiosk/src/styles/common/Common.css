@@ -37,3 +37,15 @@ p.p-small-number.imp {
 .center-p {
   text-align: center;
 }
+
+/* ------ SweelAlert2 설정 ----- */
+
+.custom-popup {
+  border-radius: 10px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  padding-top: 15px;
+}
+
+.custom-confirm-button {
+  background-color: #0093ed;
+}

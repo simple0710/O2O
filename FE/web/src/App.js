@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from './pages/user/MainPage';
 import Login from './pages/Login';
 import Findpwd from './pages/Findpwd';
@@ -17,135 +17,56 @@ import RequestItem from './pages/user/RequestItem';
 import AdminProfile from './pages/admin/Profile';
 import UserProfile from './pages/user/Profile';
 import { CartProvider } from './pages/user/CartContext';
-import './App.css';
 import ReservationList from './pages/user/ReservationList';
 import NotRefund from './pages/user/NotRefund';
-import AdminRoute from './components/AdminRoute'; // AdminRoute 컴포넌트 import
-import UserRoute from './components/UserRoute'; // UserRoute 컴포넌트 import
-import { Navigate } from 'react-router-dom';
-import RedirectIfAuthenticated from './components/AuthenticRoute';
 
-const isAuthenticated = () => {
-    return !!localStorage.getItem('accessToken');
+
+
+const PrivateRoute = ({ element }) => {
+    const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
+    return isAuthenticated ? element : <Navigate to="/" />;
 };
 
-const ProtectedRoute = ({ children }) => {
-    return children;
-    return isAuthenticated() ? children : <Navigate to="/" />;
+const AdminRoute = ({ element }) => {
+    const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
+    const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+    return isAuthenticated && isAdmin ? element : <Navigate to="/mainpage" />;
+};
+
+const UserRoute = ({ element }) => {
+    const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
+    const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+    return isAuthenticated && !isAdmin ? element : <Navigate to="/admin" />;
 };
 
 function App() {
+
     return (
         <CartProvider>
             <Routes>
-                <Route path='/' element={
-                    <RedirectIfAuthenticated>
-                        <Login />
-                    </RedirectIfAuthenticated>
-                } />
+                {/* Public Routes */}
+                <Route path='/' element={<Login />} />
                 <Route path='/findpwd' element={<Findpwd />} />
                 <Route path='/logout' element={<Logout />} />
-                
-                {/* 인증된 사용자 */}
-                <Route path='/mainpage' element={
-                    <ProtectedRoute>
-                        <MainPage />
-                    </ProtectedRoute>
-                } />
-                <Route path='/changepwd' element={
-                    <ProtectedRoute>
-                        <ChangePwd />
-                    </ProtectedRoute>
-                } />
-                
-                {/* 관리자 페이지 */}
-                <Route path='/admin' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <AdminMainpage />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/complain' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <Complain />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/request' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <Request />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/statics' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <Statistics />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/userlist' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <UserList />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/changepwd' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <AdminChangePwd />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/adduser' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <AddUser />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/additem' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <AddItem />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
-                <Route path='/admin/profile' element={
-                    <ProtectedRoute>
-                        <AdminRoute>
-                            <AdminProfile />
-                        </AdminRoute>
-                    </ProtectedRoute>
-                } />
 
-                {/* 사용자 페이지 */}
-                <Route path='/request/article' element={
-                    <ProtectedRoute>
-                        <RequestItem />
-                    </ProtectedRoute>
-                } />
-                <Route path='/item/reservation' element={
-                    <ProtectedRoute>
-                        <ReservationList />
-                    </ProtectedRoute>
-                } />
-                <Route path='/item/notrefund' element={
-                    <ProtectedRoute>
-                        <NotRefund />
-                    </ProtectedRoute>
-                } />
-                <Route path='/profile' element={
-                    <ProtectedRoute>
-                        <UserRoute pageUserId={localStorage.getItem('userId')}>
-                            <UserProfile />
-                        </UserRoute>
-                    </ProtectedRoute>
-                } />
+                {/* Admin Routes */}
+                <Route path='/admin' element={<AdminRoute element={<AdminMainpage />} />} />
+                <Route path='/admin/complain' element={<AdminRoute element={<Complain />} />} />
+                <Route path='/admin/request' element={<AdminRoute element={<Request />} />} />
+                <Route path='/admin/statics' element={<AdminRoute element={<Statistics />} />} />
+                <Route path='/admin/userlist' element={<AdminRoute element={<UserList />} />} />
+                <Route path='/admin/changepwd' element={<AdminRoute element={<AdminChangePwd />} />} />
+                <Route path='/admin/adduser' element={<AdminRoute element={<AddUser />} />} />
+                <Route path='/admin/additem' element={<AdminRoute element={<AddItem />} />} />
+                <Route path='/admin/profile' element={<AdminRoute element={<AdminProfile />} />} />
+
+                {/* User Routes */}
+                <Route path='/mainpage' element={<UserRoute element={<MainPage />} />} />
+                <Route path='/changepwd' element={<UserRoute element={<ChangePwd />} />} />
+                <Route path='/request/article' element={<UserRoute element={<RequestItem />} />} />
+                <Route path='/item/reservation' element={<UserRoute element={<ReservationList />} />} />
+                <Route path='/item/notrefund' element={<UserRoute element={<NotRefund />} />} />
+                <Route path='/profile' element={<UserRoute element={<UserProfile />} />} />
             </Routes>
         </CartProvider>
     );

@@ -7,6 +7,7 @@ import '../../style/Changepwd.css';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 
+
 function ChangePwd() {
   const navigate = useNavigate();
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Form } from "react-bootstrap";
-import axios from "axios";
 import Sidebar from "./Sidebar";
 import AdminNav from "./AdminNav";
 import "../../style/Complain.css";

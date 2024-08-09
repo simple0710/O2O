@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import '../../style/AddItem.css';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import axiosInstance from '../../utils/axiosInstance';
 
 function AddItem() {
+    const userId = localStorage.getItem('userId');
     const [itemData, setItemData] = useState({
         itemName: '',
         itemDescription: '',
         itemImage: null
     });
+
+    // 이미지 파일 input의 ref 생성
+    const fileInputRef = useRef(null);
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
@@ -24,21 +28,13 @@ function AddItem() {
         e.preventDefault();
 
         const formData = new FormData();
-        // formData.append('product_nm', itemData.itemName);
-        // formData.append('product_det', itemData.itemDescription);
-        // formData.append('user_id', 23);
-
         const productsDto = {
-            product_nm : itemData.itemName,
+            product_nm: itemData.itemName,
             product_det: itemData.itemDescription,
-            user_id: 7
-        }
-
-        // formData.append('productsDto', JSON.stringify(productsDto));
-
+            user_id: userId
+        };
 
         formData.append('products', new Blob([JSON.stringify(productsDto)], { type: 'application/json' }));
-
      
         if (itemData.itemImage) {
             formData.append('files', itemData.itemImage);
@@ -46,11 +42,23 @@ function AddItem() {
 
         try {
             const response = await axiosInstance.post('/products/regist', formData, {
-                headers : {
-                    "Content-Type": "multipart/form-data"
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
             });
             console.log('Server Response: ', response.data);
+
+            // 입력 필드 초기화
+            setItemData({
+                itemName: '',
+                itemDescription: '',
+                itemImage: null
+            });
+
+            // 이미지 파일 input 초기화
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';  // 이 부분에서 파일 input을 초기화
+            }
         } catch (error) {
             console.log('Error submitting data: ', error);
         }
@@ -96,6 +104,7 @@ function AddItem() {
                                     id="itemImage"
                                     name="itemImage"
                                     onChange={handleChange}
+                                    ref={fileInputRef}  // ref 연결
                                 />
                             </div>
                             <button type="submit" className="add-btn">등록</button>

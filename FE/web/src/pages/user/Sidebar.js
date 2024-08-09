@@ -279,11 +279,13 @@ function Sidebar() {
   const [modalCloseConfirmed, setModalCloseConfirmed] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [recentRent, setRecentRent] = useState([]);
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const data = await getRecent(1, 10, 4);  // 4는 유저 아이디 변수로 변환 예정
+        const data = await getRecent(1, 10, userId);  // 4는 유저 아이디 변수로 변환 예정
+        console.log('userId',userId)
         setRecentRent(data);
       } catch (error) {
         console.error(error);

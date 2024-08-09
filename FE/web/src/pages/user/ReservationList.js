@@ -196,6 +196,7 @@ const BorrowList = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -213,7 +214,7 @@ const BorrowList = () => {
 
       while (hasMoreData) {
         try {
-          const data = await getReservation(page, 10, 4); // 4는 유저 아이디로 바꿔야 함
+          const data = await getReservation(page, 10, userId); // 4는 유저 아이디로 바꿔야 함
           if (data.reserves && data.reserves.length > 0) {
             allReservations = [...allReservations, ...data.reserves];
             page++;

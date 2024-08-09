@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -64,69 +65,13 @@ function Frame() {
   );
 }
 
+
+
+
 function App() {
   return (
-    <Router>
+    <Router basename='/kiosk'>
       <div>
-        {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className="navbar-brand" to="/">My App</Link>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link" to="/cart">Cart</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/locker">Locker</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/chooselocker">Choose Locker</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/changelocker">Change Locker</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/brokenlocker">Broken Locker</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/serviceselection">ServiceSelection</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/itemregistration">ItemRegistration</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/quantitychange">QuantityChange</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/brokenfind">BrokenFind</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/borrowfinish">Borrow Finish</Link>
-              </li>
-
-
-              <li className='nav-item'>
-                <Link className='nav-link' to="/returnfinish">Return Finish</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/brokenfinish">Broken Finish</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/quantitychangefinish">QuantityChange Finish</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/registerfinish">Register Finish</Link>
-              </li>
-
-              <li className='nav-item'>
-                <Link className='nav-link' to="/registerbroken">RegisteBroken</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to="/returnstatus">Return Status</Link>
-              </li>
-            </ul>
-          </div>
-        </nav> */}
-
         <Routes>
           <Route path="/" element={<Frame />} />
           <Route path="/identification" element={<Identification />} />
@@ -163,4 +108,7 @@ function App() {
   );
 }
 
+
+
 export default App;
+
