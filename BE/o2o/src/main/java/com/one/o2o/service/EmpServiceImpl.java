@@ -31,7 +31,7 @@ public class EmpServiceImpl implements EmpService {
     @Value("${upload.path.emp}")
     private String empPath;
 
-    @Value("${python.path")
+    @Value("${python.path}")
     private String pythonPath;
 
     @Value("${python.path.script.image.compare}")
@@ -52,11 +52,13 @@ public class EmpServiceImpl implements EmpService {
             for (int i = 0; i < userList.size(); i++) {
                 double matchValue = Double.parseDouble(compare(imageManage.getPath(), userList.get(i).getUserImg())) * 100;
                 log.info("index = {}", i);
+                log.info("matchValue = {}", matchValue);
                 if (70 <= matchValue && max < matchValue) {
                     max = matchValue;
                     idx = i;
                 }
             }
+
             return idx == -1 ? userMapper.userToUserDto(userList.get(0)) : userMapper.userToUserDto(userList.get(idx));
         } finally {
             if (imageManage != null) {
@@ -79,8 +81,10 @@ public class EmpServiceImpl implements EmpService {
                 log.info("Error: The file \" + image2Path + \" does not exist.");
                 return "0";
             }
-
-            ProcessBuilder processBuilder = new ProcessBuilder(pythonPath,
+            log.info("pythonPath = {}",pythonPath);
+            log.info("comparePath = {}",comparePath);
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    pythonPath,
                     comparePath,
                     image1Path,
                     image2Path
