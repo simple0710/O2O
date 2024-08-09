@@ -46,7 +46,7 @@ public class MemberController {
     @PostMapping("/regist")
     public ResponseEntity<?> registMember(
             @RequestPart("members") MemberDto memberDto,
-            @RequestParam("file") MultipartFile file){
+            @RequestParam(value = "file", required = false) MultipartFile file){
         // 여기 Entity에서 Dto를 통해서 만드는걸로!
         log.info("전~~~");
         log.info("memberDto : " + memberDto);
