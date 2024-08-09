@@ -4,7 +4,6 @@ import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.*;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -39,14 +38,13 @@ public class ProductsReport {
     private String rptContent;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime rptDt = Lo;
+    private LocalDateTime rptDt = LocalDateTime.now();
 
     @Column
     private String rptImg;
 
-    @ColumnDefault("false")
     @Column(nullable = false)
-    private Boolean isProcessed;
+    private Boolean isProcessed = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STATUS_ID", nullable = false)
@@ -75,15 +73,5 @@ public class ProductsReport {
         this.productStatus = new ProductStatus();
         this.productStatus.setStatusId(userReportDto.getStatusId());
 
-    }
-
-    @PrePersist
-    public void perPersist() {
-        if (this.rptDt == null) {
-            this.rptDt = LocalDateTime.now();
-        }
-        if (this.isProcessed == null) {
-            this.isProcessed = false;
-        }
     }
 }
