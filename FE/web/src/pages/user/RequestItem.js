@@ -4,6 +4,7 @@ import Nav from './Nav';
 import '../../style/RequestItme.css'
 import Swal from "sweetalert2";
 import {postRequest} from '../../api/userpost'
+import ButtonComponent from '../../components/ButtonComponent';
 
 const RequestItem = () => {
     const userId = localStorage.getItem('userId');
@@ -116,7 +117,11 @@ const RequestItem = () => {
                                     placeholder='물품 개수를 입력해주세요. (숫자만 입력해주세요)'
                                 />
                             </div>
-                            <button type="submit" className="add-btn">요청하기</button>
+                            <ButtonComponent 
+                                type="submit"
+                            >
+                                요청하기
+                            </ButtonComponent>
                         </form>
                     </div>
                 </div>

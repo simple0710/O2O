@@ -290,6 +290,7 @@ import Swal from "sweetalert2";
 import { CartContext } from "./CartContext"; // Update the path to CartContext accordingly
 import { postReservation } from "../../api/userpost"; // Update the path to userpost accordingly
 import "../../style/Cart.css"; // Update the path to the CSS file
+import ButtonComponent from "../../components/ButtonComponent";
 
 const Cart = () => {
   const { cart, setCart, lockerBodyId, setLockerBodyId } = useContext(CartContext);
@@ -497,20 +498,16 @@ const Cart = () => {
           )}
         </div>
         <div className="cart-buttons">
-          <Button
-            variant="primary"
+          <ButtonComponent
             onClick={handleReservation}
-            className="cart-button cart-button-primary mb-2"
           >
             예약하기
-          </Button>
-          <Button
-            variant="danger"
+          </ButtonComponent>
+          <ButtonComponent
             onClick={handleCancel}
-            className="cart-button cart-button-danger"
           >
             취소
-          </Button>
+          </ButtonComponent>
         </div>
       </div>
 

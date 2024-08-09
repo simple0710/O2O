@@ -37,6 +37,7 @@ function MainPage() {
         icon: "success",
         confirmButtonColor: "#3085d6",
         confirmButtonText: "확인",
+        
       });
       setModalCloseConfirmed(false); // Reset after showing the alert
     }
@@ -48,8 +49,9 @@ function MainPage() {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <Locker />
-
+          <div className="locker">
+            <Locker />
+          </div>
           <div className="cart">
             <Cart />
           </div>

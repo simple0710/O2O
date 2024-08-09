@@ -6,6 +6,7 @@ import { getProfile } from '../../api/userget';
 import { updateProfile } from '../../api/userpost'; 
 import '../../style/Profile.css';
 import Image from '../../images/profile.png';
+import ButtonComponent from '../../components/ButtonComponent';
 
 function Profile() {
   const [profileData, setProfileData] = useState({
@@ -114,7 +115,7 @@ function Profile() {
                   <p><strong>이름:</strong> {profileData.user_nm}</p>
                   <p><strong>전화번호:</strong> {profileData.user_tel}</p>
                   <p><strong>비밀번호:</strong> ********</p>
-                  <button onClick={handleEdit}>수정</button>
+                  <ButtonComponent onClick={handleEdit}>수정</ButtonComponent>
                 </div>
               )}
             </div>

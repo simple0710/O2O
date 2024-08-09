@@ -3,6 +3,7 @@ import '../../style/AddItem.css';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import axiosInstance from '../../utils/axiosInstance';
+import ButtonComponent from '../../components/ButtonComponent';
 
 function AddItem() {
     const userId = localStorage.getItem('userId');
@@ -107,7 +108,11 @@ function AddItem() {
                                     ref={fileInputRef}  // ref 연결
                                 />
                             </div>
-                            <button type="submit" className="add-btn">등록</button>
+                            <ButtonComponent
+                             type="submit"
+                             >
+                                등록
+                            </ButtonComponent>
                         </form>
                     </div>
                 </div>
