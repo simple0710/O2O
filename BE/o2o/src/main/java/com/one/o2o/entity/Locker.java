@@ -11,20 +11,20 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter
 @DynamicUpdate
 public class Locker {
-    @Id
-    @Column(name="locker_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="locker_id", insertable = false, nullable = false, updatable = false)
     private int lockerId;
 
-    @Column(name="body_id")
+    @Column(name="body_id", nullable = false)
     private int newBodyId;
 
-    @Column(name="column", columnDefinition = "TINYINT(1)")
+    @Column(name="column", columnDefinition = "TINYINT(1)", nullable = false)
     private int lockerColumn;
 
-    @Column(name="row", columnDefinition = "TINYINT(1)")
+    @Column(name="row", columnDefinition = "TINYINT(1)", nullable = false)
     private int lockerRow;
 
-    @Column(name="is_usable")
+    @Column(name="is_usable", nullable = false)
     private boolean isUsable;
 
     @Column(name="product_cnt", columnDefinition = "SMALLINT")
