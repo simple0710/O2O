@@ -285,6 +285,7 @@ function Sidebar() {
     const fetchRecent = async () => {
       try {
         const data = await getRecent(1, 10, userId);  // 4는 유저 아이디 변수로 변환 예정
+        console.log('userId',userId)
         setRecentRent(data);
       } catch (error) {
         console.error(error);

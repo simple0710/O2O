@@ -303,6 +303,7 @@ const Cart = () => {
   const [alertMessage, setAlertMessage] = useState("");
 
   const cartItemsRef = useRef(null); // Ref for the cart-items element
+  const user_id = localStorage.getItem('userId')
 
   useEffect(() => {
     // Load cart from local storage on initial render
@@ -391,6 +392,7 @@ const Cart = () => {
     const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 
     const reservationData = {
+      user_id,
       locker_body_id,
       reserves,
       reserve_time: formattedDate,
