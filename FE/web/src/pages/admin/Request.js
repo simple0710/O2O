@@ -8,6 +8,7 @@ import "../../style/Title.css";
 import axios from "axios";
 import Pagination from "./Pagination";
 import axiosInstance from '../../utils/axiosInstance'
+import ButtonComponent from '../../components/ButtonComponent';
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -151,21 +152,19 @@ const Request = () => {
           </Table>
 
           <div className="mt-3">
-            <Button
-              className="success-button"
+            <ButtonComponent
               onClick={() => handleStatusChange("승인됨")}
               disabled={selectedPosts.length === 0}
-              style={{ marginRight: "10px" }}
+              style={{ marginRight: '10px' }}
             >
               수락
-            </Button>
-            <Button
-              className="reject-button"
+            </ButtonComponent>
+            <ButtonComponent
               onClick={() => handleStatusChange("거절됨")}
               disabled={selectedPosts.length === 0}
             >
               거절
-            </Button>
+            </ButtonComponent>
           </div>
 
           <Pagination

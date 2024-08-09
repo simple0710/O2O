@@ -6,6 +6,7 @@ import AdminNav from './AdminNav';
 import Swal from 'sweetalert2';
 import '../../style/AddUser.css';
 import axiosInstance from '../../utils/axiosInstance';
+import ButtonComponent from '../../components/ButtonComponent';
 
 
 function AddUser() {
@@ -193,9 +194,11 @@ function AddUser() {
                                     required
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit">
+                            <ButtonComponent 
+                            type="submit"
+                            >
                                 등록
-                            </Button>
+                            </ButtonComponent>
                         </Form>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 .table-container {
     width: 80%;
-    margin: 20px auto;
+    /* margin: 20px auto; */
     border-collapse: collapse;
   }
   
@@ -26,14 +26,14 @@
     background-color: #f4f4f4;
   }
   
-  .table-container tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
+  /* .table-container tr:nth-child(even) {
+    background-color: white;
+  } */
   
-  .table-container tr:hover {
+  /* .table-container tr:hover {
     background-color: #f1f1f1;
   }
-  
+   */
 
 /* .page-container {
   position: relative;

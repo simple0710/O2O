@@ -10,11 +10,6 @@ import { getProfile } from '../../api/userget';
 
 
 const AdminNav = () => {
-
-  const handleLogout = async () => {
-    await Logout();    
-  };
-
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
@@ -30,6 +25,10 @@ const AdminNav = () => {
 
     fetchUserName();
 }, []);
+
+  const handleLogout = async () => {
+    await Logout();    
+  };
 
 
   return (

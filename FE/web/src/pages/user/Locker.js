@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../style/MainPageApp.css";
 import "../../style/Locker.css";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Table } from "react-bootstrap";
 import { CartContext } from "./CartContext";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -69,14 +69,19 @@ const Locker = () => {
 
   const renderTable = () => {
     if (!selectedLockerBody) return null;
-
-    const table = Array(selectedLockerBody.row).fill().map(() => Array(selectedLockerBody.column).fill(null));
-
+  
+    // 테이블을 동적으로 생성
+    const table = Array(selectedLockerBody.row)
+      .fill()
+      .map(() => Array(selectedLockerBody.column).fill(null));
+  
+    // 추가적인 락커 데이터를 테이블 셀에 배치
     additionalLockersData.forEach((locker) => {
       if (locker.body_id === selectedLockerBody.locker_body_id) {
         table[locker.locker_row - 1][locker.locker_column - 1] = locker;
       }
     });
+  
 
     return (
       <table className="locker-table">
@@ -205,6 +210,8 @@ const Locker = () => {
           </div>
         ) : (
           renderTable()
+          
+          
         )}
       </div>
 
