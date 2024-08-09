@@ -101,32 +101,61 @@ function Identification() {
       const res = {
         text: data.result.text,
         score: data.result.score,
-        isAdmin: data.result.isAdmin? data.result.isAdmin:false
+        isAdmin: data.result.isAdmin? data.result.isAdmin:false,
+        image: data.image,
       };
       setResult(res);
       checkUser(res);
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
       checkUser({
-        text: "한지민",
-        score: 0.8,
-        isAdmin: false
+        text: "최지은",
+        score: 0.8
       }); // 나중에 삭제!!!
     }
   }
 
   const checkUser = async (result) => {
+
+    const formData = new FormData();
+
     console.log(result);
     const msg = `'${result.text}'님이 맞습니까?`;
     if(window.confirm(msg)){
       setLoading(true);
       setLoadingMsg("확인 중 …");
       const params = {
-        // name: result.text
-        name: "한지민"
+        
+            // name: result.text
+            name: "최지은"
+        
+        
       };
-      const response = await checkName(params);
+      formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
+     
+      const response = await checkName(formData, result.image);
+      console.log("Service: ", service);
+      console.log('response: ', response)
+      console.log("Is Admin: ", response.admin);
+
+
       if(response != null && response.active){
+
+        if (service === '관리자' && !response.admin) {
+          Swal.fire({
+            icon: 'error',
+            title: '접근 권한',
+            text: "접근 권한이 없습니다.",
+            confirmButtonText: '확인',
+            timer: 3000, // 3초
+            timerProgressBar: true, 
+          }).then(() => {
+            navigate('/')
+          });
+          setLoading(false);
+          return;
+        }
+
         saveObjectToSession("user", response);
         Swal.fire({
           title: '인증 성공',

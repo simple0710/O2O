@@ -81,7 +81,7 @@ function BrokenFind() {
         }
       })
     );
-    console.log("신고된 아이템:", reportedItems);
+    // console.log("신고된 아이템:", reportedItems);
     // console.log(reportedItems[0].name)
     // post 후 이동 
     navigate('/registerbroken', { state: { reportedItems } });
