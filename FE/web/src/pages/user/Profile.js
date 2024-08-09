@@ -16,6 +16,7 @@ function Profile() {
   });
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ ...profileData });
+  const [passwordRequired, setPasswordRequired] = useState(false);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -38,15 +39,24 @@ function Profile() {
       ...formData,
       [name]: value,
     });
+
+    // Set password required if the user starts typing in any field while in edit mode
+    if (editMode && name !== 'user_pw') {
+      setPasswordRequired(true);
+    }
   };
 
   const handleSave = async () => {
+    if (passwordRequired && !formData.user_pw) {
+      alert('비밀번호를 입력하세요.');
+      return;
+    }
+
     try {
-      
       const userId = localStorage.getItem('userId');
       await updateProfile(userId, formData);
       setProfileData(formData);
-      console.log(formData)
+      console.log(formData);
       setEditMode(false);
     } catch (err) {
       console.error(err);
@@ -55,6 +65,11 @@ function Profile() {
 
   const handleEdit = () => {
     setEditMode(true);
+    setPasswordRequired(true); // Ensure password is required once edit mode is enabled
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      user_pw: '' // 비밀번호 입력란을 초기화합니다.
+    }));
   };
 
   return (
@@ -97,12 +112,13 @@ function Profile() {
                       onChange={handleInputChange}
                     />
                   </p>
+                  {/* 비밀번호 필수 입력 */}
                   <p>
                     <strong>비밀번호:</strong>
                     <input
                       type="password"
                       name="user_pw"
-                      // value={formData.user_pw}
+                      value={formData.user_pw}  
                       onChange={handleInputChange}
                     />
                   </p>
@@ -126,4 +142,3 @@ function Profile() {
 }
 
 export default Profile;
-

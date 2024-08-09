@@ -49,6 +49,7 @@ export async function deleteReservation(reserveId) {
 export async function updateProfile(userId, profileData) {
     try {
       const response = await axiosInstance.put(`/users/profile/${userId}/edit`, profileData);
+      console.log(response)
       return response.data;
     } catch (error) {
       console.log(error);
