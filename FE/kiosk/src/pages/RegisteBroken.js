@@ -15,6 +15,8 @@ const iconMap = {
   '카메라': <FaCamera className="icon" />,
 };
 
+
+
 // 보통 이런 상수 데이터는 Data.js 만들어서 따로 빼기도 함
 const product_status = {
   "4": "분실",
@@ -27,12 +29,13 @@ function RegisterBroken() {
   const location = useLocation();
   const { reportedItems } = location.state || { reportedItems: [] };
   const navigate = useNavigate();
+  console.log("신고된 아이템:", reportedItems);
   
   const brokenlocker = async () => {
     const response = await postReported();
     // 요청 보낸 후 이동 
 
-    navigate('/BrokenLocker');
+    navigate('/BrokenLocker', {state: {reportedItems}});
   };
 
   const postReported = async () => {
