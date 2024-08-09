@@ -32,7 +32,6 @@ public class Products {
     @Column(nullable = false)
     private Integer userId;
 
-//    @JoinColumn(name = "product_id")
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<ProductImgs> productImgs;
 
