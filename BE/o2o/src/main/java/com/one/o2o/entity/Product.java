@@ -19,12 +19,20 @@ import java.util.List;
 @AllArgsConstructor
 public class Product {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private int productId;
+
+    @Column(nullable = false)
     private String productNm;
+
     private String productImg;
+
     private String productDet;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime registDt;
+
+    @Column(nullable = false)
     private int userId;
 
 //    @JoinColumn(name = "product_id")
