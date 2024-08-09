@@ -20,18 +20,28 @@ import java.util.List;
 public class Rent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="rent_id")
+    @Column(name="rent_id", insertable = false, nullable = false)
     private Integer id;
-    @Column(name = "user_id")
+
+    @Column(name = "user_id", nullable = false)
     private int userId;
+
+    @Column
     private Integer reserveId;
+
+    @Column(updatable = false, nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     private LocalDateTime startDt;
+
+    @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     private LocalDateTime dueDt;
+
+    @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.HH:mm")
     private LocalDateTime endDt;
 
+    @Column(nullable = false)
     private boolean isReturned;
 
     @OneToMany(mappedBy = "rent",  fetch = FetchType.LAZY)
