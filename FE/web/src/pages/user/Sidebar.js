@@ -217,7 +217,6 @@ import styled from 'styled-components';
 import { getRecent } from '../../api/userget';
 import { CartContext } from './CartContext';
 import Modals from './Modals';
-import '../../style/Sidebar.css';
 
 // Define styled components outside of the functional component
 const SidebarContainer = styled.div`
@@ -380,6 +379,7 @@ function Sidebar() {
 
   return (
     <SidebarContainer className="side-bar">
+      <div style={{marginTop:'35px'}}>
       <SidebarLink
         to="/request/article"
         isActive={activeLink === '/request/article'}
@@ -416,6 +416,7 @@ function Sidebar() {
           {listItems}
         </ul>
       </AlertBox>
+      </div>
     </SidebarContainer>
   );
 }
