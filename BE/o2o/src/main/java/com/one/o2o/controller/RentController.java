@@ -31,7 +31,7 @@ public class RentController {
 
     @PostMapping()
     public ResponseEntity<Response> createRent(@RequestBody RentRequestDto rentRequestDto) {
-        Integer rentId = rentService.createRent(4, rentRequestDto);
+        Integer rentId = rentService.createRent(rentRequestDto);
         Map<String, Object> map = new HashMap<>();
         map.put("rent_id", rentId);
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "대여가 완료되었습니다.", map), HttpStatus.OK);
@@ -45,7 +45,7 @@ public class RentController {
 
     @PutMapping()
     public ResponseEntity<Response> createReturn(@RequestBody ReturnRequestDto returnRequestDto) {
-        boolean flag = rentService.createReturn(4, returnRequestDto);
+        boolean flag = rentService.createReturn(returnRequestDto);
         String msg = flag? "반납이 완료되었습니다.":"반납이 완료되지 않았습니다.";
         return new ResponseEntity<>(new Response(HttpStatus.OK.value(), msg), HttpStatus.OK);
     }

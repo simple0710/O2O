@@ -41,9 +41,17 @@ public class Reserve {
         this.isCanceled = true;
     }
 
-    // 예약이 종료되었을 때(만료)
+    // 예약이 만료되었을 때
     public void updateReserveToEnded(LocalDateTime endDt){
         this.isEnded = true;
         this.endDt = endDt;
+    }
+
+    // 예약이 종료되었을 때
+    public void updateReserveToFinished(LocalDateTime endDt, Integer rentId){
+        this.isEnded = true;
+        this.endDt = endDt;
+        this.isTaken = true;
+        this.rentId = rentId;
     }
 }
