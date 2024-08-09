@@ -81,8 +81,6 @@ public class EmpServiceImpl implements EmpService {
                 log.info("Error: The file \" + image2Path + \" does not exist.");
                 return "0";
             }
-            log.info("pythonPath = {}",pythonPath);
-            log.info("comparePath = {}",comparePath);
             ProcessBuilder processBuilder = new ProcessBuilder(
                     pythonPath,
                     comparePath,
