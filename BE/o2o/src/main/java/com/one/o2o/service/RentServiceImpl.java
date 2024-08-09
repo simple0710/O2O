@@ -30,6 +30,7 @@ public class RentServiceImpl implements RentService {
     private final LockerRepository lockerRepository;
     private final RentMapper rentMapper;
     private final LockerService lockerService;
+    private final ReserveService reserveService;
 
     @Override
     public RentResponseDto readRentByUserId(int userId, int pageNumber, int pageSize) {
@@ -116,12 +117,18 @@ public class RentServiceImpl implements RentService {
         Rent rent = new Rent();
         // (1) 대여 정보 수정
         rent.setUserId(rentRequestDto.getUserId());
-        rent.setReserveId(rentRequestDto.getReserveID());
         rent.setStartDt(LocalDateTime.now());
         rent.setDueDt(RentCalculation.getDueDateTime(rent.getStartDt()));
         rentRepository.save(rent);
-
         int rentId = rent.getId();
+
+
+        // (2) 예약 있을 시 종료
+        if(rentRequestDto.getReserveID() != null){
+            rent.setReserveId(rentRequestDto.getReserveID());
+            reserveService.finishReserve(rentRequestDto.getReserveID(), rent.getId());
+        }
+
         for(RentSimpleProduct product: rentRequestDto.getProducts()){
             // 2) 대여 가능 여부 확인 및 사물함 수량 차감
             lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._borrow));

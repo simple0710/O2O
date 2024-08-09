@@ -129,11 +129,27 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
+    public boolean expireReserve(Integer reserveId){
+        // 예약 만료
+        boolean flag = expireReserveTransaction(reserveId);
+        return true;
+    }
+    @Override
+    public boolean finishReserve(Integer reserveId, Integer rentId){
+        // 예약 종료
+        boolean flag = finishReserveTransaction(reserveId, rentId);
+        return true;
+    }
+
+
+    /*
+    예약 취소 트랜잭션
+     */
+    @Override
     @Transactional
     public boolean deleteReserveTransaction(Integer reserveId){
         // 1. 예약 객체 불러오기
-        Optional<Reserve> findReserve = reserveRepository.findById(reserveId);
-        Reserve reserve = findReserve.orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
+        Reserve reserve = reserveRepository.findById(reserveId).orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
         if(reserve.isEnded()) return true;
         // 2. 예약 객체 상태 바꿔주기
         reserve.updateReserveToCanceled(LocalDateTime.now());
@@ -147,6 +163,51 @@ public class ReserveServiceImpl implements ReserveService {
             lockerService.updateLockerProductCountAvailable(lockerId, productCnt, productCnt*RentCalculation.getMul(RentCalculation._reserveCancel));
         }
 
+        return true;
+    }
+
+    /*
+    예약 만료 트랜잭션
+     */
+    @Override
+    @Transactional
+    public boolean expireReserveTransaction(Integer reserveId){
+        // 1. 예약 객체 불러오기
+        Reserve reserve = reserveRepository.findById(reserveId).orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
+        if(reserve.isEnded()) return true;
+        reserve.updateReserveToEnded(LocalDateTime.now());
+        // 2. 예약 상세
+        for(ReserveDet det:reserve.getReserveDetList()){
+            // 1) 물품 개수 파악
+            int productId = det.getNewProductId();
+            int productCnt = det.getDetCnt();
+            int lockerId = det.getNewLockerId();
+            // 2) 사물함 복원
+            lockerService.updateLockerProductCountAvailable(lockerId, productCnt, productCnt* RentCalculation.getMul(RentCalculation._reserveCancel));
+        }
+        return true;
+    }
+
+
+    /*
+    예약 종료 트랜잭션
+     */
+    @Override
+    @Transactional
+    public boolean finishReserveTransaction(Integer reserveId, Integer rentId){
+        // 1. 예약 객체 불러오기
+        Reserve reserve = reserveRepository.findById(reserveId).orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
+        if(reserve.isEnded()) return true;
+        reserve.updateReserveToFinished(LocalDateTime.now(), rentId);
+        // 2. 예약 상세
+        for(ReserveDet det:reserve.getReserveDetList()){
+            // 1) 물품 개수 파악
+            int productId = det.getNewProductId();
+            int productCnt = det.getDetCnt();
+            int lockerId = det.getNewLockerId();
+            // 2) 사물함 복원
+            lockerService.updateLockerProductCountAvailable(lockerId, productCnt, productCnt* RentCalculation.getMul(RentCalculation._reserveCancel));
+        }
         return true;
     }
 }
