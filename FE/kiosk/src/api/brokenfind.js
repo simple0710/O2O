@@ -25,3 +25,15 @@ export async function postProductsBrokenAndMissing(params){
 
 
 
+export async function getTest(){
+    try {
+        const response = await axiosSpring.get(`http://192.168.100.218:8000/delete/`);
+        return response;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+
+
