@@ -1,7 +1,7 @@
 package com.one.o2o.event;
 
 import com.one.o2o.dto.ProductSavedEvent;
-import com.one.o2o.entity.File;
+import com.one.o2o.entity.Files;
 import com.one.o2o.entity.Product;
 import com.one.o2o.entity.ProductImgs;
 import com.one.o2o.repository.FileRepository;
@@ -31,11 +31,11 @@ public class ProductSavedEventListener {
         Integer productId = event.getProductId();
         Integer fileId = event.getFileId();
 
-        // 데이터베이스에서 실제 Product와 File 객체를 조회합니다.
+        // 데이터베이스에서 실제 Product와 Files 객체를 조회합니다.
         Product product = productsManageRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        File file = fileRepository.findById(fileId)
-                .orElseThrow(() -> new RuntimeException("File not found"));
+        Files file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("Files not found"));
 
         // ProductImgsId 객체 생성
         ProductImgsId productImgsId = new ProductImgsId(productId, fileId);

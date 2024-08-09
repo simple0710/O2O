@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "FILES")
 @NoArgsConstructor
 @AllArgsConstructor
-public class File {
+public class Files {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;

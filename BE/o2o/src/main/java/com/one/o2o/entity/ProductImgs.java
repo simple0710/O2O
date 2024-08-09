@@ -1,6 +1,5 @@
 package com.one.o2o.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.one.o2o.utils.ProductImgsId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,5 +26,5 @@ public class ProductImgs {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("fileId")
     @JoinColumn(name = "file_id", insertable = false, updatable = false)
-    private File file;
+    private Files file;
 }
