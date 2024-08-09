@@ -14,6 +14,7 @@ export async function getNameFromImage(){
 }
 
 
+
 export async function checkName(params){
     try {
         const response = await axiosSpring.post(`/kiosk/users/emp-check`, params, {

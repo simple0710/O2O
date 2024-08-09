@@ -5,6 +5,7 @@ import '../styles/Cart2.css';
 import axios from 'axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
+import { getUserFromLocal } from '../util/localStorageUtil.js'; // 사용자 정보를 로컬 스토리지에서 가져오기 위한 함수
 
 const Cart2 = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -108,7 +109,6 @@ const Cart2 = () => {
           }
           return prevCartItems;
         } else {
-          // Only add to cart if quantity is greater than 0
           if (product.quantity > 0) {
             return [...prevCartItems, { ...product, quantity: 1 }];
           }
@@ -132,7 +132,7 @@ const Cart2 = () => {
     });
   };
 
-  const logCartItems = () => {
+  const logCartItems = async () => {
     if (cartItems.length === 0) {
       Swal.fire({
         icon: 'warning',
@@ -142,8 +142,61 @@ const Cart2 = () => {
       });
       return;
     }
-    console.log("장바구니에 담긴 아이템:", cartItems);
-    navigate('/locker', { state: { borrowedItems: cartItems } });
+
+    // 로컬 스토리지에서 사용자 정보 가져오기
+    const user = getUserFromLocal();
+
+    // 장바구니 아이템을 API에 맞게 포맷팅
+    const formattedItems = cartItems.map(item => ({
+      product_id: item.id,
+      product_cnt: item.quantity,
+      locker_id: item.locker_id,
+      status_id: 1 // 대여:1 (1로 고정)
+    }));
+
+    // API 요청에 필요한 데이터 구성
+    const requestData = {
+      reserve_id: 34,  // 예시로 하드코딩된 예약 ID, 필요에 따라 수정하세요.
+      locker_body_id: selectedLocker.value,
+      products: formattedItems,
+      user_id: user.user_id
+    };
+
+    try {
+      const response = await axios.post('/kiosk/rent', requestData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log("대여 요청에 대한 응답:", response.data);
+
+      if (response.data.status === 200) {
+        // 대여 성공 시 콘솔에 대여한 물품 정보 출력
+        console.log("대여 성공!");
+        console.log("대여한 물품 정보:", formattedItems);
+        console.log("사용자 정보:", user);
+
+        Swal.fire({
+          icon: 'success',
+          title: '대여 성공',
+          text: `대여가 성공적으로 완료되었습니다. 대여 ID: ${response.data.data.rent_id}`,
+          confirmButtonText: '확인'
+        }).then(() => {
+          navigate('/locker', { state: { borrowedItems: cartItems } });
+        });
+      } else {
+        throw new Error(response.data.message || '대여 처리 중 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      console.error('대여 처리 중 오류:', error);
+      Swal.fire({
+        icon: 'error',
+        title: '대여 실패',
+        text: '대여 처리 중 오류가 발생했습니다. 다시 시도해 주세요.',
+        confirmButtonText: '확인'
+      });
+    }
   };
 
   return (
@@ -204,4 +257,3 @@ const Cart2 = () => {
 }
 
 export default Cart2;
-
