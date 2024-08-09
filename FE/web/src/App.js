@@ -36,6 +36,7 @@ const ProtectedRoute = ({ children }) => {
 
 
 
+
 const PrivateRoute = ({ element }) => {
     const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
     return isAuthenticated ? element : <Navigate to="/" />;
@@ -89,3 +90,4 @@ function App() {
 }
 
 export default App;
+
