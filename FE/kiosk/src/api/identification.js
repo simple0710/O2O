@@ -1,5 +1,6 @@
 import { axiosFast, axiosSpring } from "./axios";
 
+
 export async function getNameFromImage(){
     try {
         // const response = await axiosFast.get(`/get-image/static`); // 테스트용
@@ -40,4 +41,5 @@ export async function checkName(params){
         return null;
     }
 }
+
 
