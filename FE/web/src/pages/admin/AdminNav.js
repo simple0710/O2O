@@ -44,7 +44,7 @@ const AdminNav = () => {
             {userName} 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to="/admin/changepwd">비밀번호 수정</Dropdown.Item>
+            {/* <Dropdown.Item as={Link} to="/admin/changepwd">비밀번호 수정</Dropdown.Item> */}
             <Dropdown.Item as={Link} to="/admin/profile">프로필 수정</Dropdown.Item>
             <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
           </Dropdown.Menu>
