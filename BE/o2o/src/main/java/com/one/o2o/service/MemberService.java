@@ -47,7 +47,17 @@ public class MemberService {
                     Files.createDirectories(directoryPath);
                 }
 
-                newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+                String fileName = file.getOriginalFilename();
+
+                int idx = fileName.lastIndexOf(".");
+
+                newFileName = UUID.randomUUID().toString();
+
+                if (idx > 0) {
+                    newFileName += fileName.substring(idx);
+                }
+
+
                 Path path = Paths.get(uploadPath + newFileName);
                 Files.write(path, file.getBytes());
 
