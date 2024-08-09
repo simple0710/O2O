@@ -37,11 +37,11 @@ public class Locker {
     private Integer newProductId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="product_id", insertable = false, updatable = false)
+    @JoinColumn(name="product_id", insertable = false)
     private Products products;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="body_id", insertable = false, updatable = false)
+    @JoinColumn(name="body_id", insertable = false)
     private LockerBody body;
 
     public void updateTotalCnt(int cnt){
