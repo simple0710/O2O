@@ -31,6 +31,10 @@ function RegisterBroken() {
   const navigate = useNavigate();
   console.log("신고된 아이템:", reportedItems);
   
+
+
+
+
   const brokenlocker = async () => {
     const response = await postReported();
     // 요청 보낸 후 이동 
