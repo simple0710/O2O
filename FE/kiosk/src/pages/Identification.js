@@ -6,6 +6,7 @@ import { Button } from 'bootstrap';
 import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
 import { saveObjectToSession } from '../util/sessionUtils.js'
+import { base64ToFile } from "../util/fileUtil";
 import Swal from 'sweetalert2';
 
 function Identification() {
@@ -118,27 +119,22 @@ function Identification() {
   const checkUser = async (result) => {
 
     const formData = new FormData();
-
-    console.log(result);
     const msg = `'${result.text}'님이 맞습니까?`;
     if(window.confirm(msg)){
+      console.log("yes")
       setLoading(true);
       setLoadingMsg("확인 중 …");
+      
       const params = {
-        
-            // name: result.text
-            name: "최지은"
-        
-        
+        name: result.text
+        // name: "한지민"
       };
+      console.log("확인용 ", params, result.image)
       formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
-     
-      const response = await checkName(formData, result.image);
-      console.log("Service: ", service);
-      console.log('response: ', response)
-      console.log("Is Admin: ", response.admin);
-
-
+        
+      const image = base64ToFile('image', result.image, 'card.jpg');
+      formData.append('image', image)
+      const response = await checkName(formData);
       if(response != null && response.active){
 
         if (service === '관리자' && !response.admin) {
