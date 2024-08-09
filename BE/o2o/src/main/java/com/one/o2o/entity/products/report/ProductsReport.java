@@ -1,6 +1,5 @@
 package com.one.o2o.entity.products.report;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.*;
 import jakarta.persistence.*;
@@ -23,7 +22,7 @@ public class ProductsReport {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User user; // 객체
+    private Users user; // 객체
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCKER_ID")
@@ -33,7 +32,7 @@ public class ProductsReport {
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 
-    @Column
+    @Column(columnDefinition = "SMALLINT")
     private Integer productCnt;
 
     @Column
@@ -55,7 +54,7 @@ public class ProductsReport {
 
     public ProductsReport(UsersReportDto userReportDto) {
         // 사용자 저장
-        this.user = new User();
+        this.user = new Users();
         this.user.setUserId(userReportDto.getUserId());
 
         // 물품 정보 저장

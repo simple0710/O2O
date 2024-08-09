@@ -15,10 +15,10 @@ public class UserDto {
     private String userImg;
 
     @ColumnDefault("false")
-    private boolean isAdmin;
+    private Boolean isAdmin;
     private String userTel;
     @ColumnDefault("true")
-    private boolean isActive;
+    private Boolean isActive;
 
 
 }

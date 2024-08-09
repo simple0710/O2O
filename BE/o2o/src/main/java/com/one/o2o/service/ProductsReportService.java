@@ -7,7 +7,6 @@ import com.one.o2o.dto.products.report.ProductsReportDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.products.report.ProductsReport;
-import com.one.o2o.entity.products.request.ProductsRequest;
 import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.ProductsReportRepository;
 import jakarta.transaction.Transactional;
@@ -45,7 +44,7 @@ public class ProductsReportService implements ProductsReportServiceInterface {
                             Product product = productsReport.getProduct();
                             Locker locker = productsReport.getLocker();
                             LockerBody lockerBody = locker.getBody();
-                            User user = productsReport.getUser();
+                            Users user = productsReport.getUser();
                             ProductStatus status = productsReport.getProductStatus();
                             return ProductsReportDto.builder()
                                     .rptId(productsReport.getRptId())

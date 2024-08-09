@@ -11,7 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @Builder
 @Table(name="user")
-public class MemberEntity {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -44,8 +44,8 @@ public class MemberEntity {
     private Boolean isActive;
 
     // DTO를 Entity로 변환하는 메서드
-    public static MemberEntity toEntity(MemberDto dto) {
-        return MemberEntity.builder()
+    public static Users toEntity(MemberDto dto) {
+        return Users.builder()
                 .userId(dto.getUserId()) // DTO에 userId가 있다면
                 .userLgid(dto.getUserLgid())
                 .userPw(dto.getUserPw())
