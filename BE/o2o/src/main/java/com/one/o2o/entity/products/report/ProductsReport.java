@@ -17,19 +17,19 @@ import java.time.LocalDateTime;
 @ToString
 public class ProductsReport {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(nullable = false, updatable = false)
     private Integer rptId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID", nullable = false)
     private Users user; // 객체
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LOCKER_ID")
+    @JoinColumn(name = "LOCKER_ID", nullable = false)
     private Locker locker; // 객체
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ID")
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private Product product;
 
     @Column(columnDefinition = "SMALLINT")
@@ -38,18 +38,18 @@ public class ProductsReport {
     @Column
     private String rptContent;
 
-    @Column
+    @Column(nullable = false, updatable = false)
     private LocalDateTime rptDt;
 
     @Column
     private String rptImg;
 
     @ColumnDefault("false")
-    @Column
+    @Column(nullable = false)
     private Boolean isProcessed;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "STATUS_ID")
+    @JoinColumn(name = "STATUS_ID", nullable = false)
     private ProductStatus productStatus;
 
     public ProductsReport(UsersReportDto userReportDto) {
