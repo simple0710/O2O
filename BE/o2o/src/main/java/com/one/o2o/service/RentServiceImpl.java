@@ -62,9 +62,9 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public Integer createRent(int userId, RentRequestDto rentRequestDto) {
+    public Integer createRent(RentRequestDto rentRequestDto) {
         // 트랜잭션 종료
-        Integer rentId = createRentTransaction(userId, rentRequestDto);
+        Integer rentId = createRentTransaction(rentRequestDto);
 //        제대로 read 안되는 문제: 결국 해결 X
 //
 //        Optional<Rent> findRent = rentRepository.findById(rentId);
@@ -111,11 +111,11 @@ public class RentServiceImpl implements RentService {
 
 
     @Transactional
-    public int createRentTransaction(int userId, RentRequestDto rentRequestDto) {
+    public int createRentTransaction(RentRequestDto rentRequestDto) {
         // 1) 대여 생성
         Rent rent = new Rent();
         // (1) 대여 정보 수정
-        rent.setUserId(userId);
+        rent.setUserId(rentRequestDto.getUserId());
         rent.setReserveId(rentRequestDto.getReserveID());
         rent.setStartDt(LocalDateTime.now());
         rent.setDueDt(RentCalculation.getDueDateTime(rent.getStartDt()));
@@ -147,7 +147,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public boolean createReturn(int userId, ReturnRequestDto returnRequestDto) {
+    public boolean createReturn(ReturnRequestDto returnRequestDto) {
         Optional<Rent> findRent = rentRepository.findById(returnRequestDto.getRentId());
         // 1. 유효성 확인
         // 1) 반납 유효성
