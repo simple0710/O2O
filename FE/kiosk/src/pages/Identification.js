@@ -5,6 +5,8 @@ import '../styles/common/Common.css';
 import { Button } from 'bootstrap';
 import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
+import { saveObjectToSession } from '../util/sessionUtils.js'
+import Swal from 'sweetalert2';
 
 function Identification() {
   const location = useLocation();
@@ -53,7 +55,7 @@ function Identification() {
     if (service === '대여') {
       navigate('/cart2', { state: { service } });
     } else if (service === '반납') {
-      navigate('/returnstatus', { state: { service } });
+      navigate('/returnlist', { state: { service } });
     } else if (service === '관리자') {
       navigate('/serviceselection', { state: { service } });
     } else if (service === '신고') {
@@ -105,6 +107,11 @@ function Identification() {
       checkUser(res);
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
+      checkUser({
+        text: "한지민",
+        score: 0.8,
+        isAdmin: false
+      }); // 나중에 삭제!!!
     }
   }
 
@@ -114,9 +121,20 @@ function Identification() {
     if(window.confirm(msg)){
       setLoading(true);
       setLoadingMsg("확인 중 …");
-      const response = await checkName(result);
-      if(response != null && response.is_valid){
-        // Todo: 유저 정보 세팅 필요~!!! 
+      const params = {
+        // name: result.text
+        name: "한지민"
+      };
+      const response = await checkName(params);
+      if(response != null && response.active){
+        saveObjectToSession("user", response);
+        Swal.fire({
+          title: '인증 성공',
+          text: `${response.user_nm}님, 안녕하세요.`,
+          // icon: 'info',
+          timer: 3000, // 3초
+          timerProgressBar: true, 
+      });
         setLoading(false);
         goRoute();
       } else {

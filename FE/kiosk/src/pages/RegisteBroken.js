@@ -6,6 +6,8 @@ import { Button } from 'react-bootstrap';
 import { FaCut, FaTint, FaPencilAlt, FaCamera } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { postProductsBrokenAndMissing } from '../api/brokenfind.js';
+import { getUserIdFromSession } from '../util/sessionUtils.js';
+
 const iconMap = {
   '가위': <FaCut className="icon" />,
   '잉크': <FaTint className="icon" />,
@@ -19,8 +21,7 @@ const product_status = {
   "7": "파손"
 }
 
-// 임시 유저 아이디
-const userId = 4;
+const userId = getUserIdFromSession();
 
 function RegisterBroken() {
   const location = useLocation();
@@ -51,7 +52,7 @@ function RegisterBroken() {
   return (
     <div className='frame-container'>
       <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
+          HOME
       </button>
       <div className="report-container">
         {reportedItems.map((item, index) => (

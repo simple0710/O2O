@@ -27,6 +27,8 @@ import ReturnFinish from './pages/ReturnFinish';
 import BrokenFinish from './pages/BrokenFinish';
 import QuantityChangeFinish from './pages/QuantityChangeFinish';
 import RegisterFinish from './pages/RegisterFinish';
+import ReturnList from './pages/ReturnList';
+import ReturnLocker from './pages/ReturnLocker';
 import { FiAlertTriangle, FiArchive, FiCornerDownRight ,FiSettings    } from "react-icons/fi";
 import BrokenLocker from './pages/BrokenLocker'
 
@@ -142,7 +144,8 @@ function App() {
           <Route path="/changelocker" element={<ChangeLocker />}/> 
           <Route path="/brokenlocker" element={<BrokenLocker />}/> 
           
-
+          <Route path="/returnlist" element={<ReturnList />}/> 
+          <Route path="/returnlocker" element={<ReturnLocker />}/> 
 
           <Route path="/returnfinish" element={<ReturnFinish />}/> 
           <Route path="/brokenfinish" element={<BrokenFinish />}/> 

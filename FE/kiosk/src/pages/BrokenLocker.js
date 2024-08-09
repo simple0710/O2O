@@ -28,7 +28,9 @@ const Locker = () => {
   return (
     <div className='frame-container'>
     <div className="locker-container">
-    <button className="btn-main" onClick={() => navigate('/')}>메인 페이지</button>
+      <button className="btn-main" onClick={() => navigate('/')}>
+          HOME
+      </button>
       <div className="locker-header">
         표시된 파손함에<br /> 파손 물품을 넣어주세요 <br /> <br />
       </div>
