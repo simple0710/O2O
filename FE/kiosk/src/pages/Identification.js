@@ -108,7 +108,7 @@ function Identification() {
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
       checkUser({
-        text: "최지은",
+        text: "장철민",
         score: 0.8,
         isAdmin: false
       }); // 나중에 삭제!!!
@@ -123,10 +123,27 @@ function Identification() {
       setLoadingMsg("확인 중 …");
       const params = {
         // name: result.text
-        name: "최지은"
+        name: "장철민"
       };
       const response = await checkName(params);
+
       if(response != null && response.active){
+
+        if (service === '관리자' && !response.isAdmin) {
+          Swal.fire({
+            icon: 'error',
+            title: '접근 권한',
+            text: "접근 권한이 없습니다.",
+            confirmButtonText: '확인',
+            timer: 3000, // 3초
+            timerProgressBar: true, 
+          }).then(() => {
+            navigate('/')
+          });
+          setLoading(false);
+          return;
+        }
+
         saveObjectToSession("user", response);
         Swal.fire({
           title: '인증 성공',
