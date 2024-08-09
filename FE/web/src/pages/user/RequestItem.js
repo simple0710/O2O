@@ -6,9 +6,9 @@ import Swal from "sweetalert2";
 import {postRequest} from '../../api/userpost'
 
 const RequestItem = () => {
-
+    const userId = localStorage.getItem('userId');
     const [formData, setFormData] = useState({
-        user_id: 7,
+        user_id: userId,
         itemname: '',
         requestreason : '',
         itemlink : '',
@@ -34,7 +34,7 @@ const RequestItem = () => {
 
             // 데이터 전송 후 input form 초기화
             setFormData({
-                user_id: 7,
+                user_id: userId,
                 itemname: '',
                 requestreason: '',
                 itemlink: '',
