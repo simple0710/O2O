@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import '../../style/AddItem.css';
+import '../../style/AddItem.css'; 
+import { Button, Form } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
 import axiosInstance from '../../utils/axiosInstance';
@@ -73,47 +74,49 @@ function AddItem() {
                 <div className="content">
                     <h2>물품 추가</h2>
                     <div className='item-form'>
-                        <form onSubmit={handleSubmit}>
-                            <div>
-                                <label htmlFor="itemName" className="form-label">물품명:</label>
-                                <input
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group className="mb-3" controlId="formItemName">
+                                <Form.Label>물품명</Form.Label>
+                                <Form.Control
                                     type="text"
-                                    className="form-control"
-                                    id="itemName"
                                     name="itemName"
+                                    placeholder="물품명을 입력해주세요."
                                     value={itemData.itemName}
                                     onChange={handleChange}
                                     required
                                 />
-                            </div>
-                            <div>
-                                <label htmlFor="itemDescription" className="form-label">물품설명:</label>
-                                <textarea
-                                    className="form-control"
-                                    id="itemDescription"
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formItemDescription">
+                                <Form.Label>물품설명</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    rows={3}
                                     name="itemDescription"
+                                    placeholder="물품 설명을 입력해주세요."
                                     value={itemData.itemDescription}
                                     onChange={handleChange}
                                     required
                                 />
-                            </div>
-                            <div>
-                                <label htmlFor="itemImage" className="form-label">물품사진:</label>
-                                <input
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formItemImage">
+                                <Form.Label>물품 이미지</Form.Label>
+                                <Form.Control
                                     type="file"
-                                    className="form-control"
-                                    id="itemImage"
                                     name="itemImage"
                                     onChange={handleChange}
-                                    ref={fileInputRef}  // ref 연결
+                                    ref={fileInputRef}
                                 />
-                            </div>
-                            <ButtonComponent
-                             type="submit"
-                             >
+                            </Form.Group>
+
+                            <ButtonComponent 
+                                type="submit"
+                                style={{ marginTop: '20px' }}
+                            >
                                 등록
                             </ButtonComponent>
-                        </form>
+                        </Form>
                     </div>
                 </div>
             </div>

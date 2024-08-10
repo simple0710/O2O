@@ -136,47 +136,51 @@ function AddUser() {
                     <div className='user-form'>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId="formEmail">
-                                <Form.Label>로그인아이디(이메일형식):</Form.Label>
+                                <Form.Label>로그인아이디</Form.Label>
                                 <Form.Control
                                     type="email"
                                     name="user_lgid"
+                                    placeholder="exam@email.com"
                                     value={formData.user_lgid}
                                     onChange={handleChange}
                                     required
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formPassword">
-                                <Form.Label>비밀번호:</Form.Label>
+                                <Form.Label>비밀번호</Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="user_pw"
+                                    placeholder="특수문자를 포함한 6글자 이상으로 입력해주세요."
                                     value={formData.user_pw}
                                     onChange={handleChange}
                                     required
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formUsername">
-                                <Form.Label>사용자명:</Form.Label>
+                                <Form.Label>사용자명</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="user_nm"
+                                    placeholder="사용자명을 입력해주세요."
                                     value={formData.user_nm}
                                     onChange={handleChange}
                                     required
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formEmpCode">
-                                <Form.Label>직원 코드:</Form.Label>
+                                <Form.Label>직원 코드</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="emp_cd"
+                                    placeholder="직원코드를 입력해주세요."
                                     value={formData.emp_cd}
                                     onChange={handleChange}
                                     required
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formImageLink">
-                                <Form.Label>이미지 링크:</Form.Label>
+                                <Form.Label>이미지</Form.Label>
                                 <Form.Control
                                     type="file"
                                     name="user_img"
@@ -185,10 +189,11 @@ function AddUser() {
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formTel">
-                                <Form.Label>전화번호:</Form.Label>
+                                <Form.Label>전화번호</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="user_tel"
+                                    placeholder="010-0000-0000 형식으로 입력해주세요."
                                     value={formData.user_tel}
                                     onChange={handleChange}
                                     required
@@ -196,6 +201,7 @@ function AddUser() {
                             </Form.Group>
                             <ButtonComponent 
                             type="submit"
+                            style={{ marginTop: '20px' }}
                             >
                                 등록
                             </ButtonComponent>

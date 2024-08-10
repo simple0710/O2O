@@ -5,7 +5,7 @@ import AdminNav from './AdminNav';
 import { getProfile } from '../../api/userget'; 
 import { updateProfile } from '../../api/userpost'; 
 import '../../style/Profile.css';
-import Image from '../../images/profile.png';
+import Image from '../../images/th.jpeg';
 import ButtonComponent from '../../components/ButtonComponent';
 
 function Profile() {
@@ -35,11 +35,19 @@ function Profile() {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, files } = e.target;
+
+    if (type === 'file') {
+      setFormData({
+        ...formData,
+        user_img: files[0]
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
 
     // Set password required if the user starts typing in any field while in edit mode
     if (editMode && name !== 'user_pw') {
@@ -82,21 +90,26 @@ function Profile() {
           <h2>프로필</h2>
           <div className="profile-card">
             <div className="profile-image">
-            <img src={formData.user_img || Image} alt="프로필 이미지" />
+              <div>
+              <img
+                src={formData.user_img ? URL.createObjectURL(formData.user_img) : Image}
+                alt="프로필 이미지"
+              />
+              </div>
               {editMode && (
                 <input
-                  type="text"
+                  type="file"
                   name="user_img"
-                  value={formData.user_img}
+                  accept="image/*"
                   onChange={handleInputChange}
                 />
               )}
             </div>
             <div className="profile-details">
               {editMode ? (
-                <div>
+                <div className='profile-edit'>
                   <p>
-                    <strong>이름</strong>
+                  <strong>이름</strong>
                     <input
                       type="text"
                       name="user_nm"
@@ -105,7 +118,7 @@ function Profile() {
                     />
                   </p>
                   <p>
-                    <strong>전화번호</strong>
+                  <strong>전화번호</strong>
                     <input
                       type="text"
                       name="user_tel"
@@ -115,7 +128,7 @@ function Profile() {
                   </p>
                   {/* 비밀번호 필수 입력 */}
                   <p>
-                    <strong>비밀번호</strong>
+                  <strong>비밀번호</strong>
                     <input
                       type="password"
                       name="user_pw"
@@ -123,15 +136,26 @@ function Profile() {
                       onChange={handleInputChange}
                     />
                   </p>
-                  <button onClick={handleSave}>저장</button>
-                  <button onClick={() => setEditMode(false)}>취소</button>
+                  <span>
+                  <ButtonComponent onClick={handleSave} style={{margin: '20px 10px' }}>저장</ButtonComponent>
+                  <ButtonComponent onClick={() => setEditMode(false)} style={{ margin: '20px 10px' }}>취소</ButtonComponent>
+                  </span>
                 </div>
               ) : (
-                <div>
-                  <p><strong>이름</strong> {profileData.user_nm}</p>
-                  <p><strong>전화번호</strong> {profileData.user_tel}</p>
-                  <p><strong>비밀번호</strong> ********</p>
-                  <ButtonComponent onClick={handleEdit}>수정</ButtonComponent>
+                <div className='profile-content'>
+                  <p>
+                    <div className="detail-label"><strong>이름</strong></div>
+                    <div className="detail-value">{profileData.user_nm}</div>
+                  </p>
+                  <p>
+                    <div className="detail-label"><strong>전화번호</strong></div>
+                    <div className="detail-value">{profileData.user_tel}</div>
+                  </p>
+                  <p>
+                    <div className="detail-label"><strong>비밀번호</strong></div>
+                    <div className="detail-value">********</div>
+                  </p>
+                  <ButtonComponent onClick={handleEdit} style={{ margin: '30px 0' }}>수정</ButtonComponent>
                 </div>
               )}
             </div>
