@@ -15,11 +15,14 @@ const AdminNav = () => {
   useEffect(() => {
     const fetchUserName = async () => {
         try {
-            const userId = localStorage.getItem('userId');
-            const profile = await getProfile(userId);
-            setUserName(profile.user_nm);
+            const userId = localStorage.getItem('userId'); // localStorage에서 userId 가져오기
+            if (userId) {
+                const profileData = await getProfile(userId); // API 호출로 프로필 데이터 가져오기
+                setUserName(profileData.user_nm); // 가져온 데이터에서 user_nm 설정
+                localStorage.setItem('userName', profileData.user_nm); // userName을 localStorage에 저장
+            }
         } catch (error) {
-            console.log(error);
+            console.error('Error fetching user profile:', error);
         }
     };
 
