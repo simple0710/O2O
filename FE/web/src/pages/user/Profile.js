@@ -93,7 +93,7 @@ function Profile() {
               <div>
               <img
                 src={formData.user_img ? URL.createObjectURL(formData.user_img) : Image}
-                alt="프로필 이미지"
+                alt="프로필이미지"
               />
               </div>
               {editMode && (
