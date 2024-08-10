@@ -1,12 +1,26 @@
 .user-form{
     margin-top: 30px;
+    max-width: 600px;
 }
 
-.add-btn {
-    background-color: black;
-    color: white;
-    border-radius: 5px;
-    margin-top: 50px;
-    width: 60px;
-    height: 35px;
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .content-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .user-form {
+        max-width: 100%;
+    }
 }

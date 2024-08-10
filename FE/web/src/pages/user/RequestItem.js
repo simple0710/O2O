@@ -57,16 +57,16 @@ const RequestItem = () => {
 
 
     return (
-        <div>
+        <div className="total">
             <Nav/>
             <div className="content-container">
                 <Sidebar/>
                 <div className='content'>
                     <h2>물품 요청</h2>
-                    <div className='user-form'>
+                    <div className='request-form'>
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="itemname" className='form-label'>물품명: </label>
+                                <label htmlFor="itemname" className='form-label'>물품명</label>
                                 <input
                                     type="itemname"
                                     className='form-control'
@@ -79,7 +79,7 @@ const RequestItem = () => {
                                 />
                             </div>
                             <div>
-                            <label htmlFor="requestreason" className='form-label'>신청 사유: </label>
+                            <label htmlFor="requestreason" className='form-label'>신청 사유</label>
                                 <input
                                     type="requestreason"
                                     className='form-control'
@@ -92,7 +92,7 @@ const RequestItem = () => {
                                 />
                             </div>
                             <div>
-                            <label htmlFor="itemlink" className='form-label'>물품 링크: </label>
+                            <label htmlFor="itemlink" className='form-label'>물품 링크</label>
                                 <input
                                     type="itemlink"
                                     className='form-control'
@@ -105,7 +105,7 @@ const RequestItem = () => {
                                 />
                             </div>
                             <div>
-                            <label htmlFor="itemcnt" className='form-label'>물품 개수: </label>
+                            <label htmlFor="itemcnt" className='form-label'>물품 개수</label>
                                 <input
                                     type="itemcnt"
                                     className='form-control'
@@ -119,6 +119,7 @@ const RequestItem = () => {
                             </div>
                             <ButtonComponent 
                                 type="submit"
+                                style={{ marginTop: '20px' }}
                             >
                                 요청하기
                             </ButtonComponent>
