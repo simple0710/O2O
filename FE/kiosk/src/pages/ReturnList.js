@@ -77,19 +77,41 @@ function ReturnList() {
     }
   };
 
+  // const handleRentClick = (index) => {
+  //   setItems(prevItems =>
+  //     prevItems.map((rent, rInd) =>
+  //       rInd === index
+  //         ? rent
+  //         : rent.map(item => ({ ...item, broken: 0, missing: 0 }))
+  //     )
+  //   );
+  //   setSelectedRentIndex(index);
+  //   setSelectedRent(items[index]);
+  //   const selectedRent = items[index];
+  //   if (selectedRent.length > 0) {
+  //     console.log("선택된 대여 일시:", formatDateSimple(selectedRent[0].date));
+  //   }
+  // };
+
   const handleRentClick = (index) => {
-    setItems(prevItems =>
-      prevItems.map((rent, rInd) =>
-        rInd === index
-          ? rent
-          : rent.map(item => ({ ...item, broken: 0, missing: 0 }))
-      )
-    );
-    setSelectedRentIndex(index);
-    setSelectedRent(items[index]);
-    const selectedRent = items[index];
-    if (selectedRent.length > 0) {
-      console.log("선택된 대여 일시:", formatDateSimple(selectedRent[0].date));
+    // 이미 선택된 항목을 다시 클릭했을 경우 하이라이트 해제
+    if (selectedRentIndex === index) {
+      setSelectedRentIndex(null);
+      setSelectedRent(null);
+    } else {
+      setItems(prevItems =>
+        prevItems.map((rent, rInd) =>
+          rInd === index
+            ? rent
+            : rent.map(item => ({ ...item, broken: 0, missing: 0 }))
+        )
+      );
+      setSelectedRentIndex(index);
+      setSelectedRent(items[index]);
+      const selectedRent = items[index];
+      if (selectedRent.length > 0) {
+        console.log("선택된 대여 일시:", formatDateSimple(selectedRent[0].date));
+      }
     }
   };
 
