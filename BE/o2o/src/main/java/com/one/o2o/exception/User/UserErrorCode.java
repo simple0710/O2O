@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum UserErrorCode implements ErrorCode {
-    USER_ID_MISSING(HttpStatus.BAD_REQUEST, "유효하지 않은 사용자 ID의 입력 입니다.");
+    USER_ID_MISSING(HttpStatus.BAD_REQUEST, "사용자 ID가 입력되지 않았습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

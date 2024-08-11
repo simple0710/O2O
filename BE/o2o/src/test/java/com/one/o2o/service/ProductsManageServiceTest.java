@@ -6,6 +6,8 @@ import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.entity.Files;
 import com.one.o2o.entity.Products;
 import com.one.o2o.event.ProductSavedEventListener;
+import com.one.o2o.exception.User.UserErrorCode;
+import com.one.o2o.exception.User.UserException;
 import com.one.o2o.exception.products.ProductErrorCode;
 import com.one.o2o.exception.products.ProductException;
 import com.one.o2o.repository.FileRepository;
@@ -121,6 +123,36 @@ public class ProductsManageServiceTest {
         assertEquals(ProductErrorCode.PRODUCT_NAME_MISSING, thrownException2.getErrorCode(), "2-1. 물품 등록 시 이름 누락의 경우 error code 일치성 확인");
         assertEquals("제품 이름이 누락되었습니다.", thrownException2.getMessage(), "2-2. 물품 등록 시 이름 누락의 경우 실패 메세지 출력");
         assertEquals(400, thrownException2.getErrorCode().getStatus(), "2-3. 물품 등록 시 이름 누락의 경우 상태 번호 출력");
+    }
+
+    @Test
+    void saveProduct_withMissingUserId_shouldThrowException() throws IOException {
+        // Given: 초기 설정
+        List<MultipartFile> files = Collections.singletonList(
+                new MockMultipartFile("file", "testfile.jpg", "image/jpeg", "test".getBytes())
+        );
+        ProductsDto productsDto = ProductsDto.builder()
+                .productNm("물품")
+                .productDet("물품 설명1")
+//                .userId(1111111111)
+                .build();
+
+        // Mock behavior
+        when(productsManageRepository.save(any(Products.class)))
+                .thenReturn(Products.builder().productId(1).build()); // Mock된 Product ID 반환
+        when(fileRepository.save(any(Files.class)))
+                .thenReturn(Files.builder().id(1).build()); // Mock된 File ID 반환
+        doNothing().when(productSavedEventListener).handleProductSavedEvent(any(ProductSavedEvent.class));
+
+        // When: 메서드 호출 및 예외 검증
+        UserException thrownException = assertThrows(UserException.class, () -> {
+            productsManageService.saveProduct(files, productsDto);
+        });
+
+        // Then: 예상 결과와 비교
+        assertEquals(UserErrorCode.USER_ID_MISSING, thrownException.getErrorCode(), "1-1. 유저 Id 누락의 경우 error code 일치성 확인");
+        assertEquals("사용자 ID가 입력되지 않았습니다.", thrownException.getMessage(), "1-2. 물품 등록 시 이름 누락의 경우 실패 메세지 출력");
+        assertEquals(400, thrownException.getErrorCode().getStatus(), "1-3. 물품 등록 시 이름 누락의 경우 상태 번호 출력");
     }
 
     @Test
