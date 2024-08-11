@@ -14,7 +14,6 @@ import com.one.o2o.service.ProductsRequestService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/products")
@@ -86,7 +82,7 @@ public class ProductsController {
     // 이상 신고
     @PostMapping("/report")
     public ResponseEntity<?> createProductsReport(@RequestBody UsersReportDto userReportDto) {
-        return new ResponseEntity<>(productsReportService.save(userReportDto) , HttpStatus.OK);
+        return new ResponseEntity<>(productsReportService.saveProductReport(userReportDto) , HttpStatus.OK);
     }
 
     @PutMapping("/report/process")

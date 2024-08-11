@@ -29,7 +29,7 @@ public class KioskProductsController {
     // 이상 신고
     @PostMapping("/report")
     public ResponseEntity<?> createProductsReport(@RequestBody UsersReportDto userReportDto) {
-        return new ResponseEntity<>(productsReportService.save(userReportDto) , HttpStatus.OK);
+        return new ResponseEntity<>(productsReportService.saveProductReport(userReportDto) , HttpStatus.OK);
     }
 
 

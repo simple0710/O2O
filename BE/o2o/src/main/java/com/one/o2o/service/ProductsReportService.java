@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 interface ProductsReportServiceInterface {
     Response findAll(int pageNumber, int pageSize);
-    Response save(UsersReportDto userReportDto);
+    Response saveProductReport(UsersReportDto userReportDto);
     Response updateProcess(List<ReportProcessDto> reportProcessDto);
 }
 
@@ -80,7 +80,7 @@ public class ProductsReportService implements ProductsReportServiceInterface {
     }
 
     @Override
-    public Response save(UsersReportDto userReportDto) {
+    public Response saveProductReport(UsersReportDto userReportDto) {
         Response response = new Response(200, "이상 신고 등록 완료");
         productsReportRepository.save(new ProductsReport(userReportDto));
         return response;
