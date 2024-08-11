@@ -60,8 +60,10 @@ public class ProductsManageService implements ProductsManageInterface {
         // 물품명 조건 검사
         ProductValidator.validateProductName(productsDto.getProductNm());
 
+        Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
+
+        log.info("productsId = {}", productsId);
         if (files != null && !files.isEmpty()) {
-            Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
             saveProduct(files, productsId, productsDto.getUserId());
         }
         return new Response(200, "성공적으로 저장되었습니다.");
