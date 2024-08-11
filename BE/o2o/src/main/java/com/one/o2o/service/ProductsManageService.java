@@ -15,6 +15,7 @@ import com.one.o2o.entity.RentLog;
 import com.one.o2o.event.ProductSavedEventListener;
 import com.one.o2o.repository.*;
 import com.one.o2o.validator.ProductValidator;
+import com.one.o2o.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +60,9 @@ public class ProductsManageService implements ProductsManageInterface {
     public Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException {
         // 물품명 조건 검사
         ProductValidator.validateProductName(productsDto.getProductNm());
+
+        // 유저 id 검사
+        UserValidator.validateUserId(productsDto.getUserId());
 
         Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
 
