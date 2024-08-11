@@ -13,9 +13,8 @@ import com.one.o2o.entity.Products;
 import com.one.o2o.entity.Rent;
 import com.one.o2o.entity.RentLog;
 import com.one.o2o.event.ProductSavedEventListener;
-import com.one.o2o.exception.products.ProductErrorCode;
-import com.one.o2o.exception.products.ProductException;
 import com.one.o2o.repository.*;
+import com.one.o2o.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -59,16 +57,8 @@ public class ProductsManageService implements ProductsManageInterface {
 
     @Transactional
     public Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException {
-        // 물품 이름 누락시 오류 발생
-        String productNm = productsDto.getProductNm();
-        if (productNm == null || productNm.trim().isEmpty()) {
-            throw new ProductException(ProductErrorCode.PRODUCT_NAME_MISSING);
-        }
-
-        // 물품 이름이 DB 기준을 초과한 경우 오류 발생
-        if (productNm.getBytes(StandardCharsets.UTF_8).length > 50) {
-            throw new ProductException(ProductErrorCode.PRODUCT_NAME_LENGTH_OVER);
-        }
+        // 물품명 조건 검사
+        ProductValidator.validateProductName(productsDto.getProductNm());
 
         if (files != null && !files.isEmpty()) {
             Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
