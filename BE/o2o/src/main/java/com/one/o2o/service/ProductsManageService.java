@@ -56,13 +56,16 @@ public class ProductsManageService implements ProductsManageInterface {
     private final FileRepository fileRepository;
     private final ProductSavedEventListener productSavedEventListener;
 
+    // Validator
+    private final UserValidator userValidator;
+
     @Transactional
     public Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException {
         // 물품명 조건 검사
         ProductValidator.validateProductName(productsDto.getProductNm());
 
         // 유저 id 검사
-        UserValidator.validateUserId(productsDto.getUserId());
+        userValidator.validateUserId(productsDto.getUserId());
 
         Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
 

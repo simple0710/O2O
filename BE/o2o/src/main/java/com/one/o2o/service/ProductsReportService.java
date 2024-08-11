@@ -8,6 +8,8 @@ import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.products.report.ProductsReport;
 import com.one.o2o.repository.ProductsReportRepository;
+import com.one.o2o.validator.ProductValidator;
+import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,9 @@ interface ProductsReportServiceInterface {
 public class ProductsReportService implements ProductsReportServiceInterface {
 
     private final ProductsReportRepository productsReportRepository;
+
+    // Validator
+    private final UserValidator userValidator;
 
     @Override
     public Response findAll(int pageNumber, int pageSize) {
@@ -81,6 +86,14 @@ public class ProductsReportService implements ProductsReportServiceInterface {
 
     @Override
     public Response saveProductReport(UsersReportDto userReportDto) {
+
+        // 사용자 관련 입력 검사
+        userValidator.validateUserId(userReportDto.getUserId());
+
+        // 물품 관련 입력 검사
+        ProductValidator.validateProductCount(userReportDto.getProductCnt());
+
+
         Response response = new Response(200, "이상 신고 등록 완료");
         productsReportRepository.save(new ProductsReport(userReportDto));
         return response;
