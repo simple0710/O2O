@@ -6,6 +6,8 @@ import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.entity.Files;
 import com.one.o2o.entity.Products;
 import com.one.o2o.event.ProductSavedEventListener;
+import com.one.o2o.exception.products.ProductErrorCode;
+import com.one.o2o.exception.products.ProductException;
 import com.one.o2o.repository.FileRepository;
 import com.one.o2o.repository.ProductsManageRepository;
 import org.junit.jupiter.api.Test;
@@ -84,9 +86,14 @@ public class ProductsManageServiceTest {
         List<MultipartFile> files = Collections.singletonList(
                 new MockMultipartFile("file", "testfile.jpg", "image/jpeg", "test".getBytes())
         );
-        ProductsDto productsDto = ProductsDto.builder()
+        ProductsDto productsDto1 = ProductsDto.builder()
 //                .productNm("")
-                .productDet("평범한 가위")
+                .productDet("물품 설명1")
+                .userId(1)
+                .build();
+        ProductsDto productsDto2 = ProductsDto.builder()
+                .productNm("")
+                .productDet("물품 설명2")
                 .userId(1)
                 .build();
 
@@ -97,14 +104,23 @@ public class ProductsManageServiceTest {
                 .thenReturn(Files.builder().id(1).build()); // Mock된 File ID 반환
         doNothing().when(productSavedEventListener).handleProductSavedEvent(any(ProductSavedEvent.class));
 
-        // When: 메서드 호출
-        Response response = productsManageService.saveProduct(files, productsDto);
+        // When: 메서드 호출 및 예외 검증
+        ProductException thrownException1 = assertThrows(ProductException.class, () -> {
+           productsManageService.saveProduct(files, productsDto1);
+        });
 
-        assertEquals(400, response.getStatus(), "물품 등록 시 이름 누락의 경우 실패 메세지 출력");
-    }
+        ProductException thrownException2 = assertThrows(ProductException.class, () -> {
+            productsManageService.saveProduct(files, productsDto2);
+        });
 
-    @Test
-    void testSaveProduct() {
+        // Then: 예상 결과와 비교
+        assertEquals(ProductErrorCode.PRODUCT_NAME_MISSING, thrownException1.getErrorCode(), "1-1. 물품 등록 시 이름 누락의 경우 error code 일치성 확인");
+        assertEquals("제품 이름이 누락되었습니다.", thrownException1.getMessage(), "1-2. 물품 등록 시 이름 누락의 경우 실패 메세지 출력");
+        assertEquals(400, thrownException1.getErrorCode().getStatus(), "1-3. 물품 등록 시 이름 누락의 경우 상태 번호 출력");
+
+        assertEquals(ProductErrorCode.PRODUCT_NAME_MISSING, thrownException2.getErrorCode(), "2-1. 물품 등록 시 이름 누락의 경우 error code 일치성 확인");
+        assertEquals("제품 이름이 누락되었습니다.", thrownException2.getMessage(), "2-2. 물품 등록 시 이름 누락의 경우 실패 메세지 출력");
+        assertEquals(400, thrownException2.getErrorCode().getStatus(), "2-3. 물품 등록 시 이름 누락의 경우 상태 번호 출력");
     }
 
     @Test
