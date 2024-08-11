@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BrokenFind.css';
 import { formatDateSimple } from '../util/dateUtil.js';
 import { getUserFromLocal } from '../util/localStorageUtil.js';
 
-function Reservation() {
+function ReservationModal({ show, handleClose, onProceedToCart }) {
   const [reservations, setReservations] = useState([]);
   const [selectedReservationIndex, setSelectedReservationIndex] = useState(null);
   const [cartItems, setCartItems] = useState([]);
-  const navigate = useNavigate();
-
-  const back = () => {
-    navigate('/');
-  };
 
   useEffect(() => {
-    fetchReservations();
-  }, []);
+    if (show) {
+      fetchReservations();
+    }
+  }, [show]);
 
   const fetchReservations = async () => {
     try {
@@ -55,7 +51,6 @@ function Reservation() {
     if (selectedReservation) {
       console.log("선택된 예약 일시:", formatDateSimple(selectedReservation.reserve_dt));
 
-      // 선택된 예약 물품을 cartItems에 추가
       const newItems = selectedReservation.products.map(product => ({
         id: product.product_id,
         name: product.product_name,
@@ -70,16 +65,16 @@ function Reservation() {
   };
 
   const proceedToCart = () => {
-    navigate('/cart2', { state: { cartItems } });  // cartItems를 Cart2 페이지로 전달
+    onProceedToCart(cartItems);
+    handleClose();
   };
 
   return (
-    <div className="frame-container">
-        <button className="btn-main" onClick={back}>HOME</button> {/* HOME 버튼을 상단에 유지 */}
-      <div className="header">
-      </div>
-      <div className="cart-container">
-        <h2>예약 내역 조회</h2>
+    <Modal show={show} onHide={handleClose} size="lg" centered>
+      <Modal.Header closeButton>
+        <Modal.Title>예약 내역 조회</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <div className="items">
           {reservations.length > 0 ? (
             reservations.map((reservation, rInd) => (
@@ -110,12 +105,17 @@ function Reservation() {
             <p>예약 내역이 없습니다.</p>
           )}
         </div>
-        <div className="footer">
-          <button className="btn-cart2" onClick={proceedToCart}>담기</button> 
-        </div>
-      </div>
-    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          닫기
+        </Button>
+        <Button variant="primary" onClick={proceedToCart}>
+          카트로 이동
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
-export default Reservation;
+export default ReservationModal;
