@@ -6,7 +6,7 @@ services:
       context: ./FE/kiosk
     image: react_container  # 이미지 이름 설정
     container_name: react_container  # 컨테이너 이름 설정
-    ports:
+    #ports:
       #- "3000:3000"  # kiosk React 앱 포트
     networks:
       - my_network #나만의 network 설정! 
@@ -16,7 +16,7 @@ services:
       context: ./FE/web
     image: react_container_web  # 이미지 이름 설정
     container_name: react_container_web  # 컨테이너 이름 설정
-    ports:
+    #ports:
       #- "3001:3001"  # web React 앱 포트
     networks:
       - my_network #나만의 network 설정! 
