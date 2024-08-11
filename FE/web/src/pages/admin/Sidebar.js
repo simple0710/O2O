@@ -73,14 +73,14 @@ const Sidebar = () => {
         isActive={activeLink === '/admin/adduser'}
         onClick={() => handleLinkClick('/admin/adduser')}
       >
-        이용자등록
+        이용자 등록
       </SidebarLink>
       <SidebarLink
         to="/admin/additem"
         isActive={activeLink === '/admin/additem'}
         onClick={() => handleLinkClick('/admin/additem')}
       >
-        물품등록
+        물품 등록
       </SidebarLink>
       </div>
     </SidebarContainer>
