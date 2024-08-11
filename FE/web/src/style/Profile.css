@@ -1,7 +1,7 @@
 /* 프로필 카드 스타일 */
 .profile-card {
   width: 700px;
-  background-color: rgb(153, 244, 236);
+  /* background-color: rgb(153, 244, 236); */
   /* border: 1px solid black; */
   border-radius: 5%;
   margin-top: 20px;
