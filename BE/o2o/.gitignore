@@ -44,5 +44,4 @@ bootsecurity.p12
 
 ### Finder ###
 .DS_Store
-
-C:/nginx/html/images/products/
+**/images/
