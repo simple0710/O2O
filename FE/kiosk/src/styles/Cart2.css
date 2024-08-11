@@ -67,6 +67,11 @@
   top: 5%;
   left: 5%;
 }
+.btn-reservation {
+  position: fixed;
+  top: 5%;
+  right: 5%
+}
 .btn-space {
   margin: 0px 10px;
 }

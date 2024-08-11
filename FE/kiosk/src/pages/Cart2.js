@@ -5,7 +5,8 @@ import '../styles/Cart2.css';
 import axios from 'axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
-import { getUserFromLocal } from '../util/localStorageUtil.js'; // 사용자 정보를 로컬 스토리지에서 가져오기 위한 함수
+import { getUserFromLocal } from '../util/localStorageUtil.js';
+import ReservationModal from './ReservationModal'; // 새로 만든 모달 컴포넌트 import
 
 const Cart2 = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -13,6 +14,7 @@ const Cart2 = () => {
   const [products, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [cartItems, setCartItems] = useState([]);
+  const [showModal, setShowModal] = useState(false); // 모달을 관리하기 위한 상태 추가
 
   const navigate = useNavigate();
 
@@ -143,20 +145,17 @@ const Cart2 = () => {
       return;
     }
 
-    // 로컬 스토리지에서 사용자 정보 가져오기
     const user = getUserFromLocal();
 
-    // 장바구니 아이템을 API에 맞게 포맷팅
     const formattedItems = cartItems.map(item => ({
       product_id: item.id,
       product_cnt: item.quantity,
       locker_id: item.locker_id,
-      status_id: 1 // 대여:1 (1로 고정)
+      status_id: 1 
     }));
 
-    // API 요청에 필요한 데이터 구성
     const requestData = {
-      reserve_id: 34,  // 예시로 하드코딩된 예약 ID, 필요에 따라 수정하세요.
+      reserve_id: 34,
       locker_body_id: selectedLocker.value,
       products: formattedItems,
       user_id: user.user_id
@@ -172,7 +171,6 @@ const Cart2 = () => {
       console.log("대여 요청에 대한 응답:", response.data);
 
       if (response.data.status === 200) {
-        // 대여 성공 시 콘솔에 대여한 물품 정보 출력
         console.log("대여 성공!");
         console.log("대여한 물품 정보:", formattedItems);
         console.log("사용자 정보:", user);
@@ -199,13 +197,36 @@ const Cart2 = () => {
     }
   };
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleProceedToCart = (selectedItems) => {
+    setCartItems(selectedItems);
+  };
+  
+  const back = () => {
+    navigate('/');
+  };
+
   return (
     <>
+      <button className="btn-main" onClick={back}>HOME</button>
       <div>
-        <button className="btn-main" onClick={() => navigate('/')}>
-          HOME
+        <button className="btn-reservation" onClick={handleOpenModal}>
+          예약 내역 보기
         </button>
       </div>
+
+      <ReservationModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        onProceedToCart={handleProceedToCart}
+      />
 
       <div className='cart-list-container'>
         <div className='cart-list-box'>

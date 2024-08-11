@@ -248,6 +248,10 @@ function Identification() {
   const videoRef = useRef(null);
   const service = location.state?.label;  // label 정보를 service에 저장
 
+  const back = () => {
+    navigate('/');
+  };
+
   // -----------------------
   const [isError, setIsError] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -421,6 +425,7 @@ function Identification() {
   return (
    
       <div className="identification-container">
+        <button className="btn-main" onClick={back}>HOME</button>
         <div className="text-box">
           <p className='mb-0'>사원증을 인식해 주세요.</p>
           <p className='small-font'>지정된 위치에 사원증을 놓은 후 촬영 버튼을 눌러주세요.</p>
