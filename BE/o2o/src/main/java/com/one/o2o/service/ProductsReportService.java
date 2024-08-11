@@ -7,7 +7,6 @@ import com.one.o2o.dto.products.report.ProductsReportDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.products.report.ProductsReport;
-import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.ProductsReportRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -93,7 +92,7 @@ public class ProductsReportService implements ProductsReportServiceInterface {
         Response response = new Response(200, "이상 처리 완료");
         for (ReportProcessDto report : reportProcessDtoList) {
             ProductsReport productsReport = productsReportRepository.findById(report.getRptId())
-                    .orElseThrow(ArticleNotFoundException::new);
+                    .orElseThrow();
             productsReport.setIsProcessed(report.getIsProcessed());
         }
         return response;
