@@ -239,6 +239,7 @@ import { Button } from 'bootstrap';
 import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
 import { saveObjectToSession } from '../util/sessionUtils.js'
+import { saveUserToLocal, getUserFromLocal } from '../util/localStorageUtil.js';
 import Swal from 'sweetalert2';
 
 function Identification() {
@@ -246,6 +247,10 @@ function Identification() {
   const navigate = useNavigate();
   const videoRef = useRef(null);
   const service = location.state?.label;  // label 정보를 service에 저장
+
+  const back = () => {
+    navigate('/');
+  };
 
   // -----------------------
   const [isError, setIsError] = useState(false);
@@ -318,7 +323,7 @@ function Identification() {
       const data = await getData();
       const res = handleData(data);
       setLoading(false);
-      
+      // console.log(response.user_id)
     } 
   }
 
@@ -342,7 +347,11 @@ function Identification() {
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
       checkUser({
+<<<<<<< HEAD
         text: "최지은",
+=======
+        text: "한지민",
+>>>>>>> feat/99-post
         score: 0.8
       }); // 나중에 삭제!!!
     }
@@ -360,13 +369,21 @@ function Identification() {
       const params = {
         
             // name: result.text
+<<<<<<< HEAD
             name: "최지은"
+=======
+            name: "한지민"
+>>>>>>> feat/99-post
         
         
       };
       formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
      
+<<<<<<< HEAD
       const response = await checkName(formData, result.image);
+=======
+      const response = await checkName(formData);
+>>>>>>> feat/99-post
       console.log("Service: ", service);
       console.log('response: ', response)
       console.log("Is Admin: ", response.admin);
@@ -388,8 +405,20 @@ function Identification() {
           setLoading(false);
           return;
         }
+<<<<<<< HEAD
 
         saveObjectToSession("user", response);
+=======
+        // 로컬 스토리지에 사용자 정보 저장
+        saveUserToLocal(response);
+
+        // 로컬 스토리지에서 사용자 정보 가져와 콘솔에 출력
+        const user = getUserFromLocal();
+        console.log("로컬 스토리지에서 가져온 사용자 정보:", user);
+        console.log("user.user_id",user.user_id)
+
+        // saveObjectToSession("user", response);
+>>>>>>> feat/99-post
         Swal.fire({
           title: '인증 성공',
           text: `${response.user_nm}님, 안녕하세요.`,
@@ -413,6 +442,7 @@ function Identification() {
   return (
    
       <div className="identification-container">
+        <button className="btn-main" onClick={back}>HOME</button>
         <div className="text-box">
           <p className='mb-0'>사원증을 인식해 주세요.</p>
           <p className='small-font'>지정된 위치에 사원증을 놓은 후 촬영 버튼을 눌러주세요.</p>
@@ -438,5 +468,8 @@ export default Identification;
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> feat/99-post

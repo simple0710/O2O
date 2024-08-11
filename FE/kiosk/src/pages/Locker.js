@@ -22,7 +22,7 @@ const Locker = () => {
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
-        console.log('Lockers data:', data);
+        // console.log('Lockers data:', data);
 
         // borrowedItems의 body_id에 해당하는 사물함 설정
         if (borrowedItems && borrowedItems.length > 0) {
@@ -51,7 +51,7 @@ const Locker = () => {
               .filter(item => item.body_id === selectedLocker.value)
               .map(item => ({ locker_column: item.column, locker_row: item.row }));
             setHighlightedLockers(highlighted);
-            console.log('Highlighted lockers:', highlighted);
+            // console.log('Highlighted lockers:', highlighted);
           }
         })
         .catch(error => {
@@ -101,13 +101,13 @@ const Locker = () => {
                   {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
                     const product = getProductInLocker(colIndex + 1, rowIndex + 1);
                     const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
-                    console.log(`Row: ${rowIndex + 1}, Column: ${colIndex + 1}, isHighlighted: ${isHighlighted}`);
+                    // console.log(`Row: ${rowIndex + 1}, Column: ${colIndex + 1}, isHighlighted: ${isHighlighted}`);
                     return (
                       <div 
                         key={`col-${colIndex}`} 
                         className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
                       >
-                         {console.log(`Product: ${product ? product.product_nm : 'None'}, isHighlighted: ${isHighlighted}, Classes: locker-box ${isHighlighted ? 'locker-highlight' : ''}`)}
+                         {/* {console.log(`Product: ${product ? product.product_nm : 'None'}, isHighlighted: ${isHighlighted}, Classes: locker-box ${isHighlighted ? 'locker-highlight' : ''}`)} */}
                         {product ? product.product_nm : ''}
                       </div>
                     );
