@@ -59,7 +59,8 @@ public class EmpServiceImpl implements EmpService {
                     idx = i;
                 }
             }
-
+            log.info(String.valueOf(userList.get(0)));
+            log.info(String.valueOf(userMapper.userToUserDto(userList.get(0))));
             return idx == -1 ? userMapper.userToUserDto(userList.get(0)) : userMapper.userToUserDto(userList.get(idx));
         } finally {
             if (imageManage != null) {
