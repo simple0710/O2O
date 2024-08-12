@@ -240,6 +240,7 @@ import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
 import { saveObjectToSession } from '../util/sessionUtils.js'
 import { saveUserToLocal, getUserFromLocal } from '../util/localStorageUtil.js';
+import { base64ToFile, downloadFile } from "../util/fileUtil";
 import Swal from 'sweetalert2';
 
 function Identification() {
@@ -345,99 +346,113 @@ function Identification() {
       setResult(res);
       checkUser(res);
     } else {
-      handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
-      checkUser({
-<<<<<<< HEAD
-        text: "최지은",
-=======
-        text: "한지민",
->>>>>>> feat/99-post
-        score: 0.8
-      }); // 나중에 삭제!!!
+      // 나중에 삭제 
+      Swal.fire({
+        icon: 'error',
+        title: '오류',
+        text: "이름 인식에 실패했습니다. 다시 촬영해주세요.",
+        confirmButtonText: '확인',
+        timer: 2000, // 3초
+      }).then(()=>{
+        askUser({
+          text: "최지은",
+          score: 0.8
+        });
+      })
+      
     }
   }
+
+  const askUser = (result) => {
+    Swal.fire({
+      html: `<span style="color: blue;">${result.text}</span>님이 맞습니까?`, // result.text를 빨간색으로 설정
+      showCancelButton: true,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+      customClass: {
+        popup: 'custom-popup',
+        confirmButton: 'custom-confirm-button'
+    }
+    }).then((res) => {
+      if (res.isConfirmed) {
+        checkUser(result);
+      } 
+    });
+  }
+
 
   const checkUser = async (result) => {
-
     const formData = new FormData();
+    console.log("yes")
+    setLoading(true);
+    setLoadingMsg("확인 중 …");
+    
+    const params = {
+      name: result.text
+      // name: "한지민"
+    };
+    formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
+      
+    const image = base64ToFile('image', result.image, 'card.jpg');
+    formData.append('image', image)
+    const response = await checkName(formData);
+    handleUser(response);
+  }
 
-    console.log(result);
-    const msg = `'${result.text}'님이 맞습니까?`;
-    if(window.confirm(msg)){
-      setLoading(true);
-      setLoadingMsg("확인 중 …");
-      const params = {
-        
-            // name: result.text
-<<<<<<< HEAD
-            name: "최지은"
-=======
-            name: "한지민"
->>>>>>> feat/99-post
-        
-        
-      };
-      formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
-     
-<<<<<<< HEAD
-      const response = await checkName(formData, result.image);
-=======
-      const response = await checkName(formData);
->>>>>>> feat/99-post
-      console.log("Service: ", service);
-      console.log('response: ', response)
-      console.log("Is Admin: ", response.admin);
-
-
-      if(response != null && response.active){
-
-        if (service === '관리자' && !response.admin) {
-          Swal.fire({
-            icon: 'error',
-            title: '접근 권한',
-            text: "접근 권한이 없습니다.",
-            confirmButtonText: '확인',
-            timer: 3000, // 3초
-            timerProgressBar: true, 
-          }).then(() => {
-            navigate('/')
-          });
-          setLoading(false);
-          return;
-        }
-<<<<<<< HEAD
-
-        saveObjectToSession("user", response);
-=======
-        // 로컬 스토리지에 사용자 정보 저장
-        saveUserToLocal(response);
-
-        // 로컬 스토리지에서 사용자 정보 가져와 콘솔에 출력
-        const user = getUserFromLocal();
-        console.log("로컬 스토리지에서 가져온 사용자 정보:", user);
-        console.log("user.user_id",user.user_id)
-
-        // saveObjectToSession("user", response);
->>>>>>> feat/99-post
+  const handleUser = (response) => {
+    if(response != null && response.active){
+    
+      if (service === '관리자' && !response.admin) {
         Swal.fire({
-          title: '인증 성공',
-          text: `${response.user_nm}님, 안녕하세요.`,
-          // icon: 'info',
+          icon: 'error',
+          title: '접근 권한',
+          text: "접근 권한이 없습니다.",
+          confirmButtonText: '확인',
           timer: 3000, // 3초
           timerProgressBar: true, 
-      });
+        }).then(() => {
+          navigate('/')
+        });
         setLoading(false);
-        goRoute();
-      } else {
-        handleError("적합하지 않은 사용자입니다. 다시 촬영을 시도해주세요.")
+        return;
       }
+      // 로컬 스토리지에 사용자 정보 저장
+      saveUserToLocal(response);
 
+      // 로컬 스토리지에서 사용자 정보 가져와 콘솔에 출력
+      const user = getUserFromLocal();
+      console.log("로컬 스토리지에서 가져온 사용자 정보:", user);
+      console.log("user.user_id",user.user_id)
+
+      // saveObjectToSession("user", response);
+      Swal.fire({
+        title: '인증 성공',
+        text: `${response.user_nm}님, 안녕하세요.`,
+        // icon: 'info',
+        timer: 3000, // 3초
+        timerProgressBar: true, 
+    });
+      setLoading(false);
+      goRoute();
+    } else {
+      handleError("적합하지 않은 사용자입니다. 다시 촬영을 시도해주세요.");
+      setLoading(false);
     }
+
   }
+  
 
   const handleError = (msg) => {
-    window.alert(msg? msg:"오류가 발생했습니다. 다시 시도해주세요.");
+    console.log("handleError ", msg);
+    Swal.fire({
+      icon: 'error',
+      title: '오류',
+      text: msg ? msg : '오류가 발생했습니다. 다시 시도해주세요.',
+      confirmButtonText: '확인',
+      timer: 2000, // 3초
+    });
   }
+
 
   return (
    
@@ -465,11 +480,3 @@ function Identification() {
 }
 
 export default Identification;
-
-
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> feat/99-post
