@@ -6,6 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../../style/Changepwd.css'; 
 import Sidebar from './Sidebar';
 import AdminNav from './AdminNav';
+import ButtonComponent from '../../components/ButtonComponent';
+
 
 function ChangePwd() {
   const navigate = useNavigate();
@@ -42,12 +44,11 @@ function ChangePwd() {
                     id="inputNewPassword2"
                     placeholder="새 비밀번호를 다시 입력해주세요."
                 />
-                <Button
-                  className="pwd-button" 
+                <ButtonComponent
                   onClick={handlePasswordChange}
                 >
                   비밀번호 수정
-                </Button>
+                </ButtonComponent>
             </div>
 
           </div>

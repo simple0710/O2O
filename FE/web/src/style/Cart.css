@@ -73,6 +73,13 @@
   margin-bottom: 10px;
 }
 
+.cart-item {
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: #f8f9fa;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 .cart-item span {
   display: block;
   cursor: pointer;
@@ -81,7 +88,7 @@
 .remove-button {
   background: none;
   border: none;
-  color: #f44336;
+  color: black;
   font-weight: bold;
   cursor: pointer;
   position: absolute;
@@ -100,36 +107,8 @@
   padding: 8px 16px;
   border-radius: 8px;
   border: 1px solid transparent;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   transition: all 0.2s ease-in-out;
-}
-
-.cart-button:hover {
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.cart-button:active {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transform: translateY(1px);
-}
-
-.cart-button-primary {
-  background-color: #42a5f5;
-  color: white;
-}
-
-.cart-button-primary:hover {
-  background-color: #3391f2;
-}
-
-.cart-button-danger {
-  background-color: #ef5350;
-  color: white;
-}
-
-.cart-button-danger:hover {
-  background-color: #e53935;
 }
 
 .modal-footer .btn {

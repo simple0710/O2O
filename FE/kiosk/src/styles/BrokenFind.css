@@ -10,7 +10,8 @@
 .cart-container {
   width: 100%;
   max-width: 375px;
-  height: auto;
+  /* height: auto; */
+  height: 600px;  /*높이 고정*/
   margin: 0 auto;
   background-color: white;
   padding: 20px;
@@ -21,7 +22,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+ 
 }
 
 h2 {
@@ -32,12 +34,36 @@ h2 {
 }
 
 .items {
-  margin-bottom: 20px;
+  width: 200px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  min-height: 400px; /* 아이템 영역의 최소 높이 설정 */
 }
+
+.broekn-items {
+  width: 400px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  min-height: 400px; /* 아이템 영역의 최소 높이 설정 */
+}
+
+
+/* .rent {
+  margin-bottom: 15px;
+} */
+
 
 .rent {
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
 
 .item {
   padding: 10px;
@@ -114,6 +140,7 @@ button:disabled {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  margin-top: 15px;
 }
 
 .report-button:hover {
@@ -171,3 +198,40 @@ p.p-small-number.imp {
   top: 5%;
   left: 5%;
 }
+
+
+
+/* 페이지네이션 관련 버튼  css */
+.pagination-button {
+  background-color: transparent !important; /* 배경색 완전히 제거 */
+  border: none; /* 테두리 제거 */
+  padding: 5px;
+  cursor: pointer;
+  outline: none; /* 포커스 시 테두리 제거 */
+  box-shadow: none !important; /* 박스 쉐도우 제거 */
+  -webkit-appearance: none; /* 기본 브라우저 스타일 제거 (특히 iOS) */
+  -moz-appearance: none; /* 기본 브라우저 스타일 제거 (Firefox) */
+  appearance: none; /* 기본 브라우저 스타일 제거 */
+  margin: 0 43px; /* 버튼 사이에 10px의 간격 추가 */
+}
+
+.pagination-button:disabled {
+  opacity: 0.2; /* 비활성화된 버튼의 불투명도 감소 */
+  cursor: not-allowed;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.pagination-button:focus, 
+.pagination-button:active, 
+.pagination-button:hover {
+  background-color: transparent !important; /* 모든 상태에서 배경색 제거 */
+  outline: none; /* 포커스 시 테두리 제거 */
+  box-shadow: none !important; /* 클릭 시 박스 쉐도우 제거 */
+}
+
+

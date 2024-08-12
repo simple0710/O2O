@@ -1,10 +1,102 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import '../styles/BrokenLocker.css';
 import axios from 'axios';
 
-const Locker = () => {
+const BrokenLocker = () => {
+  const [lockersData, setLockersData] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [highlightedProductIds, setHighlightedProductIds] = useState([]); // product_id로 하이라이트
+  const [lockerBodyId, setLockerBodyId] = useState(null);
+  const [selectedLocker, setSelectedLocker] = useState(null);
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const {reportedItems} = location.state || {reportedItems: []};
+  console.log('사물함으로 넘어온 정보: ', reportedItems)
+
+  // locker_body_id 정보 가져오기
+  useEffect(() => {
+    saveLockerBodyIdFromLocal();
+
+    const locker_body_id = getLockerBodyIdFromLocal();
+    setLockerBodyId(locker_body_id);
+  }, []);
+
+  useEffect(() => {
+    console.log('Updated lockerBodyId:', lockerBodyId);
+  }, [lockerBodyId]);
+
+
+  useEffect(() => {
+    // 사물함 이름 데이터 불러오기
+    axios.get('/lockers/names')
+      .then(response => {
+        const data = response.data.data;
+        setLockersData(data);
+        console.log('Lockers data:', data);
+
+        // borrowedItems의 body_id에 해당하는 사물함 설정
+        if (lockerBodyId) {
+          const defaultLocker = data.find(locker => locker.locker_body_id === lockerBodyId);
+          if (defaultLocker) {
+            setSelectedLocker({ value: defaultLocker.locker_body_id, label: defaultLocker.locker_body_name });
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching lockers data:', error);
+      });
+  }, [lockerBodyId]);
+
+  useEffect(() => {
+    if (lockerBodyId) {
+      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
+        .then(response => {
+          const data = response.data.data;
+          setProducts(data);
+          console.log('Product data:', data);
+
+          if (reportedItems) {
+            // 하이라이트할 product_id 설정
+            const highlightedIds = reportedItems.map(item => item.product_id);
+            setHighlightedProductIds(highlightedIds);
+            console.log('Highlighted product IDs:', highlightedIds);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching products data:', error);
+        });
+    }
+  }, [lockerBodyId, reportedItems]);
+
+  const getProductInLocker = (column, row) => {
+    return products.find(product => product.locker_column === column && product.locker_row === row);
+  };
+
+
+  // product_id로 하이라이트 여부 결정
+  // const isHighlighted = (column, row) => {
+  //   const product = getProductInLocker(column, row);
+  //   console.log('Product:', product); // 제품 정보 콘솔에 출력
+  //   return product && highlightedProductIds.includes(product.product_id);
+  // };
+
+  const isHighlighted = (column, row) => {
+    const maxRow = Math.max(...products.map(product => product.locker_row), 0);
+    const maxColumn = Math.max(...products.map(product => product.locker_column), 0);
+
+    return column === maxColumn && row === maxRow;
+  };
+
+
+  // 로커의 행과 열 수를 결정
+  const rows = Math.max(...products.map(product => product.locker_row), 0);
+  const columns = Math.max(...products.map(product => product.locker_column), 0);
+
+
 
   const back = () => {
     navigate('/Locker');
@@ -26,27 +118,42 @@ const Locker = () => {
   }, []);
 
   return (
-    <div className='frame-container'>
-    <div className="locker-container">
-      <button className="btn-main" onClick={() => navigate('/')}>
-          HOME
-      </button>
-      <div className="locker-header">
-        표시된 파손함에<br /> 파손 물품을 넣어주세요 <br /> <br />
+    <>
+    <button className="btn-main" onClick={back}>메인 페이지</button>
+
+    <div className='locker-frame'>
+      <div className="locker-container1">
+        <div className="locker-title">
+          표시된 사물함에<br /> 물건을 넣어주세요.<br /> <br />
+        </div>
+        <div className='locker-grid'>
+          {rows > 0 && columns > 0 &&
+            Array.from({ length: rows }).map((_, rowIndex) =>
+              <div key={`row-${rowIndex}`} className='locker-row'>
+                {Array.from({ length: columns }).map((_, colIndex) => {
+                  const product = getProductInLocker(colIndex + 1, rowIndex + 1);
+                  const highlight = isHighlighted(colIndex + 1, rowIndex + 1);
+                  console.log(`Row: ${rowIndex + 1}, Column: ${colIndex + 1}, isHighlighted: ${highlight}`);
+                  return (
+                    <div 
+                      key={`col-${colIndex}`} 
+                      className={`locker-box ${highlight ? 'locker-highlight' : ''}`}
+                    >
+                      {product ? product.product_nm : ''}
+                    </div>
+                  );
+                })}
+              </div>
+            )
+          }
+        </div>
+        <button className='button1' onClick={brokenfinish}>확인</button>
       </div>
-      
-      <div className="locker highlight" style={{ top: '40%' }} />
-      <div className="locker" style={{ top: '20%', left: '25%'}} />
-      <div className="locker" style={{ top: '20%', left: '50%' }} />
-      <div className="locker" style={{ top: '20%', left: '75%' }} />
-      <div className="locker" style={{ top: '60%', left: '25%' }} />
-      <div className="locker" style={{ top: '60%', left: '50%' }} />
-      <div className="locker" style={{ top: '60%', left: '75%' , backgroundColor: 'pink'  }} onClick={brokenfinish}/>
-      <div className="locker" style={{ top: '40%', left: '25%' }} />
-      <div className="locker" style={{ top: '40%', left: '75%', }} />
     </div>
-    </div>
+  </>
+
+
   );
 };
 
-export default Locker;
+export default BrokenLocker;

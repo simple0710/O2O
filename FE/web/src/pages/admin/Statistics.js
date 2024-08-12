@@ -47,18 +47,6 @@ const Statistics = () => {
   }, []);
 
   const options = {
-    plugins: {
-      title: {
-        display: true,
-        text: "사용률",
-        font: {
-          size: 20,
-        },
-        padding: {
-          bottom: 20,
-        },
-      },
-    },
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -88,6 +76,7 @@ const Statistics = () => {
             <h3>비품 사용 통계</h3>
           </div>
           <div className="chart-container">
+            <h5>[사용률 통계]</h5>
             <Bar data={chartData} options={options} />
           </div>
           <div className="out-chart">
