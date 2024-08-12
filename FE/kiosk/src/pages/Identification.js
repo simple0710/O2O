@@ -441,6 +441,7 @@ function Identification() {
 
   }
   
+  
 
   const handleError = (msg) => {
     console.log("handleError ", msg);
@@ -479,4 +480,8 @@ function Identification() {
   );
 }
 
+<<<<<<< HEAD
 export default Identification;
+=======
+export default Identification;
+>>>>>>> f8e5947 (fix: [FE] identification 충돌 수정)
