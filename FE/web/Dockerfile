@@ -13,7 +13,7 @@ RUN npm install
 #RUN ls -al
 COPY . .
 #RUN ls -al
-RUN npm run build
+#RUN npm run build
 
 # /app/build의 내용 확인
 #RUN ls -al /app/build
