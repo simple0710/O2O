@@ -34,7 +34,7 @@ services:
     image: nginx:alpine
     container_name: nginx_container  # 컨테이너 이름 설정
     ports:
-      - "80:80"
+      - "81:80"
       - "443:443"  # HTTPS 포트
     volumes:
       - /etc/letsencrypt/live/i11d101.p.ssafy.io-0001/fullchain.pem:/etc/ssl/certs/fullchain.pem  # SSL 인증서 경로
