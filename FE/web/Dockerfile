@@ -1,5 +1,4 @@
 
-
 # 가져올 이미지를 정의
 FROM node:20 AS builder
 # 경로 설정하기
@@ -13,7 +12,7 @@ RUN npm install
 #RUN ls -al
 COPY . .
 #RUN ls -al
-#RUN npm run build
+RUN npm run build
 
 # /app/build의 내용 확인
 #RUN ls -al /app/build
