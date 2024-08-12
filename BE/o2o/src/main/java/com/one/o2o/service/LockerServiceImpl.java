@@ -30,7 +30,7 @@ public class LockerServiceImpl implements LockerService{
 
     @Override
     public List<LockerBody> readLockerBodyList() {
-        return lockerBodyRepository.findAll();
+        return lockerBodyRepository.findAllByIsActiveIsTrue();
     }
     @Override
     public List<LockerDto> readLockerByBodyId(int body_id) {
