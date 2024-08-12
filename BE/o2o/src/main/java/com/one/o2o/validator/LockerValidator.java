@@ -1,0 +1,38 @@
+package com.one.o2o.validator;
+
+import com.one.o2o.exception.locker.LockerErrorCode;
+import com.one.o2o.exception.locker.LockerException;
+import com.one.o2o.repository.LockerRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class LockerValidator {
+
+    private final LockerRepository lockerRepository;
+
+    /**
+     * 주어진 lockerId가 유효한지 검증
+     * - lockerId가 null이거나 0 이하일 경우, 오류를 반환
+     * - lockerId가 데이터베이스에 존재하지 않는 경우, 오류를 반환.
+     *
+     * @param lockerId 검증할 lockerId
+     */
+    public void validateLockerId(Integer lockerId) {
+        if (lockerId == null || lockerId <= 0) {
+            log.error("잘못된 lockerId: {}", lockerId);
+            throw new LockerException(LockerErrorCode.LOCKER_ID_INVALID);
+        }
+
+        boolean lockerExists = lockerRepository.existsById(lockerId);
+        if (!lockerExists) {
+            log.error("존재하지 않는 lockerId: {}", lockerId);
+            throw new LockerException(LockerErrorCode.LOCKER_NOT_FOUND);
+        }
+
+        log.info("유효한 lockerId 확인됨: {}", lockerId);
+    }
+}
