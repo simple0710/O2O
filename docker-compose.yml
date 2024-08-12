@@ -35,7 +35,7 @@ services:
     container_name: nginx_container  # 컨테이너 이름 설정
     ports:
       - "80:80"
-      - "443:443"  # HTTPS 포트
+      #- "443:443"  # HTTPS 포트
       
     #volumes:
      
