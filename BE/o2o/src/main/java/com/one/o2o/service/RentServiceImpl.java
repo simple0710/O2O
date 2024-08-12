@@ -42,6 +42,7 @@ public class RentServiceImpl implements RentService {
         List<RentResponseSingleDto> rentDtoList = new ArrayList<>();
         for (Rent rent : rentList) {
             List<RentLog> rl = rent.getRentLogs();
+            if(rl.isEmpty()) throw new RentException.RentNotFoundException("적합하지 않은 대여 내역입니다.");
             rl.sort(Comparator.comparing(RentLog::getLogDt));
             for (RentLog rentLog : rl) {
                 System.out.println("rentLog = " + rentLog);
@@ -49,10 +50,11 @@ public class RentServiceImpl implements RentService {
                 rentLog.getLocker();
             }
             RentResponseSingleDto dto = rentMapper.rentToRentListResponseDto(rent);
-            // 가장 마지막 기록을 updateDt으로 등록환다
+            // 가장 마지막 기록을 updateDt으로 등록한다
             dto.setUpdateDt(rl.get(rl.size()-1).getLogDt());
             rentDtoList.add(dto);
         }
+        rentDtoList.sort(Comparator.comparing(RentResponseSingleDto::getRentDt).reversed());
         res.setRents(rentDtoList);
         List<Status> statusList = statusRepository.findAll();
         res.setStatus(statusList.stream().collect(Collectors.toMap(Status::getStatusId, status -> status)));
@@ -88,6 +90,7 @@ public class RentServiceImpl implements RentService {
         List<RentResponseSingleDto> rentDtoList = new ArrayList<>();
         for (Rent rent : rentList) {
             List<RentLog> rl = rent.getRentLogs();
+            if(rl.isEmpty()) throw new RentException.RentNotFoundException("적합하지 않은 대여 내역입니다.");
             rl.sort(Comparator.comparing(RentLog::getLogDt));
             for (RentLog rentLog : rl) {
                 System.out.println("rentLog = " + rentLog);
@@ -95,12 +98,13 @@ public class RentServiceImpl implements RentService {
                 rentLog.getLocker();
             }
             RentResponseSingleDto dto = rentMapper.rentToRentListResponseDto(rent);
-            // 가장 마지막 기록을 updateDt으로 등록환다
+            // 가장 마지막 기록을 updateDt으로 등록한다
             dto.setUpdateDt(rl.get(rl.size()-1).getLogDt());
             // 대여가 0이면 제외한다
             dto.setProducts(dto.getProducts().stream().filter(rpd -> rpd.getStatus().get(RentCalculation._borrow).getProductCnt() > 0).toList());
             rentDtoList.add(dto);
         }
+        rentDtoList.sort(Comparator.comparing(RentResponseSingleDto::getRentDt).reversed());
         res.setRents(rentDtoList);
         List<Status> statusList = statusRepository.findAll();
         res.setStatus(statusList.stream().collect(Collectors.toMap(Status::getStatusId, status -> status)));
