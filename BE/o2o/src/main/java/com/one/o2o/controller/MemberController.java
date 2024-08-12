@@ -7,6 +7,7 @@ import com.one.o2o.dto.SignInDto;
 import com.one.o2o.dto.User.MemberLoginDto;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.entity.MemberEntity;
+import com.one.o2o.entity.Users;
 import com.one.o2o.service.MemberService;
 import com.one.o2o.service.RedisServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
@@ -53,6 +54,7 @@ public class MemberController {
 
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
+
         log.info("encodedPassword : " + encodedPassword);
 
         memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
@@ -97,10 +99,13 @@ public class MemberController {
 
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
-
+        boolean check = false;
+        if(memberDto.getUserPw().length()>0){
+            check=true;
+        }
         memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
         System.out.println(memberDto);
-        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto), HttpStatus.OK) ;
+        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto, check), HttpStatus.OK) ;
     }
 
 
@@ -120,7 +125,7 @@ public class MemberController {
         log.info("request username = {}, password = {}", userLgid, userPw);
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
 
-        MemberEntity memberEntity = memberService.searchprofile_with_lgid(userLgid);
+        Users memberEntity = memberService.searchprofile_with_lgid(userLgid);
 
         // Header
         HttpHeaders headers = new HttpHeaders();
