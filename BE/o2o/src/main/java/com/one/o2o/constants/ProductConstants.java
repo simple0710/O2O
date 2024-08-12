@@ -5,4 +5,7 @@ public class ProductConstants {
     public static final Integer MAX_PRODUCT_NAME_LENGTH = 50;
     public static final Integer MAX_KOREAN_CHAR_LENGTH = 16;
     public static final Integer MAX_ENGLISH_CHAR_LENGTH = 50;
+
+    public static final Integer MIN_PRODUCT_STATUS_VALUE = 1;
+    public static final Integer MAX_PRODUCT_STATUS_VALUE = 7;
 }
