@@ -1,4 +1,3 @@
-
 # nginx:alpine 이미지를 기반으로 사용
 FROM nginx:alpine
 
