@@ -17,19 +17,4 @@ public enum ProductReportErrorCode implements ErrorCode {
         this.httpStatus = httpStatus;
         this.status = httpStatus.value();
     }
-
-    @Override
-    public HttpStatus getHttpStatus() {
-        return this.httpStatus;
-    }
-
-    @Override
-    public Integer getStatus() {
-        return this.httpStatus.value();
-    }
-
-    @Override
-    public String getMessage() {
-        return this.message;
-    }
 }
