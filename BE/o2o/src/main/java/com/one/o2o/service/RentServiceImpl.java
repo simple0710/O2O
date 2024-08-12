@@ -54,7 +54,6 @@ public class RentServiceImpl implements RentService {
             dto.setUpdateDt(rl.get(rl.size()-1).getLogDt());
             rentDtoList.add(dto);
         }
-        rentDtoList.sort(Comparator.comparing(RentResponseSingleDto::getRentDt).reversed());
         res.setRents(rentDtoList);
         List<Status> statusList = statusRepository.findAll();
         res.setStatus(statusList.stream().collect(Collectors.toMap(Status::getStatusId, status -> status)));
@@ -83,7 +82,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public RentResponseDto readOngoingRentByUserId(int userId, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(Math.max(0, pageNumber - 1), pageSize);
-        Page<Rent> listPage = rentRepository.findAllByUserIdAndIsReturnedIsFalse(userId, pageable);
+        Page<Rent> listPage = rentRepository.findAllByUserIdAndIsReturnedIsFalseOrderByStartDtDesc(userId, pageable);
         List<Rent> rentList = listPage.getContent();
         System.out.println("rentList = " + rentList);
         RentResponseDto res = new RentResponseDto();
@@ -104,7 +103,6 @@ public class RentServiceImpl implements RentService {
             dto.setProducts(dto.getProducts().stream().filter(rpd -> rpd.getStatus().get(RentCalculation._borrow).getProductCnt() > 0).toList());
             rentDtoList.add(dto);
         }
-        rentDtoList.sort(Comparator.comparing(RentResponseSingleDto::getRentDt).reversed());
         res.setRents(rentDtoList);
         List<Status> statusList = statusRepository.findAll();
         res.setStatus(statusList.stream().collect(Collectors.toMap(Status::getStatusId, status -> status)));
