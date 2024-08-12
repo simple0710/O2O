@@ -2,7 +2,9 @@ package com.one.o2o.exception.locker;
 
 
 import com.one.o2o.exception.GeneralException;
+import lombok.Getter;
 
+@Getter
 public class LockerException extends RuntimeException {
 
     private final LockerErrorCode errorCode;

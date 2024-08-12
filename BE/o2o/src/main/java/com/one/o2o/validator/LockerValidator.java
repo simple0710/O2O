@@ -22,9 +22,13 @@ public class LockerValidator {
      * @param lockerId 검증할 lockerId
      */
     public void validateLockerId(Integer lockerId) {
-        if (lockerId == null || lockerId <= 0) {
+        if (lockerId == null) {
             log.error("잘못된 lockerId: {}", lockerId);
             throw new LockerException(LockerErrorCode.LOCKER_ID_INVALID);
+        }
+
+        if (lockerId <= 0) {
+            throw new LockerException(LockerErrorCode.LOCKER_ID_NEGATIVE);
         }
 
         boolean lockerExists = lockerRepository.existsById(lockerId);

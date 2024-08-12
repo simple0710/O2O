@@ -1,7 +1,8 @@
 package com.one.o2o.exception;
 
-import com.one.o2o.exception.user.UserException;
+import com.one.o2o.exception.locker.LockerException;
 import com.one.o2o.exception.products.ProductException;
+import com.one.o2o.exception.user.UserException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ErrorResponse> handleUserException(UserException e) {
+        ErrorResponse errorResponse = ErrorResponse.of(
+                e.getErrorCode(),
+                e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, e.getErrorCode().getHttpStatus());
+    }
+
+    @ExceptionHandler(LockerException.class)
+    public ResponseEntity<ErrorResponse> handleLockerException(LockerException e) {
         ErrorResponse errorResponse = ErrorResponse.of(
                 e.getErrorCode(),
                 e.getMessage()

@@ -8,6 +8,7 @@ import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.products.report.ProductsReport;
 import com.one.o2o.repository.ProductsReportRepository;
+import com.one.o2o.validator.LockerValidator;
 import com.one.o2o.validator.ProductValidator;
 import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
@@ -37,6 +38,8 @@ public class ProductsReportService implements ProductsReportServiceInterface {
     // Validator
     private final UserValidator userValidator;
     private final ProductValidator productValidator;
+    private final LockerValidator lockerValidator;
+
 
     @Override
     public Response findAll(int pageNumber, int pageSize) {
@@ -92,9 +95,14 @@ public class ProductsReportService implements ProductsReportServiceInterface {
         userValidator.validateUserId(userReportDto.getUserId());
 
         // 물품 관련 입력 검사
-        productValidator.validateProductCount(userReportDto.getProductCnt());
+        productValidator.validateProductId(userReportDto.getProductId());
 
         productValidator.validateProductStatus(userReportDto.getStatusId());
+
+        productValidator.validateProductCount(userReportDto.getProductCnt());
+
+        // 로커 관련 입력 검사
+        lockerValidator.validateLockerId(userReportDto.getLockerId());
 
         Response response = new Response(200, "이상 신고 등록 완료");
         productsReportRepository.save(new ProductsReport(userReportDto));

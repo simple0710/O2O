@@ -2,6 +2,8 @@ package com.one.o2o.validator;
 
 import com.one.o2o.exception.products.ProductErrorCode;
 import com.one.o2o.exception.products.ProductException;
+import com.one.o2o.repository.ProductsManageRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,16 @@ import static com.one.o2o.constants.ProductConstants.*;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class ProductValidator {
+
+    private final ProductsManageRepository productsManageRepository;
+
+    public void validateProductId(Integer productId) {
+        if (!productsManageRepository.existsById(productId)) {
+            throw new ProductException(ProductErrorCode.PRODUCT_ID_NOT_FOUND);
+        }
+    }
 
     public void validateProductName(String productName) throws UnsupportedEncodingException {
         if (productName == null || productName.isEmpty()) {
@@ -24,14 +35,18 @@ public class ProductValidator {
         }
     }
 
-    public void validateProductCount(int count) {
+    public void validateProductCount(Integer count) {
+        if (count == null) {
+            throw new ProductException(ProductErrorCode.PRODUCT_CNT_INVALID);
+        }
         if (count < MIN_PRODUCT_CNT) {
             throw new ProductException(ProductErrorCode.PRODUCT_CNT_NEGATIVE);
         }
+
     }
 
-    public void validateProductStatus(int productStatusId) {
-        if (productStatusId < MIN_PRODUCT_STATUS_VALUE || MAX_PRODUCT_STATUS_VALUE < productStatusId) {
+    public void validateProductStatus(Integer productStatusId) {
+        if (productStatusId == null || productStatusId < MIN_PRODUCT_STATUS_VALUE || MAX_PRODUCT_STATUS_VALUE < productStatusId) {
             throw new ProductException(ProductErrorCode.PRODUCT_STATUS_INVALID);
         }
     }
