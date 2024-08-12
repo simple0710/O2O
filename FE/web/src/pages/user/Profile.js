@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getProfile } from '../../api/userget'; 
 import { updateProfile } from '../../api/userpost'; 
-
 import '../../style/Profile.css';
 import Sidebar from './Sidebar';
 import Nav from './Nav';
-import Image from '../../images/th.jpeg';
+import Image from '../../images/profile.png';
 import ButtonComponent from '../../components/ButtonComponent';
 
 function Profile() {
@@ -26,6 +25,7 @@ function Profile() {
         const data = await getProfile(userId);
         setProfileData(data);
         setFormData(data);
+        console.log(data.user_img);
       } catch (err) {
         console.error(err);
       }
@@ -91,9 +91,13 @@ function Profile() {
           <div className="profile-card">
             <div className="profile-image">
               <div>
-              <img
+              {/* <img
                 src={formData.user_img ? URL.createObjectURL(formData.user_img) : Image}
-                alt="프로필이미지"
+                alt="프로필 이미지"
+              /> */}
+              <img
+                src={Image}
+                alt="프로필 이미지"
               />
               </div>
               {editMode && (
