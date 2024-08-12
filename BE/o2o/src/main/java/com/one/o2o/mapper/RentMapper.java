@@ -36,20 +36,20 @@ public interface RentMapper {
         Map<Integer, RentResponseSingleDto.RentResponseProductDto> map = new HashMap<>();
         if(rentLogs == null) return map.values().stream().toList();
         for(RentLog rl : rentLogs){
-            Product product = rl.getProduct();
+            Products products = rl.getProducts();
             Locker locker = rl.getLocker();
-            RentResponseSingleDto.RentResponseProductDto rentResponseProductDto = map.getOrDefault(product.getProductId(), new RentResponseSingleDto.RentResponseProductDto());
+            RentResponseSingleDto.RentResponseProductDto rentResponseProductDto = map.getOrDefault(products.getProductId(), new RentResponseSingleDto.RentResponseProductDto());
             int statusId = rl.getStatusId();
-            if(!map.containsKey(product.getProductId())){ // 새로 물품 정보 등록
-                rentResponseProductDto.setProductId(product.getProductId());
-                rentResponseProductDto.setProductName(product.getProductNm());
+            if(!map.containsKey(products.getProductId())){ // 새로 물품 정보 등록
+                rentResponseProductDto.setProductId(products.getProductId());
+                rentResponseProductDto.setProductName(products.getProductNm());
                 rentResponseProductDto.setLockerBody(locker.getBody().getLockerBodyName());
                 rentResponseProductDto.setLockerLoc(locker.getLockerRow()+"단 "+locker.getLockerColumn()+"연");
                 rentResponseProductDto.setLockerId(locker.getLockerId());
                 rentResponseProductDto.setProductCnt(rl.getLogCnt());
                 rentResponseProductDto.setLockerId(locker.getLockerId());
                 rentResponseProductDto.setLockerBodyId(locker.getNewBodyId());
-                map.put(product.getProductId(), rentResponseProductDto);
+                map.put(products.getProductId(), rentResponseProductDto);
             }
             if(rentResponseProductDto.getStatus() == null) rentResponseProductDto.setStatus(new HashMap<>());
             // 상태별로 데이터 삽입

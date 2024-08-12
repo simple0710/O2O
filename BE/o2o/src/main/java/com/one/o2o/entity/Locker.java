@@ -13,38 +13,40 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class Locker {
     @Id
-    @Column(name="locker_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "locker_id", nullable = false, updatable = false)
     private int lockerId;
-    @Column(name="body_id")
+    @Column(name = "body_id", nullable = false)
     private int newBodyId;
-    @Column(name="column", columnDefinition = "TINYINT(1)")
+    @Column(name = "column", columnDefinition = "TINYINT(1)", nullable = false)
     private int lockerColumn;
-    @Column(name="row", columnDefinition = "TINYINT(1)")
+    @Column(name = "row", columnDefinition = "TINYINT(1)", nullable = false)
     private int lockerRow;
-    @Column(name="is_usable")
+    @Column(name = "is_usable", nullable = false)
     private boolean isUsable;
-    @Column(name="product_cnt", columnDefinition = "SMALLINT")
+    @Column(name = "product_cnt", columnDefinition = "SMALLINT")
     private Integer productCnt;
-    @Column(name="total_cnt", columnDefinition = "SMALLINT")
+    @Column(name = "total_cnt", columnDefinition = "SMALLINT")
     private Integer totalCnt;
-    @Column(name="product_id")
+    @Column(name = "product_id")
     private Integer newProductId;
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="product_id", insertable = false, updatable = false)
-    public Product product;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    private Products products;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="body_id", insertable = false, updatable = false)
+    @JoinColumn(name = "body_id", insertable = false, updatable = false)
     private LockerBody body;
 
-    public void updateTotalCnt(int cnt){
+    public void updateTotalCnt(int cnt) {
         this.totalCnt = cnt;
     }
-    public void updateProductCnt(int cnt){
+
+    public void updateProductCnt(int cnt) {
         this.productCnt = cnt;
     }
-    public void updateNewProduct(int productId, int productCnt, int totalCnt){
+
+    public void updateNewProduct(int productId, int productCnt, int totalCnt) {
         this.newProductId = productId;
         this.productCnt = productCnt;
         this.totalCnt = totalCnt;
