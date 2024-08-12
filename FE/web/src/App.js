@@ -20,20 +20,6 @@ import UserProfile from './pages/user/Profile';
 import { CartProvider } from './pages/user/CartContext';
 import ReservationList from './pages/user/ReservationList';
 import NotRefund from './pages/user/NotRefund';
-import AdminRoute from './components/AdminRoute'; // AdminRoute 컴포넌트 import
-import UserRoute from './components/UserRoute'; // UserRoute 컴포넌트 import
-import { Navigate } from 'react-router-dom';
-import RedirectIfAuthenticated from './components/AuthenticRoute';
-
-const isAuthenticated = () => {
-    return !!localStorage.getItem('accessToken');
-};
-
-const ProtectedRoute = ({ children }) => {
-    return children;
-    return isAuthenticated() ? children : <Navigate to="/" />;
-};
-
 
 
 

@@ -37,7 +37,7 @@ function AddItem() {
         };
 
         formData.append('products', new Blob([JSON.stringify(productsDto)], { type: 'application/json' }));
-
+     
         if (itemData.itemImage) {
             formData.append('files', itemData.itemImage);
         }
