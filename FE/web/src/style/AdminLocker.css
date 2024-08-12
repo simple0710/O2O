@@ -1,3 +1,11 @@
+.locker-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* 셀 높이에 맞게 조정 */
+  width: 100%; /* 셀 너비에 맞게 조정 */
+}
+
 .locker-select {
   margin-bottom: 30px; 
 }
