@@ -36,6 +36,8 @@ services:
     ports:
       - "80:80"
       - "443:443"  # HTTPS 포트
+      - "3000:3000"  # HTTPS 포트 (kiosk)
+      - "3001:3001"  # HTTPS 포트 (web)
       
     volumes:
      
