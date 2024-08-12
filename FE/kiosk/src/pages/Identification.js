@@ -240,6 +240,7 @@ import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
 import { saveObjectToSession } from '../util/sessionUtils.js'
 import { saveUserToLocal, getUserFromLocal } from '../util/localStorageUtil.js';
+import { base64ToFile, downloadFile } from "../util/fileUtil";
 import Swal from 'sweetalert2';
 
 function Identification() {
@@ -345,11 +346,20 @@ function Identification() {
       setResult(res);
       checkUser(res);
     } else {
-      handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
-      checkUser({
-        text: "최지은",
-        score: 0.8
-      }); // 나중에 삭제!!!
+      // 나중에 삭제 
+      Swal.fire({
+        icon: 'error',
+        title: '오류',
+        text: "이름 인식에 실패했습니다. 다시 촬영해주세요.",
+        confirmButtonText: '확인',
+        timer: 2000, // 3초
+      }).then(()=>{
+        askUser({
+          text: "최지은",
+          score: 0.8
+        });
+      })
+      
     }
   }
 
@@ -432,7 +442,7 @@ function Identification() {
   }
   
 
-  const handleError = (msg, after) => {
+  const handleError = (msg) => {
     console.log("handleError ", msg);
     Swal.fire({
       icon: 'error',
@@ -440,10 +450,6 @@ function Identification() {
       text: msg ? msg : '오류가 발생했습니다. 다시 시도해주세요.',
       confirmButtonText: '확인',
       timer: 2000, // 3초
-    }).then(() => {
-      if(after){
-        after();
-      }
     });
   }
 
