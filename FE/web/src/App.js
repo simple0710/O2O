@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './pages/user/MainPage';
 import Login from './pages/Login';
 import Findpwd from './pages/Findpwd';
@@ -36,6 +36,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
     return (
+        <Router homepage='/web'>
         <CartProvider>
             <Routes>
                 <Route path='/' element={
@@ -148,6 +149,7 @@ function App() {
                 } />
             </Routes>
         </CartProvider>
+        </Router>
     );
 }
 
