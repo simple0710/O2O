@@ -3,12 +3,14 @@ package com.one.o2o.validator;
 import com.one.o2o.exception.products.ProductErrorCode;
 import com.one.o2o.exception.products.ProductException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 
 import static com.one.o2o.constants.ProductConstants.*;
 
 @Slf4j
+@Component
 public class ProductValidator {
 
     public void validateProductName(String productName) throws UnsupportedEncodingException {
