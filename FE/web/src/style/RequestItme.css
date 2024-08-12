@@ -1,11 +1,11 @@
 
 /* 폼 스타일 */
-.user-form {
+.request-form {
     margin-top: 30px;
     max-width: 600px;
 }
 
-.user-form div {
+.request-form div {
     margin-bottom: 20px;  /* 각 div 요소 사이에 20px 간격 추가 */
 }
 

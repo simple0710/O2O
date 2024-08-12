@@ -143,7 +143,7 @@ const LockerInfo = () => {
       </select>
 
       {isLoading ? (
-        <div className='spinner'>
+        <div className='admin-spinner'>
           <ScaleLoader 
             color='lightblue'
             size='50'
