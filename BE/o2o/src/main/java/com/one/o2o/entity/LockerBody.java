@@ -22,4 +22,6 @@ public class LockerBody {
     private int column;
     @Column(name="row", columnDefinition = "TINYINT(1)")
     private int row;
+    @Column(name="is_active", columnDefinition = "BOOLEAN")
+    private Boolean isActive;
 }
