@@ -347,11 +347,8 @@ function Identification() {
     } else {
       handleError("이름 인식에 실패했습니다. 다시 촬영해주세요.");
       checkUser({
-<<<<<<< HEAD
         text: "최지은",
-=======
-        text: "한지민",
->>>>>>> feat/99-post
+
         score: 0.8
       }); // 나중에 삭제!!!
     }
@@ -369,21 +366,14 @@ function Identification() {
       const params = {
         
             // name: result.text
-<<<<<<< HEAD
             name: "최지은"
-=======
-            name: "한지민"
->>>>>>> feat/99-post
+
         
         
       };
       formData.append('card', new Blob([JSON.stringify(params)], { type: 'application/json' }));
      
-<<<<<<< HEAD
-      const response = await checkName(formData, result.image);
-=======
       const response = await checkName(formData);
->>>>>>> feat/99-post
       console.log("Service: ", service);
       console.log('response: ', response)
       console.log("Is Admin: ", response.admin);
@@ -405,10 +395,6 @@ function Identification() {
           setLoading(false);
           return;
         }
-<<<<<<< HEAD
-
-        saveObjectToSession("user", response);
-=======
         // 로컬 스토리지에 사용자 정보 저장
         saveUserToLocal(response);
 
@@ -418,7 +404,6 @@ function Identification() {
         console.log("user.user_id",user.user_id)
 
         // saveObjectToSession("user", response);
->>>>>>> feat/99-post
         Swal.fire({
           title: '인증 성공',
           text: `${response.user_nm}님, 안녕하세요.`,
@@ -468,8 +453,3 @@ export default Identification;
 
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> feat/99-post
