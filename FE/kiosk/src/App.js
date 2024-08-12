@@ -66,7 +66,7 @@ function Frame() {
 
 function App() {
   return (
-    <Router>
+    <Router basename='/kiosk'>
       <div>
         {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to="/">My App</Link>
