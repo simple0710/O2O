@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 import '../styles/BrokenFind.css';
 import { formatDateSimple } from '../util/dateUtil.js';
-import { getUserFromLocal } from '../util/localStorageUtil.js';
+import { getUserFromSession } from '../util/sessionUtils.js';
 
 function ReservationModal({ show, handleClose, onProceedToCart }) {
   const [reservations, setReservations] = useState([]);
@@ -18,7 +18,7 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
 
   const fetchReservations = async () => {
     try {
-      const user = getUserFromLocal();
+      const user = getUserFromSession();
       if (!user || !user.user_id) {
         throw new Error('로그인된 사용자가 없거나 사용자 정보가 없습니다.');
       }
