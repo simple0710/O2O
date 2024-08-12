@@ -238,8 +238,7 @@ import '../styles/common/Common.css';
 import { Button } from 'bootstrap';
 import { Loading } from '../components/common/loading.js';
 import { getNameFromImage, checkName } from '../api/identification.js'
-import { saveObjectToSession } from '../util/sessionUtils.js'
-import { saveUserToLocal, getUserFromLocal } from '../util/localStorageUtil.js';
+import { getUserFromSession, saveObjectToSession } from '../util/sessionUtils.js'
 import { base64ToFile, downloadFile } from "../util/fileUtil";
 import Swal from 'sweetalert2';
 
@@ -416,12 +415,10 @@ function Identification() {
         setLoading(false);
         return;
       }
-      // 로컬 스토리지에 사용자 정보 저장
-      saveUserToLocal(response);
+      saveObjectToSession('user', response);
 
-      // 로컬 스토리지에서 사용자 정보 가져와 콘솔에 출력
-      const user = getUserFromLocal();
-      console.log("로컬 스토리지에서 가져온 사용자 정보:", user);
+      const user = getUserFromSession();
+      console.log("세션에서 가져온 사용자 정보:", user);
       console.log("user.user_id",user.user_id)
 
       // saveObjectToSession("user", response);

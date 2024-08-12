@@ -2,6 +2,7 @@ package com.one.o2o.config;
 
 import com.one.o2o.dto.User.MemberDto;
 import com.one.o2o.entity.MemberEntity;
+import com.one.o2o.entity.Users;
 import com.one.o2o.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -27,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     // 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 return
-    private UserDetails createUserDetails(MemberEntity member) {
+    private UserDetails createUserDetails(Users member) {
 
         // MemberEntity를 MemberDto로 변환
         MemberDto memberDto = MemberDto.builder()

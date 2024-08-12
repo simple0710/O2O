@@ -16,17 +16,21 @@ import java.time.LocalDateTime;
 public class ReserveDet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
     private Integer detId;
+    @Column(nullable = false)
     private Integer reserveId;
+    @Column(nullable = false)
     private Integer userId;
-    @Column(name="product_id")
+    @Column(name = "product_id", nullable = false)
     private Integer newProductId;
-    @Column(name="locker_id")
+    @Column(name = "locker_id", nullable = false)
     private Integer newLockerId;
-    @Column(name="status_id", columnDefinition = "TINYINT(1)")
+    @Column(name = "status_id", columnDefinition = "TINYINT(1)", nullable = false)
     private Integer statusId;
-    @Column(name="det_cnt", columnDefinition = "SMALLINT")
+    @Column(name = "det_cnt", columnDefinition = "SMALLINT", nullable = false)
     private Integer detCnt;
+    @Column(nullable = false, updatable = false)
     private LocalDateTime logDt;
 
 
@@ -37,5 +41,5 @@ public class ReserveDet {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id", insertable=false, updatable=false)
-    private Product product;
+    private Products products;
 }

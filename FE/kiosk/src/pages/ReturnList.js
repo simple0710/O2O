@@ -4,12 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BrokenFind.css';
 import { getCurrentProducts } from '../api/brokenfind.js';
 import { formatDateSimple } from '../util/dateUtil.js';
-import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import { getLockerBodyIdFromLocal, getUserFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import { getUserIdFromSession } from '../util/sessionUtils.js'
 
 function ReturnList() {
   const navigate = useNavigate();
-  const [items, setItems] = useState([[]]);
+  const [items, setItems] = useState([]);
   const [selectedRentIndex, setSelectedRentIndex] = useState(null);
   const [selectedRent, setSelectedRent] = useState(null);
   const [userId, setUserId] = useState(null);
@@ -19,6 +19,7 @@ function ReturnList() {
 
   useEffect(() => {
     const id = getUserIdFromSession();
+    // const id = getUserFromLocal().user_id;
     if (id) {
       setUserId(id);
     }
@@ -26,10 +27,16 @@ function ReturnList() {
     saveLockerBodyIdFromLocal();
     const locker_body_id = getLockerBodyIdFromLocal();
     setLockerBodyId(locker_body_id);
+
+    if (userId) {
+      console.log("userId", userId)
+      getBrokenValues();
+    }
   }, []);
 
   useEffect(() => {
     if (userId) {
+      console.log("userId", userId)
       getBrokenValues();
     }
   }, [userId]);

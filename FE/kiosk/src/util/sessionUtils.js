@@ -13,5 +13,15 @@ export function getUserIdFromSession(){
     if(data != null && data.user_id){
         return data.user_id;
     }
+
+    return null;
+}
+
+export function getUserFromSession(){
+    const data = getObjectFromSession("user");
+    if(data != null){
+        return data;
+    }
+    
     return null;
 }

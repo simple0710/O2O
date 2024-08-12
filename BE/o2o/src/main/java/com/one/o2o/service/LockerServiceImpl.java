@@ -35,7 +35,7 @@ public class LockerServiceImpl implements LockerService{
     @Override
     public List<LockerDto> readLockerByBodyId(int body_id) {
         List<Locker> list = lockerRepository.findByBody_LockerBodyId(body_id);
-        list.forEach(locker -> Hibernate.initialize(locker.getProduct()));
+        list.forEach(locker -> Hibernate.initialize(locker.getProducts()));
         return lockerMapper.lockersToLockerDtoList(list);
     }
     @Override

@@ -2,7 +2,7 @@ package com.one.o2o.service;
 
 
 import com.one.o2o.dto.products.ProductsResponseDto;
-import com.one.o2o.entity.Product;
+import com.one.o2o.entity.Products;
 import com.one.o2o.mapper.ProductMapper;
 import com.one.o2o.repository.ProductsManageRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class ProductsCommonServiceImpl implements ProductsCommonService {
     @Override
     public List<ProductsResponseDto> readAllProduct(){
         // 추후 페이징 처리 필요
-        List<Product> products = productsManageRepository.findAll();
+        List<Products> products = productsManageRepository.findAll();
         return productMapper.productsToProductResponseDtoList(products);
     }
 }
