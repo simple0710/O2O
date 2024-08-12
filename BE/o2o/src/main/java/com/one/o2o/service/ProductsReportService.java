@@ -9,6 +9,7 @@ import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.products.report.ProductsReport;
 import com.one.o2o.repository.ProductsReportRepository;
 import com.one.o2o.validator.LockerValidator;
+import com.one.o2o.validator.ProductReportValidator;
 import com.one.o2o.validator.ProductValidator;
 import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,7 @@ public class ProductsReportService implements ProductsReportServiceInterface {
     private final UserValidator userValidator;
     private final ProductValidator productValidator;
     private final LockerValidator lockerValidator;
+    private final ProductReportValidator productReportValidator;
 
 
     @Override
@@ -104,6 +107,11 @@ public class ProductsReportService implements ProductsReportServiceInterface {
         // 로커 관련 입력 검사
         lockerValidator.validateLockerId(userReportDto.getLockerId());
 
+        try {
+            productReportValidator.validateContentLength(userReportDto.getRptContent());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         Response response = new Response(200, "이상 신고 등록 완료");
         productsReportRepository.save(new ProductsReport(userReportDto));
         return response;
