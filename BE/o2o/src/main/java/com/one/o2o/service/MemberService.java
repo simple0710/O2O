@@ -3,7 +3,7 @@ package com.one.o2o.service;
 import com.one.o2o.config.JwtToken;
 import com.one.o2o.config.JwtTokenProvider;
 import com.one.o2o.dto.User.MemberDto;
-import com.one.o2o.entity.Users;
+import com.one.o2o.entity.MemberEntity;
 import com.one.o2o.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +15,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -100,14 +102,14 @@ public class MemberService {
 
         memberDto.setIsActive(true);
         memberDto.setIsAdmin(false);
-        Users memberEntity = Users.toEntity(memberDto);
+        MemberEntity memberEntity = MemberEntity.toEntity(memberDto);
         memberRepository.save(memberEntity);
         return true;
     }
 
     @Transactional
     public MemberDto searchprofile(int user_id){
-        Users memberEntity = memberRepository.findById(user_id).get();
+        MemberEntity memberEntity = memberRepository.findById(user_id).get();
         log.info("memberEntity : {}", memberEntity);
 
         return MemberDto.builder()
@@ -125,22 +127,24 @@ public class MemberService {
 
 
     @Transactional
-    public Users searchprofile_with_lgid(String user_id){
+    public MemberEntity searchprofile_with_lgid(String user_id){
 
         return memberRepository.findByUserLgid(user_id).get();
     }
 
     @Transactional
-    public Users updateprofile(int user_id, MemberDto memberEntity) throws Throwable {
+    public MemberEntity updateprofile(int user_id, MemberDto memberEntity, boolean check) throws Throwable {
 
-        Users user_entity=  memberRepository.findById(user_id).orElseThrow(new Supplier<Throwable>() {
+        MemberEntity user_entity=  memberRepository.findById(user_id).orElseThrow(new Supplier<Throwable>() {
             @Override
             public Throwable get() {
                 return new IllegalArgumentException("수정에 실패하였습니다!");
             }
         });
         user_entity.setUserNm(memberEntity.getUserNm());
-        user_entity.setUserPw(memberEntity.getUserPw());
+        if(check) {
+            user_entity.setUserPw(memberEntity.getUserPw());
+        }
         user_entity.setUserTel(memberEntity.getUserTel());
 
 
@@ -173,7 +177,7 @@ public class MemberService {
 
 
         // 2. 사용자 정보 조회
-        Users memberEntity = memberRepository.findById(Integer.valueOf(userId)).orElse(null);
+        MemberEntity memberEntity = memberRepository.findById(Integer.valueOf(userId)).orElse(null);
         System.out.println("~~~~~~~~~~~~~~~");
         System.out.println(memberEntity);
         System.out.println("~~~~~~~~~~~~~~~");

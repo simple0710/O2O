@@ -3,6 +3,7 @@ package com.one.o2o.dto.EmpCard;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -12,9 +13,14 @@ public class UserDto {
     private String userNm;
     private String empCd;
     private String userImg;
-    private Boolean isAdmin;
+
+    @ColumnDefault("false")
+    private boolean isAdmin;
     private String userTel;
-    private Boolean isActive;
+    @ColumnDefault("true")
+    private boolean isActive;
+
+
 }
 
 

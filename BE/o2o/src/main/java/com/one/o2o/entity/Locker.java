@@ -1,6 +1,7 @@
 package com.one.o2o.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
@@ -11,34 +12,27 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter
 @DynamicUpdate
 public class Locker {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="locker_id", nullable = false, updatable = false)
+    @Id
+    @Column(name="locker_id")
     private int lockerId;
-
-    @Column(name="body_id", nullable = false)
+    @Column(name="body_id")
     private int newBodyId;
-
-    @Column(name="column", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name="column", columnDefinition = "TINYINT(1)")
     private int lockerColumn;
-
-    @Column(name="row", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name="row", columnDefinition = "TINYINT(1)")
     private int lockerRow;
-
-    @Column(name="is_usable", nullable = false)
+    @Column(name="is_usable")
     private boolean isUsable;
-
     @Column(name="product_cnt", columnDefinition = "SMALLINT")
     private Integer productCnt;
-
     @Column(name="total_cnt", columnDefinition = "SMALLINT")
     private Integer totalCnt;
-
     @Column(name="product_id")
     private Integer newProductId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="product_id", insertable = false, updatable = false)
-    private Products products;
+    public Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="body_id", insertable = false, updatable = false)

@@ -2,7 +2,7 @@ package com.one.o2o.service;
 
 import com.one.o2o.dto.EmpCard.EmpCardRequestDto;
 import com.one.o2o.dto.EmpCard.UserDto;
-import com.one.o2o.entity.Users;
+import com.one.o2o.entity.User;
 import com.one.o2o.mapper.UserMapper;
 import com.one.o2o.repository.UserRepository;
 import com.one.o2o.utils.ImageManage;
@@ -40,8 +40,8 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public UserDto findUserByEmpCard(MultipartFile image, EmpCardRequestDto empCardRequestDto) {
 
-        List<Users> userList = userRepository.findAllByUserNm(empCardRequestDto.getName());
-        // Users 여러 명 나왔을 때 처리 필요
+        List<User> userList = userRepository.findAllByUserNm(empCardRequestDto.getName());
+        // user 여러 명 나왔을 때 처리 필요
         if (userList.isEmpty()) return null;
 
         // 회원 사진 비교 로직 수행

@@ -1,9 +1,12 @@
 package com.one.o2o.controller;
 
 import com.one.o2o.dto.common.Response;
+import com.one.o2o.dto.locker.LockerDto;
 import com.one.o2o.dto.rent.RentRequestDto;
 import com.one.o2o.dto.rent.RentResponseDto;
+import com.one.o2o.dto.rent.RentResponseSingleDto;
 import com.one.o2o.dto.rent.ReturnRequestDto;
+import com.one.o2o.entity.User;
 import com.one.o2o.service.RentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController

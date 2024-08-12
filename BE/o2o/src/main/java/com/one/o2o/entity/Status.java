@@ -17,8 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Status {
     @Id
-    @Column(name="status_id", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name="status_id", columnDefinition = "TINYINT(1)")
     private int statusId;
-    @Column(nullable = false)
     private String statusNm;
 }

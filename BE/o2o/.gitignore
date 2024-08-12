@@ -41,6 +41,3 @@ bootsecurity.p12
 
 ### VS Code ###
 .vscode/
-
-### Finder ###
-.DS_Store

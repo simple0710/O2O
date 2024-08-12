@@ -1,63 +1,84 @@
 package com.one.o2o.entity.products.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
-import com.one.o2o.entity.Users;
+import com.one.o2o.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 @Table(name="PRODUCT_REQ")
 @ToString
 public class ProductsRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "REQ_ID", nullable = false, updatable = false)
+    @Column(name = "REQ_ID")
     private Integer reqId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private Users user;
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
-    @Column(name = "PRODUCT_NM", nullable = false)
+    @Column(name = "PRODUCT_NM")
     private String productNm;
 
     @Column(name = "REQ_URL")
     private String reqUrl;
 
-    @Column(name = "PRODUCT_CNT", columnDefinition = "SMALLINT")
+    @Column(name = "PRODUCT_CNT")
     private Integer productCnt;
 
     @Column(name = "REQ_CONTENT")
     private String reqContent;
 
-    @Column(name = "REQ_DT", nullable = false, updatable = false)
-    private LocalDateTime reqDt = LocalDateTime.now();
+    @Column(name = "REQ_DT")
+    private LocalDateTime reqDt;
 
-    @Column(name = "IS_APPROVED", columnDefinition = "TINYINT(1)", nullable = false)
-    private Boolean isApproved = false;
+    @ColumnDefault("false")
+    @Column(name = "IS_APPROVED", columnDefinition = "TINYINT(1)")
+    private Boolean isApproved;
 
-    @Column(name = "IS_REJECTED", columnDefinition = "TINYINT(1)", nullable = false)
-    private Boolean isRejected = false;
+    @ColumnDefault("false")
+    @Column(name = "IS_REJECTED", columnDefinition = "TINYINT(1)")
+    private Boolean isRejected;
 
     @Column(name = "REJECT_CMT")
     private String rejectCmt;
 
     public ProductsRequest(UsersRequestDto userRequestDto) {
-        Users user = new Users();
+        User user = new User();
         user.setUserId(userRequestDto.getUserId());
-        this.user = Users.builder()
-                .userId(userRequestDto.getUserId())
-                .build();
+        this.user = user;
         this.productNm = userRequestDto.getProductNm();
         this.reqUrl = userRequestDto.getReqUrl();
         this.productCnt = userRequestDto.getProductCnt();
         this.reqContent = userRequestDto.getReqContent();
+    }
+
+    @PrePersist
+    public void perPersist() {
+        if (this.reqDt == null) {
+            this.reqDt = LocalDateTime.now();
+        }
+        if (this.isApproved == null) {
+            this.isApproved = false;
+        }
+        if (this.isRejected == null) {
+            this.isRejected = false;
+
+        }
+    }
+
+    public void update(RequestProcessDto request) {
+
     }
 }
