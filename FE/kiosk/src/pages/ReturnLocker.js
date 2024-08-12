@@ -110,7 +110,7 @@ const ReturnLocker = () => {
       <div className='locker-frame'>
         <div className="locker-container1">
           <div className="locker-title">
-            표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
+            표시된 사물함에<br /> 물건을 반납해주세요.<br /> <br />
           </div>
           <div className='locker-grid'>
             {rows > 0 && columns > 0 &&

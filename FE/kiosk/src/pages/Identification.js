@@ -399,8 +399,9 @@ function Identification() {
   }
 
   const handleUser = (response) => {
+    console.log(response)
     if(response != null && response.active){
-    
+      saveObjectToSession('user', response);
       if (service === '관리자' && !response.admin) {
         Swal.fire({
           icon: 'error',
@@ -415,7 +416,7 @@ function Identification() {
         setLoading(false);
         return;
       }
-      saveObjectToSession('user', response);
+      
 
       const user = getUserFromSession();
       console.log("세션에서 가져온 사용자 정보:", user);
