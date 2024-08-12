@@ -97,8 +97,12 @@ const Locker = () => {
                     </div>
                   ) : (
                     <div className="rounded-content">
-                      <div>none</div>
-                      <div>0/0</div>
+                      <div className='user-spinner'>
+                        <ScaleLoader 
+                          color='gray'
+                          size='50'
+                        />
+                      </div>
                     </div>
                   )}
                 </td>
@@ -206,7 +210,7 @@ const Locker = () => {
       <div className="table-container">
         {loading ? (
           <div className="spinner">
-            <ScaleLoader color='lightblue' size={50} />
+            <ScaleLoader color='gray' size={50} />
           </div>
         ) : (
           renderTable()

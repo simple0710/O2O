@@ -7,11 +7,13 @@ import "../../style/Title.css";
 import Pagination from "./Pagination";
 import axiosInstance from '../../utils/axiosInstance'
 import ButtonComponent from '../../components/ButtonComponent';
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
   const postsPerPage = 10;
 
   const fetchData = async () => {
@@ -41,6 +43,7 @@ const Request = () => {
     allPosts.sort((a, b) => a.is_processed - b.is_processed);
 
     setPosts(allPosts);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -112,6 +115,12 @@ const Request = () => {
           <div className="title">
             <h3>파손 분실 신고 관리</h3>
           </div>
+          {isLoading ? (
+            <div className='request-spinner'>
+              <ScaleLoader color='gray' size={50} />
+            </div>
+          ) : (
+            <>
           <Table className="custom-table">
             <thead>
               <tr>
@@ -163,6 +172,8 @@ const Request = () => {
             totalPages={totalPages}
             handlePageChange={handlePageChange}
           />
+          </>
+          )}
         </div>
       </div>
     </div>

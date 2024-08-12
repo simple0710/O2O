@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../style/Statistics.css";
 // import "../../style/RentStatistics.css"
 import axiosInstance from '../../utils/axiosInstance'
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 const RentStatistics = () => {
   const [data, setData] = useState(null);
@@ -30,7 +31,9 @@ const RentStatistics = () => {
   }
 
   if (!data) {
-    return <div>Failed to load data</div>;
+    return <div className='user-spinner'>
+            <ScaleLoader color='gray' size={50} />
+          </div>;
   }
 
   return (

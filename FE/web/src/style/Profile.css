@@ -1,5 +1,6 @@
 /* 프로필 카드 스타일 */
 .profile-card {
+  
   width: 700px;
   /* background-color: rgb(153, 244, 236); */
   /* border: 1px solid black; */
@@ -7,12 +8,11 @@
   margin-top: 20px;
 }
 
-/* 프로필 이미지 스타일 */
+프로필 이미지 스타일
 .profile-image {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px 0;
   
 }
 
@@ -20,7 +20,7 @@
 /* 프로필 정보 스타일 */
 .profile-details p {
   margin: 10px 0;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .profile-details strong {
@@ -32,28 +32,53 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 8px;
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 20px;
 }
 
 /* 프로필 정보 */
-.profile-content {
+/* .profile-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-}
+} */
 
 /* 프로필 수정 */
-.profile-edit {
+/* .profile-edit {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 80%; /* 컨테이너의 너비를 80%로 설정 */
-  margin: 0 auto; /* 가운데 정렬을 위해 자동 마진 추가 */
+  width: 80%;
+  margin: 0 auto; 
+} */
+
+.profile-table {
+  width: 100%;
+  margin-top: 20px;
+  table-layout: fixed;
+}
+
+.profile-table .detail-label {
+  width: 20%; /* 3:7 비율로 고정 */
+  padding: 10px;
+  font-weight: bold;
+  text-align: left;
+  background-color: transparent; /* 배경색 없애기 */
+}
+
+.profile-table .detail-value {
+  width: 80%; /* 3:7 비율로 고정 */
+  padding: 10px;
+  text-align: left;
+  background-color: transparent; /* 배경색 없애기 */
+}
+
+.profile-table td {
+  border: none; /* 테두리 없애기 */
 }
 
 

@@ -119,8 +119,12 @@ const LockerInfo = () => {
                     </div>
                   ) : (
                     <div className="rounded-content">
-                      <div>djq</div>
-                      <div>(0/0)</div>
+                      <div className='admin-spinner'>
+                        <ScaleLoader 
+                          color='gray'
+                          size='50'
+                        />
+                      </div>
                     </div>
                   )}
                 </td>
@@ -145,7 +149,7 @@ const LockerInfo = () => {
       {isLoading ? (
         <div className='admin-spinner'>
           <ScaleLoader 
-            color='lightblue'
+            color='gray'
             size='50'
           />
         </div>

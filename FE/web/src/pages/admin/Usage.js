@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../style/Statistics.css";
 import axiosInstance from '../../utils/axiosInstance'
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 const UsageStatistics = () => {
   const [data, setData] = useState(null);
@@ -25,7 +26,9 @@ const UsageStatistics = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className='user-spinner'>
+            <ScaleLoader color='gray' size={50} />
+          </div>;
   }
 
   if (!data) {
