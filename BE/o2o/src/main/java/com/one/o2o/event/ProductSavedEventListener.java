@@ -8,6 +8,7 @@ import com.one.o2o.repository.FileRepository;
 import com.one.o2o.repository.ProductImagesRepository;
 import com.one.o2o.repository.ProductsManageRepository;
 import com.one.o2o.utils.ProductImgsId;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ public class ProductSavedEventListener {
     private FileRepository fileRepository;
 
     @EventListener
+    @Transactional
     public void handleProductSavedEvent(ProductSavedEvent event) {
         Integer productId = event.getProductId();
         Integer fileId = event.getFileId();

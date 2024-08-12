@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Form } from "react-bootstrap";
-import axios from "axios";
 import Sidebar from "./Sidebar";
 import AdminNav from "./AdminNav";
 import "../../style/Complain.css";
 import "../../style/Title.css";
 import Pagination from "./Pagination";
 import axiosInstance from '../../utils/axiosInstance'
+import ButtonComponent from '../../components/ButtonComponent';
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
@@ -150,14 +150,12 @@ const Request = () => {
           </Table>
 
           <div className="mt-3">
-            <Button
-              className="check-button"
+            <ButtonComponent
               onClick={() => handleStatusChange("처리완료")}
               disabled={selectedPosts.length === 0}
-              style={{ marginRight: "10px" }}
             >
               처리완료
-            </Button>
+            </ButtonComponent>
           </div>
 
           <Pagination

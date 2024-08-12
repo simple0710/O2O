@@ -1,5 +1,6 @@
 package com.one.o2o.service;
 
+import com.one.o2o.dto.ProductSavedEvent;
 import com.one.o2o.dto.common.PageInfoDto;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.locker.LockerUpdateDto;
@@ -7,14 +8,13 @@ import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.manage.OverdueDto;
 import com.one.o2o.dto.products.manage.ProductsOverdueDto;
 import com.one.o2o.dto.products.manage.OverdueStatusDto;
+import com.one.o2o.entity.File;
 import com.one.o2o.entity.Product;
 import com.one.o2o.entity.Rent;
 import com.one.o2o.entity.RentLog;
+import com.one.o2o.event.ProductSavedEventListener;
 import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
-import com.one.o2o.repository.ProductsManageRepository;
-import com.one.o2o.repository.ProductsOverdueRepository;
-import com.one.o2o.repository.StatusRepository;
-import com.one.o2o.repository.UserRepository;
+import com.one.o2o.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,12 +39,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.*;
 
 interface ProductsManageInterface {
-    Response saveProduct(ProductsDto productsDto) throws IOException;
+    Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException;
+    Response saveProduct(List<MultipartFile> files, Integer productsId, Integer userId) throws Exception;
     Response findAllOverdueList(int pageNumber, int pageSize);
-    Response getProductImage(String filename);
     // 키오스크에서 물품 등록
     Integer saveProductFromKiosk(LockerUpdateDto lockerUpdateDto, Integer userId);
 }
@@ -54,54 +55,72 @@ interface ProductsManageInterface {
 @Slf4j
 public class ProductsManageService implements ProductsManageInterface {
 
-    @Value("${file.upload.dir}")
-    private String uploadProductsDir;
+    @Value("${upload.path.products}")
+    private String uploadPath;
 
     private final ProductsManageRepository productsManageRepository;
     private final ProductsOverdueRepository productsOverdueRepository;
     private final UserRepository userRepository;
     private final StatusRepository statusRepository;
+    private final FileRepository fileRepository;
+    private final ProductSavedEventListener productSavedEventListener;
 
-    @Override
-    public Response saveProduct(ProductsDto productsDto) throws IOException {
-        return new Response(
-                200,
-                "성공적으로 저장되었습니다.",
-                productsManageRepository.save(new Product(productsDto)).getProductId()
-        );
+    @Transactional
+    public Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException {
+        if (files != null && !files.isEmpty()) {
+            Integer productsId = productsManageRepository.save(new Product(productsDto)).getProductId();
+            saveProduct(files, productsId, productsDto.getUserId());
+        }
+        return new Response(200, "성공적으로 저장되었습니다.");
     }
 
-    public Response getProductImage(String filename) {
-        Response response = new Response();
+    @Transactional
+    public Response saveProduct(List<MultipartFile> files, Integer productsId, Integer userId) throws IOException {
+
+        Response response = new Response(HttpStatus.OK.value(), "이미지 저장 완료");
         try {
-            Path file = Paths.get(uploadProductsDir + "/products/" + filename);
-            Resource resource = new UrlResource(file.toUri());
+            // 저장할 디렉토리 경로
+            Path directoryPath = Paths.get(uploadPath);
 
-            if (resource.exists() && resource.isReadable()) {
-                // MIME 타입을 추측하거나 설정
-                String contentType = "image/jpeg"; // 기본값으로 설정, 필요에 따라 변경
-
-                byte[] imageBytes = resource.getInputStream().readAllBytes();
-                response.setData(imageBytes);
-
-                response.setStatus(HttpStatus.OK.value());
-//                response.setContentType(contentType);
-                response.setMessage("이미지가 성공적으로 로드되었습니다.");
-            } else {
-                response.setStatus(HttpStatus.NOT_FOUND.value());
-                response.setMessage("이미지를 찾을 수 없습니다.");
+            // 디렉토리가 없다면 생성
+            if (Files.notExists(directoryPath)) {
+                Files.createDirectories(directoryPath);
             }
-        } catch (MalformedURLException e) {
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setMessage("이미지를 읽는 데 실패했습니다.");
-        } catch (IOException e) {
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setMessage("이미지를 읽는 데 실패했습니다.");
+            LocalDateTime now = LocalDateTime.now();
+
+            // 파일 리스트 저장
+            for (MultipartFile file : files) {
+                // UUID 이름
+                String newFileName = UUID.randomUUID().toString() + file.getOriginalFilename();
+
+                Path path = Paths.get(uploadPath + newFileName);
+
+                if (!file.isEmpty()) {
+                    // 경로에 파일 저장
+                    Files.write(path, file.getBytes());
+
+                    // DB에 파일 정보 저장
+                    File fileEntity = File.builder()
+                            .userId(userId)
+                            .type(file.getContentType())
+                            .name(newFileName)
+                            .createdAt(now)
+                            .build();
+                    Integer fileId = (Integer) fileRepository.save(fileEntity).getId();
+
+                    // File Images에 제품과의 연관관계 저장
+                    ProductSavedEvent event = ProductSavedEvent.builder()
+                            .fileId(fileId)
+                            .productId(productsId)
+                            .build();
+                    productSavedEventListener.handleProductSavedEvent(event);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("파일 저장 중 오류가 발생했습니다.", e);
         }
         return response;
     }
-
-
 
     @Override
     public Response findAllOverdueList(int pageNumber, int pageSize) {

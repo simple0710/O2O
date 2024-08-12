@@ -290,6 +290,7 @@ import Swal from "sweetalert2";
 import { CartContext } from "./CartContext"; // Update the path to CartContext accordingly
 import { postReservation } from "../../api/userpost"; // Update the path to userpost accordingly
 import "../../style/Cart.css"; // Update the path to the CSS file
+import ButtonComponent from "../../components/ButtonComponent";
 
 const Cart = () => {
   const { cart, setCart, lockerBodyId, setLockerBodyId } = useContext(CartContext);
@@ -303,6 +304,7 @@ const Cart = () => {
   const [alertMessage, setAlertMessage] = useState("");
 
   const cartItemsRef = useRef(null); // Ref for the cart-items element
+  const user_id = localStorage.getItem('userId')
 
   useEffect(() => {
     // Load cart from local storage on initial render
@@ -391,6 +393,7 @@ const Cart = () => {
     const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 
     const reservationData = {
+      user_id,
       locker_body_id,
       reserves,
       reserve_time: formattedDate,
@@ -495,20 +498,16 @@ const Cart = () => {
           )}
         </div>
         <div className="cart-buttons">
-          <Button
-            variant="primary"
+          <ButtonComponent
             onClick={handleReservation}
-            className="cart-button cart-button-primary mb-2"
           >
             예약하기
-          </Button>
-          <Button
-            variant="danger"
+          </ButtonComponent>
+          <ButtonComponent
             onClick={handleCancel}
-            className="cart-button cart-button-danger"
           >
             취소
-          </Button>
+          </ButtonComponent>
         </div>
       </div>
 

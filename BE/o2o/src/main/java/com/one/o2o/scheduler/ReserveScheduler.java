@@ -31,15 +31,20 @@ public class ReserveScheduler {
         LocalDateTime now = LocalDateTime.now();
         List<Reserve> list = reserveRepository.findAllByIsEndedIsFalseAndDueDtIsBefore(DateUtil.plusNMinutes(now, 1));
         for(Reserve reserve : list){
-            reserve.updateReserveToEnded(now);
-            // 3. 예약 상세
-            for(ReserveDet det:reserve.getReserveDetList()){
-                // 1) 물품 개수 파악
-                int productId = det.getNewProductId();
-                int productCnt = det.getDetCnt();
-                int lockerId = det.getNewLockerId();
-                // 2) 사물함 복원
-                lockerService.updateLockerProductCountAvailable(lockerId, productCnt, productCnt* RentCalculation.getMul(RentCalculation._reserveCancel));
+            try {
+                // 3. 예약 상세
+                for(ReserveDet det:reserve.getReserveDetList()){
+                    // 1) 물품 개수 파악
+                    int productId = det.getNewProductId();
+                    int productCnt = det.getDetCnt();
+                    int lockerId = det.getNewLockerId();
+                    // 2) 사물함 복원
+                    lockerService.updateLockerProductCountAvailable(lockerId, productCnt, productCnt * RentCalculation.getMul(RentCalculation._reserveCancel));
+                }
+                reserve.updateReserveToEnded(now);
+            } catch (Exception e) {
+                log.error("예약 ["+reserve.getReserveId()+"] 업데이트 중 오류 발생: " + e.getMessage(), e);
+                // 오류 발생 시, 해당 물품의 업데이트를 건너뛰고 다음으로 진행
             }
         }
         log.info("expiredReserveCheck: "+list.size()+"개의 reserve가 만료되었습니다.");

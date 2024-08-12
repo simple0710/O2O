@@ -19,14 +19,14 @@ package com.one.o2o.config;
  @Configuration
  public class RedisConfig {
 
-     @Value("${spring.data.redis.host}")
-     private String host;
+    @Value("${spring.data.redis.host}")
+    private String host;
 
-     @Value("${spring.data.redis.port}")
-     private int port;
+    @Value("${spring.data.redis.port}")
+    private int port;
 
-     @Value("${spring.data.redis.password}")
-     private String password;
+    @Value("${spring.data.redis.password}")
+    private String password;
 
      /**
       * Redis 와의 연결을 위한 'Connection'을 생성합니다.

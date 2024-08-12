@@ -20,7 +20,7 @@ const ServiceSelection = () => {
   return (
     <div className='frame-container'>
       <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
+        HOME
       </button>
       <Container className="service-container">
       <Typography variant="h5" component="h2" className="title" gutterBottom>

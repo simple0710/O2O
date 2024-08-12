@@ -30,7 +30,7 @@ public class LockerServiceImpl implements LockerService{
 
     @Override
     public List<LockerBody> readLockerBodyList() {
-        return lockerBodyRepository.findAll();
+        return lockerBodyRepository.findAllByIsActiveIsTrue();
     }
     @Override
     public List<LockerDto> readLockerByBodyId(int body_id) {
@@ -62,7 +62,7 @@ public class LockerServiceImpl implements LockerService{
         Locker locker = findLocker.orElseThrow(LockerException.LockerNotFoundException::new);
         // (1) 수량 확인
         if(locker.getTotalCnt() < locker.getProductCnt()+productCnt) throw new LockerException.InsufficientProductQuantityException();
-        if(locker.getProductCnt() < productCnt) throw new LockerException.InsufficientProductQuantityException();
+        if(locker.getTotalCnt() < productCnt) throw new LockerException.InsufficientProductQuantityException();
         // (2) 차감
         locker.updateProductCnt(locker.getProductCnt()+productCnt);
         return true;

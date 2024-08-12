@@ -1,0 +1,51 @@
+.extreme-small-font {
+    /* 엄청 작은 글씨 */
+    font-size: 12px;
+    color: gray;
+    margin: 0;
+}
+  
+.small-font {
+  /* 작은 글씨 */
+  font-size: 14px;
+  color: gray;
+  margin: 0;
+  text-align: left;
+}
+
+p.p-small-number.imp {
+  display: inline-block;
+  /* width: 20px; */
+  margin: 0;
+  padding: 0;
+  min-width: none;
+  align-self: center;
+  text-align: center;
+  width: 15px;
+  height: 24px;
+}
+
+.center-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 20%;
+}
+
+.center-p {
+  text-align: center;
+}
+
+/* ------ SweelAlert2 설정 ----- */
+
+.custom-popup {
+  border-radius: 10px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  padding-top: 15px;
+}
+
+.custom-confirm-button {
+  background-color: #0093ed;
+}

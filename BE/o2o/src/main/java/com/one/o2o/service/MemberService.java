@@ -8,11 +8,20 @@ import com.one.o2o.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 @Service
@@ -20,19 +29,82 @@ import java.util.function.Supplier;
 @Slf4j
 public class MemberService {
 
+    @Value("${upload.path.emp}")
+    private String uploadPath;
+
     private final MemberRepository memberRepository;
 
     @Transactional
-    public boolean registmember(MemberEntity memberEntity) {
+    public boolean registMember(MemberDto memberDto, MultipartFile file) {
+        String newFileName = null;
 
-        // 아이디 중복 확인!
-        if(memberRepository.existsByUserLgid(memberEntity.getUserLgid()) >0){
+        try {
+            // 파일 저장 처리
+            if (file != null && !file.isEmpty()) {
+                Path directoryPath = Paths.get(uploadPath);
 
+                if (Files.notExists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                }
+
+                String fileName = file.getOriginalFilename();
+
+                int idx = fileName.lastIndexOf(".");
+
+                newFileName = UUID.randomUUID().toString();
+
+                if (idx > 0) {
+                    newFileName += fileName.substring(idx);
+                }
+
+
+                Path path = Paths.get(uploadPath + newFileName);
+                Files.write(path, file.getBytes());
+
+                memberDto.setUserImg(newFileName);
+            }
+
+            // 회원 정보 저장 처리
+            if (!saveMember(memberDto)) {
+                // 회원 저장 실패 시 파일 삭제
+                if (newFileName != null) {
+                    Path filePath = Paths.get(uploadPath + newFileName);
+                    try {
+                        Files.delete(filePath);
+                    } catch (IOException e) {
+                        throw new RuntimeException("파일 삭제에 실패했습니다.", e);
+                    }
+                }
+                throw new RuntimeException("회원 저장에 실패했습니다.");
+            }
+
+            return true;
+        } catch (IOException e) {
+            // 파일 저장 실패 시 예외 처리
+            if (newFileName != null) {
+                // 파일 삭제 시도
+                Path filePath = Paths.get(uploadPath + newFileName);
+                try {
+                    Files.delete(filePath);
+                } catch (IOException deleteException) {
+                    throw new RuntimeException("파일 삭제에 실패했습니다.", deleteException);
+                }
+            }
+            throw new RuntimeException("파일 저장에 실패했습니다.", e);
+        }
+    }
+
+    private boolean saveMember(MemberDto memberDto) {
+        // 아이디 중복 확인
+        if (memberRepository.existsByUserLgid(memberDto.getUserLgid()) > 0) {
             return false;
         }
+
+        memberDto.setIsActive(true);
+        memberDto.setIsAdmin(false);
+        MemberEntity memberEntity = MemberEntity.toEntity(memberDto);
         memberRepository.save(memberEntity);
         return true;
-
     }
 
     @Transactional
@@ -61,7 +133,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberEntity updateprofile(int user_id, MemberDto memberEntity) throws Throwable {
+    public MemberEntity updateprofile(int user_id, MemberDto memberEntity, boolean check) throws Throwable {
 
         MemberEntity user_entity=  memberRepository.findById(user_id).orElseThrow(new Supplier<Throwable>() {
             @Override
@@ -70,7 +142,9 @@ public class MemberService {
             }
         });
         user_entity.setUserNm(memberEntity.getUserNm());
-        user_entity.setUserPw(memberEntity.getUserPw());
+        if(check) {
+            user_entity.setUserPw(memberEntity.getUserPw());
+        }
         user_entity.setUserTel(memberEntity.getUserTel());
 
 

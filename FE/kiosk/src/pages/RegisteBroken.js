@@ -6,6 +6,8 @@ import { Button } from 'react-bootstrap';
 import { FaCut, FaTint, FaPencilAlt, FaCamera } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { postProductsBrokenAndMissing } from '../api/brokenfind.js';
+import { getUserIdFromSession } from '../util/sessionUtils.js';
+
 const iconMap = {
   '가위': <FaCut className="icon" />,
   '잉크': <FaTint className="icon" />,
@@ -13,25 +15,31 @@ const iconMap = {
   '카메라': <FaCamera className="icon" />,
 };
 
+
+
 // 보통 이런 상수 데이터는 Data.js 만들어서 따로 빼기도 함
 const product_status = {
   "4": "분실",
   "7": "파손"
 }
 
-// 임시 유저 아이디
-const userId = 4;
+const userId = getUserIdFromSession();
 
 function RegisterBroken() {
   const location = useLocation();
   const { reportedItems } = location.state || { reportedItems: [] };
   const navigate = useNavigate();
+  console.log("신고된 아이템:", reportedItems);
   
+
+
+
+
   const brokenlocker = async () => {
     const response = await postReported();
     // 요청 보낸 후 이동 
 
-    navigate('/BrokenLocker');
+    navigate('/BrokenLocker', {state: {reportedItems}});
   };
 
   const postReported = async () => {
@@ -51,7 +59,7 @@ function RegisterBroken() {
   return (
     <div className='frame-container'>
       <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
+          HOME
       </button>
       <div className="report-container">
         {reportedItems.map((item, index) => (

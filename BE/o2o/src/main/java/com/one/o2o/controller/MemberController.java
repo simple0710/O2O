@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -43,24 +44,24 @@ public class MemberController {
      * @return ResponseEntity 성공 : true, 실패 : false
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> registMember(@RequestBody MemberDto memberDto, HttpServletResponse response){
-        log.info("memberDto : " + memberDto);
-        memberDto.setIsActive(true);
-        memberDto.setIsAdmin(false);
-        MemberEntity memberEntity = MemberEntity.toEntity(memberDto);
+    public ResponseEntity<?> registMember(
+            @RequestPart("members") MemberDto memberDto,
+            @RequestParam(value = "file", required = false) MultipartFile file){
         // 여기 Entity에서 Dto를 통해서 만드는걸로!
         log.info("전~~~");
-        log.info("memberEntity : " + memberEntity);
+        log.info("memberDto : " + memberDto);
 
         // 비밀번호 인코딩
-        String encodedPassword = passwordEncoder.encode(memberEntity.getUserPw());
-        log.info("encodedPassword : " + encodedPassword);
-        memberEntity.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
-        log.info("후~~~");
-        log.info("memberEntity : " + memberEntity);
-        // 회원가입이 성공하면 return true 실패하면 false 값을 준다!
+        String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
 
-        return new ResponseEntity<>(memberService.registmember(memberEntity), HttpStatus.OK) ;
+        log.info("encodedPassword : " + encodedPassword);
+
+        memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
+        log.info("후~~~");
+        log.info("memberEntity : " + memberDto);
+
+        // 회원가입이 성공하면 return true 실패하면 false 값을 준다!
+        return new ResponseEntity<>(memberService.registMember(memberDto, file), HttpStatus.OK) ;
     }
 
 
@@ -89,7 +90,21 @@ public class MemberController {
     @PutMapping("/profile/{user-id}/edit")
     public ResponseEntity<?> editMemberDetail(@PathVariable("user-id") int userId, @RequestBody MemberDto memberDto) throws Throwable {
         log.info("memberEntity = {}", memberDto);
-        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto), HttpStatus.OK) ;
+
+
+
+        System.out.println(userId);
+
+
+        // 비밀번호 인코딩
+        String encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
+        boolean check = false;
+        if(memberDto.getUserPw().length()>0){
+            check=true;
+        }
+        memberDto.setUserPw(encodedPassword); // 인코딩된 비밀번호 설정
+        System.out.println(memberDto);
+        return new ResponseEntity<>(memberService.updateprofile(userId, memberDto, check), HttpStatus.OK) ;
     }
 
 
@@ -111,6 +126,12 @@ public class MemberController {
 
         MemberEntity memberEntity = memberService.searchprofile_with_lgid(userLgid);
 
+        // Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("access", jwtToken.getAccessToken());
+        headers.add("refresh", jwtToken.getRefreshToken());
+
+        // Body
         HashMap<String, MemberLoginDto> map = new HashMap<>();
         map.put("user", MemberLoginDto.builder()
                 .userLgid(memberEntity.getUserLgid())
@@ -120,10 +141,7 @@ public class MemberController {
                 .build()
         );
         response.setData(map);
-        Boolean IsTrue = memberService.registmember(memberEntity);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("access", jwtToken.getAccessToken());
-        headers.add("refresh", jwtToken.getRefreshToken());
+//        Boolean IsTrue = memberService.registMember(memberEntity);
         int result = 0;
 
         result = redisService.setValues(String.valueOf(memberEntity.getUserId()),  jwtToken.getRefreshToken(), Duration.ofSeconds(10000000));

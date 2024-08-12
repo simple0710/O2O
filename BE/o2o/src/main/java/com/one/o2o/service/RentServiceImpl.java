@@ -30,6 +30,7 @@ public class RentServiceImpl implements RentService {
     private final LockerRepository lockerRepository;
     private final RentMapper rentMapper;
     private final LockerService lockerService;
+    private final ReserveService reserveService;
 
     @Override
     public RentResponseDto readRentByUserId(int userId, int pageNumber, int pageSize) {
@@ -62,9 +63,9 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public Integer createRent(int userId, RentRequestDto rentRequestDto) {
+    public Integer createRent(RentRequestDto rentRequestDto) {
         // 트랜잭션 종료
-        Integer rentId = createRentTransaction(userId, rentRequestDto);
+        Integer rentId = createRentTransaction(rentRequestDto);
 //        제대로 read 안되는 문제: 결국 해결 X
 //
 //        Optional<Rent> findRent = rentRepository.findById(rentId);
@@ -111,17 +112,23 @@ public class RentServiceImpl implements RentService {
 
 
     @Transactional
-    public int createRentTransaction(int userId, RentRequestDto rentRequestDto) {
+    public int createRentTransaction(RentRequestDto rentRequestDto) {
         // 1) 대여 생성
         Rent rent = new Rent();
         // (1) 대여 정보 수정
-        rent.setUserId(userId);
-        rent.setReserveId(rentRequestDto.getReserveID());
+        rent.setUserId(rentRequestDto.getUserId());
         rent.setStartDt(LocalDateTime.now());
         rent.setDueDt(RentCalculation.getDueDateTime(rent.getStartDt()));
         rentRepository.save(rent);
-
         int rentId = rent.getId();
+
+
+        // (2) 예약 있을 시 종료
+        if(rentRequestDto.getReserveID() != null){
+            rent.setReserveId(rentRequestDto.getReserveID());
+            reserveService.finishReserve(rentRequestDto.getReserveID(), rent.getId());
+        }
+
         for(RentSimpleProduct product: rentRequestDto.getProducts()){
             // 2) 대여 가능 여부 확인 및 사물함 수량 차감
             lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._borrow));
@@ -147,7 +154,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public boolean createReturn(int userId, ReturnRequestDto returnRequestDto) {
+    public boolean createReturn(ReturnRequestDto returnRequestDto) {
         Optional<Rent> findRent = rentRepository.findById(returnRequestDto.getRentId());
         // 1. 유효성 확인
         // 1) 반납 유효성

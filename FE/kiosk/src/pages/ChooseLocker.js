@@ -1,40 +1,111 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Locker.css';
+import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 
-const Locker = () => {
+const ChangeLocker = () => {
+  const [lockersData, setLockersData] = useState([]);
+  const [selectedLocker, setSelectedLocker] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [lockerBodyId, setLockerBodyId] = useState(null);
+
   const navigate = useNavigate();
 
-  const back = () => {
-    navigate('/Locker');
+  useEffect(() => {
+    saveLockerBodyIdFromLocal();
+
+    const locker_body_id = getLockerBodyIdFromLocal();
+    setLockerBodyId(locker_body_id);
+  }, []);
+
+  useEffect(() => {
+    axios.get('/lockers/names')
+      .then(response => {
+        const data = response.data.data;
+        setLockersData(data);
+
+        if (lockerBodyId) {
+          const defaultLocker = data.find(locker => locker.locker_body_id === lockerBodyId);
+          if (defaultLocker) {
+            setSelectedLocker({ value: defaultLocker.locker_body_id, label: defaultLocker.locker_body_name });
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching lockers data:', error);
+      });
+  }, [lockerBodyId]);
+
+  useEffect(() => {
+    if (lockerBodyId) {
+      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
+        .then(response => {
+          const data = response.data.data;
+          setProducts(data);
+        })
+        .catch(error => {
+          console.error('Error fetching products data:', error);
+        });
+    }
+  }, [lockerBodyId]);
+
+  const rows = Math.max(...products.map(product => product.locker_row), 0);
+  const columns = Math.max(...products.map(product => product.locker_column), 0);
+
+  const getProductInLocker = (column, row) => {
+    return products.find(product => product.locker_column === column && product.locker_row === row);
   };
 
-  const register = () => {
-    navigate('/ItemRegistration')
-  }
+  // 오른쪽 하단 사물함의 좌표를 제외할 조건으로 설정합니다
+  const excludeRow = rows; // 맨 아래 행
+  const excludeColumn = columns; // 맨 오른쪽 열
+
+  const isHighlighted = (column, row) => {
+    const product = getProductInLocker(column, row);
+    const isExcluded = (column === excludeColumn && row === excludeRow);
+
+    return product && product.product_nm === null && !isExcluded;
+  };
+
+  const handleLockerClick = (product) => {
+    navigate('/ItemRegistration', { state: { product } });
+  };
 
   return (
-    <div className='frame-container'>
-    <div className="locker-container">
-    <button className="btn-main" onClick={() => navigate('/')}>
-          메인 페이지
-        </button>
-      <div className="locker-header">
-        빈 사물함을<br /> 선택 해주세요<br /> <br />
+    <>
+      <button className="btn-main" onClick={() => navigate('/')}>HOME</button>
+
+      <div className='locker-frame'>
+        <div className="locker-container1">
+          <div className="locker-title">
+            빈 사물함을<br /> 선택 해주세요<br /> <br />
+          </div>
+          <div className='locker-grid'>
+            {rows > 0 && columns > 0 &&
+              Array.from({ length: rows }).map((_, rowIndex) =>
+                <div key={`row-${rowIndex}`} className='locker-row'>
+                  {Array.from({ length: columns }).map((_, colIndex) => {
+                    const product = getProductInLocker(colIndex + 1, rowIndex + 1);
+                    const highlight = isHighlighted(colIndex + 1, rowIndex + 1);
+                    return (
+                      <div 
+                        key={`col-${colIndex}`} 
+                        className={`locker-box ${highlight ? 'locker-highlight' : ''}`}
+                        onClick={() => product && handleLockerClick(product)}
+                      >
+                        {product ? product.product_nm : ''}
+                      </div>
+                    );
+                  })}
+                </div>
+              )
+            }
+          </div>
+        </div>
       </div>
-      
-      <div className="locker highlight" style={{ top: '40%' }} />
-      <div className="locker" style={{ top: '20%', left: '25%', backgroundColor: 'blue' }} onClick={register}/>
-      <div className="locker" style={{ top: '20%', left: '50%' }} />
-      <div className="locker" style={{ top: '20%', left: '75%' }} />
-      <div className="locker" style={{ top: '60%', left: '25%' }} />
-      <div className="locker" style={{ top: '60%', left: '50%' }} />
-      <div className="locker" style={{ top: '60%', left: '75%' }} />
-      <div className="locker" style={{ top: '40%', left: '25%' }} />
-      <div className="locker" style={{ top: '40%', left: '75%' }} />
-    </div>
-    </div>
+    </>
   );
 };
 
-export default Locker;
+export default ChangeLocker;

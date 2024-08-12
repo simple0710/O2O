@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Dropdown } from 'react-bootstrap';
 import '../../style/AdminMainpage.css'; 
@@ -6,13 +6,33 @@ import '../../style/AdminLocker.css';
 import { Link } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import {Logout} from '../Logout'; 
+import { getProfile } from '../../api/userget'; 
 
 
 const AdminNav = () => {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+        try {
+            const userId = localStorage.getItem('userId'); // localStorage에서 userId 가져오기
+            if (userId) {
+                const profileData = await getProfile(userId); // API 호출로 프로필 데이터 가져오기
+                setUserName(profileData.user_nm); // 가져온 데이터에서 user_nm 설정
+                localStorage.setItem('userName', profileData.user_nm); // userName을 localStorage에 저장
+            }
+        } catch (error) {
+            console.error('Error fetching user profile:', error);
+        }
+    };
+
+    fetchUserName();
+}, []);
 
   const handleLogout = async () => {
     await Logout();    
   };
+
 
   return (
     <div>
@@ -23,10 +43,10 @@ const AdminNav = () => {
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
           <img src={Profile} alt="프로필사진" style={{ width: '40px' }} />
-            admin 님
+            {userName} 님
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to="/admin/changepwd">비밀번호 수정</Dropdown.Item>
+            {/* <Dropdown.Item as={Link} to="/admin/changepwd">비밀번호 수정</Dropdown.Item> */}
             <Dropdown.Item as={Link} to="/admin/profile">프로필 수정</Dropdown.Item>
             <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
           </Dropdown.Menu>
@@ -37,3 +57,4 @@ const AdminNav = () => {
 };
 
 export default AdminNav;
+

@@ -14,9 +14,11 @@ const UsageStatistics = () => {
         console.log(response.data.data.products);
         const products = response.data.data.products;
         // 데이터를 사용률로 정렬 (내림차순)
-        products.sort((a, b) => b.retention_rate - a.retention_rate);
+        const data = products
+          .sort((a, b) => b.usage_rate - a.usage_rate)
+          .slice(0, 5); // 상위 5개 선택
 
-        setData(products);
+          setData(data);
       })
       .catch((error) => console.error("Failed to load data:", error))
       .finally(() => setIsLoading(false));
@@ -32,7 +34,7 @@ const UsageStatistics = () => {
 
   return (
     <div className="in-chart">
-      <h3>보유율 통계</h3>
+      <h5>[보유율 통계]</h5>
       <table>
         <thead>
           <tr>

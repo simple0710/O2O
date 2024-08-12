@@ -11,4 +11,5 @@ public interface LockerBodyRepository extends JpaRepository<LockerBody, Integer>
     LockerBody findById(int body_id);
     @Override
     List<LockerBody> findAll();
+    List<LockerBody> findAllByIsActiveIsTrue();
 }

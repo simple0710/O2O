@@ -1,5 +1,3 @@
-#version: '3.8'
-
 services:
   kisok:
     build:
@@ -7,7 +5,9 @@ services:
     image: react_container  # 이미지 이름 설정
     container_name: react_container  # 컨테이너 이름 설정
     ports:
-      - "3000:80"  # kiosk React 앱 포트
+      - "3000:3000"  # kiosk React 앱 포트
+    networks:
+      - my_network #나만의 network 설정! 
 
   web:
     build:
@@ -15,7 +15,9 @@ services:
     image: react_container_web  # 이미지 이름 설정
     container_name: react_container_web  # 컨테이너 이름 설정
     ports:
-      - "3001:80"  # web React 앱 포트
+      - "3001:3001"  # web React 앱 포트
+    networks:
+      - my_network #나만의 network 설정! 
 
   spring-boot-app:
     build:
@@ -24,11 +26,12 @@ services:
     container_name: my_container  # 컨테이너 이름 설정
     ports:
       - "8000:8000"  # 스프링 부트 포트
-
+    networks:
+      - my_network #나만의 network 설정! 
   nginx:
     build:
       context: ./nginx  # Dockerfile이 위치한 경로
-    image: nginx
+    image: nginx:alpine
     container_name: nginx_container  # 컨테이너 이름 설정
     ports:
       - "80:80"
@@ -36,3 +39,8 @@ services:
       - kisok
       - web
       - spring-boot-app
+    networks:
+      - my_network #나만의 network 설정! 
+
+networks:
+  my_network: #네트워크 정의!@

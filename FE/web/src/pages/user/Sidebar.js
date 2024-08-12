@@ -217,7 +217,6 @@ import styled from 'styled-components';
 import { getRecent } from '../../api/userget';
 import { CartContext } from './CartContext';
 import Modals from './Modals';
-import '../../style/Sidebar.css';
 
 // Define styled components outside of the functional component
 const SidebarContainer = styled.div`
@@ -279,11 +278,13 @@ function Sidebar() {
   const [modalCloseConfirmed, setModalCloseConfirmed] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [recentRent, setRecentRent] = useState([]);
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const data = await getRecent(1, 10, 4);  // 4는 유저 아이디 변수로 변환 예정
+        const data = await getRecent(1, 10, userId);  // 4는 유저 아이디 변수로 변환 예정
+        console.log('userId',userId)
         setRecentRent(data);
       } catch (error) {
         console.error(error);
@@ -378,6 +379,7 @@ function Sidebar() {
 
   return (
     <SidebarContainer className="side-bar">
+      <div style={{marginTop:'35px'}}>
       <SidebarLink
         to="/request/article"
         isActive={activeLink === '/request/article'}
@@ -414,6 +416,7 @@ function Sidebar() {
           {listItems}
         </ul>
       </AlertBox>
+      </div>
     </SidebarContainer>
   );
 }

@@ -34,6 +34,9 @@
   word-wrap: break-word;
 }
 
+
+
+
 /* .locker-cell의 div 스타일 */
 .locker-cell div {
   margin: 5px 0;
@@ -62,11 +65,16 @@
 
 /* 로딩 스피너 스타일 */
 .spinner {
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 150px;
+}
+
+.locker-cell:hover {
+  background-color: #f1f1f1;
 }
