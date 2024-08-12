@@ -5,7 +5,7 @@ import '../styles/Cart2.css';
 import axios from 'axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
-import { getUserFromLocal } from '../util/localStorageUtil.js';
+import { getUserFromSession } from '../util/sessionUtils.js';
 import ReservationModal from './ReservationModal'; // 새로 만든 모달 컴포넌트 import
 
 const Cart2 = () => {
@@ -145,7 +145,7 @@ const Cart2 = () => {
       return;
     }
 
-    const user = getUserFromLocal();
+    const user = getUserFromSession();
 
     const formattedItems = cartItems.map(item => ({
       product_id: item.id,
