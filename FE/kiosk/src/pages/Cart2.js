@@ -5,6 +5,8 @@ import '../styles/Cart2.css';
 import axios from 'axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
+import { getUserFromLocal } from '../util/localStorageUtil.js';
+import ReservationModal from './ReservationModal'; // 새로 만든 모달 컴포넌트 import
 
 const Cart2 = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -12,6 +14,7 @@ const Cart2 = () => {
   const [products, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [cartItems, setCartItems] = useState([]);
+  const [showModal, setShowModal] = useState(false); // 모달을 관리하기 위한 상태 추가
 
   const navigate = useNavigate();
 
@@ -108,7 +111,6 @@ const Cart2 = () => {
           }
           return prevCartItems;
         } else {
-          // Only add to cart if quantity is greater than 0
           if (product.quantity > 0) {
             return [...prevCartItems, { ...product, quantity: 1 }];
           }
@@ -132,7 +134,7 @@ const Cart2 = () => {
     });
   };
 
-  const logCartItems = () => {
+  const logCartItems = async () => {
     if (cartItems.length === 0) {
       Swal.fire({
         icon: 'warning',
@@ -142,17 +144,89 @@ const Cart2 = () => {
       });
       return;
     }
-    console.log("장바구니에 담긴 아이템:", cartItems);
-    navigate('/locker', { state: { borrowedItems: cartItems } });
+
+    const user = getUserFromLocal();
+
+    const formattedItems = cartItems.map(item => ({
+      product_id: item.id,
+      product_cnt: item.quantity,
+      locker_id: item.locker_id,
+      status_id: 1 
+    }));
+
+    const requestData = {
+      reserve_id: 34,
+      locker_body_id: selectedLocker.value,
+      products: formattedItems,
+      user_id: user.user_id
+    };
+
+    try {
+      const response = await axios.post('/kiosk/rent', requestData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log("대여 요청에 대한 응답:", response.data);
+
+      if (response.data.status === 200) {
+        console.log("대여 성공!");
+        console.log("대여한 물품 정보:", formattedItems);
+        console.log("사용자 정보:", user);
+
+        Swal.fire({
+          icon: 'success',
+          title: '대여 성공',
+          text: `대여가 성공적으로 완료되었습니다. 대여 ID: ${response.data.data.rent_id}`,
+          confirmButtonText: '확인'
+        }).then(() => {
+          navigate('/locker', { state: { borrowedItems: cartItems } });
+        });
+      } else {
+        throw new Error(response.data.message || '대여 처리 중 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      console.error('대여 처리 중 오류:', error);
+      Swal.fire({
+        icon: 'error',
+        title: '대여 실패',
+        text: '대여 처리 중 오류가 발생했습니다. 다시 시도해 주세요.',
+        confirmButtonText: '확인'
+      });
+    }
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleProceedToCart = (selectedItems) => {
+    setCartItems(selectedItems);
+  };
+  
+  const back = () => {
+    navigate('/');
   };
 
   return (
     <>
+      <button className="btn-main" onClick={back}>HOME</button>
       <div>
-        <button className="btn-main" onClick={() => navigate('/')}>
-          HOME
+        <button className="btn-reservation" onClick={handleOpenModal}>
+          예약 내역 보기
         </button>
       </div>
+
+      <ReservationModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        onProceedToCart={handleProceedToCart}
+      />
 
       <div className='cart-list-container'>
         <div className='cart-list-box'>
@@ -204,4 +278,3 @@ const Cart2 = () => {
 }
 
 export default Cart2;
-

@@ -4,6 +4,7 @@ import Nav from './Nav';
 import '../../style/RequestItme.css'
 import Swal from "sweetalert2";
 import {postRequest} from '../../api/userpost'
+import ButtonComponent from '../../components/ButtonComponent';
 
 const RequestItem = () => {
     const userId = localStorage.getItem('userId');
@@ -56,16 +57,16 @@ const RequestItem = () => {
 
 
     return (
-        <div>
+        <div className="total">
             <Nav/>
             <div className="content-container">
                 <Sidebar/>
                 <div className='content'>
                     <h2>물품 요청</h2>
-                    <div className='user-form'>
+                    <div className='request-form'>
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="itemname" className='form-label'>물품명: </label>
+                                <label htmlFor="itemname" className='form-label'>물품명</label>
                                 <input
                                     type="itemname"
                                     className='form-control'
@@ -78,7 +79,7 @@ const RequestItem = () => {
                                 />
                             </div>
                             <div>
-                            <label htmlFor="requestreason" className='form-label'>신청 사유: </label>
+                            <label htmlFor="requestreason" className='form-label'>신청 사유</label>
                                 <input
                                     type="requestreason"
                                     className='form-control'
@@ -91,7 +92,7 @@ const RequestItem = () => {
                                 />
                             </div>
                             <div>
-                            <label htmlFor="itemlink" className='form-label'>물품 링크: </label>
+                            <label htmlFor="itemlink" className='form-label'>물품 링크</label>
                                 <input
                                     type="itemlink"
                                     className='form-control'
@@ -104,7 +105,7 @@ const RequestItem = () => {
                                 />
                             </div>
                             <div>
-                            <label htmlFor="itemcnt" className='form-label'>물품 개수: </label>
+                            <label htmlFor="itemcnt" className='form-label'>물품 개수</label>
                                 <input
                                     type="itemcnt"
                                     className='form-control'
@@ -116,7 +117,12 @@ const RequestItem = () => {
                                     placeholder='물품 개수를 입력해주세요. (숫자만 입력해주세요)'
                                 />
                             </div>
-                            <button type="submit" className="add-btn">요청하기</button>
+                            <ButtonComponent 
+                                type="submit"
+                                style={{ marginTop: '20px' }}
+                            >
+                                요청하기
+                            </ButtonComponent>
                         </form>
                     </div>
                 </div>

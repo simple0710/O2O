@@ -189,6 +189,7 @@ import { Table, Button, Form } from 'react-bootstrap';
 import { getReservation } from '../../api/userget'; 
 import { deleteReservation } from '../../api/userpost'; 
 import Pagination from "../admin/Pagination";
+import ButtonComponent from '../../components/ButtonComponent'; 
 
 const BorrowList = () => {
   const [reservations, setReservations] = useState([]);
@@ -341,13 +342,11 @@ const BorrowList = () => {
           </Table>
 
           <div className="mt-3">
-            <Button
-              className="check-button"
-              style={{ marginRight: "10px" }}
-              onClick={handleDelete} // Add onClick handler
+            <ButtonComponent
+              onClick={handleDelete} 
             >
               처리완료
-            </Button>
+            </ButtonComponent>
           </div>
 
           <Pagination

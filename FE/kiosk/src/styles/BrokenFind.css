@@ -10,7 +10,8 @@
 .cart-container {
   width: 100%;
   max-width: 375px;
-  height: auto;
+  /* height: auto; */
+  height: 600px;  /*높이 고정*/
   margin: 0 auto;
   background-color: white;
   padding: 20px;
@@ -21,7 +22,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+ 
 }
 
 h2 {
@@ -30,14 +32,38 @@ h2 {
   font-size: 24px;
   font-weight: bold;
 }
-/* 
+
 .items {
-  margin-bottom: 20px;
+  width: 200px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  min-height: 400px; /* 아이템 영역의 최소 높이 설정 */
+}
+
+.broekn-items {
+  width: 400px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  min-height: 400px; /* 아이템 영역의 최소 높이 설정 */
+}
+
+
+/* .rent {
+  margin-bottom: 15px;
 } */
+
 
 .rent {
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
 
 .item {
   padding: 10px;

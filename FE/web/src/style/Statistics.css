@@ -1,7 +1,7 @@
 .chart-container {
-  margin: auto;
+  margin: 40px auto;
   height: 400px;
-  width: 80%;
+  width: 60%;
 }
 
 .out-chart {
@@ -26,5 +26,26 @@ th,
 td {
   padding: 10px;
   text-align: left;
+  border: 1px solid #ddd;
+}
+
+.in-chart h5 {
+  text-align: center;
+}
+
+.chart-container h5 {
+  text-align: center;
+}
+
+.in-chart table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.in-chart th, .in-chart td {
+  width: 50%;
+  text-align: center;
+  padding: 8px;
   border: 1px solid #ddd;
 }

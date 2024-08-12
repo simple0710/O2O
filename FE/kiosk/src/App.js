@@ -32,6 +32,7 @@ import ReturnList from './pages/ReturnList';
 import ReturnLocker from './pages/ReturnLocker';
 import { FiAlertTriangle, FiArchive, FiCornerDownRight ,FiSettings    } from "react-icons/fi";
 import BrokenLocker from './pages/BrokenLocker'
+import Reservation from './pages/Reservation';
 
 
 
@@ -96,6 +97,7 @@ function App() {
           <Route path="/brokenfinish" element={<BrokenFinish />}/> 
           <Route path="/quantitychangefinish" element={<QuantityChangeFinish />}/> 
           <Route path="/registerfinish" element={<RegisterFinish />}/> 
+          <Route path="/reservation" element={<Reservation />}/>
         </Routes>
         
       </div>
