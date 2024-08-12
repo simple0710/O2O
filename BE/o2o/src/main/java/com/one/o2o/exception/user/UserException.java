@@ -1,4 +1,4 @@
-package com.one.o2o.exception.User;
+package com.one.o2o.exception.user;
 
 import lombok.Getter;
 

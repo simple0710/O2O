@@ -1,6 +1,6 @@
 package com.one.o2o.exception;
 
-import com.one.o2o.exception.User.UserException;
+import com.one.o2o.exception.user.UserException;
 import com.one.o2o.exception.products.ProductException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

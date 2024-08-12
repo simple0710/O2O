@@ -1,7 +1,7 @@
 package com.one.o2o.validator;
 
-import com.one.o2o.exception.User.UserErrorCode;
-import com.one.o2o.exception.User.UserException;
+import com.one.o2o.exception.user.UserErrorCode;
+import com.one.o2o.exception.user.UserException;
 import com.one.o2o.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
