@@ -7,6 +7,7 @@ import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
 import com.one.o2o.entity.products.request.ProductsRequest;
 import com.one.o2o.repository.ProductsRequestRepository;
+import com.one.o2o.validator.URLValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,9 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
 
     private final ProductsRequestRepository productsRequestRepository;
 
+    // Validator
+    private final URLValidator urlValidator;
+
     // 요청 비품 목록 조회
     public Response findAll(int pageNumber, int pageSize) {
         Response response = new Response(200, "요청 비품 목록 관리 페이지 이동 성공");
@@ -54,6 +58,8 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
 
     // 물품 요청
     public Response save(UsersRequestDto urd) {
+            // URL 형식 검사
+        urlValidator.validateUrlForm(urd.getReqUrl());
         productsRequestRepository.save(new ProductsRequest(urd));
         return new Response(200, "message");
     }

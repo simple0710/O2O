@@ -1,5 +1,6 @@
 package com.one.o2o.exception;
 
+import com.one.o2o.exception.common.CommonException;
 import com.one.o2o.exception.locker.LockerException;
 import com.one.o2o.exception.products.ProductException;
 import com.one.o2o.exception.products.report.ProductReportException;
@@ -10,6 +11,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(CommonException.class)
+    public ResponseEntity<ErrorResponse> handleCommonException(CommonException e) {
+        ErrorResponse errorResponse = ErrorResponse.of(
+                e.getErrorCode(),
+                e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, e.getErrorCode().getHttpStatus());
+    }
 
     @ExceptionHandler(ProductException.class)
     public ResponseEntity<ErrorResponse> handleProductException(ProductException ex) {
