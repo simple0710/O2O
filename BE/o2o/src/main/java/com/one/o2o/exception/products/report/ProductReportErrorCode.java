@@ -8,6 +8,7 @@ import static com.one.o2o.constants.ProductReportConstants.MAX_PRODUCT_REPORT_CO
 
 @Getter
 public enum ProductReportErrorCode implements ErrorCode {
+    PRODUCT_REPORT_ID_NOT_FOUND(HttpStatus.NOT_FOUND, "이상 신고 내용을 찾을 수 없습니다."),
     PRODUCT_REPORT_CONTENT_LENGTH(HttpStatus.BAD_REQUEST, String.format("이상 신고 내용이 허용된 최대 길이(%d자)를 초과했습니다.", MAX_PRODUCT_REPORT_CONTENT_LENGTH));
 
     private final HttpStatus httpStatus;

@@ -2,6 +2,8 @@ package com.one.o2o.validator;
 
 import com.one.o2o.exception.products.report.ProductReportErrorCode;
 import com.one.o2o.exception.products.report.ProductReportException;
+import com.one.o2o.repository.ProductsReportRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
@@ -10,6 +12,16 @@ import static com.one.o2o.constants.ProductReportConstants.MAX_PRODUCT_REPORT_CO
 
 @Component
 public class ProductReportValidator {
+
+    @Autowired
+    private ProductsReportRepository productsReportRepository;
+
+    public void validateProductReportId(Integer id) {
+        boolean exist = productsReportRepository.existsById(id);
+        if (!exist) {
+            throw new ProductReportException(ProductReportErrorCode.PRODUCT_REPORT_ID_NOT_FOUND);
+        }
+    }
 
     /**
      * 제품 보고서의 내용 길이 검증

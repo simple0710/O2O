@@ -1,5 +1,6 @@
 package com.one.o2o.controller;
 
+import com.one.o2o.config.JwtTokenProvider;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.ProductsResponseDto;
@@ -11,6 +12,7 @@ import com.one.o2o.service.ProductsCommonService;
 import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
+import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,10 @@ public class ProductsController {
     private final ProductsRequestService productsRequestService;
     private final ProductsReportService productsReportService;
     private final ProductsCommonService productsCommonService;
+
+    private final UserValidator userValidator;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      *
@@ -86,7 +92,11 @@ public class ProductsController {
     }
 
     @PutMapping("/report/process")
-    public ResponseEntity<?> processProductsReport(@RequestBody List<ReportProcessDto> reportProcessDto) {
+    public ResponseEntity<?> processProductsReport(@RequestHeader("Authorization") String authorization, @RequestBody List<ReportProcessDto> reportProcessDto) {
+        // 유저 권한 확인
+        log.info("Authorization = {}", authorization);
+        String accessToken = authorization.replace("Bearer ", "");
+        userValidator.validateUserIsAdmin(accessToken);
         return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
     }
 

@@ -2,10 +2,10 @@ package com.one.o2o.service;
 
 import com.one.o2o.dto.common.PageInfoDto;
 import com.one.o2o.dto.common.Response;
-import com.one.o2o.entity.*;
 import com.one.o2o.dto.products.report.ProductsReportDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
+import com.one.o2o.entity.*;
 import com.one.o2o.entity.products.report.ProductsReport;
 import com.one.o2o.repository.ProductsReportRepository;
 import com.one.o2o.validator.LockerValidator;
@@ -14,6 +14,7 @@ import com.one.o2o.validator.ProductValidator;
 import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,7 @@ interface ProductsReportServiceInterface {
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductsReportService implements ProductsReportServiceInterface {
 
     private final ProductsReportRepository productsReportRepository;
@@ -121,7 +123,9 @@ public class ProductsReportService implements ProductsReportServiceInterface {
     @Transactional
     public Response updateProcess(List<ReportProcessDto> reportProcessDtoList) {
         Response response = new Response(200, "이상 처리 완료");
+
         for (ReportProcessDto report : reportProcessDtoList) {
+            productReportValidator.validateProductReportId(report.getRptId());
             ProductsReport productsReport = productsReportRepository.findById(report.getRptId())
                     .orElseThrow();
             productsReport.setIsProcessed(report.getIsProcessed());
