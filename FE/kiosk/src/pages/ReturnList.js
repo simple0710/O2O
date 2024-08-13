@@ -161,12 +161,17 @@ function ReturnList() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const selectedItems = items.slice(startIndex, startIndex + itemsPerPage);
 
+  const back = () => {
+    navigate('/');
+  };
+
   const renderNoItemsMessage = () => (
     <h4>대여 중인 물품이 없습니다 <span role="img" aria-label="머쓱">😅</span></h4>
   );
 
   return (
     <div className='frame-container'>
+      <button className="btn-main" onClick={back}>HOME</button>
       <div className="cart-container">
         <h2>대여물품조회</h2>
         <div className="items">

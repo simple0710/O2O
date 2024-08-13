@@ -1,0 +1,116 @@
+.reservation-modal-header {
+  background-color: #0093ED;
+  color: #fff;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.reservation-modal-title {
+  font-weight: bold;
+  font-size: 1.75rem;
+  margin: auto;
+  text-align: center;
+  width: 100%;
+}
+
+.reservation-modal-body {
+  background-color: #f8f9fa;
+  padding: 25px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.reservation-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reservation-rent {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 0.5em; /* 패딩을 em 단위로 설정하여 반응형으로 변경 */
+  transition: box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  min-height: 5em; /* 최소 높이 설정으로 인해 너무 작아지는 것을 방지 */
+  min-width: 15em; /* 최소 너비 설정으로 인해 글씨가 잘리지 않도록 방지 */
+  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
+}
+
+.reservation-rent:hover {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+}
+
+.reservation-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1em; /* 패딩을 em 단위로 설정 */
+  border-top: 1px solid #e9ecef;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #F0F8FF;
+}
+
+.reservation-item:first-child {
+  border-top: none;
+}
+
+.reservation-item-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.reservation-item-icon {
+  font-size: 2rem;
+}
+
+.reservation-item-name {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.reservation-item-small-font,
+.reservation-item-date {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.reservation-modal-footer {
+  background-color: #f8f9fa;
+  border-top: 2px solid #e9ecef;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.reservation-btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.reservation-btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.reservation-selected-rent {
+  background-color: #FF6666;
+}
+
+.reservation-selected-rent-btn {
+  background-color: #007bff;
+}

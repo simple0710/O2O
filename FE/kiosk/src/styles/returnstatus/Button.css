@@ -20,6 +20,6 @@
     border-radius: 4px; /* 버튼 모서리 둥글게 */
 }
 
-.button1 {
+.button-return, .button-retry {
     background-color: #0093ed; /* 버튼1의 배경색 */
 }
