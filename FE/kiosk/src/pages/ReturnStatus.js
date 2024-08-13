@@ -133,7 +133,7 @@ function ReturnStatus() {
       Swal.fire({
         icon: 'warning',
         title: '선택한 물품과 다릅니다.',
-        text: '옳바른 물품을 올려주세요.',
+        text: '올바른 물품을 올려주세요.',
         confirmButtonText: '확인',
         timer: 2000, // 2초
         timerProgressBar: true, 
