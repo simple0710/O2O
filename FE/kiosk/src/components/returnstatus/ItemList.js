@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import '../../styles/returnstatus/ItemList.css';
 
-function ItemList({reportedItems}) {
+function ItemList({productList}) {
   
     useEffect(() => {
-        console.log('반납 선택 물품 전달:', reportedItems);
-    }, [reportedItems]);
+        console.log('반납 선택 물품 전달:', productList);
+    }, [productList]);
 
     // const returnData = reportedItems.map(item => ({
     //     rent_id: item.rent_id,
@@ -24,8 +24,8 @@ function ItemList({reportedItems}) {
         <>
             <div className='item-list1'>
                 <div>
-                {reportedItems && reportedItems.map(item => (
-                    <div key={item.id} className='item1'>
+                {productList && productList.map(item => (
+                    <div key={item.name} className='item1'>
                         <span className='item-icon'>✂️</span>
                         <span className='item-name1'>{item.name}</span>
                         <span className='tiem-count1'>{item.cnt}</span>
