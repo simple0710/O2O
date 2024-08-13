@@ -45,7 +45,7 @@ const Cart2 = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const source = axios.CancelToken.source();
+    const source = axiosSpring.CancelToken.source();
 
     if (selectedLocker) {
       // 새로운 층을 선택할 때마다 제품 목록을 초기화
@@ -76,7 +76,7 @@ const Cart2 = () => {
           }
         })
         .catch(error => {
-          if (axios.isCancel(error)) {
+          if (axiosSpring.isCancel(error)) {
             console.log('Request canceled', error.message);
           } else {
             console.error('Error fetching products data:', error);
