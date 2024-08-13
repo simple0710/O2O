@@ -63,7 +63,7 @@ function AddUser() {
         if (!validatePassword(formData.user_pw)) {
             Swal.fire({
                 title: '비밀번호 형식 오류',
-                text: '비밀번호는 6자 이상, 특수문자를 포함해야 하며, 공백을 포함할 수 없습니다.',
+                text: '비밀번호는 6자 이상, 특수문자를 포함해야 합니다.',
                 icon: 'error',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: '확인'
