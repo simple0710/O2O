@@ -31,7 +31,7 @@ const Login = () => {
 
         try {
             const response = await axiosInstance.post('/users/login', formData);
-            
+            console.log(response.data)
             const accessToken = response.headers.access;
             
             localStorage.setItem('accessToken', accessToken);

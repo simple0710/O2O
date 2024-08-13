@@ -2,12 +2,13 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
     baseURL: "http://i11d101.p.ssafy.io:8000",
-    timeout: 10000, 
+    timeout: 10000,
 });
 
 axiosInstance.interceptors.request.use(
     config => {
         const token = localStorage.getItem('accessToken');
+        console.log('tk', token)
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
@@ -27,9 +28,7 @@ axiosInstance.interceptors.response.use(
 
             try {
                 const refreshToken = localStorage.getItem('refreshToken');
-                //리프레시 토큰을 사용해 새로운 액세스 토큰을 요청하는 URL
-                const response = await axios.post('/users/token/refresh', { refreshToken });
-                //새로운 토큰 발급
+                const response = await axios.post('http://i11d101.p.ssafy.io:8000/users/token/refresh', { refreshToken });
                 const newAccessToken = response.data.accessToken;
                 localStorage.setItem('accessToken', newAccessToken);
 
