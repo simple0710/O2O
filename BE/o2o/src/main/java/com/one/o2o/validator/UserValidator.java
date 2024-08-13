@@ -37,7 +37,10 @@ public class UserValidator {
         }
     }
 
-    public void validateUserIsAdmin(String accessToken) {
+    public void validateUserIsAdmin(String authorization) {
+        log.info("Authorization = {}", authorization);
+        String accessToken = authorization.replace("Bearer ", "");
+
         Authentication auth = jwtTokenProvider.getAuthentication(accessToken);
 
         Users user = memberRepository.findById(Integer.valueOf(auth.getName())).orElseThrow();
