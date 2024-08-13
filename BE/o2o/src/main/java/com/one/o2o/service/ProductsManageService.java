@@ -6,12 +6,17 @@ import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.locker.LockerUpdateDto;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.manage.OverdueDto;
-import com.one.o2o.dto.products.manage.ProductsOverdueDto;
 import com.one.o2o.dto.products.manage.OverdueStatusDto;
+import com.one.o2o.dto.products.manage.ProductsOverdueDto;
+import com.one.o2o.entity.Files;
+import com.one.o2o.entity.Products;
+import com.one.o2o.entity.Rent;
+import com.one.o2o.entity.RentLog;
 import com.one.o2o.entity.*;
 import com.one.o2o.event.ProductSavedEventListener;
-import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.*;
+import com.one.o2o.validator.ProductValidator;
+import com.one.o2o.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,10 +57,22 @@ public class ProductsManageService implements ProductsManageInterface {
     private final FileRepository fileRepository;
     private final ProductSavedEventListener productSavedEventListener;
 
+    // Validator
+    private final ProductValidator productValidator;
+    private final UserValidator userValidator;
+
     @Transactional
     public Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException {
+        // 물품명 조건 검사
+        productValidator.validateProductName(productsDto.getProductNm());
+
+        // 유저 id 검사
+        userValidator.validateUserId(productsDto.getUserId());
+
+        Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
+
+        log.info("productsId = {}", productsId);
         if (files != null && !files.isEmpty()) {
-            Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
             saveProduct(files, productsId, productsDto.getUserId());
         }
         return new Response(200, "성공적으로 저장되었습니다.");
@@ -134,7 +151,7 @@ public class ProductsManageService implements ProductsManageInterface {
                 rentCnt += rentLog.getLogCnt();
                 status.put(rentLog.getStatusId(), OverdueStatusDto.builder()
                         .statusNm(statusRepository.findAllByStatusId(rentLog.getStatusId())
-                                .orElseThrow(ArticleNotFoundException::new).getStatusNm())
+                                .orElseThrow().getStatusNm())
                         .productCnt(rentLog.getLogCnt())
                         .build()
                 );
@@ -151,7 +168,7 @@ public class ProductsManageService implements ProductsManageInterface {
             OverdueDto overdueDto = OverdueDto.builder()
                     .userId(rent.getUserId())
                     .userNm(userRepository.findAllByUserId(rent.getUserId())
-                            .orElseThrow(ArticleNotFoundException::new)
+                            .orElseThrow()
                             .getUserNm())
                     .rentId(rent.getId())
                     .rentDt(rent.getStartDt())
