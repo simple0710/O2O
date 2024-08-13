@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import '../styles/BrokenLocker.css';
 import { axiosSpring } from '../api/axios';
+import {register} from '../api/cameraget'
 
 const BrokenLocker = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -49,6 +50,29 @@ const BrokenLocker = () => {
       .catch(error => {
         console.error('Error fetching lockers data:', error);
       });
+
+      // borrowedItems 상태에 따라 sci와 mou 값 설정
+    const newStatus = { reg: 0 };
+    reportedItems.forEach(item => {
+      if (item.id === 76) {
+        newStatus.reg = 1;
+      } else if (item.id === 3) {
+        newStatus.reg = 1;
+      }
+    });
+    // setBorrowedItemsStatus(newStatus); // 상태 업데이트
+    console.log('newStatus: ', newStatus)
+    // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
+
+    register(newStatus)
+    .then(response => {
+      console.log('Response from server:', response);
+    })
+    .catch(e => {
+      console.error('Error:', e)
+    })
+
+
   }, [lockerBodyId]);
 
   useEffect(() => {

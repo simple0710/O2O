@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import {axiosSpring} from '../api/axios';
 import '../styles/Locker.css';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import {open} from '../api/cameraget'
+
 
 const ChangeLocker = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -70,6 +72,27 @@ const ChangeLocker = () => {
 
   const handleLockerClick = (product) => {
     navigate('/ItemRegistration', { state: { product } });
+    console.log('product: ', product)
+
+       // borrowedItems 상태에 따라 sci와 mou 값 설정
+       const newStatus = { sci: 0, mou: 0 };
+    
+        if (product.locker_id === 1) {  //가위
+          newStatus.sci = 1;
+        } else if (product.locker_id === 3) {  // 마우스
+          newStatus.mou = 1;
+        };
+       // setBorrowedItemsStatus(newStatus); // 상태 업데이트
+       console.log('newStatus: ', newStatus)
+       // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
+   
+       open(newStatus)
+       .then(response => {
+         console.log('Response from server:', response);
+       })
+       .catch(e => {
+         console.error('Error:',e)
+       })
   };
 
   return (

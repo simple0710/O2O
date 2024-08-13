@@ -48,18 +48,45 @@ function RegisterBroken() {
     navigate('/BrokenLocker', {state: {reportedItems}});
   };
 
+  // const postReported = async () => {
+  //   const params = reportedItems.map(item => ({
+  //     "user_id" : userId,
+  //     "locker_id" : item.locker_id==null?9:item.locker_id,
+  //     "status_id" : item.missing > 0? 4: 7,
+  //     "product_id" : item.id,
+  //     "product_cnt" : item.cnt,
+  //     "rpt_content" : "세부 사항",
+  //     "rpt_img" : "물품 이미지"
+  //   }))
+  //   const response = await postProductsBrokenAndMissing(params)
+  // }
+
+
+  // 요청을 여러 개 보내는 함수
   const postReported = async () => {
-    const params = reportedItems.map(item => ({
-      "user_id" : userId,
-      "locker_id" : item.locker_id==null?9:item.locker_id,
-      "status_id" : item.missing > 0? 4: 7,
-      "product_id" : item.id,
-      "product_cnt" : item.cnt,
-      "rpt_content" : "세부 사항",
-      "rpt_img" : "물품 이미지"
-    }))
-    const response = await postProductsBrokenAndMissing(params)
-  }
+    const promises = reportedItems.map(item => {
+      const params = {
+        "user_id": userId,
+        "locker_id": item.locker_id == null ? 9 : item.locker_id,
+        "status_id": item.missing > 0 ? 4 : 7,
+        "product_id": item.id,
+        "product_cnt": item.cnt,
+        "rpt_content": "세부 사항",
+        "rpt_img": "물품 이미지",
+        "rent_id": item.rent_id
+      };
+      console.log("요청 파라미터:", params);
+
+      return postProductsBrokenAndMissing(params);
+    });
+
+    try {
+      await Promise.all(promises);
+      console.log('모든 신고가 완료되었습니다.');
+    } catch (error) {
+      console.error('신고 처리 중 오류 발생:', error);
+    }
+  };
 
 
   return (
