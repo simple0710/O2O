@@ -18,6 +18,7 @@ function Profile() {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ ...profileData });
   const [passwordRequired, setPasswordRequired] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -28,6 +29,8 @@ function Profile() {
         setFormData(data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setIsLoading(false); // 로딩 완료
       }
     };
 
@@ -55,18 +58,12 @@ function Profile() {
   };
 
   const validatePassword = (password) => {
-    // 비밀번호가 6자 이상인지 확인
     if (password.length < 6) {
       return false;
     }
 
-    // 비밀번호에 특수문자가 포함되어 있는지 확인
     const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/;
-    if (!specialCharacterRegex.test(password)) {
-      return false;
-    }
-
-    return true;
+    return specialCharacterRegex.test(password);
   };
 
   const handleSave = async () => {
@@ -78,22 +75,21 @@ function Profile() {
           icon: 'error',
           confirmButtonColor: '#3085d6',
           confirmButtonText: '확인'
-      });
-      return;
+        });
+        return;
       }
 
       if (!validatePassword(formData.user_pw)) {
-          Swal.fire({
-            title: '비밀번호 형식 오류',
-            text: '비밀번호는 6자 이상, 특수문자를 포함해야 합니다.',
-            icon: 'error',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: '확인'
+        Swal.fire({
+          title: '비밀번호 형식 오류',
+          text: '비밀번호는 6자 이상, 특수문자를 포함해야 합니다.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '확인'
         });
         return;
       }
     }
-
 
     try {
       const userId = localStorage.getItem('userId');
@@ -120,11 +116,10 @@ function Profile() {
       <div className="content-container">
         <Sidebar />
         <div className="content">
-          <h2>프로필</h2>
+          <h2>회원정보</h2>
           <div className="profile-card">
             <div className="profile-image">
               <img
-                // src={formData.user_img ? URL.createObjectURL(formData.user_img) : Image}
                 src={Image}
                 alt="프로필 이미지"
               />
@@ -148,7 +143,7 @@ function Profile() {
                           <input
                             type="text"
                             name="user_nm"
-                            value={formData.user_nm}
+                            value={isLoading ? "" : formData.user_nm}  // 로딩 중일 때 빈칸 표시
                             onChange={handleInputChange}
                           />
                         </td>
@@ -159,7 +154,7 @@ function Profile() {
                           <input
                             type="text"
                             name="user_tel"
-                            value={formData.user_tel}
+                            value={isLoading ? "" : formData.user_tel}  // 로딩 중일 때 빈칸 표시
                             onChange={handleInputChange}
                           />
                         </td>
@@ -170,8 +165,9 @@ function Profile() {
                           <input
                             type="password"
                             name="user_pw"
-                            value={formData.user_pw}
+                            value={isLoading ? "" : formData.user_pw}  // 로딩 중일 때 빈칸 표시
                             onChange={handleInputChange}
+                            placeholder="비밀번호는 6자 이상, 특수문자를 포함해야 합니다."
                           />
                         </td>
                       </tr>
@@ -188,15 +184,15 @@ function Profile() {
                     <tbody>
                       <tr>
                         <td className="detail-label"><strong>이름</strong></td>
-                        <td className="detail-value">{profileData.user_nm}</td>
+                        <td className="detail-value">{isLoading ? "" : profileData.user_nm}</td> {/* 로딩 중일 때 빈칸 표시 */}
                       </tr>
                       <tr>
                         <td className="detail-label"><strong>전화번호</strong></td>
-                        <td className="detail-value">{profileData.user_tel}</td>
+                        <td className="detail-value">{isLoading ? "" : profileData.user_tel}</td> {/* 로딩 중일 때 빈칸 표시 */}
                       </tr>
                       <tr>
                         <td className="detail-label"><strong>비밀번호</strong></td>
-                        <td className="detail-value">********</td>
+                        <td className="detail-value">{isLoading ? "" : '********'}</td> {/* 로딩 중일 때 빈칸 표시 */}
                       </tr>
                     </tbody>
                   </table>
