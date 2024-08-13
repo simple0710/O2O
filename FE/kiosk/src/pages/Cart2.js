@@ -77,7 +77,7 @@ const Cart2 = () => {
           }
         })
         .catch(error => {
-          if (axiosSpring.isCancel(error)) {
+          if (axios.isCancel(error)) {
             console.log('Request canceled', error.message);
           } else {
             console.error('Error fetching products data:', error);
