@@ -8,7 +8,11 @@ import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
 import com.one.o2o.entity.products.report.ProductsReport;
 import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
+import com.one.o2o.exception.rent.RentException;
 import com.one.o2o.repository.ProductsReportRepository;
+import com.one.o2o.repository.RentLogRepository;
+import com.one.o2o.repository.RentRepository;
+import com.one.o2o.utils.RentCalculation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +35,11 @@ interface ProductsReportServiceInterface {
 @Service
 @RequiredArgsConstructor
 public class ProductsReportService implements ProductsReportServiceInterface {
-
+    private final RentRepository rentRepository;
+    private final RentLogRepository rentLogRepository;
     private final ProductsReportRepository productsReportRepository;
+
+    private final LockerService lockerService;
 
     @Override
     public Response findAll(int pageNumber, int pageSize) {
@@ -81,8 +89,38 @@ public class ProductsReportService implements ProductsReportServiceInterface {
     }
 
     @Override
+    @Transactional
     public Response save(UsersReportDto userReportDto) {
         Response response = new Response(200, "이상 신고 등록 완료");
+        // 1. 유효성 확인
+        // 우선 유효성 체크 모두 무효화
+        // 1) 반납 유효성
+        Rent rent = rentRepository.findById(userReportDto.getRentId())
+                .orElseThrow(RentException.RentNotFoundException::new);
+        if(rent.isReturned()) throw new RentException.InvalidReturnException("이미 완료된 반납입니다.");
+        Map<Integer, Integer> map = RentCalculation.getProductRentFromEntity(rent.getRentLogs());
+        // 2. 파손/분실 처리 실행
+        // 1) 파손/분실 로그 저장
+        Integer lockerId = userReportDto.getLockerId();
+        Integer productId = userReportDto.getProductId();
+        RentLog rentLog = new RentLog();
+        rentLog.setNewRentId(rent.getId());
+        rentLog.setStatusId(userReportDto.getStatusId());
+        rentLog.setLogCnt(userReportDto.getProductCnt());
+        rentLog.setLogDt(LocalDateTime.now());
+        rentLog.setNewLockerId(lockerId);
+        rentLog.setNewProductId(userReportDto.getProductId());
+        rentLogRepository.save(rentLog);
+        // 2) 물품 수량 확인
+        map.put(productId, map.get(productId) - userReportDto.getProductCnt());
+        // 3. 대여 변경
+        // 1) 모든 반납(신고)이 완료되었으면, 완료로 설정한다.
+        if(map.values().stream().reduce(0, Integer::sum) == 0){
+            rent.updateReturned(true);
+            rent.setEndDt(LocalDateTime.now());
+        }
+
+        // 파손/분실 신고 저장
         productsReportRepository.save(new ProductsReport(userReportDto));
         return response;
     }
