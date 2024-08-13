@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Cart2.css';
-import axios from 'axios';
+import { axiosSpring } from '../api/axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
 import { getUserFromSession } from '../util/sessionUtils.js';
@@ -28,7 +28,7 @@ const Cart2 = () => {
       setCartItems(JSON.parse(savedCartItems));
     }
 
-    axios.get('/lockers/names')
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
@@ -52,7 +52,7 @@ const Cart2 = () => {
       setProducts([]);
       setQuantities({});
 
-      axios.get(`/lockers?locker_body_id=${selectedLocker.value}`, { cancelToken: source.token })
+      axiosSpring.get(`/lockers?locker_body_id=${selectedLocker.value}`, { cancelToken: source.token })
         .then(response => {
           if (isMounted) {
             const data = response.data.data;
@@ -175,14 +175,14 @@ const Cart2 = () => {
     }));
 
     const requestData = {
-      reserve_id: 34,
+      reserve_id: null,
       locker_body_id: selectedLocker.value,
       products: formattedItems,
       user_id: user.user_id
     };
 
     try {
-      const response = await axios.post('/kiosk/rent', requestData, {
+      const response = await axiosSpring.post('/kiosk/rent', requestData, {
         headers: {
           'Content-Type': 'application/json'
         }
