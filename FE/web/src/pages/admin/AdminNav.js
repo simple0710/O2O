@@ -5,7 +5,7 @@ import '../../style/AdminMainpage.css';
 import '../../style/AdminLocker.css'; 
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../images/profile.png';
-import {Logout} from '../Logout'; 
+import Logout from '../Logout'; 
 import { getProfile } from '../../api/userget'; 
 import { CartContext } from '../user/CartContext';
 

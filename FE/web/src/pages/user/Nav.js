@@ -5,7 +5,7 @@ import '../../style/MainPageApp.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../images/profile.png';
 import Swal from "sweetalert2";
-import {Logout} from '../Logout';  
+import Logout from '../Logout'; 
 import { getProfile } from '../../api/userget'; 
 import { CartContext } from './CartContext';
 
