@@ -28,7 +28,7 @@ const ItemRegistration = () => {
       product_nm : productName,
       user_id: product?.user_id || 4,
       product_cnt : quantity,
-      total_count: quantity
+      total_cnt: quantity
     };
 
     try {

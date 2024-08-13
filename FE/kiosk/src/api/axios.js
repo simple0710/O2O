@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const axiosSpring = axios.create({
+    baseURL: "http://i11d101.p.ssafy.io:8000",
     headers: {
         'Content-Type': 'application/json',
     },

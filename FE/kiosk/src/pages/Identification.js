@@ -91,7 +91,7 @@ function Identification() {
         data = {
           flag: true,
           result: {
-            text: "김태연",
+            text: "김찬민",
             score: 0.9,
             isAdmin: false,
             image: null

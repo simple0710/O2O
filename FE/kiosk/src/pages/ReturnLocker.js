@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import {axiosSpring} from '../api/axios';
 import '../styles/Locker.css';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import {putReturn} from '../api/kioskpost.js';
@@ -31,7 +31,7 @@ const ReturnLocker = () => {
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
-    axios.get('/lockers/names')
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
@@ -52,7 +52,7 @@ const ReturnLocker = () => {
 
   useEffect(() => {
     if (lockerBodyId) {
-      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
+      axiosSpring.get(`/lockers?locker_body_id=${lockerBodyId}`)
         .then(response => {
           const data = response.data.data;
           setProducts(data);

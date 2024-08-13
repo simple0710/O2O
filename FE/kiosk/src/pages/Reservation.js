@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import {axiosSpring} from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BrokenFind.css';
@@ -27,7 +27,7 @@ function Reservation() {
         throw new Error('로그인된 사용자가 없거나 사용자 정보가 없습니다.');
       }
 
-      const response = await axios.get('/kiosk/reserve/view/body', {
+      const response = await axiosSpring.get('/kiosk/reserve/view/body', {
         params: {
           pg_no: 1,
           per_page: 10,
