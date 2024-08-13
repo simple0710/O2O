@@ -95,8 +95,7 @@ public class ProductsController {
     public ResponseEntity<?> processProductsReport(@RequestHeader("Authorization") String authorization, @RequestBody List<ReportProcessDto> reportProcessDto) {
         // 유저 권한 확인
         log.info("Authorization = {}", authorization);
-        String accessToken = authorization.replace("Bearer ", "");
-        userValidator.validateUserIsAdmin(accessToken);
+        userValidator.validateUserIsAdmin(authorization);
         return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
     }
 
