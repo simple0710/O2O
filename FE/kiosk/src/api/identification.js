@@ -27,12 +27,12 @@ export async function checkName(params){
         //     data: { 
         //         "status" : 200,
         //         "message" : "인증을 완료했습니다.",
-        //         "data": [
+        //         "data": 
         //             {
-        //                     "is_valid": true,
-        //                     "message": "사원 ㅇㅇㅇ입니다." // "존재하지 않는 사원입니다"
+        //                     "user_id": 4,
+        //                     "active": true,
         //             }
-        //         ]
+                
         //     }
         // }
         const data = await response.data.data;

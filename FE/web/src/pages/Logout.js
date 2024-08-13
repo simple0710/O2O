@@ -10,3 +10,4 @@ export const Logout = async () => {
         console.error(error);
     }
 };
+

@@ -5,8 +5,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

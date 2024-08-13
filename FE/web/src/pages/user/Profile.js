@@ -25,7 +25,6 @@ function Profile() {
         const data = await getProfile(userId);
         setProfileData(data);
         setFormData(data);
-        console.log(data.user_img);
       } catch (err) {
         console.error(err);
       }
@@ -49,7 +48,6 @@ function Profile() {
       });
     }
 
-    // Set password required if the user starts typing in any field while in edit mode
     if (editMode && name !== 'user_pw') {
       setPasswordRequired(true);
     }
@@ -65,7 +63,6 @@ function Profile() {
       const userId = localStorage.getItem('userId');
       await updateProfile(userId, formData);
       setProfileData(formData);
-      console.log(formData);
       setEditMode(false);
     } catch (err) {
       console.error(err);
@@ -74,10 +71,10 @@ function Profile() {
 
   const handleEdit = () => {
     setEditMode(true);
-    setPasswordRequired(true); // Ensure password is required once edit mode is enabled
+    setPasswordRequired(true);
     setFormData((prevFormData) => ({
       ...prevFormData,
-      user_pw: '' // 비밀번호 입력란을 초기화합니다.
+      user_pw: ''
     }));
   };
 
@@ -90,16 +87,11 @@ function Profile() {
           <h2>프로필</h2>
           <div className="profile-card">
             <div className="profile-image">
-              <div>
-              {/* <img
-                src={formData.user_img ? URL.createObjectURL(formData.user_img) : Image}
-                alt="프로필 이미지"
-              /> */}
               <img
+                // src={formData.user_img ? URL.createObjectURL(formData.user_img) : Image}
                 src={Image}
                 alt="프로필 이미지"
               />
-              </div>
               {editMode && (
                 <input
                   type="file"
@@ -112,54 +104,67 @@ function Profile() {
             <div className="profile-details">
               {editMode ? (
                 <div className='profile-edit'>
-                  <p>
-                  <strong>이름</strong>
-                    <input
-                      type="text"
-                      name="user_nm"
-                      value={formData.user_nm}
-                      onChange={handleInputChange}
-                    />
-                  </p>
-                  <p>
-                  <strong>전화번호</strong>
-                    <input
-                      type="text"
-                      name="user_tel"
-                      value={formData.user_tel}
-                      onChange={handleInputChange}
-                    />
-                  </p>
-                  {/* 비밀번호 필수 입력 */}
-                  <p>
-                  <strong>비밀번호</strong>
-                    <input
-                      type="password"
-                      name="user_pw"
-                      value={formData.user_pw}  
-                      onChange={handleInputChange}
-                    />
-                  </p>
+                  <table className="profile-table">
+                    <tbody>
+                      <tr>
+                        <td className="detail-label"><strong>이름</strong></td>
+                        <td className="detail-value">
+                          <input
+                            type="text"
+                            name="user_nm"
+                            value={formData.user_nm}
+                            onChange={handleInputChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="detail-label"><strong>전화번호</strong></td>
+                        <td className="detail-value">
+                          <input
+                            type="text"
+                            name="user_tel"
+                            value={formData.user_tel}
+                            onChange={handleInputChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="detail-label"><strong>비밀번호</strong></td>
+                        <td className="detail-value">
+                          <input
+                            type="password"
+                            name="user_pw"
+                            value={formData.user_pw}
+                            onChange={handleInputChange}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                   <span>
-                  <ButtonComponent onClick={handleSave} style={{margin: '20px 10px' }}>저장</ButtonComponent>
-                  <ButtonComponent onClick={() => setEditMode(false)} style={{ margin: '20px 10px' }}>취소</ButtonComponent>
+                    <ButtonComponent onClick={handleSave} style={{ margin: '20px 10px' }}>저장</ButtonComponent>
+                    <ButtonComponent onClick={() => setEditMode(false)} style={{ margin: '20px 10px' }}>취소</ButtonComponent>
                   </span>
                 </div>
               ) : (
                 <div className='profile-content'>
-                  <p>
-                    <div className="detail-label"><strong>이름</strong></div>
-                    <div className="detail-value">{profileData.user_nm}</div>
-                  </p>
-                  <p>
-                    <div className="detail-label"><strong>전화번호</strong></div>
-                    <div className="detail-value">{profileData.user_tel}</div>
-                  </p>
-                  <p>
-                    <div className="detail-label"><strong>비밀번호</strong></div>
-                    <div className="detail-value">********</div>
-                  </p>
-                  <ButtonComponent onClick={handleEdit} style={{ margin: '30px 0' }}>수정</ButtonComponent>
+                  <table className="profile-table">
+                    <tbody>
+                      <tr>
+                        <td className="detail-label"><strong>이름</strong></td>
+                        <td className="detail-value">{profileData.user_nm}</td>
+                      </tr>
+                      <tr>
+                        <td className="detail-label"><strong>전화번호</strong></td>
+                        <td className="detail-value">{profileData.user_tel}</td>
+                      </tr>
+                      <tr>
+                        <td className="detail-label"><strong>비밀번호</strong></td>
+                        <td className="detail-value">********</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ButtonComponent onClick={handleEdit} style={{ margin: '30px 0px' }}>수정</ButtonComponent>
                 </div>
               )}
             </div>
