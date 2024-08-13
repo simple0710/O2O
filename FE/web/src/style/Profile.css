@@ -57,9 +57,10 @@
 } */
 
 .profile-table {
-  width: 100%;
+  width: 500px;
   margin-top: 20px;
   table-layout: fixed;
+  margin: 0;
 }
 
 .profile-table .detail-label {

@@ -7,6 +7,7 @@ import { updateProfile } from '../../api/userpost';
 import '../../style/Profile.css';
 import Image from '../../images/profile.png';
 import ButtonComponent from '../../components/ButtonComponent';
+import Swal from 'sweetalert2';
 
 function Profile() {
   const [profileData, setProfileData] = useState({
@@ -55,10 +56,44 @@ function Profile() {
     }
   };
 
+  const validatePassword = (password) => {
+    // 비밀번호가 6자 이상인지 확인
+    if (password.length < 6) {
+      return false;
+    }
+
+    // 비밀번호에 특수문자가 포함되어 있는지 확인
+    const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (!specialCharacterRegex.test(password)) {
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSave = async () => {
-    if (passwordRequired && !formData.user_pw) {
-      alert('비밀번호를 입력하세요.');
+    if (passwordRequired) {
+      if (!formData.user_pw) {
+        Swal.fire({
+          title: '비밀번호 입력 오류',
+          text: '비밀번호를 입력하세요.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '확인'
+      });
       return;
+      }
+
+      if (!validatePassword(formData.user_pw)) {
+          Swal.fire({
+            title: '비밀번호 형식 오류',
+            text: '비밀번호는 6자 이상, 특수문자를 포함해야 합니다.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인'
+        });
+        return;
+      }
     }
 
     try {

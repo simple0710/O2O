@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainPage from './pages/user/MainPage';
 import Login from './pages/Login';
 import Findpwd from './pages/Findpwd';
@@ -39,14 +39,28 @@ const UserRoute = ({ element }) => {
     return isAuthenticated && !isAdmin ? element : <Navigate to="/admin" />;
 };
 
+const PublicRoute = ({ element }) => {
+    const navigate = useNavigate();
+    const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/mainpage', { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
+
+    return isAuthenticated ? null : element;
+};
+
+
 function App() {
 
     return (
         <CartProvider>
             <Routes>
                 {/* Public Routes */}
-                <Route path='/' element={<Login />} />
-                <Route path='/findpwd' element={<Findpwd />} />
+                <Route path='/' element={<PublicRoute element={<Login />} />} />
+                <Route path='/findpwd' element={<PublicRoute element={<Findpwd />} />} />
                 <Route path='/logout' element={<Logout />} />
 
                 {/* Admin Routes */}
