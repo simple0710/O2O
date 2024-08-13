@@ -5,7 +5,7 @@ import AdminNav from './AdminNav';
 import '../../style/UserList.css';
 import '../../style/Table.css';
 import '../../style/Title.css';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from './Pagination';
 import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
@@ -20,7 +20,7 @@ const UserList = () => {
 
   const fetchOverdueUsers = async (pageNumber) => {
     try {
-      const response = await axios.get(`/products/overdue?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+      const response = await axiosInstance.get(`/products/overdue?pg_no=${pageNumber}&per_page=${postsPerPage}`);
       const rents = response.data.data.rents;
       const totalRequests = response.data.data.pages.total_reqs;
 

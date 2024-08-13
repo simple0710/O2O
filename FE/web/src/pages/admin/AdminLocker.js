@@ -5,6 +5,7 @@ import '../../style/AdminLocker.css';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
+import axiosInstance from '../../utils/axiosInstance'
 
 const LockerInfo = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -19,7 +20,7 @@ const LockerInfo = () => {
     const queryParams = new URLSearchParams(location.search);
     const lockerBodyId = queryParams.get('locker_body_id');
 
-    axios.get('/lockers/names')
+    axiosInstance.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         console.log('Fetched lockers data:', data);
@@ -39,7 +40,7 @@ const LockerInfo = () => {
         if (initialSelectedBody) {
           setSelectedLockerBody(initialSelectedBody);
           startLoading();
-          axios.get(`/lockers?locker_body_id=${initialSelectedBody.locker_body_id}`)
+          axiosInstance.get(`/lockers?locker_body_id=${initialSelectedBody.locker_body_id}`)
             .then(response => {
               const lockers = response.data.data;
               setLockerDetails(lockers);
@@ -76,7 +77,7 @@ const LockerInfo = () => {
 
     if (selectedBody) {
       startLoading();
-      axios.get(`/lockers?locker_body_id=${selectedBody.locker_body_id}`)
+      axiosInstance.get(`/lockers?locker_body_id=${selectedBody.locker_body_id}`)
         .then(response => {
           const lockers = response.data.data;
           setLockerDetails(lockers);
