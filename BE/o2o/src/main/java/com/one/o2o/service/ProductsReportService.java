@@ -2,24 +2,29 @@ package com.one.o2o.service;
 
 import com.one.o2o.dto.common.PageInfoDto;
 import com.one.o2o.dto.common.Response;
-import com.one.o2o.entity.*;
 import com.one.o2o.dto.products.report.ProductsReportDto;
 import com.one.o2o.dto.products.report.ReportProcessDto;
 import com.one.o2o.dto.products.report.UsersReportDto;
+import com.one.o2o.entity.*;
 import com.one.o2o.entity.products.report.ProductsReport;
-import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.exception.rent.RentException;
 import com.one.o2o.repository.ProductsReportRepository;
 import com.one.o2o.repository.RentLogRepository;
 import com.one.o2o.repository.RentRepository;
 import com.one.o2o.utils.RentCalculation;
+import com.one.o2o.validator.LockerValidator;
+import com.one.o2o.validator.ProductReportValidator;
+import com.one.o2o.validator.ProductValidator;
+import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -28,16 +33,23 @@ import java.util.stream.Collectors;
 
 interface ProductsReportServiceInterface {
     Response findAll(int pageNumber, int pageSize);
-    Response save(UsersReportDto userReportDto);
+    Response saveProductReport(UsersReportDto userReportDto);
     Response updateProcess(List<ReportProcessDto> reportProcessDto);
 }
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductsReportService implements ProductsReportServiceInterface {
     private final RentRepository rentRepository;
     private final RentLogRepository rentLogRepository;
     private final ProductsReportRepository productsReportRepository;
+
+    // Validator
+    private final UserValidator userValidator;
+    private final ProductValidator productValidator;
+    private final LockerValidator lockerValidator;
+    private final ProductReportValidator productReportValidator;
 
     private final LockerService lockerService;
 
@@ -88,10 +100,27 @@ public class ProductsReportService implements ProductsReportServiceInterface {
         return response;
     }
 
-    @Override
     @Transactional
-    public Response save(UsersReportDto userReportDto) {
+    public Response saveProductReport(UsersReportDto userReportDto) {
         Response response = new Response(200, "이상 신고 등록 완료");
+        // 사용자 관련 입력 검사
+        userValidator.validateUserId(userReportDto.getUserId());
+
+        // 물품 관련 입력 검사
+        productValidator.validateProductId(userReportDto.getProductId());
+
+        productValidator.validateProductStatus(userReportDto.getStatusId());
+
+        productValidator.validateProductCount(userReportDto.getProductCnt());
+
+        // 로커 관련 입력 검사
+        lockerValidator.validateLockerId(userReportDto.getLockerId());
+
+        try {
+            productReportValidator.validateContentLength(userReportDto.getRptContent());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         // 1. 유효성 확인
         // 우선 유효성 체크 모두 무효화
         // 1) 반납 유효성
@@ -129,9 +158,11 @@ public class ProductsReportService implements ProductsReportServiceInterface {
     @Transactional
     public Response updateProcess(List<ReportProcessDto> reportProcessDtoList) {
         Response response = new Response(200, "이상 처리 완료");
+
         for (ReportProcessDto report : reportProcessDtoList) {
+            productReportValidator.validateProductReportId(report.getRptId());
             ProductsReport productsReport = productsReportRepository.findById(report.getRptId())
-                    .orElseThrow(ArticleNotFoundException::new);
+                    .orElseThrow();
             productsReport.setIsProcessed(report.getIsProcessed());
         }
         return response;

@@ -1,5 +1,6 @@
 package com.one.o2o.controller;
 
+import com.one.o2o.config.JwtTokenProvider;
 import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.ProductsResponseDto;
@@ -11,10 +12,10 @@ import com.one.o2o.service.ProductsCommonService;
 import com.one.o2o.service.ProductsManageService;
 import com.one.o2o.service.ProductsReportService;
 import com.one.o2o.service.ProductsRequestService;
+import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/products")
@@ -36,6 +34,10 @@ public class ProductsController {
     private final ProductsRequestService productsRequestService;
     private final ProductsReportService productsReportService;
     private final ProductsCommonService productsCommonService;
+
+    private final UserValidator userValidator;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      *
@@ -70,8 +72,9 @@ public class ProductsController {
     }
 
     @PutMapping("/request/process")
-    public ResponseEntity<?> updateRequest(@RequestBody List<RequestProcessDto> requestProcessDto) {
+    public ResponseEntity<?> updateRequest(@RequestHeader("Authorization") String authorization, @RequestBody List<RequestProcessDto> requestProcessDto) {
         log.info("requestProcessDto = " + requestProcessDto);
+        userValidator.validateUserIsAdmin(authorization);
         return new ResponseEntity<>(productsRequestService.updateProcess(requestProcessDto), HttpStatus.OK);
     }
 
@@ -86,11 +89,14 @@ public class ProductsController {
     // 이상 신고
     @PostMapping("/report")
     public ResponseEntity<?> createProductsReport(@RequestBody UsersReportDto userReportDto) {
-        return new ResponseEntity<>(productsReportService.save(userReportDto) , HttpStatus.OK);
+        return new ResponseEntity<>(productsReportService.saveProductReport(userReportDto) , HttpStatus.OK);
     }
 
     @PutMapping("/report/process")
-    public ResponseEntity<?> processProductsReport(@RequestBody List<ReportProcessDto> reportProcessDto) {
+    public ResponseEntity<?> processProductsReport(@RequestHeader("Authorization") String authorization, @RequestBody List<ReportProcessDto> reportProcessDto) {
+        // 유저 권한 확인
+        log.info("Authorization = {}", authorization);
+        userValidator.validateUserIsAdmin(authorization);
         return new ResponseEntity<>(productsReportService.updateProcess(reportProcessDto), HttpStatus.OK);
     }
 
