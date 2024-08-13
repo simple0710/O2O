@@ -72,8 +72,9 @@ public class ProductsController {
     }
 
     @PutMapping("/request/process")
-    public ResponseEntity<?> updateRequest(@RequestBody List<RequestProcessDto> requestProcessDto) {
+    public ResponseEntity<?> updateRequest(@RequestHeader("Authorization") String authorization, @RequestBody List<RequestProcessDto> requestProcessDto) {
         log.info("requestProcessDto = " + requestProcessDto);
+        userValidator.validateUserIsAdmin(authorization);
         return new ResponseEntity<>(productsRequestService.updateProcess(requestProcessDto), HttpStatus.OK);
     }
 

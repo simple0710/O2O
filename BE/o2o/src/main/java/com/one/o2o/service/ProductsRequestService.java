@@ -7,7 +7,10 @@ import com.one.o2o.dto.products.request.RequestProcessDto;
 import com.one.o2o.dto.products.request.UsersRequestDto;
 import com.one.o2o.entity.products.request.ProductsRequest;
 import com.one.o2o.repository.ProductsRequestRepository;
+import com.one.o2o.validator.ProductRequestValidator;
+import com.one.o2o.validator.ProductValidator;
 import com.one.o2o.validator.URLValidator;
+import com.one.o2o.validator.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +39,9 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
 
     // Validator
     private final URLValidator urlValidator;
+    private final UserValidator userValidator;
+    private final ProductValidator productValidator;
+    private final ProductRequestValidator productRequestValidator;
 
     // 요청 비품 목록 조회
     public Response findAll(int pageNumber, int pageSize) {
@@ -58,8 +65,27 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
 
     // 물품 요청
     public Response save(UsersRequestDto urd) {
+
+        try {
+            // 유저 형식 검사
+            userValidator.validateUserId(urd.getUserId());
+
             // URL 형식 검사
-        urlValidator.validateUrlForm(urd.getReqUrl());
+            urlValidator.validateUrlForm(urd.getReqUrl());
+
+            // 물품 형식 검사
+            productValidator.validateProductName(urd.getProductNm());
+
+            productValidator.validateProductCount(urd.getProductCnt());
+
+            // 물품 요청 형식 검사
+            productRequestValidator.validateContentLength(urd.getReqContent());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
         productsRequestRepository.save(new ProductsRequest(urd));
         return new Response(200, "message");
     }
@@ -80,6 +106,11 @@ public class ProductsRequestService implements ProductsRequestServiceInterface {
         for (RequestProcessDto request : requestProcessDtoList) {
             ProductsRequest productsRequest = productsRequestRepository.findById(request.getReqId())
                     .orElseThrow();
+            try {
+                productRequestValidator.validateRejectLength(request.getRejectCmt());
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
             String reqStatus = request.getReqStatus();
 
             Boolean approvedFlag = reqStatus.equals("approved");
