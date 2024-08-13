@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import axios from 'axios';
+import {axiosSpring} from '../api/axios';
 import '../styles/ReservationModal.css';
 import { formatDateSimple } from '../util/dateUtil.js';
 import { getUserFromSession } from '../util/sessionUtils.js';
@@ -23,7 +23,7 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
         throw new Error('로그인된 사용자가 없거나 사용자 정보가 없습니다.');
       }
 
-      const response = await axios.get('/kiosk/reserve/view/body', {
+      const response = await axiosSpring.get('/kiosk/reserve/view/body', {
         params: {
           pg_no: 1,
           per_page: 10,
