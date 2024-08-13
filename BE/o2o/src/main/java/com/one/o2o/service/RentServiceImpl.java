@@ -64,18 +64,45 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
+    @Transactional
     public Integer createRent(RentRequestDto rentRequestDto) {
         // 트랜잭션 종료
-        Integer rentId = createRentTransaction(rentRequestDto);
-//        제대로 read 안되는 문제: 결국 해결 X
-//
-//        Optional<Rent> findRent = rentRepository.findById(rentId);
-//        Rent rent = findRent.orElseThrow(() -> new RentException.RentNotFoundException("대여가 정상적으로 저장되지 않았습니다"));
-//
-//        System.out.println("rent = " + rent.getId());
-//        List<RentLog> logs = rentLogRepository.findByRent_Id(rentId);
-//        System.out.println("new [" + rentId + "] logs = " + logs);
-//        rent.setRentLogs(logs);
+        // 1) 대여 생성
+        Rent rent = new Rent();
+        // (1) 대여 정보 수정
+        rent.setUserId(rentRequestDto.getUserId());
+        rent.setStartDt(LocalDateTime.now());
+        rent.setDueDt(RentCalculation.getDueDateTime(rent.getStartDt()));
+        rentRepository.save(rent);
+        Integer rentId = rent.getId();
+
+
+        // (2) 예약 있을 시 종료
+        if(rentRequestDto.getReserveID() != null){
+            rent.setReserveId(rentRequestDto.getReserveID());
+            reserveService.finishReserve(rentRequestDto.getReserveID(), rent.getId()); // 여기서 오류 발생
+        }
+
+        for(RentSimpleProduct product: rentRequestDto.getProducts()){
+            // 2) 대여 가능 여부 확인 및 사물함 수량 차감
+            lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._borrow));
+            // 3) 대여로그 추가
+            RentLog rentLog = new RentLog();
+            rentLog.setRent(rent);
+            rentLog.setNewRentId(rentId);
+            rentLog.setNewLockerId(product.getLockerId());
+            rentLog.setNewProductId(product.getProductId());
+            rentLog.setStatusId(RentCalculation._borrow);
+            rentLog.setLogCnt(product.getProductCnt());
+            rentLog.setLogDt(LocalDateTime.now());
+            rentLogRepository.save(rentLog);
+            System.out.println("rentLog = " + rentLog);
+        }
+        // 강제로 rentLogs 초기화
+        Hibernate.initialize(rent.getRentLogs());
+        rentRepository.flush();
+        rentLogRepository.flush();
+
         return rentId;
     }
 
@@ -110,48 +137,6 @@ public class RentServiceImpl implements RentService {
         res.setTotalPg(listPage.getTotalPages());
         res.setCurPg(pageNumber);
         return res;
-    }
-
-
-    @Transactional
-    public int createRentTransaction(RentRequestDto rentRequestDto) {
-        // 1) 대여 생성
-        Rent rent = new Rent();
-        // (1) 대여 정보 수정
-        rent.setUserId(rentRequestDto.getUserId());
-        rent.setStartDt(LocalDateTime.now());
-        rent.setDueDt(RentCalculation.getDueDateTime(rent.getStartDt()));
-        rentRepository.save(rent);
-        int rentId = rent.getId();
-
-
-        // (2) 예약 있을 시 종료
-        if(rentRequestDto.getReserveID() != null){
-            rent.setReserveId(rentRequestDto.getReserveID());
-            reserveService.finishReserve(rentRequestDto.getReserveID(), rent.getId());
-        }
-
-        for(RentSimpleProduct product: rentRequestDto.getProducts()){
-            // 2) 대여 가능 여부 확인 및 사물함 수량 차감
-            lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._borrow));
-            // 3) 대여로그 추가
-            RentLog rentLog = new RentLog();
-            rentLog.setRent(rent);
-            rentLog.setNewRentId(rentId);
-            rentLog.setNewLockerId(product.getLockerId());
-            rentLog.setNewProductId(product.getProductId());
-            rentLog.setStatusId(RentCalculation._borrow);
-            rentLog.setLogCnt(product.getProductCnt());
-            rentLog.setLogDt(LocalDateTime.now());
-            rentLogRepository.save(rentLog);
-            System.out.println("rentLog = " + rentLog);
-        }
-        // 강제로 rentLogs 초기화
-        Hibernate.initialize(rent.getRentLogs());
-        rentRepository.flush();
-        rentLogRepository.flush();
-
-        return rentId;
     }
 
     @Override
