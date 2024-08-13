@@ -21,11 +21,7 @@ function ReturnStatus() {
   const [returnData, setReturnData] = useState({}); // State to store returnData
   const [updatedReportedItems, setUpdatedReportedItems] = useState(reportedItems); // New state for updated reported items
   
-  // const itemsMap = {
-  //   3: '마우스',
-  //   76: '가위',
-  //   // 다른 매핑 추가
-  // };
+
 
   useEffect(() => {
     const id = getUserIdFromSession();
@@ -81,7 +77,8 @@ function ReturnStatus() {
           .filter(item => parsedData[item.id]) // Filter only items that exist in parsedData
           .map(item => ({
             product_id: parseInt(item.id, 10),
-            product_cnt: item.cnt,
+            // product_cnt: item.cnt,
+            product_cnt: parseInt(parsedData[item.id], 10),
             locker_id: item.locker_id,
             status_id: 2
           }))
@@ -90,19 +87,7 @@ function ReturnStatus() {
       setReturnData(computedReturnData); // Store computed returnData in state
       console.log('returnData: ', computedReturnData);
 
-      // // Check if returnData is empty and show Swal alert if necessary
-      // if (computedReturnData.products.length === 0) {
-      //   Swal.fire({
-      //     icon: 'warning',
-      //     title: '경고',
-      //     text: '반납할 물품이 없습니다.',
-      //     confirmButtonText: '확인',
-      //     timer: 2000, // 2초
-      //     timerProgressBar: true, 
-      //   }).then(() => {
-      //     navigate('/');
-      //   });
-      // }
+ 
 
 
       } catch (error) {
@@ -127,6 +112,22 @@ function ReturnStatus() {
   }, [reportedItems]);
 
 
+  // useEffect(() => {
+  //   if (returnData.products && returnData.products.length === 0) {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: '선택한 물품과 다릅니다.',
+  //       text: '옳바른 물품을 올려주세요.',
+  //       confirmButtonText: '확인',
+  //       timer: 2000, // 2초
+  //       timerProgressBar: true, 
+  //     }).then(() => {
+  //       navigate('/');
+  //     });
+  //   } 
+  // }, [returnData, navigate]);
+
+
   useEffect(() => {
     if (returnData.products && returnData.products.length === 0) {
       Swal.fire({
@@ -139,8 +140,27 @@ function ReturnStatus() {
       }).then(() => {
         navigate('/');
       });
+    } else if (returnData.products && returnData.products.length > 0) {
+      const isProductCntExceeding = returnData.products.some(returnItem => {
+        const reportedItem = reportedItems.find(repItem => repItem.id === returnItem.product_id);
+        return reportedItem && returnItem.product_cnt > reportedItem.cnt;
+      });
+  
+      if (isProductCntExceeding) {
+        Swal.fire({
+          icon: 'warning',
+          title: '수량 초과',
+          text: '반납하려는 물품 수량이 등록된 수량보다 많습니다.',
+          confirmButtonText: '확인',
+          timer: 2000, // 2초
+          timerProgressBar: true,
+        }).then(() => {
+          navigate('/');
+        });
+      }
     }
   }, [returnData, navigate]);
+  
 
 
   const handleNavigate = () => {
