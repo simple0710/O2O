@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Cart2.css';
 import { axiosSpring } from '../api/axios';
+import axios from "axios"
 import Select from 'react-select';
 import Swal from "sweetalert2";
 import { getUserFromSession } from '../util/sessionUtils.js';
@@ -45,7 +46,7 @@ const Cart2 = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const source = axiosSpring.CancelToken.source();
+    const source = axios.CancelToken.source();
 
     if (selectedLocker) {
       // 새로운 층을 선택할 때마다 제품 목록을 초기화
