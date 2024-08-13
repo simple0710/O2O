@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import '../styles/BrokenLocker.css';
-import axios from 'axios';
+import { axiosSpring } from '../api/axios';
 
 const BrokenLocker = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -32,7 +32,7 @@ const BrokenLocker = () => {
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
-    axios.get('/lockers/names')
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
@@ -53,7 +53,7 @@ const BrokenLocker = () => {
 
   useEffect(() => {
     if (lockerBodyId) {
-      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
+      axiosSpring.get(`/lockers?locker_body_id=${lockerBodyId}`)
         .then(response => {
           const data = response.data.data;
           setProducts(data);
@@ -108,7 +108,7 @@ const BrokenLocker = () => {
 
   useEffect(() => {
     // 페이지 접근 시 사물함 열기 요청
-    axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
+    axiosSpring.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
       .then(response => {
         console.log(response.data);
       })

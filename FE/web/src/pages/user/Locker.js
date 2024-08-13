@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
+import axiosInstance from '../../utils/axiosInstance'
 
 const Locker = () => {
   const [show, setShow] = useState(false);
@@ -24,7 +25,7 @@ const Locker = () => {
   useEffect(() => {
     const fetchLockerData = async () => {
       try {
-        const response = await axios.get("/lockers/names");
+        const response = await axiosInstance.get("/lockers/names");
         const data = response.data.data;
         setLockersData(data);
         const queryParams = new URLSearchParams(window.location.search);
@@ -48,7 +49,7 @@ const Locker = () => {
   const fetchLockerDetails = async (bodyId) => {
     setLoading(true);
     try {
-      const response = await axios.get(`/lockers?locker_body_id=${bodyId}`);
+      const response = await axiosInstance.get(`/lockers?locker_body_id=${bodyId}`);
       setAdditionalLockersData(response.data.data);
       console.log(response.data.data)
     } catch (error) {
@@ -97,8 +98,12 @@ const Locker = () => {
                     </div>
                   ) : (
                     <div className="rounded-content">
-                      <div>none</div>
-                      <div>0/0</div>
+                      <div className='user-spinner'>
+                        <ScaleLoader 
+                          color='gray'
+                          size='50'
+                        />
+                      </div>
                     </div>
                   )}
                 </td>
@@ -206,7 +211,7 @@ const Locker = () => {
       <div className="table-container">
         {loading ? (
           <div className="spinner">
-            <ScaleLoader color='lightblue' size={50} />
+            <ScaleLoader color='gray' size={50} />
           </div>
         ) : (
           renderTable()

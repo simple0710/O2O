@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import {axiosSpring} from '../api/axios';
 import '../styles/Locker.css';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import {putReturn} from '../api/kioskpost.js';
@@ -31,7 +31,7 @@ const ReturnLocker = () => {
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
-    axios.get('/lockers/names')
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
@@ -52,7 +52,7 @@ const ReturnLocker = () => {
 
   useEffect(() => {
     if (lockerBodyId) {
-      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
+      axiosSpring.get(`/lockers?locker_body_id=${lockerBodyId}`)
         .then(response => {
           const data = response.data.data;
           setProducts(data);
@@ -110,7 +110,7 @@ const ReturnLocker = () => {
       <div className='locker-frame'>
         <div className="locker-container1">
           <div className="locker-title">
-            표시된 사물함에서<br /> 물건을 가져가세요<br /> <br />
+            표시된 사물함에<br /> 물건을 넣어주세요<br /> <br />
           </div>
           <div className='locker-grid'>
             {rows > 0 && columns > 0 &&

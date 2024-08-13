@@ -190,6 +190,7 @@ import { getReservation } from '../../api/userget';
 import { deleteReservation } from '../../api/userpost'; 
 import Pagination from "../admin/Pagination";
 import ButtonComponent from '../../components/ButtonComponent'; 
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 const BorrowList = () => {
   const [reservations, setReservations] = useState([]);
@@ -197,6 +198,7 @@ const BorrowList = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -230,6 +232,7 @@ const BorrowList = () => {
       }
 
       setReservations(allReservations);
+      setIsLoading(false);
     };
 
     fetchAllReservations();
@@ -298,6 +301,12 @@ const BorrowList = () => {
           <div className='title'>
             <h3>예약 내역 조회</h3>
           </div>
+          {isLoading ? (
+            <div className='request-spinner'>
+              <ScaleLoader color='gray' size={50} />
+            </div>
+          ) : (
+            <>
           <Table className='custom-table'>
             <thead>
               <tr>
@@ -354,6 +363,8 @@ const BorrowList = () => {
             totalPages={Math.ceil(reservations.length / itemsPerPage)}
             handlePageChange={handlePageChange}
           />
+          </>
+          )}
         </div>
       </div>
     </div>

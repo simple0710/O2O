@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Dropdown } from 'react-bootstrap';
 import '../../style/AdminMainpage.css'; 
 import '../../style/AdminLocker.css'; 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../images/profile.png';
-import {Logout} from '../Logout'; 
+import Logout from '../Logout'; 
 import { getProfile } from '../../api/userget'; 
+import { CartContext } from '../user/CartContext';
 
 
 const AdminNav = () => {
   const [userName, setUserName] = useState('');
+  const { setCart, setLockerBodyId } = useContext(CartContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -30,7 +33,7 @@ const AdminNav = () => {
 }, []);
 
   const handleLogout = async () => {
-    await Logout();    
+    await Logout(setCart, setLockerBodyId, navigate);    
   };
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import axios from 'axios';
-import '../styles/BrokenFind.css';
+import {axiosSpring} from '../api/axios';
+import '../styles/ReservationModal.css';
 import { formatDateSimple } from '../util/dateUtil.js';
 import { getUserFromSession } from '../util/sessionUtils.js';
 
@@ -23,7 +23,7 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
         throw new Error('로그인된 사용자가 없거나 사용자 정보가 없습니다.');
       }
 
-      const response = await axios.get('/kiosk/reserve/view/body', {
+      const response = await axiosSpring.get('/kiosk/reserve/view/body', {
         params: {
           pg_no: 1,
           per_page: 10,
@@ -46,21 +46,26 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
   };
 
   const handleReservationClick = (index) => {
-    setSelectedReservationIndex(index);
-    const selectedReservation = reservations[index];
-    if (selectedReservation) {
-      console.log("선택된 예약 일시:", formatDateSimple(selectedReservation.reserve_dt));
+    if (selectedReservationIndex === index) {
+      setSelectedReservationIndex(null);
+      setCartItems([]);
+    } else {
+      setSelectedReservationIndex(index);
+      const selectedReservation = reservations[index];
+      if (selectedReservation) {
+        console.log("선택된 예약 일시:", formatDateSimple(selectedReservation.reserve_dt));
 
-      const newItems = selectedReservation.products.map(product => ({
-        id: product.product_id,
-        name: product.product_name,
-        quantity: product.product_cnt,
-        locker_id: product.locker_id,
-        locker_loc: product.locker_loc,
-        locker_body: product.locker_body
-      }));
+        const newItems = selectedReservation.products.map(product => ({
+          id: product.product_id,
+          name: product.product_name,
+          quantity: product.product_cnt,
+          locker_id: product.locker_id,
+          locker_loc: product.locker_loc,
+          locker_body: product.locker_body
+        }));
 
-      setCartItems(newItems);
+        setCartItems(newItems);
+      }
     }
   };
 
@@ -71,30 +76,31 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
 
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
-      <Modal.Header closeButton>
-        <Modal.Title>예약 내역 조회</Modal.Title>
+      <Modal.Header className="reservation-modal-header" closeButton>
+        <Modal.Title className="reservation-modal-title">예약 내역 조회</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <div className="items">
+      <Modal.Body className="reservation-modal-body">
+        <div className="reservation-items">
           {reservations.length > 0 ? (
             reservations.map((reservation, rInd) => (
-              <div key={rInd} className="rent">
+              <div key={rInd} className="reservation-rent">
                 <div>
-                  <p className="item-date small-font">예약 일시: {formatDateSimple(reservation.reserve_dt)}</p>
-                  <p className="item-date small-font">만료 일시: {formatDateSimple(reservation.due_dt)}</p>
+                  <p className="reservation-item-date reservation-item-small-font">예약 일시 : {formatDateSimple(reservation.reserve_dt)}</p><br></br>
+                  <p className="reservation-item-date reservation-item-small-font">만료 일시 : {formatDateSimple(reservation.due_dt)}</p>
                 </div>
                 {reservation.products.map((product, pInd) => (
                   <div
                     key={`${rInd}.${pInd}`}
-                    className={`item ${selectedReservationIndex === rInd ? 'selected-rent' : ''}`}
+                    className={`reservation-item ${selectedReservationIndex === rInd ? 'reservation-selected-rent' : ''}`}
                     onClick={() => handleReservationClick(rInd)}
                   >
-                    <div className="item-header">
-                      <span className="item-icon">📦</span>
+                    <div className="reservation-item-header">
+                      <span className="reservation-item-icon">📦</span>
                       <span>
-                        <p className="item-name">{product.product_name}</p>
-                        <p className="item-small-font">수량: {product.product_cnt}</p>
-                        <p className="item-small-font">위치: {product.locker_loc} ({product.locker_body})</p>
+                        <p className="reservation-item-name">{product.product_name}</p>
+                        <p className="reservation-item-small-font">수량 : {product.product_cnt}</p>
+                        <br></br>
+                        <p className="reservation-item-small-font">위치 : {product.locker_loc} ({product.locker_body})</p>
                       </span>
                     </div>
                   </div>
@@ -106,11 +112,11 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
           )}
         </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+      <Modal.Footer className="reservation-modal-footer">
+        <Button className="reservation-btn-secondary" onClick={handleClose}>
           닫기
         </Button>
-        <Button variant="primary" onClick={proceedToCart}>
+        <Button className="reservation-btn-primary" onClick={proceedToCart}>
           카트로 이동
         </Button>
       </Modal.Footer>

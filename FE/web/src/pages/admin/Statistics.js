@@ -10,6 +10,7 @@ import Usage from "./Usage";
 import "../../style/Statistics.css";
 import "../../style/Title.css";
 import axiosInstance from '../../utils/axiosInstance'
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 // 스케일 등록
 Chart.register(CategoryScale);
@@ -58,12 +59,11 @@ const Statistics = () => {
     },
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
+  
   if (!chartData) {
-    return <div>Failed to load data</div>;
+    return <div className='st-spinner'>
+    <ScaleLoader color='gray' size={500} />
+  </div>;;
   }
 
   return (

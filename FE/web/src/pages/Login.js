@@ -52,6 +52,7 @@ const Login = () => {
 
 
             console.log('로그인 성공:', response);
+            console.log(accessToken)
             
             
             
@@ -104,8 +105,8 @@ const Login = () => {
                     <Button variant="dark" className="login-button" style={{ marginTop: '10px' }} type="submit" disabled={loading}>
                         {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Log In'}
                     </Button>
-                    <br />
-                    <Button className="login-button" onClick={handleFindPwdClick}>비밀번호 찾기</Button>
+                    {/* <br /> */}
+                    {/* <Button className="login-button" onClick={handleFindPwdClick}>비밀번호 찾기</Button> */}
                 </Form>
             </div>
         </div>

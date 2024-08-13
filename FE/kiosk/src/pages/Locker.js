@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import {axiosSpring} from '../api/axios'
 import '../styles/Locker.css';
 
 const Locker = () => {
@@ -18,7 +18,7 @@ const Locker = () => {
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
-    axios.get('/lockers/names')
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
@@ -39,7 +39,7 @@ const Locker = () => {
 
   useEffect(() => {
     if (selectedLocker) {
-      axios.get(`/lockers?locker_body_id=${selectedLocker.value}`)
+      axiosSpring.get(`/lockers?locker_body_id=${selectedLocker.value}`)
         .then(response => {
           const data = response.data.data;
           setProducts(data);
