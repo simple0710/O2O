@@ -17,24 +17,24 @@ export async function getNameFromImage(){
 
 export async function checkName(params){
     try {
-        // const response = await axiosSpring.post(`/kiosk/users/emp-check`, params, {
-        //     headers : {
-        //         "Content-Type": "multipart/form-data"
+        const response = await axiosSpring.post(`/kiosk/users/emp-check`, params, {
+            headers : {
+                "Content-Type": "multipart/form-data"
 
-        //     }
-        // }); 
-        const response = {
-            data: { 
-                "status" : 200,
-                "message" : "인증을 완료했습니다.",
-                "data": 
-                    {
-                            "user_id": 4,
-                            "active": true,
-                    }
-                
             }
-        }
+        }); 
+        // const response = {
+        //     data: { 
+        //         "status" : 200,
+        //         "message" : "인증을 완료했습니다.",
+        //         "data": 
+        //             {
+        //                     "user_id": 4,
+        //                     "active": true,
+        //             }
+                
+        //     }
+        // }
         const data = await response.data.data;
         return data;
     } catch (e) {

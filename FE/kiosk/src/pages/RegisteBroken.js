@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/RegisterBroken.css';
@@ -23,15 +23,21 @@ const product_status = {
   "7": "파손"
 }
 
-const userId = getUserIdFromSession();
 
 function RegisterBroken() {
+  const [userId, setUserId] = useState(null);
   const location = useLocation();
   const { reportedItems } = location.state || { reportedItems: [] };
   const navigate = useNavigate();
   console.log("신고된 아이템:", reportedItems);
   
 
+  useEffect(() => {
+    const id = getUserIdFromSession();
+    if (id) {
+      setUserId(id);
+    }
+  }, [userId]);
 
 
 
