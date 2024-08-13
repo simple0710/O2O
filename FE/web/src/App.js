@@ -61,7 +61,8 @@ function App() {
         <CartProvider>
             <Routes>
                 {/* Public Routes */}
-                <Route path='/' element={<PublicRoute element={<Login />} />} />
+                {/* <Route path='/' element={<PublicRoute element={<Login />} />} /> */}
+                <Route path='/' element={<Login />}/>
                 <Route path='/findpwd' element={<PublicRoute element={<Findpwd />} />} />
                 <Route path='/logout' element={<Logout />} />
 
