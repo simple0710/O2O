@@ -22,6 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns("*") // “*“같은 와일드카드를 사용
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // 허용할 HTTP method
                 .allowedHeaders("*")
-                .allowCredentials(true); // 쿠키 인증 요청 허용
+                .allowCredentials(true) // 쿠키 인증 요청 허용
+                .exposedHeaders("*");
     }
 }
