@@ -2,8 +2,18 @@ package com.one.o2o.exception.locker;
 
 
 import com.one.o2o.exception.GeneralException;
+import lombok.Getter;
 
-public class LockerException {
+@Getter
+public class LockerException extends RuntimeException {
+
+    private final LockerErrorCode errorCode;
+
+    public LockerException(LockerErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+    }
+
     public static class LockerNotFoundException extends GeneralException {
         public LockerNotFoundException(){
             super("해당하는 사물함을 찾을 수 없습니다.");

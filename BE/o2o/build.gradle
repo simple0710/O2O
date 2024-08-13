@@ -63,3 +63,7 @@ jar {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.withType(Test) {
+	jvmArgs = ['-Xshare:off'] // 테스트 시 옵션
+}
