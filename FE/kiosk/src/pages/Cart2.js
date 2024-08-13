@@ -175,7 +175,7 @@ const Cart2 = () => {
     }));
 
     const requestData = {
-      reserve_id: 34,
+      reserve_id: null,
       locker_body_id: selectedLocker.value,
       products: formattedItems,
       user_id: user.user_id
