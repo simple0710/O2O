@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainPage from './pages/user/MainPage';
 import Login from './pages/Login';
 import Findpwd from './pages/Findpwd';
@@ -12,7 +12,7 @@ import UserList from './pages/admin/UserList';
 import AdminChangePwd from './pages/admin/AdminChangePwd';
 import AddItem from './pages/admin/AddItem';
 import AddUser from './pages/admin/AddUser';
-import { Logout } from './pages/Logout';
+import Logout from './pages/Logout';
 import RequestItem from './pages/user/RequestItem';
 import AdminProfile from './pages/admin/Profile';
 import UserProfile from './pages/user/Profile';
@@ -56,11 +56,14 @@ const PublicRoute = ({ element }) => {
 function App() {
 
     return (
+
+        <Router basename='/web'>
+
         <CartProvider>
             <Routes>
                 {/* Public Routes */}
-                {/* <Route path='/' element={<PublicRoute element={<Login />} />} /> */}
-                <Route path='/' element={<Login />}/>
+                <Route path='/' element={<PublicRoute element={<Login />} />} />
+                {/* <Route path='/' element={<Login />}/> */}
                 <Route path='/findpwd' element={<PublicRoute element={<Findpwd />} />} />
                 <Route path='/logout' element={<Logout />} />
 
@@ -84,10 +87,12 @@ function App() {
                 <Route path='/profile' element={<UserRoute element={<UserProfile />} />} />
             </Routes>
         </CartProvider>
+        </Router>
     );
 }
 
 export default App;
+
 
 // import React from 'react';
 // import { Routes, Route } from 'react-router-dom';
