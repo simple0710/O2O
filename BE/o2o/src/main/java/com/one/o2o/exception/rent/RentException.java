@@ -1,8 +1,19 @@
 package com.one.o2o.exception.rent;
 
 import com.one.o2o.exception.GeneralException;
+import lombok.Getter;
 
-public class RentException {
+@Getter
+public class RentException extends RuntimeException {
+
+    private final RentErrorCode errorCode;
+
+    public RentException(RentErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+    }
+
+
     public static class RentNotFoundException extends GeneralException {
         public RentNotFoundException(){
             super("대여 내역을 찾을 수 없습니다.");

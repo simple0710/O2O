@@ -6,39 +6,31 @@ import com.one.o2o.dto.common.Response;
 import com.one.o2o.dto.locker.LockerUpdateDto;
 import com.one.o2o.dto.products.ProductsDto;
 import com.one.o2o.dto.products.manage.OverdueDto;
-import com.one.o2o.dto.products.manage.ProductsOverdueDto;
 import com.one.o2o.dto.products.manage.OverdueStatusDto;
-import com.one.o2o.entity.File;
-import com.one.o2o.entity.Product;
+import com.one.o2o.dto.products.manage.ProductsOverdueDto;
+import com.one.o2o.entity.Files;
+import com.one.o2o.entity.Products;
 import com.one.o2o.entity.Rent;
 import com.one.o2o.entity.RentLog;
+import com.one.o2o.entity.*;
 import com.one.o2o.event.ProductSavedEventListener;
-import com.one.o2o.exception.products.error.exception.ArticleNotFoundException;
 import com.one.o2o.repository.*;
+import com.one.o2o.validator.ProductValidator;
+import com.one.o2o.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -65,10 +57,22 @@ public class ProductsManageService implements ProductsManageInterface {
     private final FileRepository fileRepository;
     private final ProductSavedEventListener productSavedEventListener;
 
+    // Validator
+    private final ProductValidator productValidator;
+    private final UserValidator userValidator;
+
     @Transactional
     public Response saveProduct(List<MultipartFile> files, ProductsDto productsDto) throws IOException {
+        // 물품명 조건 검사
+        productValidator.validateProductName(productsDto.getProductNm());
+
+        // 유저 id 검사
+        userValidator.validateUserId(productsDto.getUserId());
+
+        Integer productsId = productsManageRepository.save(new Products(productsDto)).getProductId();
+
+        log.info("productsId = {}", productsId);
         if (files != null && !files.isEmpty()) {
-            Integer productsId = productsManageRepository.save(new Product(productsDto)).getProductId();
             saveProduct(files, productsId, productsDto.getUserId());
         }
         return new Response(200, "성공적으로 저장되었습니다.");
@@ -83,8 +87,8 @@ public class ProductsManageService implements ProductsManageInterface {
             Path directoryPath = Paths.get(uploadPath);
 
             // 디렉토리가 없다면 생성
-            if (Files.notExists(directoryPath)) {
-                Files.createDirectories(directoryPath);
+            if (java.nio.file.Files.notExists(directoryPath)) {
+                java.nio.file.Files.createDirectories(directoryPath);
             }
             LocalDateTime now = LocalDateTime.now();
 
@@ -97,10 +101,10 @@ public class ProductsManageService implements ProductsManageInterface {
 
                 if (!file.isEmpty()) {
                     // 경로에 파일 저장
-                    Files.write(path, file.getBytes());
+                    java.nio.file.Files.write(path, file.getBytes());
 
                     // DB에 파일 정보 저장
-                    File fileEntity = File.builder()
+                    Files fileEntity = Files.builder()
                             .userId(userId)
                             .type(file.getContentType())
                             .name(newFileName)
@@ -108,7 +112,7 @@ public class ProductsManageService implements ProductsManageInterface {
                             .build();
                     Integer fileId = (Integer) fileRepository.save(fileEntity).getId();
 
-                    // File Images에 제품과의 연관관계 저장
+                    // Files Images에 제품과의 연관관계 저장
                     ProductSavedEvent event = ProductSavedEvent.builder()
                             .fileId(fileId)
                             .productId(productsId)
@@ -139,7 +143,7 @@ public class ProductsManageService implements ProductsManageInterface {
             List<ProductsOverdueDto> products = new ArrayList<>();
             int rentCnt = 0;
             for (RentLog rentLog : rentLogs) {
-                Product nowProduct = rentLog.getProduct();
+                Products nowProducts = rentLog.getProducts();
                 log.info("status" + rentLog.getStatusId());
 
                 // 상태
@@ -147,13 +151,13 @@ public class ProductsManageService implements ProductsManageInterface {
                 rentCnt += rentLog.getLogCnt();
                 status.put(rentLog.getStatusId(), OverdueStatusDto.builder()
                         .statusNm(statusRepository.findAllByStatusId(rentLog.getStatusId())
-                                .orElseThrow(ArticleNotFoundException::new).getStatusNm())
+                                .orElseThrow().getStatusNm())
                         .productCnt(rentLog.getLogCnt())
                         .build()
                 );
                 products.add(ProductsOverdueDto.builder()
-                        .productId(nowProduct.getProductId())
-                        .productNm(nowProduct.getProductNm())
+                        .productId(nowProducts.getProductId())
+                        .productNm(nowProducts.getProductNm())
                         .lockerBody(rentLog.getLocker().getBody().getLockerBodyName())
                         .lockerLoc(rentLog.getLocker().getLockerRow() + "단 " + rentLog.getLocker().getLockerRow() + "연")
                         .productCnt(rentCnt)
@@ -164,7 +168,7 @@ public class ProductsManageService implements ProductsManageInterface {
             OverdueDto overdueDto = OverdueDto.builder()
                     .userId(rent.getUserId())
                     .userNm(userRepository.findAllByUserId(rent.getUserId())
-                            .orElseThrow(ArticleNotFoundException::new)
+                            .orElseThrow()
                             .getUserNm())
                     .rentId(rent.getId())
                     .rentDt(rent.getStartDt())
@@ -188,9 +192,9 @@ public class ProductsManageService implements ProductsManageInterface {
     @Override
     @Transactional
     public Integer saveProductFromKiosk(LockerUpdateDto lockerUpdateDto, Integer userId){
-        Product product = new Product();
-        product.setProductNm(lockerUpdateDto.getProductNm());
-        product.setUserId(userId);
-        return productsManageRepository.save(product).getProductId();
+        Products products = new Products();
+        products.setProductNm(lockerUpdateDto.getProductNm());
+        products.setUserId(userId);
+        return productsManageRepository.save(products).getProductId();
     }
 }

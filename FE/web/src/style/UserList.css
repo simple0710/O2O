@@ -45,3 +45,10 @@
   margin-left: 350px;
 } */
 
+.user-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 200px auto;
+}
+

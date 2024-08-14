@@ -49,3 +49,18 @@ td {
   padding: 8px;
   border: 1px solid #ddd;
 }
+
+.statistics-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.st-spinner{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 300px;
+}

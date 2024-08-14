@@ -29,7 +29,7 @@ public interface ReserveMapper {
     @Mapping(source="locker.newBodyId", target="lockerBodyId")
     @Mapping(target = "lockerLoc", expression = "java(reserveDet.getLocker().getLockerColumn() + \"단 \" + reserveDet.getLocker().getLockerRow() + \"연\")")
     @Mapping(source="locker.body.lockerBodyName", target="lockerBody")
-    @Mapping(source="product.productNm", target="productName")
+    @Mapping(source="products.productNm", target="productName")
     @Mapping(source="newLockerId", target="lockerId")
     @Mapping(source="newProductId", target="productId")
     ReserveSimpleProduct detToReserveSimpleProduct(ReserveDet reserveDet);

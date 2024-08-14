@@ -9,11 +9,13 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import axiosInstance from '../../utils/axiosInstance'
 import ButtonComponent from '../../components/ButtonComponent';
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 const Request = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
   const postsPerPage = 10;
 
   const fetchData = async () => {
@@ -49,6 +51,7 @@ const Request = () => {
     });
 
     setPosts(allPosts);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -108,48 +111,54 @@ const Request = () => {
           <div className="title">
             <h3>물건 요청 관리</h3>
           </div>
-          <Table className="custom-table">
-            <thead className="custom-header">
-              <tr>
-                <th></th>
-                <th>No.</th>
-                <th>물품명</th>
-                <th>수량</th>
-                <th className="request-reason">신청 사유</th>
-                <th>처리 상태</th>
-                <th>신청 날짜</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentPosts.map((post, index) => (
-                <tr key={post.req_id}>
-                  <td>
-                    {post.is_approved || post.is_rejected ? (
-                      <div style={{ width: "16px" }}></div>
-                    ) : (
-                      <Form.Check
-                        type="checkbox"
-                        onChange={() => handleCheckboxChange(post.req_id)}
-                        checked={selectedPosts.includes(post.req_id)}
-                      />
-                    )}
-                  </td>
-                  <td>{indexOfFirstPost + index + 1}</td>
-                  <td>{post.product_nm}</td>
-                  <td>{post.product_cnt}</td>
-                  <td>{post.req_content}</td>
-                  <td>
-                    {post.is_approved
-                      ? "승인됨"
-                      : post.is_rejected
-                      ? "거절됨"
-                      : "대기중"}
-                  </td>
-                  <td>{post.req_dt}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          {isLoading ? (
+            <div className='request-spinner'>
+              <ScaleLoader color='gray' size={50} />
+            </div>
+          ) : (
+            <>
+              <Table className="custom-table">
+                <thead className="custom-header">
+                  <tr>
+                    <th></th>
+                    <th>No.</th>
+                    <th>물품명</th>
+                    <th>수량</th>
+                    <th className="request-reason">신청 사유</th>
+                    <th>처리 상태</th>
+                    <th>신청 날짜</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentPosts.map((post, index) => (
+                    <tr key={post.req_id}>
+                      <td>
+                        {post.is_approved || post.is_rejected ? (
+                          <div style={{ width: "16px" }}></div>
+                        ) : (
+                          <Form.Check
+                            type="checkbox"
+                            onChange={() => handleCheckboxChange(post.req_id)}
+                            checked={selectedPosts.includes(post.req_id)}
+                          />
+                        )}
+                      </td>
+                      <td>{indexOfFirstPost + index + 1}</td>
+                      <td>{post.product_nm}</td>
+                      <td>{post.product_cnt}</td>
+                      <td>{post.req_content}</td>
+                      <td>
+                        {post.is_approved
+                          ? "승인됨"
+                          : post.is_rejected
+                          ? "거절됨"
+                          : "대기중"}
+                      </td>
+                      <td>{post.req_dt}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
 
           <div className="mt-3">
             <ButtonComponent
@@ -174,6 +183,8 @@ const Request = () => {
             handlePrevChunk={handlePrevChunk}
             handleNextChunk={handleNextChunk}
           />
+          </>
+          )}
         </div>
       </div>
     </div>

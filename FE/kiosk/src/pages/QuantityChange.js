@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, IconButton, Typography, Box } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import {axiosSpring} from '../api/axios'
 import '../styles/QuantityChange.css';
 
 const QuantityChange = () => {
@@ -46,8 +46,8 @@ const QuantityChange = () => {
       'Content-Type': 'application/json',
     };
 
-    axios
-      .put(`/lockers/locker`, updatedProduct, { headers })
+    axiosSpring
+      .put(`/kiosk/lockers/locker`, updatedProduct, { headers })
       .then((response) => {
         console.log('수량 저장 성공:', response.data);
         navigate('/QuantityChangeFinish', {

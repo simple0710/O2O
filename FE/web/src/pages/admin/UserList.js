@@ -5,20 +5,22 @@ import AdminNav from './AdminNav';
 import '../../style/UserList.css';
 import '../../style/Table.css';
 import '../../style/Title.css';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from './Pagination';
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 const UserList = () => {
   const [overdueUsers, setOverdueUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [expandedUser, setExpandedUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
   const postsPerPage = 10;
 
   const fetchOverdueUsers = async (pageNumber) => {
     try {
-      const response = await axios.get(`/products/overdue?pg_no=${pageNumber}&per_page=${postsPerPage}`);
+      const response = await axiosInstance.get(`/products/overdue?pg_no=${pageNumber}&per_page=${postsPerPage}`);
       const rents = response.data.data.rents;
       const totalRequests = response.data.data.pages.total_reqs;
 
@@ -35,6 +37,7 @@ const UserList = () => {
 
       setOverdueUsers(overdueItems);
       setTotalPages(Math.ceil(totalRequests / postsPerPage));
+      setIsLoading(false);
     } catch (error) {
       console.error("페이지 로드에 실패했습니다.", error);
     }
@@ -74,6 +77,12 @@ const UserList = () => {
           <div className='title'>
             <h3>연체 이용자 관리</h3>
           </div>
+          {isLoading ? (
+            <div className='user-spinner'>
+              <ScaleLoader color='gray' size={50} />
+            </div>
+          ) : (
+            <>
           <Table className='custom-table'>
             <thead>
               <tr>
@@ -129,6 +138,8 @@ const UserList = () => {
             handlePrevChunk={handlePrevChunk}
             handleNextChunk={handleNextChunk}
           />
+           </>
+          )}
         </div>
       </div>
     </div>

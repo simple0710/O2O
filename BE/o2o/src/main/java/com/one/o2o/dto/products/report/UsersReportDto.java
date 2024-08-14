@@ -18,4 +18,5 @@ public class UsersReportDto {
     private Integer productCnt;
     private String rptContent;
     private String rptImg;
+    private Integer rentId;
 }

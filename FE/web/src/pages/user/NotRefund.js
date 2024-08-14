@@ -5,6 +5,7 @@ import '../../style/RequestItme.css';
 import { Table } from 'react-bootstrap';
 import { getRent } from '../../api/userget';
 import Pagination from "../admin/Pagination";
+import { ScaleLoader } from 'react-spinners'; // 스피너 컴포넌트 임포트
 
 const NotRefund = () => {
     const [currentRent, setCurrentRent] = useState([]);
@@ -18,7 +19,7 @@ const NotRefund = () => {
         setIsLoading(true);
         try {
             console.log(`Fetching page ${page}`);
-            const data = await getRent(page, 10, userId); // 4는 유저아이디, 나중에 변수로 바꿀 수 있음
+            const data = await getRent(page, 10, userId); // userId는 localStorage에서 가져옴
             console.log(`Fetched data for page ${page}:`, data);
             
             if (data.length === 0) {
@@ -36,7 +37,7 @@ const NotRefund = () => {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [userId]);
 
     useEffect(() => {
         if (hasMoreData) {
@@ -48,7 +49,6 @@ const NotRefund = () => {
 
     // 제품 번호 카운터
     const getProductNumber = (index) => {
-        // 전체 데이터에서 인덱스 기반 번호 계산
         return index + 1;
     };
 
@@ -81,38 +81,50 @@ const NotRefund = () => {
                     <div className='title'>
                         <h3>미반납 물품 조회</h3>
                     </div>
-                    <Table className='custom-table'>
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>제품명</th>
-                                <th>제품 개수</th>
-                                <th>사물함 본체</th>
-                                <th>반납 예정 일자</th>
-                                <th>대여 일자</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {paginatedRent.map((product, index) => (
-                                <tr key={index}>
-                                    <td>{getProductNumber((pageNumber - 1) * itemsPerPage + index)}</td>
-                                    <td>{product.product_name}</td>
-                                    <td>{product.product_cnt}</td>
-                                    <td>{product.locker_body}</td>
-                                    <td>{product.due_dt}</td>
-                                    <td>{product.rent_dt}</td>
+                    {isLoading ? (
+                        <div className='request-spinner'>
+                            <ScaleLoader color='gray' size={50} />
+                        </div>
+                    ) : (
+                        <>
+                        <Table className='custom-table'>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>제품명</th>
+                                    <th>제품 개수</th>
+                                    <th>사물함 본체</th>
+                                    <th>반납 예정 일자</th>
+                                    <th>대여 일자</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                            </thead>
+                            <tbody>
+                                {paginatedRent.length > 0 ? (
+                                    paginatedRent.map((product, index) => (
+                                        <tr key={index}>
+                                            <td>{getProductNumber((pageNumber - 1) * itemsPerPage + index)}</td>
+                                            <td>{product.product_name}</td>
+                                            <td>{product.product_cnt}</td>
+                                            <td>{product.locker_body}</td>
+                                            <td>{product.due_dt}</td>
+                                            <td>{product.rent_dt}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="6">미반납 물품이 없습니다.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </Table>
 
-                    {isLoading && <p>Loading...</p>}
-
-                    <Pagination
-                        currentPage={pageNumber}
-                        totalPages={Math.ceil(allProductsWithRentInfo.length / itemsPerPage)}
-                        handlePageChange={page => setPageNumber(page)}
-                    />
+                        <Pagination
+                            currentPage={pageNumber}
+                            totalPages={Math.ceil(allProductsWithRentInfo.length / itemsPerPage)}
+                            handlePageChange={page => setPageNumber(page)}
+                        />
+                        </>
+                    )}
                 </div>
             </div>
         </div>

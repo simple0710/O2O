@@ -71,17 +71,9 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
+    @Transactional
     public Integer createReserve(ReserveRequestDto reserveRequestDto) {
         // 예약 트랜잭션
-        Integer reserveId = createReserveTransaction(reserveRequestDto);
-
-        List<ReserveDet> dets = reserveDetRepository.findAllByReserveId(reserveId);
-        System.out.println("dets = " + dets);
-        return reserveId;
-    }
-    @Override
-    @Transactional
-    public Integer createReserveTransaction(ReserveRequestDto reserveRequestDto){
         // 1) 예약 생성
         Reserve reserve = new Reserve();
         // (1) 예약 정보 수정
@@ -94,60 +86,37 @@ public class ReserveServiceImpl implements ReserveService {
         reserve.setDueDt(ldt);
         reserveRepository.save(reserve);
 
-        int reserveId = reserve.getReserveId();
+        Integer reserveId = reserve.getReserveId();
         for(ReserveRequestProductDto product : reserveRequestDto.getReserves()){
             // 2) 예약 가능 여부 확인 및 사물함 수량 차감
             lockerService.updateLockerProductCountAvailable(product.getLockerId(), product.getProductId(), product.getProductCnt()*RentCalculation.getMul(RentCalculation._reserve));
 
             // 4) 예약 상세 추가
             ReserveDet reserveDet = ReserveDet.builder()
-                            .userId(reserveRequestDto.getUserId())
-                            .newProductId(product.getProductId())
-                            .newLockerId(product.getLockerId())
-                            .statusId(RentCalculation._reserve)
-                            .detCnt(product.getProductCnt())
-                            .logDt(LocalDateTime.now())
-                            .reserveId(reserveId)
-                                .build();
+                    .userId(reserveRequestDto.getUserId())
+                    .newProductId(product.getProductId())
+                    .newLockerId(product.getLockerId())
+                    .statusId(RentCalculation._reserve)
+                    .detCnt(product.getProductCnt())
+                    .logDt(LocalDateTime.now())
+                    .reserveId(reserveId)
+                    .build();
             reserveDetRepository.save(reserveDet);
         }
 
 
         reserveRepository.flush();
         reserveDetRepository.flush();
-
+        List<ReserveDet> dets = reserveDetRepository.findAllByReserveId(reserveId);
+        System.out.println("dets = " + dets);
         return reserveId;
     }
 
 
     @Override
+    @Transactional
     public boolean deleteReserve(Integer reserveId) {
         // 예약 취소 트랜잭션
-        boolean flag = deleteReserveTransaction(reserveId);
-
-        return flag;
-    }
-
-    @Override
-    public boolean expireReserve(Integer reserveId){
-        // 예약 만료
-        boolean flag = expireReserveTransaction(reserveId);
-        return true;
-    }
-    @Override
-    public boolean finishReserve(Integer reserveId, Integer rentId){
-        // 예약 종료
-        boolean flag = finishReserveTransaction(reserveId, rentId);
-        return true;
-    }
-
-
-    /*
-    예약 취소 트랜잭션
-     */
-    @Override
-    @Transactional
-    public boolean deleteReserveTransaction(Integer reserveId){
         // 1. 예약 객체 불러오기
         Reserve reserve = reserveRepository.findById(reserveId).orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
         if(reserve.isEnded()) return true;
@@ -166,12 +135,10 @@ public class ReserveServiceImpl implements ReserveService {
         return true;
     }
 
-    /*
-    예약 만료 트랜잭션
-     */
     @Override
     @Transactional
-    public boolean expireReserveTransaction(Integer reserveId){
+    public boolean expireReserve(Integer reserveId){
+        // 예약 만료
         // 1. 예약 객체 불러오기
         Reserve reserve = reserveRepository.findById(reserveId).orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
         if(reserve.isEnded()) return true;
@@ -188,13 +155,10 @@ public class ReserveServiceImpl implements ReserveService {
         return true;
     }
 
-
-    /*
-    예약 종료 트랜잭션
-     */
     @Override
     @Transactional
-    public boolean finishReserveTransaction(Integer reserveId, Integer rentId){
+    public boolean finishReserve(Integer reserveId, Integer rentId){
+        // 예약 종료
         // 1. 예약 객체 불러오기
         Reserve reserve = reserveRepository.findById(reserveId).orElseThrow(() -> new ReserveException.InvalidReserveException("유효하지 않은 예약입니다."));
         if(reserve.isEnded()) return true;

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { axiosSpring } from '../api/axios';
 import '../styles/Locker.css';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import {open} from '../api/cameraget'
+
 
 const ChangeLocker = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -20,7 +22,7 @@ const ChangeLocker = () => {
   }, []);
 
   useEffect(() => {
-    axios.get('/lockers/names')
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
@@ -39,7 +41,7 @@ const ChangeLocker = () => {
 
   useEffect(() => {
     if (lockerBodyId) {
-      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
+      axiosSpring.get(`/lockers?locker_body_id=${lockerBodyId}`)
         .then(response => {
           const data = response.data.data;
           setProducts(data);
@@ -69,7 +71,33 @@ const ChangeLocker = () => {
   };
 
   const handleLockerClick = (product) => {
-    navigate('/ItemRegistration', { state: { product } });
+    if (product.product_nm) {
+      console.log("사용할 수 없는 사물함입니다."); // 물건이 있는 사물함 클릭 시 메시지 출력
+    } else {
+      navigate('/ItemRegistration', { state: { product } });
+    }
+    // navigate('/ItemRegistration', { state: { product } });
+    console.log('product: ', product)
+
+       // borrowedItems 상태에 따라 sci와 mou 값 설정
+       const newStatus = { sci: 0, mou: 0 };
+    
+        if (product.locker_id === 1) {  //가위
+          newStatus.sci = 1;
+        } else if (product.locker_id === 3) {  // 마우스
+          newStatus.mou = 1;
+        };
+       // setBorrowedItemsStatus(newStatus); // 상태 업데이트
+       console.log('newStatus: ', newStatus)
+       // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
+   
+       open(newStatus)
+       .then(response => {
+         console.log('Response from server:', response);
+       })
+       .catch(e => {
+         console.error('Error:',e)
+       })
   };
 
   return (
@@ -88,11 +116,12 @@ const ChangeLocker = () => {
                   {Array.from({ length: columns }).map((_, colIndex) => {
                     const product = getProductInLocker(colIndex + 1, rowIndex + 1);
                     const highlight = isHighlighted(colIndex + 1, rowIndex + 1);
+                    const isOccupied = product && product.product_nm !== null; // 물건이 있는 사물함 여부
                     return (
                       <div 
                         key={`col-${colIndex}`} 
-                        className={`locker-box ${highlight ? 'locker-highlight' : ''}`}
-                        onClick={() => product && handleLockerClick(product)}
+                        className={`locker-box ${highlight ? 'locker-highlight' : ''} ${isOccupied ? 'locker-occupied' : ''}`}
+                        onClick={() => handleLockerClick(product)} // 클릭 시 상태에 따라 처리
                       >
                         {product ? product.product_nm : ''}
                       </div>

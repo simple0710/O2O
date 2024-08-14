@@ -18,7 +18,7 @@ export async function getCurrentProducts(userId, pgNo, perPage){
 
 export async function postProductsBrokenAndMissing(params){
     try {
-        const response = await axiosSpring.post(`/products/report`, params[0]);
+        const response = await axiosSpring.post(`/products/report`, params);
     } catch (e) {
         console.error(e);
         return null;
@@ -27,15 +27,15 @@ export async function postProductsBrokenAndMissing(params){
 
 
 
-export async function getTest(){
-    try {
-        const response = await axiosSpring.get(`http://192.168.100.218:8000/delete/`);
-        return response;
-    } catch (e) {
-        console.error(e);
-        return null;
-    }
-}
+// export async function getTest(){
+//     try {
+//         const response = await axiosSpring.get(`http://192.168.100.218:8000/delete/`);
+//         return response;
+//     } catch (e) {
+//         console.error(e);
+//         return null;
+//     }
+// }
 
 
 

@@ -1,10 +1,7 @@
 package com.one.o2o.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,11 +9,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "PRODUCT_STATUS")
+@Builder
+@Data
 public class ProductStatus {
     @Id
-    @Column(name="status_id")
+    @Column(name = "status_id",
+            columnDefinition = "TINYINT",
+            nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer statusId;
-    @Column
+    @Column(nullable = false)
     private String statusNm;
 }

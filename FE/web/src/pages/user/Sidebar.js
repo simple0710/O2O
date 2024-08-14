@@ -217,6 +217,8 @@ import styled from 'styled-components';
 import { getRecent } from '../../api/userget';
 import { CartContext } from './CartContext';
 import Modals from './Modals';
+import ButtonComponent from '../../components/ButtonComponent'; 
+import '../../style/Sidebar.css';
 
 // Define styled components outside of the functional component
 const SidebarContainer = styled.div`
@@ -341,18 +343,30 @@ function Sidebar() {
 
 
   const handleAddToCart = (productName, productCnt, lockerBodyId, lockerId, productId) => {
-    const item = {
-      location: {
-        locker_body_id: lockerBodyId
-      },
-      name: productName,
-      locker_body_id: lockerBodyId,
-      quantity: productCnt,
-      locker_id: lockerId,
-      product_id: productId
-    };
-    console.log('Adding to Cart: ', item)
-    addToCart(item);
+    const existingItemIndex = cart.findIndex(item => 
+      item.name === productName &&
+      item.location.locker_body_id === lockerBodyId
+    );
+  
+    if (existingItemIndex !== -1) {
+      // 이미 장바구니에 있는 물건이면 수량을 업데이트
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex] = {
+        ...updatedCart[existingItemIndex],
+        quantity: updatedCart[existingItemIndex].quantity + productCnt,
+      };
+      setCart(updatedCart);
+    } else {
+      // 장바구니에 없는 물건이면 새로 추가
+      const item = {
+        name: productName,
+        quantity: productCnt,
+        location: { locker_body_id: lockerBodyId },
+        product_id: productId,
+        locker_id: lockerId
+      };
+      addToCart(item);
+    }
   };
   
 
@@ -363,9 +377,15 @@ function Sidebar() {
         acc.items.push(
           <li key={`${item.id}-${product.product_id}`}>
             {product.product_name} - {product.product_cnt}개
-            <AddButton onClick={() => handleAddToCart(product.product_name, product.product_cnt, product.locker_body_id, product.locker_id, product.product_id)}>
+            <ButtonComponent 
+            onClick={() => handleAddToCart(product.product_name, product.product_cnt, product.locker_body_id, product.locker_id, product.product_id)}
+            style={{ 
+              marginBottom: '15px'
+            }}
+            className="black-hover-button" 
+            >
               추가
-            </AddButton>
+            </ButtonComponent>
           </li>
         );
         acc.count++;

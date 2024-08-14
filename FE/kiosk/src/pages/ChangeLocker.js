@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import {axiosSpring} from '../api/axios';
 import Select from 'react-select';
 import '../styles/Locker.css';
+import {open} from '../api/cameraget'
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 
 const ChangeLocker = () => {
@@ -27,7 +28,7 @@ const ChangeLocker = () => {
   }, [lockerBodyId]);
 
   useEffect(() => {
-    axios.get('/lockers/names')
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
@@ -48,7 +49,7 @@ const ChangeLocker = () => {
 
   useEffect(() => {
     if (lockerBodyId) {
-      axios.get(`/lockers?locker_body_id=${lockerBodyId}`)
+      axiosSpring.get(`/lockers?locker_body_id=${lockerBodyId}`)
         .then(response => {
           const data = response.data.data;
           setProducts(data);
@@ -71,6 +72,24 @@ const ChangeLocker = () => {
   const handleLockerClick = (product) => {
     console.log('Selected product:', product);
     navigate('/QuantityChange', { state: { product } });
+
+        // borrowedItems 상태에 따라 sci와 mou 값 설정
+        const newStatus = { sci: 0, mou: 0 };
+        if (product.product_id === 76) {
+          newStatus.sci = 1;
+        } else if (product.product_id === 3) {
+          newStatus.mou = 1;
+        }
+        console.log('newStatus:', newStatus);
+    
+        open(newStatus)
+          .then(response => {
+            console.log('Response from server:', response);
+          })
+          .catch(e => {
+            console.error('Error:', e);
+          });
+    
   };
 
   return (

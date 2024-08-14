@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Cart2.css';
+import { axiosSpring } from '../api/axios';
 import axios from 'axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
-import { getUserFromSession } from '../util/sessionUtils.js';
-import ReservationModal from './ReservationModal'; // 새로 만든 모달 컴포넌트 import
+import { getLockerBodyIdFromLocal, getUserFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import { getUserIdFromSession, getUserFromSession } from '../util/sessionUtils.js';
+import ReservationModal from './ReservationModal';
 
 const Cart2 = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -14,16 +16,32 @@ const Cart2 = () => {
   const [products, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [cartItems, setCartItems] = useState([]);
-  const [showModal, setShowModal] = useState(false); // 모달을 관리하기 위한 상태 추가
+  const [showModal, setShowModal] = useState(false);
+  const [LockerBodyId, setLockerBodyId] = useState();
+
+  // 페이지네이션 관련 상태값들
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4; // 한 페이지에 표시할 항목 수
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/lockers/names')
+    saveLockerBodyIdFromLocal();
+    const locker_body_id = getLockerBodyIdFromLocal();
+    setLockerBodyId(locker_body_id);
+    console.log("로컬 바디", locker_body_id);
+  }, []);
+
+  useEffect(() => {
+    const savedCartItems = localStorage.getItem('cartItems');
+    if (savedCartItems) {
+      setCartItems(JSON.parse(savedCartItems));
+    }
+
+    axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
         setLockersData(data);
-        console.log('Lockers data:', data);
 
         const defaultLocker = data.find(locker => locker.locker_body_id === 1);
         if (defaultLocker) {
@@ -40,7 +58,11 @@ const Cart2 = () => {
     const source = axios.CancelToken.source();
 
     if (selectedLocker) {
-      axios.get(`/lockers?locker_body_id=${selectedLocker.value}`, { cancelToken: source.token })
+      // 새로운 층을 선택할 때마다 제품 목록을 초기화
+      setProducts([]);
+      setQuantities({});
+
+      axiosSpring.get(`/lockers?locker_body_id=${selectedLocker.value}`, { cancelToken: source.token })
         .then(response => {
           if (isMounted) {
             const data = response.data.data;
@@ -61,12 +83,11 @@ const Cart2 = () => {
               return acc;
             }, {});
             setQuantities(initialQuantities);
-            console.log('Product data:', productList);
           }
         })
         .catch(error => {
           if (axios.isCancel(error)) {
-            console.log('Request canceled', error.message);
+
           } else {
             console.error('Error fetching products data:', error);
           }
@@ -79,14 +100,25 @@ const Cart2 = () => {
     };
   }, [selectedLocker]);
 
-  const options = lockersData.map(lockerData => ({
-    value: lockerData.locker_body_id,
-    label: lockerData.locker_body_name
-  }));
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const options = lockersData
+    .filter(lockerData => lockerData.locker_body_id === LockerBodyId) // LockerBodyId와 일치하는 데이터만 필터링
+    .map(lockerData => ({
+      value: lockerData.locker_body_id,
+      label: lockerData.locker_body_name
+    }));
 
   const handleChange = selectedOption => {
     setSelectedLocker(selectedOption);
-    console.log('Selected locker:', selectedOption);
+    // 층이 변경될 때 페이지를 초기화
+    setCurrentPage(1);
+  };
+
+  const back = () => {
+    navigate('/');
   };
 
   const increaseQuantity = (id) => {
@@ -155,25 +187,22 @@ const Cart2 = () => {
     }));
 
     const requestData = {
-      reserve_id: 34,
+      reserve_id: null,
       locker_body_id: selectedLocker.value,
       products: formattedItems,
       user_id: user.user_id
     };
 
     try {
-      const response = await axios.post('/kiosk/rent', requestData, {
+      const response = await axiosSpring.post('/kiosk/rent', requestData, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      console.log("대여 요청에 대한 응답:", response.data);
-
       if (response.data.status === 200) {
-        console.log("대여 성공!");
-        console.log("대여한 물품 정보:", formattedItems);
-        console.log("사용자 정보:", user);
+        localStorage.removeItem('cartItems');
+        setCartItems([]);
 
         Swal.fire({
           icon: 'success',
@@ -182,12 +211,12 @@ const Cart2 = () => {
           confirmButtonText: '확인'
         }).then(() => {
           navigate('/locker', { state: { borrowedItems: cartItems } });
+          console.log('cartItems: ', cartItems)
         });
       } else {
         throw new Error(response.data.message || '대여 처리 중 오류가 발생했습니다.');
       }
     } catch (error) {
-      console.error('대여 처리 중 오류:', error);
       Swal.fire({
         icon: 'error',
         title: '대여 실패',
@@ -208,9 +237,43 @@ const Cart2 = () => {
   const handleProceedToCart = (selectedItems) => {
     setCartItems(selectedItems);
   };
-  
-  const back = () => {
-    navigate('/');
+
+  // 페이지네이션 관련 함수들
+  const handlePageChange = (direction) => {
+    setCurrentPage(prevPage => {
+      const newPage = prevPage + direction;
+      return Math.max(1, Math.min(newPage, Math.ceil(products.length / itemsPerPage)));
+    });
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const selectedProducts = products.slice(startIndex, startIndex + itemsPerPage);
+
+  const renderPagination = () => {
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+    return (
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(-1)}
+          className="pagination-button"
+          disabled={currentPage === 1}
+        >
+          <svg height="20" width="20">
+            <polygon points="10,0 0,10 10,20" fill="#0093ed" />
+          </svg>
+        </button>
+        <span>{currentPage} / {totalPages}</span>
+        <button
+          onClick={() => handlePageChange(1)}
+          className="pagination-button"
+          disabled={currentPage === totalPages}
+        >
+          <svg height="20" width="20">
+            <polygon points="0,0 10,10 0,20" fill="#0093ed" />
+          </svg>
+        </button>
+      </div>
+    );
   };
 
   return (
@@ -242,8 +305,8 @@ const Cart2 = () => {
           </div>
 
           <div className='products-list-box'>
-            {products.length > 0 ? (
-              products.map(item => (
+            {selectedProducts.length > 0 ? (
+              selectedProducts.map(item => (
                 <div key={item.id} className='item-list-cart2'>
                   <div className='product-list-cart2 product-list-icon'>{item.icon}</div>
                   <div className='product-list-cart2 product-list-name'>{item.name}</div>
@@ -258,6 +321,8 @@ const Cart2 = () => {
               <h4>대여 가능한 물품이 없습니다 <span role="img" aria-label="머쓱">😅</span></h4>
             )}
           </div>
+
+          {products.length > 0 && renderPagination()}
 
           <div className='empty-cart'>
             <p> <span role="img" aria-label="장바구니">🛒</span> 장바구니  </p>
