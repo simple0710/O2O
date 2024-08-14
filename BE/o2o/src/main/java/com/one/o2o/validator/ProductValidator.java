@@ -49,5 +49,6 @@ public class ProductValidator {
         if (productStatusId == null || productStatusId < MIN_PRODUCT_STATUS_VALUE || MAX_PRODUCT_STATUS_VALUE < productStatusId) {
             throw new ProductException(ProductErrorCode.PRODUCT_STATUS_INVALID);
         }
+        if (productStatusId != )
     }
 }
