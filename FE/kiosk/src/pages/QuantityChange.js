@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Button, IconButton, Typography, Box } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {axiosSpring} from '../api/axios'
+import { axiosSpring } from '../api/axios';
 import '../styles/QuantityChange.css';
+import { getProductIcon } from '../util/productUtil.js'; // getProductIcon 함수 임포트
 
 const QuantityChange = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const QuantityChange = () => {
 
         <Box className="image-placeholder" mt={2}>
           <span role="img" aria-label="placeholder" style={{ fontSize: '100px' }}>
-            {product?.icon || '❓'}
+            {getProductIcon(product?.product_id) || '❓'}
           </span>
         </Box>
 
@@ -100,7 +101,7 @@ const QuantityChange = () => {
           </IconButton>
         </Box>
 
-        <Button id="btn-change"className='btn-change' variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleSave}>
+        <Button id="btn-change" className='btn-change' variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleSave}>
           수량 변경 저장
         </Button>
       </Box>
