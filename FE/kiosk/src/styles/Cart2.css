@@ -1,9 +1,10 @@
-.cart-list-container{
+.cart-list-container {
   display: flex; /* 자식을 중앙에 보내기 위함  */
   justify-content: center; /* 가로 중앙으로 보냄  */
   align-items: center; /* 세로 중앙에 오도록  */
   min-height: 100vh;
 }
+
 .cart-list-box {
   width: 60%;
   height: 80%;
@@ -12,77 +13,77 @@
   align-items: center;
   padding: 30px 0px;
 }
+
 .item-list-cart2 {
   display: flex;
-  padding : 20px 40px;
+  padding: 20px 40px;
   width: 70%;
   align-items: center;
   text-align: center;
   border-radius: 8px;
-  
   background-color: #F0F8FF;
   justify-content: space-between;
 }
+
 .products-list-box {
   width: 100%;
   display: flex;
   flex-direction: column;
-
+  min-height: calc(4 * 100px); /* 4개의 아이템이 있을 때의 높이로 고정 */
+  justify-content: space-between;
   gap: 30px;
   margin-top: 20px;
   margin-bottom: 20px;
   align-items: center;
-  
 }
+
 .product-list-cart2 {
-  width: 100%;
-  font-size: 20px;
-  width: 30%;
-
-}
-.product-list-icon {
-  font-size: 20px;
-}
-.empty-cart {
-  text-align: center;
-}
-.borrow-btn {
-  /* width: 35%; */
-  margin-top: 10px;
-  padding: 10px 60px;
-}
-.item-list-btn {
-  width: 30px;
-  height: 30px;
-
-}
-
-.product-list-btn {
-  display: flex;
-  justify-content: space-around;
-  
-}
-.btn-main {
-  position: fixed;
-  top: 5%;
-  left: 5%;
-}
-.btn-reservation {
-  position: fixed;
-  top: 5%;
-  right: 5%
-}
-.btn-space {
-  margin: 0px 10px;
-}
-.product-list-cart2 {
-  width: 100%;
   font-size: 20px;
   width: 30%;
   white-space: pre-wrap; /* 공백과 줄 바꿈을 유지 */
   word-wrap: break-word; /* 단어가 칸을 넘어갈 경우 줄 바꿈 */
   word-break: keep-all; /* 단어가 중간에 분리되지 않도록 */
 }
+
+.product-list-icon {
+  font-size: 20px;
+}
+
+.empty-cart {
+  text-align: center;
+}
+
+.borrow-btn {
+  margin-top: 10px;
+  padding: 10px 60px;
+}
+
+.item-list-btn {
+  width: 30px;
+  height: 30px;
+}
+
+.product-list-btn {
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-main {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+}
+
+.btn-reservation {
+  position: fixed;
+  top: 5%;
+  right: 5%;
+}
+
+.btn-space {
+  margin: 0px 10px;
+}
+
 .highlighted {
   border: 2px solid red; /* 강조를 위한 테두리 색상 변경 */
 }
