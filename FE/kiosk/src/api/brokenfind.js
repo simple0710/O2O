@@ -18,7 +18,7 @@ export async function getCurrentProducts(userId, pgNo, perPage){
 
 export async function postProductsBrokenAndMissing(params){
     try {
-        const response = await axiosSpring.post(`/products/report`, params[0]);
+        const response = await axiosSpring.post(`/products/report`, params);
     } catch (e) {
         console.error(e);
         return null;
