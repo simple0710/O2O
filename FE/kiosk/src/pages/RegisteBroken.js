@@ -68,7 +68,7 @@ function RegisterBroken() {
       const params = {
         "user_id": userId,
         "locker_id": item.locker_id == null ? 9 : item.locker_id,
-        "status_id": item.missing > 0 ? 4 : 7,
+        "status_id": item.missing > 0 ? 6 : 7,
         "product_id": item.id,
         "product_cnt": item.cnt,
         "rpt_content": "세부 사항",
