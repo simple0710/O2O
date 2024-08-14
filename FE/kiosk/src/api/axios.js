@@ -12,5 +12,6 @@ export const axiosFast = axios.create({
     baseURL: "http://192.168.100.218:8000",
     headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Request-Private-Network': true,
     },
 });
