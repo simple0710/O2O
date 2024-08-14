@@ -84,7 +84,7 @@ const ChangeLocker = () => {
     
         if (product.locker_id === 1) {  //가위
           newStatus.sci = 1;
-        } else if (product.locker_id === 3) {  // 마우스
+        } else if (product.locker_id === 2) {  // 마우스
           newStatus.mou = 1;
         };
        // setBorrowedItemsStatus(newStatus); // 상태 업데이트

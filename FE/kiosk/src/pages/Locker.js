@@ -9,10 +9,12 @@ const Locker = () => {
   const [selectedLocker, setSelectedLocker] = useState(null);
   const [products, setProducts] = useState([]);
   const [highlightedLockers, setHighlightedLockers] = useState([]);
-  // const [borrowedItemsStatus, setBorrowedItemsStatus] = useState({ sci: 0, mou: 0 }); 
+  const [borrowedItemsStatus, setBorrowedItemsStatus] = useState(null); 
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isOpened, setIsOpened] = useState(false);
 
   const { borrowedItems } = location.state || {};
 
@@ -38,29 +40,40 @@ const Locker = () => {
         console.error('Error fetching lockers data:', error);
       });
 
-
-
-    // borrowedItems 상태에 따라 sci와 mou 값 설정
-    const newStatus = { sci: 0, mou: 0 };
-    borrowedItems.forEach(item => {
-      if (item.id === 76) {
-        newStatus.sci = 1;
-      } else if (item.id === 3) {
-        newStatus.mou = 1;
+      console.log("borrowedItems", borrowedItems)
+    if(borrowedItems){
+      // borrowedItems 상태에 따라 sci와 mou 값 설정
+      const newStatus = { sci: 0, mou: 0 };
+      borrowedItems.forEach(item => {
+        if (item.id === 76) {
+          newStatus.sci = 1;
+        } else if (item.id === 3) {
+          newStatus.mou = 1;
+        }
+      });
+      if(borrowedItemsStatus == null){
+        setBorrowedItemsStatus(newStatus); // 상태 업데이트
       }
-    });
-    // setBorrowedItemsStatus(newStatus); // 상태 업데이트
-    console.log('newStatus: ', newStatus)
-    // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
-
-    open(newStatus)
-    .then(response => {
-      console.log('Response from server:', response);
-    })
-    .catch(e => {
-      console.error('Error:',e)
-    })
+      console.log('newStatus: ', newStatus)
+      
+    }
   }, [borrowedItems]);
+
+  useEffect(() => {
+    if(!isOpened && borrowedItemsStatus){
+        // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
+        setIsOpened(true);
+        console.log("open!!!!!", isOpened)
+        open(borrowedItemsStatus)
+        .then(response => {
+          console.log('Response from server:', response);
+        })
+        .catch(e => {
+          console.error('Error:',e)
+        });
+    }
+    
+  }, [borrowedItemsStatus])
 
 
   useEffect(() => {
@@ -83,19 +96,14 @@ const Locker = () => {
         .catch(error => {
           console.error('Error fetching products data:', error);
         });
+
+
+        console.log("borrowedItems", borrowedItems)
+
     }
   }, [selectedLocker, borrowedItems]);
 
-  // useEffect(() => {
-  //   // 페이지 접근 시 사물함 열기 요청
-  //   axios.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
-  //     .then(response => {
-  //       console.log(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error opening the locker:', error);
-  //     });
-  // }, []);
+
 
   const back = () => {
     navigate('/');
