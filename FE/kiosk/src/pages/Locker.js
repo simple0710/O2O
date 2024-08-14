@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {axiosSpring} from '../api/axios'
+import {open} from '../api/cameraget'
 import '../styles/Locker.css';
 
 const Locker = () => {
@@ -8,6 +9,7 @@ const Locker = () => {
   const [selectedLocker, setSelectedLocker] = useState(null);
   const [products, setProducts] = useState([]);
   const [highlightedLockers, setHighlightedLockers] = useState([]);
+  // const [borrowedItemsStatus, setBorrowedItemsStatus] = useState({ sci: 0, mou: 0 }); 
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +37,31 @@ const Locker = () => {
       .catch(error => {
         console.error('Error fetching lockers data:', error);
       });
+
+
+
+    // borrowedItems 상태에 따라 sci와 mou 값 설정
+    const newStatus = { sci: 0, mou: 0 };
+    borrowedItems.forEach(item => {
+      if (item.id === 76) {
+        newStatus.sci = 1;
+      } else if (item.id === 3) {
+        newStatus.mou = 1;
+      }
+    });
+    // setBorrowedItemsStatus(newStatus); // 상태 업데이트
+    console.log('newStatus: ', newStatus)
+    // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
+
+    open(newStatus)
+    .then(response => {
+      console.log('Response from server:', response);
+    })
+    .catch(e => {
+      console.error('Error:',e)
+    })
   }, [borrowedItems]);
+
 
   useEffect(() => {
     if (selectedLocker) {
