@@ -41,11 +41,18 @@ const Sidebar = () => {
     <SidebarContainer className='side-bar'>
       <div className='admin-side-bar'>
       <SidebarLink
+        to="/admin"
+        isActive={activeLink === '/admin'}
+        onClick={() => handleLinkClick('/admin')}
+      >
+        사물함 현황
+      </SidebarLink>
+      <SidebarLink
         to="/admin/request"
         isActive={activeLink === '/admin/request'}
         onClick={() => handleLinkClick('/admin/request')}
       >
-        물건 요청 관리 페이지
+        물건 요청 관리
       </SidebarLink>
       <SidebarLink
         to="/admin/complain"
@@ -66,7 +73,7 @@ const Sidebar = () => {
         isActive={activeLink === '/admin/userlist'}
         onClick={() => handleLinkClick('/admin/userlist')}
       >
-        연체 이용자 리스트
+        연체 이용자 관리
       </SidebarLink>
       <SidebarLink
         to="/admin/adduser"

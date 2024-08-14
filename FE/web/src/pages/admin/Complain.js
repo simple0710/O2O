@@ -106,6 +106,23 @@ const Request = () => {
   // Handle page change
   const handlePageChange = (page) => setCurrentPage(page);
 
+  const formatDate = (dateString) => {
+    // 날짜 문자열을 Date 객체로 변환
+    const date = new Date(dateString);
+  
+    // 연도, 월, 일 추출
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    // 시간과 분 추출
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // 원하는 형식으로 변환
+    return `${year}.${month}.${day}.${hours}:${minutes}`;
+  };
+
   return (
     <div>
       <AdminNav />
@@ -130,7 +147,7 @@ const Request = () => {
                 <th>신고 사유</th>
                 <th>수량</th>
                 <th>처리 상태</th>
-                <th>신고 날짜</th>
+                <th className="center-align">신고 날짜</th>
                 <th>신고자</th>
               </tr>
             </thead>
@@ -151,7 +168,7 @@ const Request = () => {
                   <td>{post.rpt_content}</td>
                   <td>{post.product_cnt}</td>
                   <td>{post.is_processed ? "처리완료" : "미처리"}</td>
-                  <td>{post.rpt_dt}</td>
+                  <td className="center-align">{formatDate(post.rpt_dt)}</td>
                   <td>{post.user_nm}</td>
                 </tr>
               ))}

@@ -13,7 +13,7 @@ const NotRefund = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [hasMoreData, setHasMoreData] = useState(true);
     const [initialLoadComplete, setInitialLoadComplete] = useState(false);
-    const userId = localStorage.getItem('user_id');
+    const userId = localStorage.getItem('userId');
 
     const fetchCurrentRent = useCallback(async (page) => {
         setIsLoading(true);
@@ -72,6 +72,23 @@ const NotRefund = () => {
     const itemsPerPage = 10;
     const paginatedRent = paginateData(allProductsWithRentInfo, pageNumber, itemsPerPage);
 
+    const formatDate = (dateString) => {
+        // 날짜 문자열을 Date 객체로 변환
+        const date = new Date(dateString);
+      
+        // 연도, 월, 일 추출
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+      
+        // 시간과 분 추출
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+      
+        // 원하는 형식으로 변환
+        return `${year}.${month}.${day}.${hours}:${minutes}`;
+      };
+
     return (
         <div>
             <Nav />
@@ -79,7 +96,7 @@ const NotRefund = () => {
                 <Sidebar />
                 <div className='content'>
                     <div className='title'>
-                        <h3>미반납 물품 조회</h3>
+                        <h3>대여중인 물품</h3>
                     </div>
                     {isLoading ? (
                         <div className='request-spinner'>
@@ -94,8 +111,8 @@ const NotRefund = () => {
                                     <th>제품명</th>
                                     <th>제품 개수</th>
                                     <th>사물함 본체</th>
-                                    <th>반납 예정 일자</th>
-                                    <th>대여 일자</th>
+                                    <th className="center-align">반납 예정 일자</th>
+                                    <th className="center-align">대여 일자</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -106,13 +123,13 @@ const NotRefund = () => {
                                             <td>{product.product_name}</td>
                                             <td>{product.product_cnt}</td>
                                             <td>{product.locker_body}</td>
-                                            <td>{product.due_dt}</td>
-                                            <td>{product.rent_dt}</td>
+                                            <td className="center-align">{formatDate(product.due_dt)}</td>
+                                            <td className="center-align">{formatDate(product.rent_dt)}</td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="6">미반납 물품이 없습니다.</td>
+                                        <td colSpan="6">대여중인 물품이 없습니다.</td>
                                     </tr>
                                 )}
                             </tbody>
