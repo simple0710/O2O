@@ -20,8 +20,6 @@ import { CartProvider } from './pages/user/CartContext';
 import ReservationList from './pages/user/ReservationList';
 import NotRefund from './pages/user/NotRefund';
 
-
-
 const PrivateRoute = ({ element }) => {
     const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
     return isAuthenticated ? element : <Navigate to="/" />;
@@ -52,46 +50,42 @@ const PublicRoute = ({ element }) => {
     return isAuthenticated ? null : element;
 };
 
-
 function App() {
-
     return (
-
         <Router basename='/web'>
+            <CartProvider>
+                <Routes>
+                    {/* Public Routes */}
+                    <Route path='/' element={<PublicRoute element={<Login />} />} />
+                    <Route path='/findpwd' element={<PublicRoute element={<Findpwd />} />} />
+                    <Route path='/logout' element={<Logout />} />
 
-        <CartProvider>
-            <Routes>
-                {/* Public Routes */}
-                <Route path='/' element={<PublicRoute element={<Login />} />} />
-                {/* <Route path='/' element={<Login />}/> */}
-                <Route path='/findpwd' element={<PublicRoute element={<Findpwd />} />} />
-                <Route path='/logout' element={<Logout />} />
+                    {/* Admin Routes */}
+                    <Route path='/admin' element={<AdminRoute element={<AdminMainpage />} />} />
+                    <Route path='/admin/complain' element={<AdminRoute element={<Complain />} />} />
+                    <Route path='/admin/request' element={<AdminRoute element={<Request />} />} />
+                    <Route path='/admin/statics' element={<AdminRoute element={<Statistics />} />} />
+                    <Route path='/admin/userlist' element={<AdminRoute element={<UserList />} />} />
+                    <Route path='/admin/changepwd' element={<AdminRoute element={<AdminChangePwd />} />} />
+                    <Route path='/admin/adduser' element={<AdminRoute element={<AddUser />} />} />
+                    <Route path='/admin/additem' element={<AdminRoute element={<AddItem />} />} />
+                    <Route path='/admin/profile' element={<AdminRoute element={<AdminProfile />} />} />
 
-                {/* Admin Routes */}
-                <Route path='/admin' element={<AdminRoute element={<AdminMainpage />} />} />
-                <Route path='/admin/complain' element={<AdminRoute element={<Complain />} />} />
-                <Route path='/admin/request' element={<AdminRoute element={<Request />} />} />
-                <Route path='/admin/statics' element={<AdminRoute element={<Statistics />} />} />
-                <Route path='/admin/userlist' element={<AdminRoute element={<UserList />} />} />
-                <Route path='/admin/changepwd' element={<AdminRoute element={<AdminChangePwd />} />} />
-                <Route path='/admin/adduser' element={<AdminRoute element={<AddUser />} />} />
-                <Route path='/admin/additem' element={<AdminRoute element={<AddItem />} />} />
-                <Route path='/admin/profile' element={<AdminRoute element={<AdminProfile />} />} />
-
-                {/* User Routes */}
-                <Route path='/mainpage' element={<UserRoute element={<MainPage />} />} />
-                <Route path='/changepwd' element={<UserRoute element={<ChangePwd />} />} />
-                <Route path='/request/article' element={<UserRoute element={<RequestItem />} />} />
-                <Route path='/item/reservation' element={<UserRoute element={<ReservationList />} />} />
-                <Route path='/item/notrefund' element={<UserRoute element={<NotRefund />} />} />
-                <Route path='/profile' element={<UserRoute element={<UserProfile />} />} />
-            </Routes>
-        </CartProvider>
+                    {/* User Routes */}
+                    <Route path='/mainpage' element={<UserRoute element={<MainPage />} />} />
+                    <Route path='/changepwd' element={<UserRoute element={<ChangePwd />} />} />
+                    <Route path='/request/article' element={<UserRoute element={<RequestItem />} />} />
+                    <Route path='/item/reservation' element={<UserRoute element={<ReservationList />} />} />
+                    <Route path='/item/notrefund' element={<UserRoute element={<NotRefund />} />} />
+                    <Route path='/profile' element={<UserRoute element={<UserProfile />} />} />
+                </Routes>
+            </CartProvider>
         </Router>
     );
 }
 
 export default App;
+
 
 
 // import React from 'react';
