@@ -6,7 +6,8 @@ import { axiosSpring } from '../api/axios';
 import axios from 'axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
-import { getUserFromSession } from '../util/sessionUtils.js';
+import { getLockerBodyIdFromLocal, getUserFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import { getUserIdFromSession, getUserFromSession } from '../util/sessionUtils.js';
 import ReservationModal from './ReservationModal';
 
 const Cart2 = () => {
@@ -16,12 +17,20 @@ const Cart2 = () => {
   const [quantities, setQuantities] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  
+  const [LockerBodyId, setLockerBodyId] = useState();
+
   // 페이지네이션 관련 상태값들
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4; // 한 페이지에 표시할 항목 수
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    saveLockerBodyIdFromLocal();
+    const locker_body_id = getLockerBodyIdFromLocal();
+    setLockerBodyId(locker_body_id);
+    console.log("로컬 바디", locker_body_id);
+  }, []);
 
   useEffect(() => {
     const savedCartItems = localStorage.getItem('cartItems');
@@ -78,7 +87,7 @@ const Cart2 = () => {
         })
         .catch(error => {
           if (axios.isCancel(error)) {
-            console.log('Request canceled', error.message);
+            // console.log('Request canceled', error.message);
           } else {
             console.error('Error fetching products data:', error);
           }
@@ -95,10 +104,12 @@ const Cart2 = () => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const options = lockersData.map(lockerData => ({
-    value: lockerData.locker_body_id,
-    label: lockerData.locker_body_name
-  }));
+  const options = lockersData
+    .filter(lockerData => lockerData.locker_body_id === LockerBodyId) // LockerBodyId와 일치하는 데이터만 필터링
+    .map(lockerData => ({
+      value: lockerData.locker_body_id,
+      label: lockerData.locker_body_name
+    }));
 
   const handleChange = selectedOption => {
     setSelectedLocker(selectedOption);
