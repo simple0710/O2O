@@ -4,11 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Cart2.css';
 import { axiosSpring } from '../api/axios';
 import axios from 'axios';
-import Select from 'react-select';
 import Swal from "sweetalert2";
-import { getLockerBodyIdFromLocal, getUserFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
-import { getUserIdFromSession, getUserFromSession } from '../util/sessionUtils.js';
+import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import { getUserFromSession } from '../util/sessionUtils.js';
 import ReservationModal from './ReservationModal';
+import { getProductIcon } from '../util/productUtil.js'; // getProductIcon 함수 임포트
 
 const Cart2 = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -74,7 +74,7 @@ const Cart2 = () => {
                 column: item.locker_column,
                 row: item.locker_row,
                 quantity: item.product_cnt,
-                icon: '📦',
+                icon: getProductIcon(item.product_id), // 여기에서 이모티콘을 할당
                 ...item
               }));
             setProducts(productList);
@@ -294,15 +294,6 @@ const Cart2 = () => {
       <div className='cart-list-container'>
         <div className='cart-list-box'>
           <h3>물품 리스트</h3>
-
-          <div>
-            <Select 
-              options={options} 
-              value={selectedLocker}
-              onChange={handleChange}
-              placeholder="Select a locker"
-            />
-          </div>
 
           <div className='products-list-box'>
             {selectedProducts.length > 0 ? (

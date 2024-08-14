@@ -9,6 +9,7 @@ import { formatDateSimple } from '../util/dateUtil.js';
 import { getUserIdFromSession } from '../util/sessionUtils.js';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import { Loading } from '../components/common/loading.js';
+import { getProductIcon } from '../util/productUtil.js'; // getProductIcon 함수 임포트
 
 function BrokenFind() {
   const navigate = useNavigate();
@@ -64,12 +65,10 @@ function BrokenFind() {
               date: rent.rent_dt,
               broken: 0,
               missing: 0,
-              icon: "🕶",
+              icon: getProductIcon(product.product_id), // getProductIcon 함수 사용
               locker_id: product.locker_id,
               rent_id: rentId // rent_id를 추가
             });
-            console.log('프로덕트 정보',product)
-            console.log('렌트정보', rent)
           }
           if (productsData.length > 0) {
             rentsData.push(productsData);
@@ -100,8 +99,6 @@ function BrokenFind() {
       console.log('선택된 대여가 없거나 신고할 항목이 없습니다.');
     }
   };
-  
-
 
   const increaseQuantity = (rentIndex, productIndex, type) => {
     const globalRentIndex = startIndex + rentIndex; // 전체 items 배열에서의 실제 인덱스 계산
@@ -138,8 +135,6 @@ function BrokenFind() {
       )
     );
   };
-  
-  
 
   const handlePageChange = (direction) => {
     setCurrentPage(prevPage => {

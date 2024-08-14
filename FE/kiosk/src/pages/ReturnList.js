@@ -4,9 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/BrokenFind.css';
 import { getCurrentProducts } from '../api/brokenfind.js';
 import { formatDateSimple } from '../util/dateUtil.js';
-import { getLockerBodyIdFromLocal, getUserFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
+import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import { getUserIdFromSession } from '../util/sessionUtils.js';
 import { Loading } from '../components/common/loading.js';
+import { getProductIcon } from '../util/productUtil.js'; // getProductIcon 함수 임포트
 
 function ReturnList() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ function ReturnList() {
               date: rent.rent_dt,
               broken: 0,
               missing: 0,
-              icon: "🕶",
+              icon: getProductIcon(product.product_id), // 이모티콘을 할당
               locker_id: product.locker_id,
             });
           }
