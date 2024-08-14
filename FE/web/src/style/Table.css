@@ -1,5 +1,6 @@
 .custom-table {
   border-collapse: collapse;
+  /* text-align: center; */
 }
 
 .custom-table th, .custom-table td {

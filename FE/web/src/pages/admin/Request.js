@@ -126,7 +126,7 @@ const Request = () => {
                     <th>수량</th>
                     <th className="request-reason">신청 사유</th>
                     <th>처리 상태</th>
-                    <th>신청 날짜</th>
+                    <th className="center-align">신청 날짜</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -154,7 +154,7 @@ const Request = () => {
                           ? "거절됨"
                           : "대기중"}
                       </td>
-                      <td>{post.req_dt}</td>
+                      <td className="center-align">{post.req_dt}</td>
                     </tr>
                   ))}
                 </tbody>

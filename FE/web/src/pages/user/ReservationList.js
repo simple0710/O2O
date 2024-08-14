@@ -299,7 +299,7 @@ const BorrowList = () => {
         <Sidebar />
         <div className='content'>
           <div className='title'>
-            <h3>예약 내역 조회</h3>
+            <h3>예약 현황 조회</h3>
           </div>
           {isLoading ? (
             <div className='request-spinner'>

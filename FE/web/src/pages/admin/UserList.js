@@ -68,6 +68,23 @@ const UserList = () => {
     setExpandedUser(expandedUser === user ? null : user);
   };
 
+  const formatDate = (dateString) => {
+    // 날짜 문자열을 Date 객체로 변환
+    const date = new Date(dateString);
+  
+    // 연도, 월, 일 추출
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    // 시간과 분 추출
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // 원하는 형식으로 변환
+    return `${year}.${month}.${day}.${hours}:${minutes}`;
+  };
+
   return (
     <div className="page-container">
       <AdminNav />
@@ -88,8 +105,8 @@ const UserList = () => {
               <tr>
                 <th>No.</th>
                 <th>사용자명</th>
-                <th>연체기간</th>
-                <th>예정반납일</th>
+                <th className="center-align">연체기간</th>
+                <th className="center-align">예정반납일</th>
               </tr>
             </thead>
             <tbody>
@@ -98,8 +115,8 @@ const UserList = () => {
                   <tr onClick={() => toggleUserDetails(user)}>
                     <td>{(currentPage - 1) * postsPerPage + index + 1}</td>
                     <td>{user.username}</td>
-                    <td>{user.overduePeriod}</td>
-                    <td>{user.dueDate}</td>
+                    <td className="center-align">{user.overduePeriod}</td>
+                    <td className="center-align">{formatDate(user.dueDate)}</td>
                   </tr>
                   <tr>
                     <td colSpan="4" className="p-0">
@@ -108,9 +125,9 @@ const UserList = () => {
                           <Table className='custom-table'>
                             <thead>
                               <tr>
-                                <th>물품명</th>
-                                <th>수량</th>
-                                <th>보관함 위치</th>
+                                <th className='list-color'>물품명</th>
+                                <th className='list-color'>수량</th>
+                                <th className='list-color'>보관함 위치</th>
                               </tr>
                             </thead>
                             <tbody>
