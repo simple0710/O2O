@@ -4,6 +4,7 @@ import {axiosSpring} from '../api/axios';
 import '../styles/Locker.css';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import {putReturn} from '../api/kioskpost.js';
+import {open} from '../api/cameraget'
 
 const ReturnLocker = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -31,6 +32,7 @@ const ReturnLocker = () => {
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
+    if (lockerBodyId) {
     axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
@@ -48,6 +50,28 @@ const ReturnLocker = () => {
       .catch(error => {
         console.error('Error fetching lockers data:', error);
       });
+
+    // returnData 상태에 따라 sci와 mou 값 설정
+    const newStatus = { sci: 0, mou: 0 };
+    returnData.products.forEach(item => {
+      if (item.product_id === 76) {
+        newStatus.sci = 1;
+      } else if (item.product_id === 3) {
+        newStatus.mou = 1;
+      }
+    });
+    // setBorrowedItemsStatus(newStatus); // 상태 업데이트
+    console.log('newStatus: ', newStatus)
+    // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
+
+    open(newStatus)
+    .then(response => {
+      console.log('Response from server:', response);
+    })
+    .catch(e => {
+      console.error('Error:', e)
+    })
+  }
   }, [lockerBodyId]);
 
   useEffect(() => {
