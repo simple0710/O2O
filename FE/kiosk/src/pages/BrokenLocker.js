@@ -123,7 +123,7 @@ const BrokenLocker = () => {
 
 
   const back = () => {
-    navigate('/Locker');
+    navigate('/');
   };
 
   const brokenfinish = () => {
@@ -143,7 +143,7 @@ const BrokenLocker = () => {
 
   return (
     <>
-    <button className="btn-main" onClick={back}>메인 페이지</button>
+    <button className="btn-main" onClick={back}>HOME</button>
 
     <div className='locker-frame'>
       <div className="locker-container1">
