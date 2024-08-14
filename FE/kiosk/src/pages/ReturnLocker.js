@@ -32,6 +32,7 @@ const ReturnLocker = () => {
 
   useEffect(() => {
     // 사물함 이름 데이터 불러오기
+    if (lockerBodyId) {
     axiosSpring.get('/lockers/names')
       .then(response => {
         const data = response.data.data;
@@ -52,10 +53,10 @@ const ReturnLocker = () => {
 
     // returnData 상태에 따라 sci와 mou 값 설정
     const newStatus = { sci: 0, mou: 0 };
-    returnData.forEach(item => {
-      if (item.id === 76) {
+    returnData.products.forEach(item => {
+      if (item.product_id === 76) {
         newStatus.sci = 1;
-      } else if (item.id === 3) {
+      } else if (item.product_id === 3) {
         newStatus.mou = 1;
       }
     });
@@ -70,7 +71,7 @@ const ReturnLocker = () => {
     .catch(e => {
       console.error('Error:', e)
     })
-
+  }
   }, [lockerBodyId]);
 
   useEffect(() => {
