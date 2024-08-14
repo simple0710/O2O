@@ -41,7 +41,7 @@ const AdminNav = () => {
     <div>
       <nav className="navbar-custom">
         <Nav className="navbar-left">
-          <Nav.Link href="/admin">O<span className="highlight">2</span>O</Nav.Link>
+          <Nav.Link href="/web/admin">O<span className="highlight">2</span>O</Nav.Link>
         </Nav>
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className="custom-dropdown-toggle">
