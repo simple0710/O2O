@@ -36,11 +36,19 @@ public class LockerValidator {
             log.error("존재하지 않는 lockerId: {}", lockerId);
             throw new LockerException(LockerErrorCode.LOCKER_NOT_FOUND);
         }
-
         log.info("유효한 lockerId 확인됨: {}", lockerId);
     }
 
+    /**
+     * locker 물품 등록 시, 물품의 개수를 검증
+     * 총 개수가 보다 물품 개수가 많은 경우 오류를 반환
+     * 
+     * @param productCnt
+     * @param totalCnt
+     */
     public void validateTotalProductCnt(Integer productCnt, Integer totalCnt) {
+        log.info("productCnt = {}", productCnt);
+        log.info("totalCnt = {}", totalCnt);
         if (totalCnt < productCnt) {
             throw new LockerException(LockerErrorCode.TOTAL_COUNT_UNDER_PRODUCT_COUNT);
         }

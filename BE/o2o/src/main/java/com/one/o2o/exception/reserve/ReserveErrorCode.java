@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ReserveErrorCode implements ErrorCode {
-    RESERVE_ERROR_CODE(HttpStatus.BAD_REQUEST, "에러");
+    RESERVE_ID_NOT_FOUND(HttpStatus.BAD_REQUEST, "예약 기록을 찾을 수 없습니다."),
+    RESERVE_TIME_INVALID(HttpStatus.BAD_REQUEST, "예약 시간이 유효하지 않습니다.");
 
 
     private final HttpStatus httpStatus;
