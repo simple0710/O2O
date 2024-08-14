@@ -12,10 +12,12 @@ import java.net.URL;
 public class URLValidator {
 
     public void validateUrlForm(String url) {
-        try {
-            new URL(url).toURI();
-        } catch (MalformedURLException | URISyntaxException e) {
-            throw new CommonException(CommonErrorCode.URL_FORMAT_INVALID);
+        if (url != null && !url.isEmpty()) {
+            try {
+                new URL(url).toURI();
+            } catch (MalformedURLException | URISyntaxException e) {
+                throw new CommonException(CommonErrorCode.URL_FORMAT_INVALID);
+            }
         }
     }
 }

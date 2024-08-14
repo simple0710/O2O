@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Cart2.css';
 import { axiosSpring } from '../api/axios';
-import axios from "axios"
+import axios from 'axios';
 import Select from 'react-select';
 import Swal from "sweetalert2";
 import { getUserFromSession } from '../util/sessionUtils.js';

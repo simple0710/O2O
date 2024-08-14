@@ -12,6 +12,7 @@ async function Logout(setCart, setLockerBodyId, navigate) {
         setCart([]); // 상태 초기화
         setLockerBodyId(null); // 상태 초기화
         navigate('/'); // 로그아웃 후 리다이렉트
+        console.log('로그아웃 성공')
     } catch (error) {
         console.error(error);
     }

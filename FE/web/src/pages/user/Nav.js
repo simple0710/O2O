@@ -40,7 +40,7 @@ const UserNav = () => {
         <div>
             <nav className="navbar-custom">
                 <Nav className="navbar-left">
-                    <Nav.Link href="/mainpage">
+                    <Nav.Link href="/web/mainpage">
                         O<span className="highlight">2</span>O
                     </Nav.Link>
                 </Nav>
@@ -70,4 +70,5 @@ const UserNav = () => {
 };
 
 export default UserNav;
+
 

@@ -48,7 +48,7 @@ public class ProductsManageServiceTest {
 
 
     @Test
-    // 물품 등록 성공
+        // 물품 등록 성공
     void saveProduct() throws IOException {
         // Given: 초기 설정
         List<MultipartFile> files = Collections.singletonList(
@@ -108,7 +108,7 @@ public class ProductsManageServiceTest {
 
         // When: 메서드 호출 및 예외 검증
         ProductException thrownException1 = assertThrows(ProductException.class, () -> {
-           productsManageService.saveProduct(files, productsDto1);
+            productsManageService.saveProduct(files, productsDto1);
         });
 
         ProductException thrownException2 = assertThrows(ProductException.class, () -> {
