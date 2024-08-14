@@ -5,6 +5,8 @@ import com.one.o2o.exception.locker.LockerException;
 import com.one.o2o.exception.products.ProductException;
 import com.one.o2o.exception.products.report.ProductReportException;
 import com.one.o2o.exception.products.request.ProductRequestException;
+import com.one.o2o.exception.rent.RentException;
+import com.one.o2o.exception.reserve.ReserveException;
 import com.one.o2o.exception.user.UserException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -60,6 +62,24 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductRequestException.class)
     public ResponseEntity<ErrorResponse> handleProductRequestExceptionException(ProductRequestException e) {
+        ErrorResponse errorResponse = ErrorResponse.of(
+                e.getErrorCode(),
+                e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, e.getErrorCode().getHttpStatus());
+    }
+
+    @ExceptionHandler(RentException.class)
+    public ResponseEntity<ErrorResponse> handleRentException(RentException e) {
+        ErrorResponse errorResponse = ErrorResponse.of(
+                e.getErrorCode(),
+                e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, e.getErrorCode().getHttpStatus());
+    }
+
+    @ExceptionHandler(ReserveException.class)
+    public ResponseEntity<ErrorResponse> handleReserveException(ReserveException e) {
         ErrorResponse errorResponse = ErrorResponse.of(
                 e.getErrorCode(),
                 e.getMessage()
