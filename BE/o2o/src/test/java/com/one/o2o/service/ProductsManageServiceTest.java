@@ -116,13 +116,12 @@ public class ProductsManageServiceTest {
         });
 
         // Then: 예상 결과와 비교
-        assertEquals(ProductErrorCode.PRODUCT_NAME_MISSING, thrownException1.getErrorCode(), "1-1. 물품 등록 시 이름 누락의 경우 error code 일치성 확인");
-        assertEquals("제품 이름이 누락되었습니다.", thrownException1.getMessage(), "1-2. 물품 등록 시 이름 누락의 경우 실패 메세지 출력");
-        assertEquals(400, thrownException1.getErrorCode().getStatus(), "1-3. 물품 등록 시 이름 누락의 경우 상태 번호 출력");
+        assertEquals(ProductErrorCode.PRODUCT_NAME_MISSING, thrownException1.getErrorCode(), "물품 등록 시 이름 누락의 경우 error code 일치성 확인");
+        assertEquals("제품 이름이 올바르지 않습니다.", thrownException1.getMessage(), "물품 등록 시 이름 누락의 경우 실패 메세지 출력");
+        assertEquals(400, thrownException1.getErrorCode().getStatus(), "물품 등록 시 이름 누락의 경우 상태 번호 출력");
 
-        assertEquals(ProductErrorCode.PRODUCT_NAME_MISSING, thrownException2.getErrorCode(), "2-1. 물품 등록 시 이름 누락의 경우 error code 일치성 확인");
-        assertEquals("제품 이름이 누락되었습니다.", thrownException2.getMessage(), "2-2. 물품 등록 시 이름 누락의 경우 실패 메세지 출력");
-        assertEquals(400, thrownException2.getErrorCode().getStatus(), "2-3. 물품 등록 시 이름 누락의 경우 상태 번호 출력");
+        assertEquals(ProductErrorCode.PRODUCT_NAME_MISSING, thrownException2.getErrorCode(), "물품 등록 시 이름 누락의 경우 error code 일치성 확인");
+        assertEquals(400, thrownException2.getErrorCode().getStatus(), "물품 등록 시 이름 누락의 경우 상태 번호 출력");
     }
 
     @Test
@@ -150,9 +149,9 @@ public class ProductsManageServiceTest {
         });
 
         // Then: 예상 결과와 비교
-        assertEquals(UserErrorCode.USER_ID_MISSING, thrownException.getErrorCode(), "1-1. 유저 Id 누락의 경우 error code 일치성 확인");
-        assertEquals("사용자 ID가 올바르게 입력되지 않았습니다.", thrownException.getMessage(), "1-2. 물품 등록 시 이름 누락의 경우 실패 메세지 출력");
-        assertEquals(400, thrownException.getErrorCode().getStatus(), "1-3. 물품 등록 시 이름 누락의 경우 상태 번호 출력");
+        assertEquals(UserErrorCode.USER_ID_MISSING, thrownException.getErrorCode(), "유저 Id 누락의 경우 error code 일치성 확인");
+        assertEquals("사용자 ID가 올바르게 입력되지 않았습니다.", thrownException.getMessage(), "물품 등록 시 이름 누락의 경우 실패 메세지 출력");
+        assertEquals(400, thrownException.getErrorCode().getStatus(), "물품 등록 시 이름 누락의 경우 상태 번호 출력");
     }
 
     @Test
