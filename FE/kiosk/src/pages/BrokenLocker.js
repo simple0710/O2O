@@ -26,12 +26,11 @@ const BrokenLocker = () => {
     setLockerBodyId(locker_body_id);
   }, []);
 
+
+
   useEffect(() => {
     console.log('Updated lockerBodyId:', lockerBodyId);
-  }, [lockerBodyId]);
-
-
-  useEffect(() => {
+    if(lockerBodyId){
     // 사물함 이름 데이터 불러오기
     axiosSpring.get('/lockers/names')
       .then(response => {
@@ -51,7 +50,7 @@ const BrokenLocker = () => {
         console.error('Error fetching lockers data:', error);
       });
 
-      // borrowedItems 상태에 따라 sci와 mou 값 설정
+    // borrowedItems 상태에 따라 sci와 mou 값 설정
     const newStatus = { reg: 0 };
     reportedItems.forEach(item => {
       if (item.id === 76) {
@@ -72,7 +71,7 @@ const BrokenLocker = () => {
       console.error('Error:', e)
     })
 
-
+  }
   }, [lockerBodyId]);
 
   useEffect(() => {
@@ -95,13 +94,7 @@ const BrokenLocker = () => {
         });
 
     
-        // axiosSpring.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
-        // .then(response => {
-        //   console.log(response.data);
-        // })
-        // .catch(error => {
-        //   console.error('Error opening the locker:', error);
-        // });
+      
     }
   }, [lockerBodyId, reportedItems]);
 
