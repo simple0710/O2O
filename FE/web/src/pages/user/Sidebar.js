@@ -401,6 +401,13 @@ function Sidebar() {
     <SidebarContainer className="side-bar">
       <div style={{marginTop:'35px'}}>
       <SidebarLink
+        to="/"
+        isActive={activeLink === '/'}
+        onClick={() => handleLinkClick('/')}
+      >
+        사물함 현황
+      </SidebarLink>
+      <SidebarLink
         to="/request/article"
         isActive={activeLink === '/request/article'}
         onClick={() => handleLinkClick('/request/article')}
@@ -412,14 +419,14 @@ function Sidebar() {
         isActive={activeLink === '/item/reservation'}
         onClick={() => handleLinkClick('/item/reservation')}
       >
-        예약 현황 조회
+        예약 현황
       </SidebarLink>
       <SidebarLink
         to="/item/notrefund"
         isActive={activeLink === '/item/notrefund'}
         onClick={() => handleLinkClick('/item/notrefund')}
       >
-        미반납 물품 조회
+        대여중인 물품
       </SidebarLink>
       <SidebarLink
         as="div"

@@ -26,6 +26,7 @@ export async function getRent(pgNO, perPage, userId){
             }
         });
         const data = await response.data.data.rents;
+        console.log('대여중', data)
         return data;
     } catch(e){
         console.error(e)
