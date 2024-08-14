@@ -18,7 +18,7 @@ public class ReserveValidator {
 
     /**
      * 예약 기록이 존재하는지 검증
-     * 예약 기록이 DB에 없는 경웅 오류를 반환
+     * 예약 기록이 DB에 없는 경우 오류를 반환
      * 
      * @param reserveId 검증할 예약 ID
      */
