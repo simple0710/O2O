@@ -87,7 +87,7 @@ const Cart2 = () => {
         })
         .catch(error => {
           if (axios.isCancel(error)) {
-            // console.log('Request canceled', error.message);
+
           } else {
             console.error('Error fetching products data:', error);
           }
@@ -211,6 +211,7 @@ const Cart2 = () => {
           confirmButtonText: '확인'
         }).then(() => {
           navigate('/locker', { state: { borrowedItems: cartItems } });
+          console.log('cartItems: ', cartItems)
         });
       } else {
         throw new Error(response.data.message || '대여 처리 중 오류가 발생했습니다.');

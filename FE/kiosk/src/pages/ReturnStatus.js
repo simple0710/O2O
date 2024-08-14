@@ -204,7 +204,7 @@ function ReturnStatus() {
         {loading ? <Loading /> : <ItemList productList={productList} />}
       </div>
 
-      <Button onClick={handleNavigate} />
+      {!loading && <Button onClick={handleNavigate} />}
     </div>
   );
 }

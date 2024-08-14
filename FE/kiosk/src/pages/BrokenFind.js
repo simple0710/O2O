@@ -19,7 +19,8 @@ function BrokenFind() {
   const [lockerBodyId, setLockerBodyId] = useState(null);
   const [loading, setLoading] = useState(true);  // 로딩 상태 추가
   const itemsPerPage = 4;
-  const [selectedRentIndex, setSelectedRentIndex] = useState(null);
+  const [selectedRent, setSelectedRent] = useState([]);
+
 
   useEffect(() => {
     const id = getUserIdFromSession();
@@ -45,11 +46,13 @@ function BrokenFind() {
     let hasMoreData = true;
   
     while (hasMoreData) {
-      const data = await getCurrentProducts(userId, currentPage, 10); // 페이지 넘버와 페이지 당 항목 수를 전달
+      const data = await getCurrentProducts(userId, currentPage, 10); // 페이지 넘버와 페이지 당 항목 수를 전달     
       if (data && data.rents.length > 0) {
         const rentsData = [];
         for (let rent of data.rents) {
           const productsData = [];
+          const rentId = rent.rent_id; // rent_id를 추출
+
           for (let product of rent.products) {
             const productLockerBodyId = String(product.locker_body_id);
             const localLockerBodyId = String(lockerBodyId);
@@ -64,7 +67,7 @@ function BrokenFind() {
               missing: 0,
               icon: getProductIcon(product.product_id), // getProductIcon 함수 사용
               locker_id: product.locker_id,
-              rent_id: rent.rent_id
+              rent_id: rentId // rent_id를 추가
             });
           }
           if (productsData.length > 0) {
@@ -83,11 +86,17 @@ function BrokenFind() {
   };
 
   const reportItems = () => {
-    if (selectedRentIndex !== null) {
-      const reportedItems = items[selectedRentIndex].filter(item => item.missing > 0 || item.broken > 0);
+    const reportedItems = [];
+    selectedRent.forEach(index => {
+      if (index < items.length) {
+        reportedItems.push(...items[index].filter(item => item.missing > 0 || item.broken > 0));
+      }
+    });
+    
+    if (reportedItems.length > 0) {
       navigate('/registerbroken', { state: { reportedItems } });
     } else {
-      console.log('선택된 대여가 없습니다.');
+      console.log('선택된 대여가 없거나 신고할 항목이 없습니다.');
     }
   };
 
@@ -132,7 +141,7 @@ function BrokenFind() {
       const newPage = prevPage + direction;
       return Math.max(1, Math.min(newPage, Math.ceil(items.length / itemsPerPage)));
     });
-    setSelectedRentIndex(null); // 페이지 전환 시 선택된 렌트 초기화
+    setSelectedRent([]); // 페이지 전환 시 선택된 렌트 초기화
   };
 
   const renderPagination = () => {
@@ -161,6 +170,17 @@ function BrokenFind() {
       </div>
     );
   };
+
+  const handleItemClick = (index) => {
+    setSelectedRent(prevSelectedRent => {
+      if (prevSelectedRent.includes(index)) {
+        return prevSelectedRent.filter(i => i !== index);
+      } else {
+        return [...prevSelectedRent, index];
+      }
+    });
+  };
+  
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const selectedItems = items.slice(startIndex, startIndex + itemsPerPage);
@@ -192,7 +212,7 @@ function BrokenFind() {
                     <div
                       key={`${rInd}.${pInd}`}
                       className='item'
-                      onClick={() => setSelectedRentIndex(startIndex + rInd)}
+                      onClick={() => handleItemClick(startIndex + rInd)}
                     >
                       <div className="item-header">
                         <span className="item-icon">{item.icon}</span>

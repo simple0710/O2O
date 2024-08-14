@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 import '../styles/BrokenLocker.css';
 import { axiosSpring } from '../api/axios';
+import {register} from '../api/cameraget'
 
 const BrokenLocker = () => {
   const [lockersData, setLockersData] = useState([]);
@@ -49,6 +50,29 @@ const BrokenLocker = () => {
       .catch(error => {
         console.error('Error fetching lockers data:', error);
       });
+
+      // borrowedItems 상태에 따라 sci와 mou 값 설정
+    const newStatus = { reg: 0 };
+    reportedItems.forEach(item => {
+      if (item.id === 76) {
+        newStatus.reg = 1;
+      } else if (item.id === 3) {
+        newStatus.reg = 1;
+      }
+    });
+    // setBorrowedItemsStatus(newStatus); // 상태 업데이트
+    console.log('newStatus: ', newStatus)
+    // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
+
+    register(newStatus)
+    .then(response => {
+      console.log('Response from server:', response);
+    })
+    .catch(e => {
+      console.error('Error:', e)
+    })
+
+
   }, [lockerBodyId]);
 
   useEffect(() => {
@@ -69,6 +93,15 @@ const BrokenLocker = () => {
         .catch(error => {
           console.error('Error fetching products data:', error);
         });
+
+    
+        // axiosSpring.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
+        // .then(response => {
+        //   console.log(response.data);
+        // })
+        // .catch(error => {
+        //   console.error('Error opening the locker:', error);
+        // });
     }
   }, [lockerBodyId, reportedItems]);
 
@@ -99,27 +132,27 @@ const BrokenLocker = () => {
 
 
   const back = () => {
-    navigate('/Locker');
+    navigate('/');
   };
 
   const brokenfinish = () => {
     navigate('/BrokenFinish')
   }
 
-  useEffect(() => {
-    // 페이지 접근 시 사물함 열기 요청
-    axiosSpring.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Error opening the locker:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // 페이지 접근 시 사물함 열기 요청
+  //   axiosSpring.post('http://192.168.100.218:5000/open')  // Flask 서버의 실제 IP 주소 사용
+  //     .then(response => {
+  //       console.log(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error opening the locker:', error);
+  //     });
+  // }, []);
 
   return (
     <>
-    <button className="btn-main" onClick={back}>메인 페이지</button>
+    <button className="btn-main" onClick={back}>HOME</button>
 
     <div className='locker-frame'>
       <div className="locker-container1">
