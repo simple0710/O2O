@@ -20,7 +20,7 @@ public class ProductReportValidator {
     /**
      * 이상 신고의 처리 아이디 검증
      * 존재하지 않는 ID인 경우 오류를 반환
-     * 
+     *
      * @param id 검증할 내용
      */
     public void validateProductReportId(Integer id) {
@@ -36,7 +36,7 @@ public class ProductReportValidator {
      *
      * @param statusId 검증할 내용
      */
-    public void validateStatusId(Integer statusId) {
+    public void validateProductStatusId(Integer statusId) {
         if (ProductStatus.MISSING.getStatusId() != statusId && ProductStatus.BROKEN.getStatusId() != statusId) {
             throw new ProductReportException(ProductReportErrorCode.INVALID_PRODUCT_STATUS_ID);
         }

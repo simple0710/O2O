@@ -39,4 +39,10 @@ public class LockerValidator {
 
         log.info("유효한 lockerId 확인됨: {}", lockerId);
     }
+
+    public void validateTotalProductCnt(Integer productCnt, Integer totalCnt) {
+        if (totalCnt < productCnt) {
+            throw new LockerException(LockerErrorCode.TOTAL_COUNT_UNDER_PRODUCT_COUNT);
+        }
+    }
 }
