@@ -12,3 +12,10 @@ export function getProductIcon(product_id){
   };
   return iconMap[product_id];
 }
+export function getProductIcon1(name){
+  const iconMap = {
+    "마우스": '🖱️',
+    "가위": '✂️',
+  };
+  return iconMap[name];
+}

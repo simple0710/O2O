@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import '../../styles/returnstatus/ItemList.css';
+import { getProductIcon1 } from '../../util/productUtil.js'; // getProductIcon 함수 임포트
 
-function ItemList({productList}) {
+function ItemList({ productList }) {
   
     useEffect(() => {
         console.log('반납 선택 물품 전달:', productList);
     }, [productList]);
-
 
     return (
         <>
@@ -14,7 +14,8 @@ function ItemList({productList}) {
                 <div>
                 {productList && productList.map(item => (
                     <div key={item.name} className='item1'>
-                        <span className='item-icon'>📦</span>
+                        <span className='item-icon'>{getProductIcon1(item.name)}</span>
+                        
                         <span className='item-name1'>{item.name}</span>
                         <span className='tiem-count1'>{item.cnt}</span>
                     </div>

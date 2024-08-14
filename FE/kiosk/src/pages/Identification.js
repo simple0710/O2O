@@ -97,7 +97,8 @@ function Identification() {
             image: null
           }
         };
-      } else {
+      } 
+      else {
         // 일반 촬영 버튼을 눌렀을 때는 원래 순서대로 진행
         data = await getData();
       }
@@ -132,12 +133,7 @@ function Identification() {
         text: "이름 인식에 실패했습니다. 다시 촬영해주세요.",
         confirmButtonText: '확인',
         timer: 6000, // 3초
-      }).then(()=>{
-        askUser({
-          text: "최지은",
-          score: 0.8
-        });
-      });
+      })
     }
   }
 
