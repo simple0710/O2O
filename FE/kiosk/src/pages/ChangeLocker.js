@@ -96,7 +96,7 @@ const ChangeLocker = () => {
     <>
       <button className="btn-main" onClick={() => navigate('/')}>HOME</button>
 
-      <div className='locker-frame'>
+      <div className='locker-frame-change'>
         <div className="locker-container1">
           <div className="locker-title">
             수량을 변경할 사물함을<br />선택해주세요<br /> <br />
