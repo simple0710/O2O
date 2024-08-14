@@ -52,3 +52,11 @@
   margin: 200px auto;
 }
 
+.custom-table th, 
+.custom-table td {
+  text-align: center;
+}
+
+.list-color {
+  background-color: #f8f9fa !important;
+}
