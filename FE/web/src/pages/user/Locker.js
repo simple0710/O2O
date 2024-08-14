@@ -9,6 +9,7 @@ import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
 import axiosInstance from '../../utils/axiosInstance'
+import ButtonComponent from "../../components/ButtonComponent";
 
 const Locker = () => {
   const [show, setShow] = useState(false);
@@ -21,7 +22,7 @@ const Locker = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const [firstLockerBodyId, setFirstLockerBodyId] = useState(null); // 상태 변수 추가
-
+  
   useEffect(() => {
     const fetchLockerData = async () => {
       try {
@@ -123,62 +124,62 @@ const Locker = () => {
 
   const handleAddToCart = () => {
     if (quantity > 0 && selectedItem) {
-      const existingItem = cart.find(item => item.name === selectedItem.product_nm);
-      const totalQuantity = (existingItem ? existingItem.quantity : 0) + quantity;
-
-      if (totalQuantity > selectedItem.product_cnt) {
-        Swal.fire({
-          title: "재고가 부족합니다.",
-          text: "장바구니에 물품이 있는지 확인해주세요.",
-          icon: "warning",
-          confirmButtonColor: "#3085d6",
-          confirmButtonText: "확인",
-        });
-        setShow(false);
-      } else if (firstLockerBodyId && firstLockerBodyId !== selectedLockerBody.locker_body_id) {
-        Swal.fire({
-          title: "다른 락커에 있는 물품입니다.",
-          text: "같은 락커에 있는 물품만 추가할 수 있습니다.",
-          icon: "warning",
-          confirmButtonColor: "#3085d6",
-          confirmButtonText: "확인",
-        });
-        setShow(false);
-      } else {
-        const locker = additionalLockersData.find(locker => locker.product_id === selectedItem.product_id);
-        
-        const newItem = existingItem
-          ? { 
-              ...existingItem, 
-              quantity: totalQuantity,
-              location: { 
-                lockerBody: selectedLockerBody.locker_body_name, 
-                row: selectedItem.locker_row, 
-                column: selectedItem.locker_column,  
-                locker_body_id: selectedLockerBody.locker_body_id  
-              }, 
-              product_id: selectedItem.product_id,
-              locker_id: locker ? locker.locker_id : null
+      const existingItem = cart.find(item => 
+        item.name === selectedItem.product_nm &&
+        item.location.locker_body_id === selectedLockerBody.locker_body_id
+      );
+  
+      if (existingItem) {
+        const totalQuantity = existingItem.quantity + quantity;
+  
+        if (totalQuantity > selectedItem.product_cnt) {
+          Swal.fire({
+            title: "재고가 부족합니다.",
+            text: "장바구니에 물품이 있는지 확인해주세요.",
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "확인",
+          });
+        } else {
+          const updatedItem = {
+            ...existingItem,
+            quantity: totalQuantity,
+            location: {
+              lockerBody: selectedLockerBody.locker_body_name,
+              row: selectedItem.locker_row,
+              column: selectedItem.locker_column,
+              locker_body_id: selectedLockerBody.locker_body_id
             }
-          : { 
-              name: selectedItem.product_nm, 
-              quantity, 
-              location: { 
-                lockerBody: selectedLockerBody.locker_body_name, 
-                row: selectedItem.locker_row, 
-                column: selectedItem.locker_column, 
-                locker_body_id: selectedLockerBody.locker_body_id 
-              },
-              product_id: selectedItem.product_id,
-              locker_id: locker ? locker.locker_id : null
-            };
-
-        addToCart(newItem);
-
-        if (!firstLockerBodyId) {
-          setFirstLockerBodyId(selectedLockerBody.locker_body_id);
+          };
+          setCart(prevCart => 
+            prevCart.map(item => item.name === selectedItem.product_nm && item.location.locker_body_id === selectedLockerBody.locker_body_id
+              ? updatedItem
+              : item
+            )
+          );
+          setAdditionalLockersData(prevData =>
+            prevData.map(item => item.product_nm === selectedItem.product_nm
+              ? { ...item, product_cnt: item.product_cnt - quantity }
+              : item
+            )
+          );
+          setShow(false);
         }
-
+      } else {
+        const newItem = {
+          name: selectedItem.product_nm,
+          quantity,
+          location: {
+            lockerBody: selectedLockerBody.locker_body_name,
+            row: selectedItem.locker_row,
+            column: selectedItem.locker_column,
+            locker_body_id: selectedLockerBody.locker_body_id
+          },
+          product_id: selectedItem.product_id,
+          locker_id: additionalLockersData.find(locker => locker.product_id === selectedItem.product_id)?.locker_id || null
+        };
+        addToCart(newItem);
+        setFirstLockerBodyId(selectedLockerBody.locker_body_id);
         setAdditionalLockersData(prevData =>
           prevData.map(item => item.product_nm === selectedItem.product_nm
             ? { ...item, product_cnt: item.product_cnt - quantity }
@@ -196,6 +197,22 @@ const Locker = () => {
 
   const handleDecrease = () => {
     if (quantity > 0) setQuantity(quantity - 1);
+  };
+
+  const handleCancel = (productId, quantity) => {
+    // Find the locker item with the given productId
+    const lockerItem = additionalLockersData.find(item => item.product_id === productId);
+    
+    if (lockerItem) {
+      // Update locker data to reflect the returned quantity
+      setAdditionalLockersData(prevData =>
+        prevData.map(item =>
+          item.product_id === productId
+            ? { ...item, product_cnt: item.product_cnt + quantity }
+            : item
+        )
+      );
+    }
   };
 
   return (
@@ -228,13 +245,13 @@ const Locker = () => {
           <Modal.Body>
             <p>현재 선택된 수량: {quantity}개</p>
             <div className="quantity-controls">
-              <Button variant="outline-primary" onClick={handleDecrease}>-</Button>
+              <ButtonComponent onClick={handleDecrease} style={{ marginRight: '10px' }}>-</ButtonComponent>
               <span>{quantity}</span>
-              <Button variant="outline-primary" onClick={handleIncrease}>+</Button>
+              <ButtonComponent onClick={handleIncrease} style={{ marginLeft: '10px' }}>+</ButtonComponent>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleAddToCart}>담기</Button>
+            <ButtonComponent onClick={handleAddToCart}>담기</ButtonComponent>
           </Modal.Footer>
         </Modal>
       )}
