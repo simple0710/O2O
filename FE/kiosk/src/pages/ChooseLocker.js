@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {axiosSpring} from '../api/axios';
+import { axiosSpring } from '../api/axios';
 import '../styles/Locker.css';
 import { getLockerBodyIdFromLocal, saveLockerBodyIdFromLocal } from '../util/localStorageUtil';
 
@@ -69,7 +69,11 @@ const ChangeLocker = () => {
   };
 
   const handleLockerClick = (product) => {
-    navigate('/ItemRegistration', { state: { product } });
+    if (product.product_nm) {
+      console.log("사용할 수 없는 사물함입니다."); // 물건이 있는 사물함 클릭 시 메시지 출력
+    } else {
+      navigate('/ItemRegistration', { state: { product } });
+    }
   };
 
   return (
@@ -88,11 +92,12 @@ const ChangeLocker = () => {
                   {Array.from({ length: columns }).map((_, colIndex) => {
                     const product = getProductInLocker(colIndex + 1, rowIndex + 1);
                     const highlight = isHighlighted(colIndex + 1, rowIndex + 1);
+                    const isOccupied = product && product.product_nm !== null; // 물건이 있는 사물함 여부
                     return (
                       <div 
                         key={`col-${colIndex}`} 
-                        className={`locker-box ${highlight ? 'locker-highlight' : ''}`}
-                        onClick={() => product && handleLockerClick(product)}
+                        className={`locker-box ${highlight ? 'locker-highlight' : ''} ${isOccupied ? 'locker-occupied' : ''}`}
+                        onClick={() => handleLockerClick(product)} // 클릭 시 상태에 따라 처리
                       >
                         {product ? product.product_nm : ''}
                       </div>
