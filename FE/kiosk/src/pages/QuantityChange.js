@@ -47,7 +47,7 @@ const QuantityChange = () => {
     };
 
     axiosSpring
-      .put(`/lockers/locker`, updatedProduct, { headers })
+      .put(`/kiosk/lockers/locker`, updatedProduct, { headers })
       .then((response) => {
         console.log('수량 저장 성공:', response.data);
         navigate('/QuantityChangeFinish', {

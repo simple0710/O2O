@@ -300,7 +300,10 @@ function BrokenFind() {
               missing: 0,
               icon: "🕶",
               locker_id: product.locker_id,
+              rent_id: rent.rent_i
             });
+            console.log('프로덕트 정보',product)
+            console.log('렌트정보', rent)
           }
           if (productsData.length > 0) {
             rentsData.push(productsData);
