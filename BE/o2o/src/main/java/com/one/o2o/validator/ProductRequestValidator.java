@@ -12,6 +12,7 @@ import static com.one.o2o.constants.ProductRequestConstants.MAX_PRODUCT_REQUEST_
 public class ProductRequestValidator {
 
     public void validateContentLength(String content) throws UnsupportedEncodingException {
+        if (content == null) return;
         int bytes = content.getBytes("UTF-8").length;
         if (bytes > MAX_PRODUCT_REQUEST_CONTENT_LENGTH) {
             throw new ProductRequestException(ProductRequestErrorCode.PRODUCT_REQUEST_CONTENT_LENGTH);
@@ -19,6 +20,7 @@ public class ProductRequestValidator {
     }
 
     public void validateRejectLength(String content) throws UnsupportedEncodingException {
+        if (content == null) return;
         int bytes = content.getBytes("UTF-8").length;
         if (bytes > MAX_PRODUCT_REQUEST_CONTENT_LENGTH) {
             throw new ProductRequestException(ProductRequestErrorCode.PRODUCT_REQUEST_REJECT_CONTENT_LENGTH);
