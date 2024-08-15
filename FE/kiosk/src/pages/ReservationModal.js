@@ -4,6 +4,7 @@ import { axiosSpring } from '../api/axios';
 import '../styles/ReservationModal.css';
 import { formatDateSimple } from '../util/dateUtil.js';
 import { getUserFromSession } from '../util/sessionUtils.js';
+import { getProductIcon } from '../util/productUtil.js'; // getProductIcon 함수 임포트
 
 function ReservationModal({ show, handleClose, onProceedToCart }) {
   const [reservations, setReservations] = useState([]);
@@ -106,7 +107,7 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
                     onClick={() => handleReservationClick(rInd)}
                   >
                     <div className="reservation-item-header">
-                      <span className="reservation-item-icon">📦</span>
+                      <span className="reservation-item-icon">{getProductIcon(product.product_id)}</span> {/* 아이콘 추가 */}
                       <span>
                         <p className="reservation-item-name">{product.product_name}</p>
                         <p className="reservation-item-small-font">수량 : {product.product_cnt}</p>
