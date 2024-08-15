@@ -354,7 +354,7 @@ const BorrowList = () => {
             <ButtonComponent
               onClick={handleDelete} 
             >
-              처리완료
+              예약 취소
             </ButtonComponent>
           </div>
 
