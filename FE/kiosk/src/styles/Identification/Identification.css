@@ -32,18 +32,19 @@
     border-radius: 20px; /* 테두리 반경 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자 */
   }
-  .btn-119 {
-    position: fixed;
-    top:42%;
-    right: 17%;
-    background-color: #b93c3c;
-    padding: 80px 50px;
-    
-  }
   .btn-main {
     position: fixed;
     top: 20%;
     left: 20%
+  }
+  .btn-119 {
+    position: absolute;
+    top:25%;
+    left: 20%;
+    background-color: #fff;
+    padding: 10% 40px;
+    /* position: relative; */
+    
   }
 
   
