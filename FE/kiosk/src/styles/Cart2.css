@@ -30,7 +30,7 @@
   display: flex;
   flex-direction: column;
   min-height: calc(4 * 100px); /* 4개의 아이템이 있을 때의 높이로 고정 */
-  justify-content: space-between;
+  /* justify-content: space-between; */
   gap: 30px;
   margin-top: 20px;
   margin-bottom: 20px;
