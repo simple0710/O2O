@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import {axiosSpring} from '../api/axios';
+import { axiosSpring } from '../api/axios';
 import '../styles/ReservationModal.css';
 import { formatDateSimple } from '../util/dateUtil.js';
 import { getUserFromSession } from '../util/sessionUtils.js';
@@ -55,14 +55,25 @@ function ReservationModal({ show, handleClose, onProceedToCart }) {
       if (selectedReservation) {
         console.log("선택된 예약 일시:", formatDateSimple(selectedReservation.reserve_dt));
 
-        const newItems = selectedReservation.products.map(product => ({
-          id: product.product_id,
-          name: product.product_name,
-          quantity: product.product_cnt,
-          locker_id: product.locker_id,
-          locker_loc: product.locker_loc,
-          locker_body: product.locker_body
-        }));
+        const newItems = selectedReservation.products.map(product => {
+          // locker_loc에서 row와 column 추출
+          const [row, column] = product.locker_loc.match(/\d+/g).map(Number);
+          // locker_body에서 숫자 추출하여 body_id로 사용
+          const body_id = product.locker_body.match(/\d+/) ? Number(product.locker_body.match(/\d+/)[0]) : null;
+          
+          return {
+            id: product.product_id,
+            name: product.product_name,
+            quantity: product.product_cnt,
+            locker_id: product.locker_id,
+            locker_loc: product.locker_loc,
+            locker_body: product.locker_body,
+            locker_column: row, 
+            locker_row: column,
+            body_id: product.locker_body_id, // 추출된 body_id 설정
+            body_id2: product.locker_body_id // 추출된 body_id 설정
+          };
+        });
 
         setCartItems(newItems);
       }

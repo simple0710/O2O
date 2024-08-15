@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; /* Viewport height */
+  min-height: 130vh; /* Viewport height */
   text-align: center;
   background-color: #fff; /* 배경색 추가 */
   box-sizing: border-box;
