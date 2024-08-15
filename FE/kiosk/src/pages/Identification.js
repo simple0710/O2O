@@ -87,11 +87,11 @@ function Identification() {
 
       let data;
       if (isEmergency) {
-        // 119 버튼을 누른 경우, "최지은" 사용자로 강제 설정
+        // 119 버튼을 누른 경우,사용자로 강제 설정
         data = {
           flag: true,
           result: {
-            text: "김찬민",
+            text: "김태연",
             score: 0.9,
             isAdmin: false,
             image: null

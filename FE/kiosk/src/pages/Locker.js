@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {axiosSpring} from '../api/axios'
-import {open} from '../api/cameraget'
+import { axiosSpring } from '../api/axios';
+import { open } from '../api/cameraget';
 import '../styles/Locker.css';
 
 const Locker = () => {
@@ -40,7 +40,6 @@ const Locker = () => {
         console.error('Error fetching lockers data:', error);
       });
 
-      console.log("borrowedItems", borrowedItems)
     if(borrowedItems){
       // borrowedItems 상태에 따라 sci와 mou 값 설정
       const newStatus = { sci: 0, mou: 0 };
@@ -54,27 +53,21 @@ const Locker = () => {
       if(borrowedItemsStatus == null){
         setBorrowedItemsStatus(newStatus); // 상태 업데이트
       }
-      console.log('newStatus: ', newStatus)
-      
     }
   }, [borrowedItems]);
 
   useEffect(() => {
     if(!isOpened && borrowedItemsStatus){
-        // console.log('borrowedItemsStatus: ', borrowedItemsStatus)
         setIsOpened(true);
-        console.log("open!!!!!", isOpened)
         open(borrowedItemsStatus)
         .then(response => {
           console.log('Response from server:', response);
         })
         .catch(e => {
-          console.error('Error:',e)
+          console.error('Error:', e);
         });
     }
-    
-  }, [borrowedItemsStatus])
-
+  }, [borrowedItemsStatus]);
 
   useEffect(() => {
     if (selectedLocker) {
@@ -82,28 +75,23 @@ const Locker = () => {
         .then(response => {
           const data = response.data.data;
           setProducts(data);
-          console.log('Product data:', data);
 
           // 대여한 물품 정보로부터 강조할 사물함 설정
           if (borrowedItems) {
             const highlighted = borrowedItems
               .filter(item => item.body_id === selectedLocker.value)
-              .map(item => ({ locker_column: item.column, locker_row: item.row }));
+              .map(item => ({
+                locker_column: item.locker_column || item.column,
+                locker_row: item.locker_row || item.row
+              }));
             setHighlightedLockers(highlighted);
-            // console.log('Highlighted lockers:', highlighted);
           }
         })
         .catch(error => {
           console.error('Error fetching products data:', error);
         });
-
-
-        console.log("borrowedItems", borrowedItems)
-
     }
   }, [selectedLocker, borrowedItems]);
-
-
 
   const back = () => {
     navigate('/');
@@ -120,7 +108,6 @@ const Locker = () => {
 
   return (
     <>
-      {/* 메인 페이지 버튼 */}
       <button className="btn-main" onClick={back}>HOME</button>
 
       <div className='locker-frame'>
@@ -135,13 +122,11 @@ const Locker = () => {
                   {Array.from({ length: lockersData.find(locker => locker.locker_body_id === selectedLocker.value).column }).map((_, colIndex) => {
                     const product = getProductInLocker(colIndex + 1, rowIndex + 1);
                     const isHighlighted = highlightedLockers.some(item => item.locker_column === colIndex + 1 && item.locker_row === rowIndex + 1);
-                    // console.log(`Row: ${rowIndex + 1}, Column: ${colIndex + 1}, isHighlighted: ${isHighlighted}`);
                     return (
                       <div 
                         key={`col-${colIndex}`} 
                         className={`locker-box ${isHighlighted ? 'locker-highlight' : ''}`}
                       >
-                         {/* {console.log(`Product: ${product ? product.product_nm : 'None'}, isHighlighted: ${isHighlighted}, Classes: locker-box ${isHighlighted ? 'locker-highlight' : ''}`)} */}
                         {product ? product.product_nm : ''}
                       </div>
                     );
@@ -158,4 +143,3 @@ const Locker = () => {
 };
 
 export default Locker;
-
