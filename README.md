@@ -105,12 +105,12 @@
     <!-- 2열 -->
     <tr>
       <td align="center" width="50%">
-        <img src="/uploads/fe924d63f2ab84990c3f306ecab8c2a0/관리자-파손__분실_신고_관리.gif"/><br>
+        <img src="/uploads/2876fb2c41237ca77172d75545068d3d/관리자-파손__분실_신고_관리.gif"/><br>
         <hr>
         <b>파손, 분실 신고 관리</b>
       </td>
       <td align="center" width="50%">
-        <img src="/uploads/2876fb2c41237ca77172d75545068d3d/관리자-파손__분실_신고_관리.gif"/><br>
+        <img src="/uploads/24eb15664b7703950f129787ee266deb/관리자-연체_이용자_관리.gif"/><br>
         <hr>
         <b>연체 이용자 관리</b>
       </td>
