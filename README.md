@@ -70,9 +70,9 @@
     </tr>
     <tr>
       <td align="center">
-        <img src=""/><br>
+        <img src="/uploads/a1ed36cf24a12cf50bc2c105441ce14d/메인페이지.gif"/><br>
         <hr>
-        <b>설명 3</b>
+        <b>키오스크 메인화면 + 사원증 인식 화면면 3</b>
       </td>
       <td align="center">
         <img src=""/><br>
