@@ -58,7 +58,7 @@
   <table border="1" cellpadding="10" cellspacing="0">
     <tr>
       <td align="center" width="50%">
-        <img src="/uploads/a1ed36cf24a12cf50bc2c105441ce14d/메인페이지.gif"/><br>
+        <img src="/uploads/9ff227f5b8315c10ce8143baf3bc11af/메인페이지.gif"/><br>
         <hr>
         <b>사원증 인식</b>
       </td>
