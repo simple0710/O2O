@@ -60,19 +60,19 @@
       <td align="center" width="50%">
         <img src="/uploads/a1ed36cf24a12cf50bc2c105441ce14d/메인페이지.gif"/><br>
         <hr>
-        <b>사원증 인식 페이지 1</b>
+        <b>사원증 인식</b>
       </td>
       <td align="center" width="50%">
         <img src="/uploads/8d93affde53fdd3c3c79f928f21abc05/대여.gif"/><br>
         <hr>
-        <b>대여 화면</b>
+        <b>대여</b>
       </td>
     </tr>
     <tr>
       <td align="center" width="50%">
         <img src="/uploads/8eb85411b457f0c98c41e683a11b69d4/대여_완료.gif"/><br>
         <hr>
-        <b>대여 완료</b>
+        <b>사물함 표시</b>
       </td>
       <td align="center" width="50%">
         <img src="/uploads/8c84081c9e359bbca043633e28ba55d5/반납.gif"/><br>
