@@ -59,14 +59,14 @@
     <tr>
       <td align="center" width="50%">
         <img src="/uploads/9ff227f5b8315c10ce8143baf3bc11af/메인페이지.gif"
-        style="width: 100%; height: 300px; object-fit: cover;"
+        style="width: 100%; height: 200px; object-fit: cover;"
         /><br>
         <hr>
         <b>사원증 인식</b>
       </td>
       <td align="center" width="50%">
         <img src="/uploads/8d93affde53fdd3c3c79f928f21abc05/대여.gif"
-        style="width: 100%; height: 300px; object-fit: cover;"
+        style="width: 100%; height: 200px; object-fit: cover;"
         /><br>
         <hr>
         <b>대여</b>
@@ -75,14 +75,14 @@
     <tr>
       <td align="center" width="50%">
         <img src="/uploads/8eb85411b457f0c98c41e683a11b69d4/대여_완료.gif"
-        style="width: 100%; height: 300px; object-fit: cover;"
+        style="width: 100%; height: 200px; object-fit: cover;"
         /><br>
         <hr>
         <b>사물함 표시</b>
       </td>
       <td align="center" width="50%">
         <img src="/uploads/8c84081c9e359bbca043633e28ba55d5/반납.gif"
-        style="width: 100%; height: 300px; object-fit: cover;"
+        style="width: 100%; height: 200px; object-fit: cover;"
         /><br>
         <hr>
         <b>반납</b>
