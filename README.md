@@ -57,27 +57,27 @@
   <h3><u>키오스크</u></h3>
   <table border="1" cellpadding="10" cellspacing="0">
     <tr>
-      <td align="center">
-        <img src=""/><br>
+      <td align="center" width="50%">
+        <img src="/uploads/a1ed36cf24a12cf50bc2c105441ce14d/메인페이지.gif"/><br>
         <hr>
-        <b>설명 1</b>
+        <b>사원증 인식 페이지 1</b>
       </td>
-      <td align="center">
-        <img src=""/><br>
+      <td align="center" width="50%">
+        <img src="/uploads/8d93affde53fdd3c3c79f928f21abc05/대여.gif"/><br>
         <hr>
-        <b>설명 2</b>
+        <b>대여 화면</b>
       </td>
     </tr>
     <tr>
-      <td align="center">
-        <img src="/uploads/a1ed36cf24a12cf50bc2c105441ce14d/메인페이지.gif"/><br>
+      <td align="center" width="50%">
+        <img src="/uploads/8eb85411b457f0c98c41e683a11b69d4/대여_완료.gif"/><br>
         <hr>
-        <b>키오스크 메인화면 + 사원증 인식 화면면 3</b>
+        <b>대여 완료</b>
       </td>
-      <td align="center">
-        <img src=""/><br>
+      <td align="center" width="50%">
+        <img src="/uploads/8c84081c9e359bbca043633e28ba55d5/반납.gif"/><br>
         <hr>
-        <b>설명 4</b>
+        <b>반납</b>
       </td>
     </tr>
   </table>
