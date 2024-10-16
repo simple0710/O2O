@@ -1,222 +1,151 @@
-<div align="center">
-  <h1>O2O</h1>
-  <img src="/uploads/4421a0b985cb41de4949dce991680661/logoImage.png" width="60%">
-</div>
+# README.md
 
-<br>
-<br>
+# **🗃️** 간단한 재고 관리/비품 대여 시스템 O2O
+![o2o-logo](./image/o2o-logo.png)
+## **👋** 서비스 개요
 
-<!-- 서비스 소개 -->
-<div align="center">
-  <h1>서비스 소개</h1>
-  <p>AIOT를 이용한 무인 대여 물품 관리 사물함</p>
-  <p>편리하게 사물함 물품을 관리할 수 있도록 해줍니다.</p>
-  <p>사물함: 사원증 자동인식 및 반납, 대여하고자 하는 물품이 있는 사물함이 자동으로 열리도록 설계하여 사용자 편의성 증대</p>
-  <p>윂 페이지: 사원, 관리자 페이지를 나누어 사원은 인터넷으로 미리 물품을 예약하고, 관리자는 물품 재고관리, 연체자 관리 등 전반적인 물품 관리의 편의성 증대 </p>
-</div>
+### 기획 목적
 
-<br>
-<br>
+- 번번히 수기로 작성해야 하는 비품 대여 신청서와 반납 확인서, 비품 목록 장부 등!
+- 기존의 번거로움을 없애기 위해 AIoT를 이용한 무인 대여 물품 관리 사물함을 제작했습니다.
 
-<!-- 프로젝트 소개 -->
-<div align="center">
-  <h1>프로젝트 소개</h1>
-  <p><b>SSAFY 11기 2학기 공통 프로젝트</b></p>
-  <p><b>프로젝트 기간 : </b>2024.07.08 ~ 2024.08.16 (6주)</p>
-  <p><b>인원 : </b> FrontEnd(3): 남은식, 윤하현, 최다희, BackEnd(3): 김찬민, 김태연, 이예림</p>
-</div>
+### 주요 기능
 
-<!-- - 팀원 소개
-  김찬민, 이예림, 남은식, 김태연, 윤하현, 최다희 -->
+- OCR을 이용한 사원증 인식으로 편리한 인증을 수행할 수 있습니다.
+- 저희 서비스는 키오스크와 웹 페이지에서 이용할 수 있습니다.
+- 사물함에서는 키오스크를 사용해 사원들이 간편하게 물건을 빌릴 수 있도록 하였습니다.
+- 사용자 웹 페이지에서는 사원들이 필요한 비품 신청, 장바구니 예약 기능들을 도입해 사원들이 업무 중 필요한 비품에 대해 편하게 요청할 수 있습니다.
+- 관리자 웹 페이지에서는 비품 재고 관리, 연체자 관리, 물풍 신청 관리 등 여러 기능을 통해 관리자가 보다 쉽게 비품을 관리할 수 있습니다.
 
-<br>
-<br>
+## **👋** 프로젝트 소개
 
-<!-- 프로젝트 특징 -->
-<!-- <div align="center">
-  <h1>프로젝트 특징</h1>
-    <p>1. AIOT를 이용한 실제 사물함 제작</p>
-    <p>2. 웹, 키오스크를 통한 물품 대여 기능</p>
-</div>
+**프로젝트 기간:** 2024.07.08 ~ 2024.08.16 (6주)
 
-<br>
-<br> -->
+| 남은식 | 최다희 | 윤하현 | 김태연 | 이예림 | 김찬민 |
+| --- | --- | --- | --- | --- | --- |
+| Front-End | Front-End | Front-End | Back-End | Back-End | Back-End |
 
-<!-- 주요 기능 -->
-<div align="center">
-  <h1>주요 기능 및 화면</h1>
-  <!-- 사물함 -->
-  <div>
-    <h3><u>사물함</u></h3>
-    <p>1. ORC를 이용한 사원증 인식</p>
-    <p>2. YOLACT을 통한 사물 인식 및 수량 파악</p>
-  </div>
+## **✨** 주요 기능 및 화면
 
-  <br>
+### **📱 키오스크**
 
-<!-- 키오스크 -->
-<div align="center">
-  <h3><u>키오스크</u></h3>
-  <table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/9ff227f5b8315c10ce8143baf3bc11af/메인페이지.gif"
-        style="width: 100%; height: 200px; object-fit: cover;"
-        /><br>
-        <hr>
-        <b>사원증 인식</b>
-      </td>
-      <td align="center" width="50%">
-        <img src="/uploads/8d93affde53fdd3c3c79f928f21abc05/대여.gif"
-        style="width: 100%; height: 200px; object-fit: cover;"
-        /><br>
-        <hr>
-        <b>대여</b>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/8eb85411b457f0c98c41e683a11b69d4/대여_완료.gif"
-        style="width: 100%; height: 200px; object-fit: cover;"
-        /><br>
-        <hr>
-        <b>사물함 표시</b>
-      </td>
-      <td align="center" width="50%">
-        <img src="/uploads/8c84081c9e359bbca043633e28ba55d5/반납.gif"
-        style="width: 100%; height: 200px; object-fit: cover;"
-        /><br>
-        <hr>
-        <b>반납</b>
-      </td>
-    </tr>
-  </table>
-</div>
+**물품 대여**
 
-<br>
+- OCR을 이용한 사원증 인증을 수행합니다.
 
-<!-- 웹 - 관리자 -->
-<div align="center">
-  <h3><u>웹 - 관리자</u></h3>
-  <table border="1" cellpadding="10" cellspacing="0">
-    <!-- 1열 -->
-    <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/3286a8639325af618a0ab42834467aa6/관리자-사물함_현황.gif"/><br>
-        <hr>
-        <b>사물함 현황</b>
-      </td>
-      <td align="center" width="50%">
-        <img src="/uploads/56853d8c2abed6d9cc046219dd3fe35d/관리자-물품_요청_관리.gif"/><br>
-        <hr>
-        <b>물품 요청 관리</b>
-      </td>
-    </tr>
-    <!-- 2열 -->
-    <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/2876fb2c41237ca77172d75545068d3d/관리자-파손__분실_신고_관리.gif"/><br>
-        <hr>
-        <b>파손, 분실 신고 관리</b>
-      </td>
-      <td align="center" width="50%">
-        <img src="/uploads/24eb15664b7703950f129787ee266deb/관리자-연체_이용자_관리.gif"/><br>
-        <hr>
-        <b>연체 이용자 관리</b>
-      </td>
-    </tr>
-    <!-- 3열 -->
-    <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/df14c14607dbaaad962f01693b49327b/관리자-물품_등록.gif"/><br>
-        <hr>
-        <b>물품 등록</b>
-      </td>
-      <td align="center" width="50%">
-        <img src="/uploads/ccfcdaa1a5b8b7c1a4db9d0845c181a7/관리자-비품_사용_통계.gif"/><br>
-        <hr>
-        <b>비품 사용 통계</b>
-      </td>
-    </tr>
-    <!-- 4열 -->
-    <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/5826e0040a94e4fad44676ce0e90ee2d/관리자-이용자_등록.gif"/><br>
-        <hr>
-        <b>이용자 등록</b>
-      </td>
-    </tr>
-  </table>
-</div>
+<img src="./image/물품-대여1.gif" alt="물품-대여1.gif" width="70%" align="center"/>
 
-<br>
+- 물건을 선택하면 해당 물건이 있는 사물함의 문을 자동으로 열립니다.
 
-<!-- 웹 - 사용자 -->
-<div align="center">
-  <h3><u>웹 - 사용자</u></h3>
-  <table border="1" cellpadding="10" cellspacing="0">
-    <!-- 1열 -->
-    <tr>
-      <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/3d78e251914f86025f1c9ff9943b5e39/로그인.gif"/><br>
-        <hr>
-        <b>로그인</b>
-      </td>
-      <td align="center" width="50%">
-        <img src="/uploads/80446195fdde3623fe6f01f017799c68/사용자-예약.gif"/><br>
-        <hr>
-        <b>사물함 현황</b>
-      </td>
-    </tr>
-      <td align="center" width="50%">
-        <img src="/uploads/c7dd35ea2b813b714462d26f89949319/사용자-물품요청.gif"/><br>
-        <hr>
-        <b>물품 요청</b>
-      </td>
-      <td align="center" width="50%">
-        <img src="/uploads/152ee6d0be639f76d2fe3cf2be4be0ea/사용자-예약_현황_조회.gif"/><br>
-        <hr>
-        <b>예약 현황</b>
-      </td>
-    </tr>
-    <!-- 2열 -->
-    <tr>
-      <td align="center" width="50%">
-        <img src="/uploads/23bc3c593cb30637c5419064c2e9f509/사용자-사용자_정보_변경.gif"/><br>
-        <hr>
-        <b>사용자 정보 변경</b>
-      </td>
-    </tr>
-    
-  </table>
-</div>
+<img src="./image/물품-대여2.gif" alt="물품-대여2.gif" width="70%" align="center">
 
-<!-- <p>1. AIOT를 이용한 실제 사물함 제작</p>
-<p>2. ORC를 이용한 사원증 인식</p>
-<p>2. 웹, 키오스크를 통한 물품 대여 기능</p> -->
 
-<br>
-<br>
+- 대여하고자 하는 물품을 선택한 후 확인을 눌러 물품을 대여합니다.
 
-<div align="center">
-  <h1>주요 기술</h1>
-  <img src="/uploads/ec83301ee573888e84a7d2d0749ebb8b/주요_기술.png"/>
-</div>
+<img src="./image/물품-대여3.gif" alt="물품-대여3.gif" width="70%" align="center">
 
-<br>
-<br>
+**물품 반납**
 
-<div align="center">
-  <h1>기술 스택</h1>
-  <img src="/uploads/2ba8603db6d1a6823e6280765414b040/기술_스택.png"/>
-</div>
+- OCR을 이용한 사원증 인증을 수행합니다.
 
-<br>
-<br>
+- 사원이 대여한 내역 중 반납하고자 하는 내역을 클릭 합니다.
 
-<div align="center">
-  <h1>ERD</h1>
-  <!-- 이미지 추가 -->
-  <img src="/uploads/42bcc0b8275c9e2c5855b08bb86e88bd/ERD.png">
-</div>
+- 카메라를 통해 반납하고자 하는 물건과 개수를 인식합니다.
+
+- 물품 이상 신고와 등록 또한 물품 대여와 같은 프로세스로 동작합니다. 단, 카메라를 통한 물건 인식은 제외했습니다.
+
+<img src="./image/물품-반납1.gif" alt="물품-반납1.gif" width="70%" align="center">
+
+### **🖥️ 사용자 웹 페이지**
+
+**물품 예약하기**
+
+- 사용자 편의성을 위해 웹에서도 원하는 물품을 예약할 수 있습니다.
+
+- 장바구니 상태는 Context API를 사용해 관리했습니다.
+
+<img src="./image/물품-예약1.gif" alt="물품-예약1.gif" width="70%" align="center">
+
+
+**물품 요청**
+
+- 업무 중 필요한 물품을 바로 요청할 수 있도록 물품을 요청할 수 있습니다.
+
+<img src="./image/물품-요청1.gif" alt="물품-요청1.gif" width="70%" align="center">
+
+**나의 내역 조회**
+
+- 예약 현황 페이지에서 현재 나의 대여 내역을 조회해 대여 중인 물건을 확인할 수 있습니다.
+
+- 대여 중인 물품 페이지에서 현재 내가 예약한 물품과 남은 시간을 조회할 수 있습니다.
+
+<img src="./image/현황-조회1.gif" alt="현황-조회1.gif" width="70%" align="center">
+
+### **🖥️ 관리자 웹 페이지**
+
+**파손, 분실 신고 관리**
+
+- 파손, 분실 신고가 들어온 물품과 신고 사유를 한 눈에 확인할 수 있습니다.
+
+- 신고한 내용을 확인하고 체크박스 클릭으로 완료 처리를 수행할 수 있습니다.
+
+<img src="./image/관리자-신고관리1.gif" alt="관리자-신고관리1.gif" width="70%" align="center">
+
+
+**연체 이용자 관리**
+
+- 연체 이용자를 한 눈에 관리 할 수 있습니다.
+
+- 대여한 장소를 조회할 수 있습니다.
+
+<img src="./image/관리자-연체-이용자-관리1.gif" alt="관리자-연체-이용자-관리1.gif" width="70%" align="center">
+
+**물건 요청 관리**
+
+- 요청한 물건과 사유 등을 확인하고 수락 및 거절으로 처리할 수 있습니다.
+
+<img src="./image/관리자-물건-요청-관리1.gif" alt="관리자-물건-요청-관리1.gif" width="70%" align="center">
+
+**물품 추가**
+
+- 새로 들어온 물건을 등록할 수 있습니다.
+
+<img src="./image/관리자-물품-추가1.gif" alt="관리자-물품-추가1.gif" width="70%" align="center">
+
+**이용자 등록**
+
+- 회사에 입사자가 생길 경우, 관리자가 사원을 등록할 수 있습니다.
+
+<img src="./image/관리자-이용자-등록1.gif" alt="관리자-이용자-등록1.gif" width="70%" align="center">
+
+## 🚀 개발 환경
+
+VS Code: 1.64.2
+
+IntelliJ: 11.0.13+7-b1751.21 amd64
+
+JVM: 17.0.1
+
+Node.js: 20.01.0
+
+SERVER: AWS EC2 Ubuntu 20.04.3 LTS
+
+DB: MariaDB(azure), redis
+
+## **✨** git 컨벤션
+
+- git flow 전략을 사용해 브랜치를 관리했습니다.
+- 브랜치와 이슈를 함께 생성해 서로의 작업 과정을 관리했습니다.
+
+## **⚒️ 기술 스택**
+
+<img src="./image/기술_스택.png" alt="기술_스택.png" width="70%" align="center">
+
+## **🔎 시스템 아키텍처**
+
+<img src="./image/시스템_아키텍처.png" alt="시스템_아키텍처.png" width="70%" align="center">
+
+
+## **✨ ERD**
+
+<img src="./image/ERD.png" alt="ERD.png" width="70%" align="center">
