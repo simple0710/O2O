@@ -128,6 +128,8 @@ JVM: 17.0.1
 
 Node.js: 20.01.0
 
+React: 18.3.1
+
 SERVER: AWS EC2 Ubuntu 20.04.3 LTS
 
 DB: MariaDB(azure), redis
